@@ -27,7 +27,7 @@
                 color: #3c8dbc;
                 font-weight: 500;
             }
-            
+
             .ui-datatable-footer {
                 border: none;
             }
@@ -52,8 +52,7 @@
                         <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
                                          action="#{ctnListMB.delete}"
                                          disabled="#{empty ctnListMB.selectionList or ctnListMB.selectionList.size() == 0}"
-                                         process="@this" update="@form"
-                        >
+                                         process="@this" update="@form">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
@@ -85,14 +84,13 @@
                     </p:splitButton>
 
                     <p:separator/>
-                    <p:dataTable widgetVar="ctnTable" var="c" value="#{ctnListMB.list}" rows="5"
+                    <p:dataTable widgetVar="ctnTable" var="c" value="#{ctnListMB.list}" rows="10"
                                  rowKey="#{c.id}" lazy="true" paginator="true" sortMode="multiple"
                                  filteredValue="#{ctnListMB.filteredValue}" sortBy="id"
                                  paginatorPosition="bottom" selection="#{ctnListMB.selectionList}"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                    >
+                                 rowsPerPageTemplate="10,20,30,40,50">
 
                         <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
@@ -102,10 +100,10 @@
 
                         <f:facet name="header">
                             Recherche par mois : 
-                            <p:inputNumber id="inptId" decimalPlaces="0" decimalSeparator="" thousandSeparator="" value="#{ctnListMB.id}"/>
+                            <p:inputNumber id="inptId" value="#{ctnListMB.mois}"/>
                             <p:spacer height="5"/>
                             <p:commandButton id="brFind" value="Valider"
-                                             action="#{ctnListMB.findCtnById(id)}"
+                                             action="#{ctnListMB.findCtnByMois(ctnListMB.mois)}"
                                              process="@form"
                                              update="@form"
                                              styleClass="btn-flat bg-black btn-states"
@@ -114,16 +112,12 @@
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
                         <p:column headerText="Mois" filterBy="#{c.mois}" sortBy="#{c.mois}"
-                                  filterMatchMode="contains">
-                            <f:facet name="filter">
-                                <p:autoComplete value="#{ctnListMB.filter.entity.mois}" forceSelection="true"
-                                                minQueryLength="2" queryDelay="500" dropdown="true"
-                                                completeMethod="#{ctnListMB.completeMois}" maxResults="10">
-                                    <p:ajax event="itemSelect" process="@this" update="@none"
-                                            oncomplete="PF('ctnTable').filter()"/>
-                                </p:autoComplete>
+                                  <f:facet name="filter">
+                                <p:inputNumber value="#{ctnListMB.filter.entity.mois}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('ctnTable').filter()"/>
+                                </p:inputNumber>
                             </f:facet>
-                             #{c.mois}
+                            #{c.mois}
                         </p:column>
                         <p:column headerText="N° CTN" sortBy="#{c.numCtn}" filterBy="#{c.numCtn}">
                             <f:facet name="filter">
@@ -134,7 +128,7 @@
                             <p:link value="#{c.numCtn}" outcome="ctn.xhtml">
                                 <f:param name="id" value="#{c.id}"/>
                             </p:link>
-                           
+
                         </p:column>
                         <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}">
                             <f:facet name="filter">
@@ -160,7 +154,7 @@
                             </f:facet>
                             #{c.escale}
                         </p:column>
-                        
+
                         <p:column headerText="Mouvement" sortBy="#{c.mouvement}" filterBy="#{c.mouvement}">
                             <f:facet name="filter">
                                 <p:inputText value="#{ctnListMB.filter.entity.mouvement}">
@@ -210,38 +204,22 @@
         </h:form>
 
 
-        <p:dialog header="Search Conteneurs" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
+        <p:dialog header="Critère de recherche" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
                   width="500" responsive="true" draggable="false" styleClass="box-success">
 
             <h:form>
                 <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
                                  ignoreAutoUpdate="true" styleClass="btn-primary"/>
                 <p:spacer height="5"/>
-                <p:commandButton value="Clear" action="#{ctnListMB.clear}" process="@this"
+                <p:commandButton value="Vider" action="#{ctnListMB.clear}" process="@this"
                                  update="@form @(.ui-datatable, .ui-tooltip)" styleClass="btn-success"
                                  icon="fa fa-refresh"/>
                 <p:spacer height="5"/>
-                <p:commandButton value="Close" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
+                <p:commandButton value="Fermer" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
                 <p:separator/>
 
                 <div class="ui-g ui-fluid">
-                    <div class="ui-g-12">
-                        <p:outputLabel for="escale" value="#{msg['label.escale']}"/>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:selectOneMenu id="escale" value="#{ctnListMB.filter.entity.escale}">
-                            <f:selectItem itemLabel="Choisir une escale" itemValue=""/>
-                            <f:selectItems value="#{escales}" var="m" itemLabel="#{m}"
-                                           itemValue="#{m}"/>
-                        </p:selectOneMenu>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:outputLabel for="trafic" value="#{msg['label.trafic']}"/>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:inputText id="trafic" value="#{ctnListMB.filter.entity.trafic}"/>
-                    </div>
-
+                    
                     <div class="ui-g-6 ui-sm-12 ui-g-nopad">
                         <div class="ui-g-12">
                             <p:outputLabel for="debut" value="#{msg['label.debutDate']}"/>
@@ -264,7 +242,7 @@
         </p:dialog>
 
         <p:outputPanel>
-			<p:autoUpdate/>
+            <p:autoUpdate/>
             <p:tooltip for="@(div[id$=footer])" escape="false" position="top"
                        showEvent="mouseover" hideEvent="mouseleave"
                        value="#{ctnListMB.searchCriteria}"/>

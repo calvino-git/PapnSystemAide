@@ -15,17 +15,17 @@ import javax.persistence.*;
  * @author rmpestano
  */
 @Entity
-@Table(name = "car")
+@Table(name = "CONGO_TERMINAL")
 public class Car extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "model")
+    @Column(name = "mois")
     private String model;
 
-    @Column(name = "name")
+    @Column(name = "num_ctn")
     private String name;
 
     @Column(name = "price")

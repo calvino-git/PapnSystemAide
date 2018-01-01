@@ -7,7 +7,6 @@ package com.github.adminfaces.starter.service;
 
 import com.github.adminfaces.persistence.model.Filter;
 import com.github.adminfaces.persistence.service.CrudService;
-import com.github.adminfaces.starter.model.Ctn;
 import com.github.adminfaces.starter.model.Ctn_;
 import com.github.adminfaces.starter.model.Ctn;
 import com.github.adminfaces.template.exception.BusinessException;
@@ -18,7 +17,6 @@ import java.math.BigInteger;
 
 import javax.ejb.Stateless;
 import org.apache.deltaspike.data.api.criteria.Criteria;
-import org.hibernate.id.IdentifierGeneratorHelper;
 
 /**
  *
@@ -106,8 +104,8 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
                 .getResultList();
     }
 
-    public List<Ctn> findByMois(String mois) {
-        BigInteger moisBigInt = BigInteger.valueOf(Long.valueOf(mois));
+    public List<Ctn> findByMois(Integer mois) {
+        BigInteger moisBigInt = BigInteger.valueOf(mois);
         return criteria()
                 .eq(Ctn_.mois, moisBigInt)
                 .orderDesc(Ctn_.date)

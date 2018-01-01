@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.math.BigInteger;
 
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,15 +28,15 @@ import javax.faces.context.FacesContext;
 @Named
 @ViewScoped
 public class CtnListMB extends CrudMB<Ctn> implements Serializable {
-    
-        private String mois;
+
+    private Integer mois;
 
     /**
      * Get the value of mois
      *
      * @return the value of mois
      */
-    public String getMois() {
+    public Integer getMois() {
         return mois;
     }
 
@@ -46,10 +45,10 @@ public class CtnListMB extends CrudMB<Ctn> implements Serializable {
      *
      * @param mois new value of mois
      */
-    public void setMois(String mois) {
+    public void setMois(Integer mois) {
+        System.out.println("Mois : " + mois);
         this.mois = mois;
     }
-
 
     @Inject
     CtnService ctnService;
@@ -67,15 +66,14 @@ public class CtnListMB extends CrudMB<Ctn> implements Serializable {
         List<String> result = ctnService.getMois(query);
         return result;
     }
-    
-    public void findCtnByMois(String mois){
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
+
+    public void findCtnByMois(Integer mois) {
         System.out.println("Saisie : " + mois);
-        if (mois == null||mois.isEmpty()) {
+        if (mois == 0) {
             throw new BusinessException("Provide Conteneur Mois to load");
         }
         List<Ctn> ctnsFound = ctnService.findByMois(mois);
-        if (ctnsFound == null||ctnsFound.isEmpty()) {
+        if (ctnsFound == null || ctnsFound.isEmpty()) {
             throw new BusinessException(String.format("No ctn found with id %s", mois));
         }
         filteredValue.clear();
@@ -154,7 +152,7 @@ public class CtnListMB extends CrudMB<Ctn> implements Serializable {
         if (has(moisParam)) {
             sb.append("<b>mois</b>: ").append(moisParam).append(", ");
         }
-        
+
         String dateParam = null;
         if (filter.hasParam("date")) {
             dateParam = filter.getStringParam("date");

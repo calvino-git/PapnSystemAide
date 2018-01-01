@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
 
 /**
  *
@@ -28,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "CONGO_TERMINAL", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
+@Immutable
 @NamedQueries({
     @NamedQuery(name = "Ctn.findAll", query = "SELECT c FROM Ctn c")
     , @NamedQuery(name = "Ctn.findById", query = "SELECT c FROM Ctn c WHERE c.id = :id")

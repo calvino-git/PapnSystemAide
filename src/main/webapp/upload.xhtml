@@ -5,12 +5,14 @@
                 xmlns:adm="http://github.com/adminfaces"
                 template="#{layoutMB.template}">
 
+    <ui:define name="metadata">
+        <ui:param name="title" value="Conversion"/>
+    </ui:define>
     <ui:define name="title">
         Conversion de manifestes
     </ui:define>
 
     <ui:define name="body">
-        <adm:breadcrumb title="Télécharger manifeste"/>
 
         <div class="box box-info">
             <div class="box-header with-border ui-fileupload">

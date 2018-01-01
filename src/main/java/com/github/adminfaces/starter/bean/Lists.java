@@ -19,7 +19,6 @@ import javax.faces.context.FacesContext;
 
 @ApplicationScoped
 public class Lists implements Serializable {
-
     @Inject
     @Service
     private CrudService<Ctn,Integer> crudService;

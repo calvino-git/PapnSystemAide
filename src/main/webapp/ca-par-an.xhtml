@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Chiffre d'affaires"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: .7;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                color: #3c8dbc;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        Affiche le chiffre d'affaires des 5 dernières années.
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form>
+            <p:focus context="@form"/>  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="#" icon="fa fa-pdf"
+                                         value="Pdf" styleClass="btn-primary"
+                                         disabled="#{redevances.size() == 0}"/>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Excel" icon="fa fa-excel" styleClass="btn-danger"
+                                         action="#"
+                                         disabled="#{redevances.size() == 0}"
+                                         process="@this" update="@form">
+
+                        </p:commandButton>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Recherche" update="@(.ui-dialog)" styleClass="btn-info"
+                                         oncomplete="PF('searchDialog').show()" icon="fa fa-search"/>
+
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Clear" update="@(.ui-dialog, .ui-datatable)" process="@form"
+                                         action="#"
+                                         icon="fa fa-refresh">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                    </div>
+
+                    <p:separator/>
+                    <p:dataTable widgetVar="caTable" var="prest" value="#{redevances}">
+
+                        <f:facet name="header">
+                            Evolution du chiffre d'affaire de 2015 à 2019
+                        </f:facet>
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column rowspan="2" headerText="Prestation" />
+                                <p:column colspan="#{chiffreAffaireBean.yearCount}" headerText="Montant HT" />
+                            </p:row>
+                            <p:row>
+                                <ui:repeat value="#{chiffreAffaireBean.years}" var="year">
+                                    <p:column headerText="#{year}" />
+                                </ui:repeat>
+                            </p:row>
+                        </p:columnGroup>
+
+                        <p:column>
+                            <h:outputText value="#{prest.name}" />
+                        </p:column>
+
+                        <p:columns value="#{chiffreAffaireBean.years}" var="year">
+                            <h:outputText value="#{prest.getChiffre(year)}" />
+                        </p:columns>
+
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column style="text-align:right" footerText="Totals:" />
+                                <p:column footerText="\$#{dtGroupView.lastYearTotal}" />
+                                <p:columns value="#{chiffreAffaireBean.years}" var="year">
+                                    <h:outputText value="#{year}" />
+                                </p:columns>
+                            </p:row>
+                        </p:columnGroup>
+
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+
+
+        <p:dialog header="Choisir une période" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
+                  width="500" responsive="true" draggable="false" styleClass="box-success">
+
+            <h:form>
+                <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
+                                 ignoreAutoUpdate="true" styleClass="btn-primary"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Vider" action="#{chiffreAffaireBean.clear}" process="@this"
+                                 update="@form @(.ui-datatable, .ui-tooltip)" styleClass="btn-success"
+                                 icon="fa fa-refresh"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Fermer" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
+                <p:separator/>
+
+
+                <div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="min" value="De "/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputNumber id="min" value="#{chiffreAffaireBean.debutAnnee}"/>
+                    </div>
+                </div>
+
+                <div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="max" value="à "/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputNumber id="max" value="#{chiffreAffaireBean.finAnnee}"/>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

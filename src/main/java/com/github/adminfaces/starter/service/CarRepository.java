@@ -13,5 +13,4 @@ public interface CarRepository extends EntityRepository<Car,Integer> {
     @Query("SELECT SUM(c.price) FROM Car c WHERE upper(c.model) like :model")
     Double getTotalPriceByModel(@QueryParam("model") String model);
 
-
 }

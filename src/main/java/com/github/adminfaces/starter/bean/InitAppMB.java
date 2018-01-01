@@ -27,13 +27,11 @@ public class InitAppMB implements Serializable {
 
     @PostConstruct
     public void init() {
-//        IntStream.rangeClosed(1, 50)
-//                .forEach(i -> create(i));
+//        IntStream.rangeClosed(1, 50).forEach(i -> create(i));
         adminConfig.setDateFormat("dd/MM/yyyy HH:mm:ss");
     }
     
     private void create(int i) {
-
         crudService.insert(new Car().model("model " + i).name("name" + i).price(Double.valueOf(i)));
     }
 }
