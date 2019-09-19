@@ -238,6 +238,10 @@
                             <value>../${rootdir.payara}</value>
                         </option>
                         <option>
+                            <key>--addLibs</key>
+                            <value>../${rootdir.payara}/lib/ojdbc7.jar</value>
+                        </option>
+                        <option>
                             <key>--deploy</key>
                             <value>${project.build.directory}/${project.build.finalName}</value>
                         </option>

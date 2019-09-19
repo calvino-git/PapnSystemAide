@@ -15,9 +15,7 @@ import org.omnifaces.cdi.ViewScoped;
 import com.github.adminfaces.persistence.bean.CrudMB;
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.persistence.service.Service;
-import com.github.adminfaces.starter.model.Car;
 import com.github.adminfaces.starter.model.Ctn;
-import com.github.adminfaces.starter.service.CarService;
 import com.github.adminfaces.starter.service.CtnService;
 import com.github.adminfaces.template.exception.BusinessException;
 

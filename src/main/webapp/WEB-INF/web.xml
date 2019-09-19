@@ -70,9 +70,9 @@
     </servlet-mapping>
     
     <data-source>
-        <name>jdbc/ppncargo</name>
+        <name>java:global/cargo</name>
         <class-name>oracle.jdbc.pool.OracleDataSource</class-name>
-        <url>jdbc:oracle:thin:@10.211.55.6:1521:CARGO</url>
+        <url>jdbc:oracle:thin:@10.211.55.6:1521:PPNCARGO</url>
         <user>ppncargo</user>
         <password>ppncargo</password>
     </data-source>
