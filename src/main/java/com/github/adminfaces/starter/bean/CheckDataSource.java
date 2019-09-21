@@ -9,10 +9,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -34,23 +36,28 @@ public class CheckDataSource {
     }
 
     public void run() {
-        try {
-            Context ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("java:global/cargo");
-            Connection cnx = ds.getConnection();
-            
-            System.out.println("Context Time Out: " + ds.getLoginTimeout()
-                    + "\nSchema : " + cnx.getSchema()
-                    + "\nDriver Name : " + cnx.getMetaData().getDriverName()
-                    + "\nURL : " + cnx.getMetaData().getURL()
-                    + "\nUsername : " + cnx.getMetaData().getUserName());
-            Statement stmt = cnx.createStatement();
-            ResultSet rslt = stmt.executeQuery("select * from congo_terminal where mois='201907' and rownum <10");
-            while (rslt.next()) {
-                System.out.println("Escale : " + rslt.getString("escale"));
-            }
-        } catch (NamingException | SQLException ex) {
-            Logger.getLogger(CheckDataSource.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        System.out.println(locale.getLanguage() + "_" + locale.getCountry());
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
+        Locale locale1 = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        System.out.println(locale1.getLanguage() + "_" + locale1.getCountry());
+//        try {
+//            Context ctx = new InitialContext();
+//            DataSource ds = (DataSource) ctx.lookup("java:global/cargo");
+//            Connection cnx = ds.getConnection();
+//            
+//            System.out.println("Context Time Out: " + ds.getLoginTimeout()
+//                    + "\nSchema : " + cnx.getSchema()
+//                    + "\nDriver Name : " + cnx.getMetaData().getDriverName()
+//                    + "\nURL : " + cnx.getMetaData().getURL()
+//                    + "\nUsername : " + cnx.getMetaData().getUserName());
+//            Statement stmt = cnx.createStatement();
+//            ResultSet rslt = stmt.executeQuery("select * from congo_terminal where mois='201907' and rownum <10");
+//            while (rslt.next()) {
+//                System.out.println("Escale : " + rslt.getString("escale"));
+//            }
+//        } catch (NamingException | SQLException ex) {
+//            Logger.getLogger(CheckDataSource.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

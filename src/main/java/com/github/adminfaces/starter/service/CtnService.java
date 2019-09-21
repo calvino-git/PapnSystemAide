@@ -24,6 +24,7 @@ import org.apache.deltaspike.data.api.criteria.Criteria;
 @Stateless
 public class CtnService extends CrudService<Ctn, Integer> implements Serializable {
 
+    @Override
     protected Criteria<Ctn, Ctn> configRestrictions(Filter<Ctn> filter) {
 
         Criteria<Ctn, Ctn> criteria = criteria();
@@ -59,10 +60,12 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
         return criteria;
     }
 
+    @Override
     public void beforeInsert(Ctn cct) {
         validate(cct);
     }
 
+    @Override
     public void beforeUpdate(Ctn cct) {
         validate(cct);
     }
@@ -70,7 +73,7 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
     public void validate(Ctn cct) {
         BusinessException be = new BusinessException();
         if (!cct.hasEscale()) {
-            be.addException(new BusinessException("Ctn escale cannot be empty"));
+             be.addException(new BusinessException("Ctn escale cannot be empty"));
         }
         if (!cct.hasTrafic()) {
             be.addException(new BusinessException("Ctn trafic cannot be empty"));
@@ -92,7 +95,7 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
         }
     }
 
-    public List<Ctn> listByModel(String escale) {
+    public List<Ctn> listByEscale(String escale) {
         return criteria()
                 .likeIgnoreCase(Ctn_.escale, escale)
                 .getResultList();

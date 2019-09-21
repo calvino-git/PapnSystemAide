@@ -13,6 +13,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 @ApplicationScoped
 public class Lists implements Serializable {
@@ -25,7 +28,13 @@ public class Lists implements Serializable {
     @Service
     private CrudService<Car,Integer> crud_Service;
 
-
+    @PostConstruct
+    public void init(){
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        System.out.println(locale.getLanguage() + "_" + locale.getCountry());
+    }
+    
 
     @Produces
     @Named("models")

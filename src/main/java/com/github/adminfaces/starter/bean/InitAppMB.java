@@ -11,6 +11,8 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.stream.IntStream;
+import java.util.Locale;
+import javax.faces.context.FacesContext;
 
 @Singleton
 @Startup
@@ -29,10 +31,9 @@ public class InitAppMB implements Serializable {
 //                .forEach(i -> create(i));
         adminConfig.setDateFormat("dd/MM/yyyy HH:mm:ss");
     }
-
+    
     private void create(int i) {
 
         crudService.insert(new Car().model("model " + i).name("name" + i).price(Double.valueOf(i)));
     }
-
 }
