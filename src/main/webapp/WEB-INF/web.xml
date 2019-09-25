@@ -23,6 +23,10 @@
         <param-value>true</param-value>
     </context-param>
     <context-param>
+        <param-name>primefaces.UPLOADER</param-name>
+        <param-value>auto</param-value>
+    </context-param>
+    <context-param>
         <param-name>com.sun.faces.numberOfLogicalViews</param-name>
         <param-value>6</param-value>
     </context-param>
@@ -75,5 +79,9 @@
         <url>jdbc:oracle:thin:@10.211.55.6:1521:PPNCARGO</url>
         <user>ppncargo</user>
         <password>ppncargo</password>
+        <property>
+            <name>timezoneAsRegion</name>
+            <value>false</value>
+        </property>
     </data-source>
 </web-app>

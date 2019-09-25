@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -21,21 +21,27 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.annotation.PostConstruct;
+import java.io.Serializable;
+
+
 
 /**
  *
  * @author Calvin ILOKI
  */
 @Named(value = "checkDataSource")
-@RequestScoped
-public class CheckDataSource {
+@SessionScoped
+public class CheckDataSource implements Serializable {
 
     @PersistenceContext
     EntityManager entityManager;
     public CheckDataSource() {
     }
-
+    
     public void run() {
+        System.err.println(Locale.getDefault().toString());
+        Locale.setDefault(Locale.FRENCH);
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
         System.out.println(locale.getLanguage() + "_" + locale.getCountry());
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);

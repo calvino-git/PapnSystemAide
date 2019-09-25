@@ -18,6 +18,8 @@ import com.github.adminfaces.persistence.service.Service;
 import com.github.adminfaces.starter.model.Ctn;
 import com.github.adminfaces.starter.service.CtnService;
 import com.github.adminfaces.template.exception.BusinessException;
+import java.util.Locale;
+import javax.faces.context.FacesContext;
 
 /**
  * Created by rmpestano on 12/02/17.
@@ -44,6 +46,8 @@ public class CtnListMB extends CrudMB<Ctn> implements Serializable {
     }
 
     public void findCtnById(Integer id) {
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
+
         if (id == null) {
             throw new BusinessException("Provide Conteneur ID to load");
         }
