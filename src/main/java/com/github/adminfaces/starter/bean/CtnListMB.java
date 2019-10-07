@@ -6,6 +6,8 @@ import static com.github.adminfaces.template.util.Assert.has;
 
 import java.io.Serializable;
 import java.util.List;
+import java.math.BigInteger;
+
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +29,27 @@ import javax.faces.context.FacesContext;
 @Named
 @ViewScoped
 public class CtnListMB extends CrudMB<Ctn> implements Serializable {
+    
+        private String mois;
+
+    /**
+     * Get the value of mois
+     *
+     * @return the value of mois
+     */
+    public String getMois() {
+        return mois;
+    }
+
+    /**
+     * Set the value of mois
+     *
+     * @param mois new value of mois
+     */
+    public void setMois(String mois) {
+        this.mois = mois;
+    }
+
 
     @Inject
     CtnService ctnService;
@@ -40,9 +63,24 @@ public class CtnListMB extends CrudMB<Ctn> implements Serializable {
         setCrudService(ctnService);
     }
 
-    public List<String> completeModel(String query) {
-        List<String> result = ctnService.getEscales(query);
+    public List<String> completeMois(String query) {
+        List<String> result = ctnService.getMois(query);
         return result;
+    }
+    
+    public void findCtnByMois(String mois){
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
+        System.out.println("Saisie : " + mois);
+        if (mois == null||mois.isEmpty()) {
+            throw new BusinessException("Provide Conteneur Mois to load");
+        }
+        List<Ctn> ctnsFound = ctnService.findByMois(mois);
+        if (ctnsFound == null||ctnsFound.isEmpty()) {
+            throw new BusinessException(String.format("No ctn found with id %s", mois));
+        }
+        filteredValue.clear();
+        filteredValue.addAll(ctnsFound);
+        getFilter().addParam("mois", mois);
     }
 
     public void findCtnById(Integer id) {
@@ -106,6 +144,17 @@ public class CtnListMB extends CrudMB<Ctn> implements Serializable {
             sb.append("<b>escale</b>: ").append(escaleParam).append(", ");
         }
 
+        BigInteger moisParam = null;
+        if (filter.hasParam("mois")) {
+            moisParam = BigInteger.valueOf(filter.getIntParam("mois"));
+        } else if (has(ctnFilter) && ctnFilter.getMois() != null) {
+            moisParam = ctnFilter.getMois();
+        }
+
+        if (has(moisParam)) {
+            sb.append("<b>mois</b>: ").append(moisParam).append(", ");
+        }
+        
         String dateParam = null;
         if (filter.hasParam("date")) {
             dateParam = filter.getStringParam("date");

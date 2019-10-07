@@ -26,7 +26,7 @@ import static com.github.adminfaces.persistence.util.Messages.addDetailMessage;
 @Named
 @SessionScoped
 //@Specializes
-public class LogonMB implements Serializable {
+public class LogonMB  implements Serializable {
 
     private String currentUser;
     private String email;

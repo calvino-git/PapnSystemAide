@@ -14,8 +14,11 @@ import com.github.adminfaces.template.exception.BusinessException;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.io.Serializable;
 import java.util.List;
+import java.math.BigInteger;
+
 import javax.ejb.Stateless;
 import org.apache.deltaspike.data.api.criteria.Criteria;
+import org.hibernate.id.IdentifierGeneratorHelper;
 
 /**
  *
@@ -73,7 +76,7 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
     public void validate(Ctn cct) {
         BusinessException be = new BusinessException();
         if (!cct.hasEscale()) {
-             be.addException(new BusinessException("Ctn escale cannot be empty"));
+            be.addException(new BusinessException("Ctn escale cannot be empty"));
         }
         if (!cct.hasTrafic()) {
             be.addException(new BusinessException("Ctn trafic cannot be empty"));
@@ -95,16 +98,38 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
         }
     }
 
-    public List<Ctn> listByEscale(String escale) {
+    public List<Ctn> listByMois(String mois) {
+        BigInteger moisBigInt = BigInteger.valueOf(Long.valueOf(mois));
         return criteria()
-                .likeIgnoreCase(Ctn_.escale, escale)
+                .eq(Ctn_.mois, moisBigInt)
+                .orderDesc(Ctn_.mois)
                 .getResultList();
     }
 
-    public List<String> getEscales(String query) {
+    public List<Ctn> findByMois(String mois) {
+        BigInteger moisBigInt = BigInteger.valueOf(Long.valueOf(mois));
         return criteria()
-                .select(String.class, attribute(Ctn_.escale))
-                .likeIgnoreCase(Ctn_.escale, "%" + query + "%")
+                .eq(Ctn_.mois, moisBigInt)
+                .orderDesc(Ctn_.date)
                 .getResultList();
+    }
+    
+    public List<String> getMois(String query) {
+        if (!query.isEmpty()) {
+            BigInteger queryBigInt = BigInteger.valueOf(Long.valueOf(query));
+            return criteria()
+                    .select(String.class, attribute(Ctn_.mois))
+                    .distinct()
+                    .eq(Ctn_.mois, queryBigInt)
+                    .orderDesc(Ctn_.mois)
+                    .getResultList();
+        } else {
+            return criteria()
+                    .select(String.class, attribute(Ctn_.mois))
+                    .distinct()
+                    .orderDesc(Ctn_.mois)
+                    .getResultList();
+        }
+
     }
 }

@@ -50,5 +50,12 @@ public class Lists implements Serializable {
                 .select(String.class, crudService.attribute(Ctn_.escale))
                 .getResultList();
     }
+    @Produces
+    @Named("mois")
+    public List<String> mois() {
+        return crudService.criteria()
+                .select(String.class, crudService.attribute(Ctn_.mois))
+                .getResultList();
+    }
 
 }
