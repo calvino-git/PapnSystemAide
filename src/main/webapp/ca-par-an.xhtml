@@ -18,7 +18,7 @@
             }
 
             #footer:hover {
-                opacity: .7;
+                opacity: 1;
             }
 
             #footer {
@@ -31,6 +31,11 @@
             .ui-datatable-footer {
                 border: none;
             }
+            
+            .ui-grid td {
+        white-space: nowrap;
+        border: none;
+    }
 
         </style>
     </ui:define>
@@ -48,11 +53,11 @@
                     <div id="main-buttons" class="hidden-sm hidden-xs">
                         <p:commandButton action="#" icon="fa fa-pdf"
                                          value="Pdf" styleClass="btn-primary"
-                                         disabled="#{redevances.size() == 0}"/>
+                                         disabled="#{chiffreAffaireBean.list.size() == 0}"/>
                         <p:spacer width="5"/>
                         <p:commandButton value="Excel" icon="fa fa-excel" styleClass="btn-danger"
                                          action="#"
-                                         disabled="#{redevances.size() == 0}"
+                                         disabled="#{chiffreAffaireBean.list.size() == 0}"
                                          process="@this" update="@form">
 
                         </p:commandButton>
@@ -69,14 +74,28 @@
                     </div>
 
                     <p:separator/>
-                    <p:dataTable widgetVar="caTable" var="prest" value="#{redevances}">
+                    <p:dataTable widgetVar="caTable" var="prest" value="#{chiffreAffaireBean.list}">
 
                         <f:facet name="header">
-                            Evolution du chiffre d'affaire de 2015 à 2019
+                            <p:outputLabel for="anneeDebut" style="font-size: 20px" value="Evolution du chiffre d'affaires de " />
+                                <p:spacer width="10"/>
+                                <p:spinner id="anneeDebut" value="#{chiffreAffaireBean.anneeDebut}" min="2000" max="2050" />
+                                <p:spacer width="10"/>
+                                <p:outputLabel for="anneeFin" style="font-size: 20px" value=" à " />
+                                <p:spacer width="10"/>
+                                <p:spinner id="anneeFin" value="#{chiffreAffaireBean.anneeFin}" min="2000" max="2050" />
+                                <p:spacer width="15"/>
+                                <p:commandButton id="brFind" value="OK"
+                                                 action="#{chiffreAffaireBean.findByYear()}"
+                                                 process="@form"
+                                                 update="@form"
+                                                 styleClass="btn-flat bg-black btn-states"
+                                                 partialSubmit="true"/>
                         </f:facet>
+
                         <p:columnGroup type="header">
                             <p:row>
-                                <p:column rowspan="2" headerText="Prestation" />
+                                <p:column style="width:200px" rowspan="2" headerText="Prestation" />
                                 <p:column colspan="#{chiffreAffaireBean.yearCount}" headerText="Montant HT" />
                             </p:row>
                             <p:row>
@@ -86,20 +105,25 @@
                             </p:row>
                         </p:columnGroup>
 
-                        <p:column>
+                        <p:column style="width:300px">
                             <h:outputText value="#{prest.name}" />
                         </p:column>
 
-                        <p:columns value="#{chiffreAffaireBean.years}" var="year">
-                            <h:outputText value="#{prest.getChiffre(year)}" />
+                        <p:columns style="text-align:right" value="#{chiffreAffaireBean.years}" var="year">
+                            <h:outputText class="align-right" value="#{prest.getChiffre(year)}">
+                                <f:convertNumber locale="fr_FR" />
+                            </h:outputText>
                         </p:columns>
 
                         <p:columnGroup type="footer">
                             <p:row>
-                                <p:column style="text-align:right" footerText="Totals:" />
-                                <p:column footerText="\$#{dtGroupView.lastYearTotal}" />
-                                <p:columns value="#{chiffreAffaireBean.years}" var="year">
-                                    <h:outputText value="#{year}" />
+                                <p:column style="text-align:right;font: bold" footerText="TOTAUX:" />
+                                <p:columns style="text-align:right" value="${chiffreAffaireBean.years}" var="year">
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{chiffreAffaireBean.totalAnnee(year)}">
+                                            <f:convertNumber locale="fr_FR" />
+                                        </h:outputText>
+                                    </f:facet>
                                 </p:columns>
                             </p:row>
                         </p:columnGroup>

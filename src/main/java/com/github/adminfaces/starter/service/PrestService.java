@@ -5,7 +5,7 @@
  */
 package com.github.adminfaces.starter.service;
 
-import com.github.adminfaces.persistence.service.CrudService;
+import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.starter.model.ChiffrePrestation;
 import com.github.adminfaces.starter.model.ChiffrePrestation_;
 import java.io.Serializable;
@@ -13,28 +13,45 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
-import javax.enterprise.inject.Produces;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import org.apache.deltaspike.data.api.criteria.Criteria;
+import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
 
 /**
  *
  * @author Calvin ILOKI
  */
-@Stateless
-public class PrestService extends CrudService<ChiffrePrestation, Integer> implements Serializable {
 
-    private HashMap<Integer, Double> redevNavire = new HashMap<>();
-    private HashMap<Integer, Double> redevDivers = new HashMap<>();
-    private HashMap<Integer, Double> redevDom = new HashMap<>();
-    private HashMap<Integer, Double> redevMarch = new HashMap<>();
-    private HashMap<Integer, Double> redevConcession = new HashMap<>();
-    private HashMap<Integer, Double> redevElect = new HashMap<>();
-    private HashMap<Integer, Double> redevAutre = new HashMap<>();
+@Stateless
+public class PrestService implements Serializable{
+
+    private HashMap<Integer, Double> redevNavire;
+    private HashMap<Integer, Double> redevDivers;
+    private HashMap<Integer, Double> redevDom;
+    private HashMap<Integer, Double> redevMarch;
+    private HashMap<Integer, Double> redevConcession;
+    private HashMap<Integer, Double> redevElect;
+    private HashMap<Integer, Double> redevAutre;
+
+    public PrestService() {
+        
+    }
     
+    @Inject
+    private EntityManager entityManager;
+    
+    public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
+        return new QueryCriteria<>(entityClass, entityClass, getEntityManager());
+    }
     public List<ChiffrePrestation> listByAn(Integer annee) {
-        System.out.println("Annee : " + annee);
-        return criteria()
+        return criteria(ChiffrePrestation.class)
                 .eq(ChiffrePrestation_.annee, annee)
                 .orderDesc(ChiffrePrestation_.montant)
                 .getResultList();
@@ -42,36 +59,30 @@ public class PrestService extends CrudService<ChiffrePrestation, Integer> implem
     
     @PostConstruct
     public void init(){
-        for(int i = 2015 ; 1 < 2020; i++){
+        redevAutre = new HashMap<>();
+        redevConcession = new HashMap<>();
+        redevDivers = new HashMap<>();
+        redevDom = new HashMap<>();
+        redevElect = new HashMap<>();
+        redevMarch = new HashMap<>();
+        redevNavire = new HashMap<>();
+        
+        for(int i = 2015 ; i < 2020; i++){
             List<ChiffrePrestation> list = listByAn(i);
             list.forEach(prest -> {
+//                System.out.println(prest.getAnnee() + " - " + prest.getName() + " : " + prest.getMontant());
                 switch(prest.getName()){
-                    case "1": redevMarch.put(prest.getAnnee(), prest.getMontant());
-                    case "2": redevConcession.put(prest.getAnnee(), prest.getMontant());
-                    case "4": redevElect.put(prest.getAnnee(), prest.getMontant());
-                    case "5": redevNavire.put(prest.getAnnee(), prest.getMontant());
-                    case "6": redevDivers.put(prest.getAnnee(), prest.getMontant());
-                    case "7": redevDom.put(prest.getAnnee(), prest.getMontant());
-                    case "A": redevAutre.put(prest.getAnnee(), prest.getMontant());
+                    case "1": redevMarch.put(prest.getAnnee(), prest.getMontant());break;
+                    case "2": redevConcession.put(prest.getAnnee(), prest.getMontant());break;
+                    case "4": redevElect.put(prest.getAnnee(), prest.getMontant());break;
+                    case "5": redevNavire.put(prest.getAnnee(), prest.getMontant());break;
+                    case "6": redevDivers.put(prest.getAnnee(), prest.getMontant());break;
+                    case "7": redevDom.put(prest.getAnnee(), prest.getMontant());break;
+                    case "A": redevAutre.put(prest.getAnnee(), prest.getMontant());break;
                     default: System.out.println("RIEN");                           
                 }
             });
         }
-    }
-    
-    @Produces
-    @Named("redevances")
-    public List<ChiffreAffaireService> getRedevances(){
-        List<ChiffreAffaireService> list = new ArrayList<>();
-        list.add(new ChiffreAffaireService("1", "REDEVANCE MARCHANDISE"));
-        list.add(new ChiffreAffaireService("5", "REDEVANCE NAVIRE"));
-        list.add(new ChiffreAffaireService("7", "REDEVANCE DOMANIALE"));
-        list.add(new ChiffreAffaireService("2", "REDEVANCE CONCESSION"));
-        list.add(new ChiffreAffaireService("4", "REDEVANCE ELECTRICITE"));
-        list.add(new ChiffreAffaireService("6", "REDEVANCE DIVERS"));
-        list.add(new ChiffreAffaireService("A", "REDEVANCE A"));        
-        
-        return list;
     }
 
     public HashMap<Integer, Double> getRedevNavire() {
@@ -128,6 +139,14 @@ public class PrestService extends CrudService<ChiffrePrestation, Integer> implem
 
     public void setRedevAutre(HashMap<Integer, Double> redevAutre) {
         this.redevAutre = redevAutre;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
     
     
