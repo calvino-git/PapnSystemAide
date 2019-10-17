@@ -24,7 +24,8 @@
             #footer {
                 float: right;
                 font-size: 12px;
-                color: #3c8dbc;
+                text-align: right;
+                font: bold;
                 font-weight: 500;
             }
 
@@ -79,7 +80,7 @@
                         <f:facet name="header">
                             <p:outputLabel for="anneeDebut" style="font-size: 20px" value="Evolution du chiffre d'affaires de " />
                                 <p:spacer width="10"/>
-                                <p:spinner id="anneeDebut" value="#{chiffreAffaireBean.anneeDebut}" min="2000" max="2050" />
+                                <p:spinner id="anneeDebut" style="width: auto" value="#{chiffreAffaireBean.anneeDebut}" min="2000" max="2050" />
                                 <p:spacer width="10"/>
                                 <p:outputLabel for="anneeFin" style="font-size: 20px" value=" à " />
                                 <p:spacer width="10"/>
@@ -96,7 +97,7 @@
                         <p:columnGroup type="header">
                             <p:row>
                                 <p:column style="width:200px;font-size: 16px" rowspan="2" headerText="Prestation" />
-                                <p:column style="font-size: 16px"colspan="#{chiffreAffaireBean.yearCount}" headerText="Montant HT" />
+                                <p:column style="font-size: 16px" colspan="#{chiffreAffaireBean.yearCount}" headerText="Montant HT" />
                             </p:row>
                             <p:row>
                                 <ui:repeat value="#{chiffreAffaireBean.years}" var="year">
@@ -116,9 +117,9 @@
                         </p:columns>
 
                         <p:columnGroup type="footer">
-                            <p:row>
+                            <p:row >
                                 <p:column footerText="TOTAUX:" />
-                                <p:columns value="${chiffreAffaireBean.years}" var="year">
+                                <p:columns  style="display: block;" value="${chiffreAffaireBean.years}" var="year">
                                     <f:facet name="footer">
                                         <h:outputText value="#{chiffreAffaireBean.totalAnnee(year)}">
                                             <f:convertNumber locale="fr_FR" />
