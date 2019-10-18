@@ -32,11 +32,11 @@
             .ui-datatable-footer {
                 border: none;
             }
-            
+
             .ui-grid td {
-        white-space: nowrap;
-        border: none;
-    }
+                white-space: nowrap;
+                border: none;
+            }
 
         </style>
     </ui:define>
@@ -52,46 +52,39 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton action="#" icon="fa fa-pdf"
-                                         value="Pdf" styleClass="btn-primary"
-                                         disabled="#{chiffreAffaireBean.list.size() == 0}"/>
+                        <p:commandButton action="#" icon="fa fa-file-pdf-o"
+                                         value="PDF" styleClass="btn-primary"
+                                         disabled="#{chiffreAffaireBean.listPrest.size() == 0}"/>
                         <p:spacer width="5"/>
-                        <p:commandButton value="Excel" icon="fa fa-excel" styleClass="btn-danger"
+                        <p:commandButton value="Excel" icon="fa fa-file-excel-o" styleClass="btn-danger"
                                          action="#"
-                                         disabled="#{chiffreAffaireBean.list.size() == 0}"
+                                         disabled="#{chiffreAffaireBean.listPrest.size() == 0}"
                                          process="@this" update="@form">
 
                         </p:commandButton>
                         <p:spacer width="5"/>
                         <p:commandButton value="Recherche" update="@(.ui-dialog)" styleClass="btn-info"
                                          oncomplete="PF('searchDialog').show()" icon="fa fa-search"/>
-
-                        <p:spacer width="5"/>
-                        <p:commandButton value="Clear" update="@(.ui-dialog, .ui-datatable)" process="@form"
-                                         action="#"
-                                         icon="fa fa-refresh">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
-                        </p:commandButton>
                     </div>
 
                     <p:separator/>
-                    <p:dataTable widgetVar="caTable" var="prest" value="#{chiffreAffaireBean.list}">
+                    <p:dataTable widgetVar="caTable" var="key" value="#{chiffreAffaireBean.keyList}">
 
                         <f:facet name="header">
                             <p:outputLabel for="anneeDebut" style="font-size: 20px" value="Evolution du chiffre d'affaires de " />
-                                <p:spacer width="10"/>
-                                <p:spinner id="anneeDebut" style="width: auto" value="#{chiffreAffaireBean.anneeDebut}" min="2000" max="2050" />
-                                <p:spacer width="10"/>
-                                <p:outputLabel for="anneeFin" style="font-size: 20px" value=" à " />
-                                <p:spacer width="10"/>
-                                <p:spinner id="anneeFin" value="#{chiffreAffaireBean.anneeFin}" min="2000" max="2050" />
-                                <p:spacer width="15"/>
-                                <p:commandButton id="brFind" value="OK"
-                                                 action="#{chiffreAffaireBean.findByYear()}"
-                                                 process="@form"
-                                                 update="@form"
-                                                 styleClass="bg-black btn-states"
-                                                 partialSubmit="true"/>
+                            <p:spacer width="10"/>
+                            <p:spinner id="anneeDebut" maxlength="4" style=" width: 80px" value="#{chiffreAffaireBean.anneeDebut}" min="2000" max="2050"/>
+                            <p:spacer width="10"/>
+                            <p:outputLabel for="anneeFin" style="font-size: 20px" value=" à " />
+                            <p:spacer width="10"/>
+                            <p:spinner id="anneeFin" maxlength="4" style="width: 80px" value="#{chiffreAffaireBean.anneeFin}" min="2000" max="2050" />
+                            <p:spacer width="15"/>
+                            <p:commandButton id="brFind" value="OK" icon="fa fa-search"
+                                             action="#{chiffreAffaireBean.findByYear(chiffreAffaireBean.anneeDebut,chiffreAffaireBean.anneeFin)}"
+                                             process="@form"
+                                             update="@form"
+                                             styleClass="bg-black btn-primary"
+                                             partialSubmit="true"/>
                         </f:facet>
 
                         <p:columnGroup type="header">
@@ -106,12 +99,12 @@
                             </p:row>
                         </p:columnGroup>
 
-                        <p:column style="width:300px">
-                            <h:outputText value="#{prest.name}" />
+                        <p:column style="width:300px;font:bold">
+                            <h:outputText value="#{chiffreAffaireBean.getPrestLibelle(key)}" />
                         </p:column>
 
                         <p:columns style="text-align:right" value="#{chiffreAffaireBean.years}" var="year">
-                            <h:outputText class="align-right" value="#{prest.getChiffre(year)}">
+                            <h:outputText class="align-right" value="#{chiffreAffaireBean.getMontantPrest(year, key)}">
                                 <f:convertNumber locale="fr_FR" />
                             </h:outputText>
                         </p:columns>
@@ -119,9 +112,9 @@
                         <p:columnGroup type="footer">
                             <p:row >
                                 <p:column footerText="TOTAUX:" />
-                                <p:columns  style="display: block;" value="${chiffreAffaireBean.years}" var="year">
+                                <p:columns style="text-align: right; font-size: 16px"  value="${chiffreAffaireBean.years}" var="year">
                                     <f:facet name="footer">
-                                        <h:outputText value="#{chiffreAffaireBean.totalAnnee(year)}">
+                                        <h:outputText  value="#{chiffreAffaireBean.totalAnnee(year)}">
                                             <f:convertNumber locale="fr_FR" />
                                         </h:outputText>
                                     </f:facet>
@@ -135,38 +128,23 @@
         </h:form>
 
 
-        <p:dialog header="Choisir une période" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
-                  width="500" responsive="true" draggable="false" styleClass="box-success">
+        <p:dialog header="Choisir une période" widgetVar="searchDialog" appendTo="@(body)"
+                   responsive="true" draggable="false" styleClass="box-success">
 
             <h:form>
-                <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
-                                 ignoreAutoUpdate="true" styleClass="btn-primary"/>
-                <p:spacer height="5"/>
-                <p:commandButton value="Vider" action="#{chiffreAffaireBean.clear}" process="@this"
-                                 update="@form @(.ui-datatable, .ui-tooltip)" styleClass="btn-success"
-                                 icon="fa fa-refresh"/>
-                <p:spacer height="5"/>
-                <p:commandButton value="Fermer" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
+                <p:panelGrid columns="2" style="border: none;">
+                        <p:outputLabel for="anneeDebut" value="De"/>
+                        <p:outputLabel for="anneeFin" value="A"/>
+                        <p:spinner id="anneeDebut" maxlength="4" style=" width: 80px" value="#{chiffreAffaireBean.anneeDebut}" min="2000" max="2050"/>
+
+                        
+                        <p:spinner id="anneeFin" maxlength="4" style="width: 80px" value="#{chiffreAffaireBean.anneeFin}" min="2000" max="2050" />
+
+                </p:panelGrid>
                 <p:separator/>
-
-
-                <div class="ui-g-6 ui-sm-12 ui-g-nopad">
-                    <div class="ui-g-12">
-                        <p:outputLabel for="min" value="De "/>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:inputNumber id="min" value="#{chiffreAffaireBean.debutAnnee}"/>
-                    </div>
-                </div>
-
-                <div class="ui-g-6 ui-sm-12 ui-g-nopad">
-                    <div class="ui-g-12">
-                        <p:outputLabel for="max" value="à "/>
-                    </div>
-                    <div class="ui-g-12">
-                        <p:inputNumber id="max" value="#{chiffreAffaireBean.finAnnee}"/>
-                    </div>
-                </div>
+                <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
+                                 ignoreAutoUpdate="true" styleClass="btn-primary" oncomplete="PF('searchDialog').hide()"/>
+                <p:separator/>
             </h:form>
         </p:dialog>
 
