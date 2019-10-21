@@ -11,6 +11,10 @@ import org.omnifaces.cdi.ViewScoped;
 
 import com.github.adminfaces.starter.service.ChiffreAffaireService;
 import com.github.adminfaces.template.exception.BusinessException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -32,6 +37,9 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.omnifaces.io.DefaultServletOutputStream;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  * Created by rmpestano on 12/02/17.
@@ -50,6 +58,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
     private JRBeanCollectionDataSource beanCollectionDataSource;
     private Map<String, Object> parameters;
     private JasperPrint jasperPrint;
+    private String pdf;
 
     @Inject
     private ChiffreAffaireService chiffreAffaireService;
@@ -66,7 +75,6 @@ public class PrestationChiffreAffaireBean implements Serializable {
         years.add(2018);
         years.add(2019);
         
-
         listPrest = new HashMap<>();
         listPrest.put("1", "REDEVANCE MARCHANDISE");
         listPrest.put("5", "REDEVANCE NAVIRE");
@@ -87,23 +95,39 @@ public class PrestationChiffreAffaireBean implements Serializable {
         return chiffreAffaireService.getMontantTotalParAn(annee);
     }
 
-public void PDF() throws JRException, IOException{
-  JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
-  String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
-  jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
-	
-  HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-  response.reset();
-  response.setContentType("application/pdf");
-  response.setHeader("Content-disposition", "attachment; filename=\"report.pdf\"");
-  ServletOutputStream stream = response.getOutputStream();
-  JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-  FacesContext.getCurrentInstance().responseComplete();
-  
-}
-    public OutputStream getPDF(ServletContext context, OutputStream outputStream) {
+    public void viewPdf() {
+        setPdf("/report/ChiffreAffairePrestation.pdf");
+        try {
+            JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
+            String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
+            jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + pdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public OutputStream PDF(ServletOutputStream out) throws JRException, IOException {
+        JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
+        String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
+        jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
+
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        response.reset();
+        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "attachment; filename=\"report.pdf\"");
+        out = response.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, out);
+
+        return out;
+//        FacesContext.getCurrentInstance().responseComplete();
+
+    }
+
+    public OutputStream getPDF(OutputStream outputStream) {
         beanCollectionDataSource = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
-        parameters.put("IMAGE_PATH", context.getRealPath("/report/"));
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        parameters.put("debut", context.getRealPath("/report/"));
 
         InputStream is = context.getResourceAsStream("/report/ChiffreAffairePrestation.jrxml");
 
@@ -235,7 +259,13 @@ public void PDF() throws JRException, IOException{
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
     }
-    
-    
+
+    public String getPdf() {
+        return pdf;
+    }
+
+    public void setPdf(String pdf) {
+        this.pdf = pdf;
+    }
 
 }

@@ -69,15 +69,6 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-    <servlet>
-        <servlet-name>DynamicReportServlet</servlet-name>
-        <servlet-class>com.github.adminfaces.starter.controller.DynamicReportServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DynamicReportServlet</servlet-name>
-        <url-pattern>*.pdf</url-pattern>
-    </servlet-mapping>
     
     <data-source>
         <name>java:app/cargo</name>

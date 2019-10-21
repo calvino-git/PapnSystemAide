@@ -52,8 +52,8 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton icon="fa fa-file-pdf-o" action="#{prestationChiffreAffaireBean.PDF()}"
-                                         value="PDF" styleClass="btn-primary" ajax="false"
+                        <p:commandButton icon="fa fa-file-pdf-o" action="#{prestationChiffreAffaireBean.viewPdf()}"
+                                         value="PDF" styleClass="btn-primary" oncomplete="PF('pdfDialog').show()"
                                          disabled="#{prestationChiffreAffaireBean.listPrest.size() == 0}" >
                             <!--p:dataExporter type="pdf" target="caTable"
                                             fileName="CA-par-an-#{prestationChiffreAffaireBean.anneeDebut}-#{prestationChiffreAffaireBean.anneeFin}" 
@@ -131,13 +131,10 @@
                 </div>
             </div>
         </h:form>
+        <p:dialog header="#{prestationChiffreAffaireBean.anneeDebut}" widgetVar="pdfDialog" appendTo="@(body)"
+                  responsive="true" draggable="true" styleClass="box-success" width="850px" height="550px">
+            <p:media value="#{prestationChiffreAffaireBean.pdf}" width="800px" height="500px" player="pdf" />
 
-        <p:dialog header="Exportation PDF" widgetVar="pdfDialog" appendTo="@(body)"
-                  responsive="true" draggable="false" styleClass="box-success">
-            <h:form>
-                <iframe name="receipt" height="600" id="theIFrame" width="100%"
-                        src="http://localhost:8080/sysaide/CA-par-an-#{prestationChiffreAffaireBean.anneeDebut}-#{prestationChiffreAffaireBean.anneeFin}.pdf" />
-            </h:form>
         </p:dialog>
 
         <p:dialog header="Choisir une période" widgetVar="searchDialog" appendTo="@(body)"
