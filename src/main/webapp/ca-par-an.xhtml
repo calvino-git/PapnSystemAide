@@ -54,6 +54,7 @@
                     <div id="main-buttons" class="hidden-sm hidden-xs">
                         <p:commandButton icon="fa fa-file-pdf-o" action="#{prestationChiffreAffaireBean.viewPdf()}"
                                          value="PDF" styleClass="btn-primary" oncomplete="PF('pdfDialog').show()"
+                                         update="@(.ui-dialog)"
                                          disabled="#{prestationChiffreAffaireBean.listPrest.size() == 0}" >
                             <!--p:dataExporter type="pdf" target="caTable"
                                             fileName="CA-par-an-#{prestationChiffreAffaireBean.anneeDebut}-#{prestationChiffreAffaireBean.anneeFin}" 
@@ -108,8 +109,8 @@
                             <h:outputText value="#{prestationChiffreAffaireBean.getLibellePrestationParCode(code)}" />
                         </p:column>
 
-                        <p:columns style="text-align:right" value="#{prestationChiffreAffaireBean.years}" var="year">
-                            <h:outputText class="align-right" value="#{prestationChiffreAffaireBean.getMontantPrest(year, code)}">
+                        <p:columns style="text-align:right" value="#{prestationChiffreAffaireBean.years}" var="annee">
+                            <h:outputText class="align-right" value="#{prestationChiffreAffaireBean.montantPrestationParAn(annee, code)}">
                                 <f:convertNumber locale="fr_FR" />
                             </h:outputText>
                         </p:columns>
@@ -131,13 +132,12 @@
                 </div>
             </div>
         </h:form>
-        <p:dialog header="#{prestationChiffreAffaireBean.anneeDebut}" widgetVar="pdfDialog" appendTo="@(body)"
+        <p:dialog header="Chiffre d'affaire par prestation de #{prestationChiffreAffaireBean.anneeDebut} à #{prestationChiffreAffaireBean.anneeFin}" widgetVar="pdfDialog" appendTo="@(body)"
                   responsive="true" draggable="true" styleClass="box-success" width="850px" height="550px">
             <p:media value="#{prestationChiffreAffaireBean.pdf}" width="800px" height="500px" player="pdf" />
-
         </p:dialog>
 
-        <p:dialog header="Choisir une période" widgetVar="searchDialog" appendTo="@(body)"
+        <!--p:dialog header="Choisir une période" widgetVar="searchDialog" appendTo="@(body)"
                   responsive="true" draggable="false" styleClass="box-success">
             <h:form>
                 <p:panelGrid columns="2" style="border: none;">
@@ -154,7 +154,7 @@
                                  ignoreAutoUpdate="true" styleClass="btn-primary" oncomplete="PF('searchDialog').hide()"/>
                 <p:separator/>
             </h:form>
-        </p:dialog>
+        </p:dialog-->
 
     </ui:define>
 

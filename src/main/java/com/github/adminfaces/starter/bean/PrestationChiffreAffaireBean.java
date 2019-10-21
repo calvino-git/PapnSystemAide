@@ -45,7 +45,7 @@ import org.primefaces.model.StreamedContent;
  * Created by rmpestano on 12/02/17.
  */
 @Named
-@SessionScoped
+@ViewScoped
 public class PrestationChiffreAffaireBean implements Serializable {
 
     private Integer yearCount;
@@ -54,11 +54,11 @@ public class PrestationChiffreAffaireBean implements Serializable {
     private Integer anneeFin;
     private Map<String, String> listPrest;
     private List<String> keyList;
+    private String pdf;
 
     private JRBeanCollectionDataSource beanCollectionDataSource;
     private Map<String, Object> parameters;
     private JasperPrint jasperPrint;
-    private String pdf;
 
     @Inject
     private ChiffreAffaireService chiffreAffaireService;
@@ -89,7 +89,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
     public Double montantTotalParAn(Integer annee) {
 //        Double total = 0.0 ;
 //        for(String code : listPrest.keySet()){
-//            total += getMontantPrest(annee, code);
+//            total += montantPrestationParAn(annee, code);
 //        }
 //        return total;
         return chiffreAffaireService.getMontantTotalParAn(annee);
@@ -101,8 +101,8 @@ public class PrestationChiffreAffaireBean implements Serializable {
             JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
             String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
             jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + pdf);
-        } catch (Exception e) {
+            JasperExportManager.exportReportToPdfFile(jasperPrint, FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + pdf);
+        } catch ( JRException e) {
             e.printStackTrace();
         }
     }
@@ -142,7 +142,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         return outputStream;
     }
 
-    public Double getMontantPrest(Integer annee, String prestation) {
+    public Double montantPrestationParAn(Integer annee, String prestation) {
         PrestationChiffreAffaire cp = new PrestationChiffreAffaire();
         List<PrestationChiffreAffaire> list = chiffreAffaireService.getList().stream()
                 .filter(ca -> (ca.getPrestation().equalsIgnoreCase(prestation)) && (ca.getAnnee().intValue() == annee.intValue()))
