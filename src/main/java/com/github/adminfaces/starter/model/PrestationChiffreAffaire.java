@@ -11,20 +11,16 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Table(name = "CAPARPRESTATION")
 @Immutable
-public class ChiffrePrestation extends BaseEntity {
+public class PrestationChiffreAffaire extends BaseEntity {
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
+
     @Id
+    @Column(name="id")
     private Integer id;
     @Column(name = "annee")
     private Integer annee;
     @Column(name = "prestation")
-    private String name;
+    private String prestation;
     @Column(name = "montant")
     private Double montant;
 
@@ -36,12 +32,12 @@ public class ChiffrePrestation extends BaseEntity {
         this.annee = annee;
     }
 
-    public String getName() {
-        return name;
+    public String getPrestation() {
+        return prestation;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPrestation(String prestation) {
+        this.prestation = prestation;
     }
 
     public Double getMontant() {
@@ -55,6 +51,12 @@ public class ChiffrePrestation extends BaseEntity {
     @Override
     public Integer getId() {
         return id;
+    }
+        /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }

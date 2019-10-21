@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         version="3.0">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
@@ -50,7 +49,10 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>gzipResponseFilter</filter-name>
         <filter-class>org.omnifaces.filter.GzipResponseFilter</filter-class>
@@ -67,16 +69,20 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-
+    <servlet>
+        <servlet-name>DynamicReportServlet</servlet-name>
+        <servlet-class>com.github.adminfaces.starter.controller.DynamicReportServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
+        <servlet-name>DynamicReportServlet</servlet-name>
+        <url-pattern>*.pdf</url-pattern>
     </servlet-mapping>
     
     <data-source>
         <name>java:app/cargo</name>
         <class-name>oracle.jdbc.pool.OracleDataSource</class-name>
-        <url>jdbc:oracle:thin:@172.30.1.113:1521:CARGOTEST</url>
+        <url>jdbc:oracle:thin:@10.211.55.6:1521:PPNCARGO</url>
         <user>ppncargo</user>
         <password>ppncargo</password>
         <property>
