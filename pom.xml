@@ -254,11 +254,11 @@
                         </option>
                         <option>
                             <key>--rootdir</key>
-                            <value>../${rootdir.payara}</value>
+                            <value>${rootdir.payara}</value>
                         </option>
                         <option>
                             <key>--addLibs</key>
-                            <value>../${rootdir.payara}/lib/ojdbc7.jar</value>
+                            <value>${rootdir.payara}/lib/ojdbc7.jar</value>
                         </option>
                         <option>
                             <key>--deploy</key>
