@@ -4,6 +4,7 @@
  */
 package com.github.adminfaces.starter.service;
 
+import com.github.adminfaces.starter.repos.CarRepository;
 import com.github.adminfaces.persistence.model.Filter;
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.starter.model.Car;

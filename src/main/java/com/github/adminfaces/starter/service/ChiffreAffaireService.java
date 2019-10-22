@@ -5,23 +5,18 @@
  */
 package com.github.adminfaces.starter.service;
 
+import com.github.adminfaces.starter.repos.ChiffreAffaireRepository;
 import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire_;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import org.apache.deltaspike.data.api.criteria.Criteria;
 import org.apache.deltaspike.data.impl.criteria.QueryCriteria;

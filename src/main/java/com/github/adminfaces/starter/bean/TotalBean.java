@@ -6,6 +6,8 @@ import com.github.adminfaces.starter.model.Car;
 import com.github.adminfaces.starter.model.Car_;
 import com.github.adminfaces.starter.model.Ctn;
 import com.github.adminfaces.starter.model.Ctn_;
+import com.github.adminfaces.starter.model.Escale;
+import com.github.adminfaces.starter.service.EscaleService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -18,14 +20,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
 @ApplicationScoped
-public class Lists implements Serializable {
+public class TotalBean implements Serializable {
     @Inject
-    @Service
-    private CrudService<Ctn,Integer> crudService;
-    
-    @Inject
-    @Service
-    private CrudService<Car,Integer> crud_Service;
+    private EscaleService escaleService;
 
     @PostConstruct
     public void init(){
@@ -36,11 +33,9 @@ public class Lists implements Serializable {
     
 
     @Produces
-    @Named("nombreEscale")
-    public List<String> nombreEscale() {
-        return crud_Service.criteria()
-                .select(String.class, crud_Service.attribute(Car_.model))
-                .getResultList();
+    @Named("nombreEscaleByAnnee")
+    public Long nombreEscaleByAnnee() {
+        return escaleService.getNombreEscaleByAnnee("PARTI","2019");
     }
 
 }

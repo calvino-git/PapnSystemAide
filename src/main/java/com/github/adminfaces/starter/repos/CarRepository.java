@@ -1,4 +1,4 @@
-package com.github.adminfaces.starter.service;
+package com.github.adminfaces.starter.repos;
 
 import com.github.adminfaces.starter.model.Car;
 import org.apache.deltaspike.data.api.EntityRepository;

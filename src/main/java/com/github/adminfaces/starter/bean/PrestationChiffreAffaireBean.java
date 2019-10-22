@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.omnifaces.io.DefaultServletOutputStream;
+import org.omnifaces.util.Faces;
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -45,7 +47,7 @@ import org.primefaces.model.StreamedContent;
  * Created by rmpestano on 12/02/17.
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class PrestationChiffreAffaireBean implements Serializable {
 
     private Integer yearCount;
@@ -74,7 +76,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         years.add(2017);
         years.add(2018);
         years.add(2019);
-        
+
         listPrest = new HashMap<>();
         listPrest.put("1", "REDEVANCE MARCHANDISE");
         listPrest.put("5", "REDEVANCE NAVIRE");
@@ -102,7 +104,8 @@ public class PrestationChiffreAffaireBean implements Serializable {
             String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
             jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
             JasperExportManager.exportReportToPdfFile(jasperPrint, FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + pdf);
-        } catch ( JRException e) {
+//            Faces.redirect("viewPdf.xhtml");
+        } catch (JRException e) {
             e.printStackTrace();
         }
     }
@@ -118,7 +121,6 @@ public class PrestationChiffreAffaireBean implements Serializable {
         response.setHeader("Content-disposition", "attachment; filename=\"report.pdf\"");
         out = response.getOutputStream();
         JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-
         return out;
 //        FacesContext.getCurrentInstance().responseComplete();
 
