@@ -60,8 +60,6 @@ public class TotalBean implements Serializable {
         barDataSet.setBackgroundColor("rgba(255, 51, 51, 0.2)");
         barDataSet.setBorderColor("rgb(255, 51, 51)");
         barDataSet.setBorderWidth(1);
-        barDataSet.setXaxisID("Montant HT");
-        barDataSet.setYaxisID("Année");
 
         List<Number> values = new ArrayList<>();
         
@@ -87,6 +85,7 @@ public class TotalBean implements Serializable {
         CartesianLinearTicks ticks = new CartesianLinearTicks();
         ticks.setBeginAtZero(true);
         linearAxes.setTicks(ticks);
+        linearAxes.setOffset(true);
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
         
