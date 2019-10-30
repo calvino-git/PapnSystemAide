@@ -60,6 +60,8 @@ public class TotalBean implements Serializable {
         barDataSet.setBackgroundColor("rgba(255, 51, 51, 0.2)");
         barDataSet.setBorderColor("rgb(255, 51, 51)");
         barDataSet.setBorderWidth(1);
+        barDataSet.setXaxisID("Montant HT");
+        barDataSet.setYaxisID("Année");
 
         List<Number> values = new ArrayList<>();
         
@@ -92,11 +94,6 @@ public class TotalBean implements Serializable {
         title.setDisplay(true);
         title.setText("CHIFFRE D'AFFAIRE");
         options.setTitle(title);
-        Legend legend = new Legend();
-        legend.setPosition("ne");
-        legend.setDisplay(true);
-        options.setLegend(legend);
-        
         
         chiffreAffaireBar.setOptions(options);
     }
