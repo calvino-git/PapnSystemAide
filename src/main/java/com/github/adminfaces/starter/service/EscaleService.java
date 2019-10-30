@@ -39,6 +39,12 @@ public class EscaleService implements Serializable {
     public Long getNombreEscaleByAnnee(String situat, String annee){
         return escaleRepo.getNombreEscaleByAnnee(situat,annee);
     }
+    public Long getNombrePetitEscaleByAnnee(String situat, String annee){
+        return escaleRepo.getNombrePetitEscaleByAnnee(situat,annee);
+    }
+    public Long getNombreGrandEscaleByAnnee(String situat, String annee){
+        return escaleRepo.getNombreGrandEscaleByAnnee(situat,annee);
+    }
     
     @PostConstruct
     public void init() {

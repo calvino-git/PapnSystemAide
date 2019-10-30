@@ -74,7 +74,7 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
                                  rowsPerPageTemplate="10,20,30,40,50"
-                                 resizableColumns="true" liveResize="true">
+                                 resizableColumns="true" liveResize="true"  scrollable="true" >
                         <p:ajax event="rowSelect" listener="#{conteneurCongoTerminalBean.onRowSelect}" update="@(.ui-dialog)" oncomplete="PF('detailDialog').show()" />
 
                         <f:facet name="header">

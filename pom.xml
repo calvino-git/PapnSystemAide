@@ -269,7 +269,7 @@
                 <version>1.0.4</version>
             </plugin>
         </plugins>
-        <finalName>admin-starter</finalName>
+        <finalName>SysAide</finalName>
     </build>
 
     <profiles>

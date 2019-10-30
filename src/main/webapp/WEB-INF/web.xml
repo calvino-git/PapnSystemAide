@@ -73,12 +73,12 @@
     <data-source>
         <name>java:app/cargo</name>
         <class-name>oracle.jdbc.pool.OracleDataSource</class-name>
-        <url>jdbc:oracle:thin:@172.30.1.113:1521:CARGOTEST</url>
+        <url>jdbc:oracle:thin:@10.0.55.203:1521:CARGO</url>
         <user>ppncargo</user>
         <password>ppncargo</password>
         <property>
             <name>timezoneAsRegion</name>
-            <value>false</value>
+            <value>true</value>
         </property>
     </data-source>
 </web-app>

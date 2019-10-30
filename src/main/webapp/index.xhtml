@@ -24,7 +24,10 @@
                     <span class="info-box-icon bg-aqua"><i class="fa fa-ship"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Escale 2019</span>
-                        <span class="info-box-number">#{nombreEscaleByAnnee}</span>
+                        <span class="info-box-number">
+                            P:#{nombrePetitEscaleByAnnee} / G:#{nombreGrandEscaleByAnnee}
+                        </span>
+                        <span style="font-size: 20px;font-weight: bold">#{nombreEscaleByAnnee}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -76,6 +79,16 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="box-header with-border col-md-6">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:barChart model="#{totalBean.chiffreAffaireBar}" style="width: 100%; height: 500px;">
+                        <p:ajax event="itemSelect" listener="#{prestationChiffreAffaireBean.itemSelect}" update="growl"/>
+                    </p:barChart>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -219,7 +232,7 @@
                             <li class="col-xs-6"><a href="#">CA avoir non deduit</a></li>
                             <li class="col-xs-6"><a href="#">CA avoir deduit</a></li> 
                             <li class="col-xs-6"><a href="#">CA sur nombre escale/manifeste)</a></li>
-                            <li class="col-xs-6"><a href="ca-par-an.xhtml">CA par prestation</a></li>
+                            <li class="col-xs-6"><a href="prestationChiffreAffaire.xhtml">CA par prestation</a></li>
                             <li class="col-xs-6"><a href="#">CA par client</a></li>
                             <li class="col-xs-6"><a href="#">CA par année/mois</a></li>
                             <li class="col-xs-6"><a href="#">Cautions des mois anterieurs</a></li>
