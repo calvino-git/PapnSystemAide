@@ -2,7 +2,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="#{layoutMB.template}">
+                template="#{layoutMB.template}"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="head-end">
         <ui:param name="renderBreadCrumb" value="false"/>
@@ -21,7 +23,7 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua"><i class="fa fa-ship"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Nombre d'escale en 2019</span>
+                        <span class="info-box-text">Escale 2019</span>
                         <span class="info-box-number">#{nombreEscaleByAnnee}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -34,7 +36,7 @@
                     <span class="info-box-icon bg-red"><i class="fa fa-cubes"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">EVP</span>
+                        <span class="info-box-text">EVP 2019</span>
                         <span class="info-box-number">41,410</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -51,7 +53,7 @@
                     <span class="info-box-icon bg-green"><i class="fa fa-fw fa-balance-scale"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">TONNAGE</span>
+                        <span class="info-box-text">TONNAGE 2019</span>
                         <span class="info-box-number">760</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -64,8 +66,12 @@
                     <span class="info-box-icon bg-yellow"><i class="fa fa-fw fa-money"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">CHIFFRE</span>
-                        <span class="info-box-number">2,000</span>
+                        <span class="info-box-text">RECETTE 2019</span>
+                        <span class="info-box-number">
+                            <h:outputText style="width : 100%;display: block;" value="#{montantTotalParAn}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -81,182 +87,182 @@
         </div>
         <p:spacer height="10px"/>
 
-            <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Escale des navires</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-ship"></i></span>
-                            </div>
-                            <!-- /.box-tools -->
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Escale des navires</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                            <span class="label label-primary"><i class="fa fa-ship"></i></span>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul class="row">
-                                <li class="col-xs-6"><a href="#">Escale par mois</a></li>
-                                <li class="col-xs-6"><a href="#">Escale grands navires</a></li>
-                                <li class="col-xs-6"><a href="#">Escale petits navires</a></li>
-                                <li class="col-xs-6"><a href="#">Escale en double</a></li>
-                                <li class="col-xs-6"><a href="#">Escale des navires à quai</a></li>
-                                <li class="col-xs-6"><a href="#">Escale Navire en rade exterieure</a></li>
-                                <li class="col-xs-6"><a href="#">Escale bases logistiques</a></li>
-                                <li class="col-xs-6"><a href="#">Escale annulée</a></li>
-                                </ul>
-                            <!-- /.box-body -->
-                        </div>
+                        <!-- /.box-tools -->
                     </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Escale/Manifeste</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-balance-scale"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">Ayant manifeste</a></li>
-                                <li class="col-xs-6"><a href="#">N'ayant pas tous les trafics</a></li>
-                                <li class="col-xs-6"><a href="#">Avec manifeste complet</a></li>
-                                <li class="col-xs-6"><a href="#">Sans manifeste</a></li>
-                                <li class="col-xs-6"><a href="#">Avec manifeste incomplet</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic des conteneurs</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic march. par typenav</a></li>
-                                <li class="col-xs-6"><a href="#">Sans valeur commerciale</a></li>
-                            </ul>
-                        </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul class="row">
+                            <li class="col-xs-6"><a href="#">Escale par mois</a></li>
+                            <li class="col-xs-6"><a href="#">Escale grands navires</a></li>
+                            <li class="col-xs-6"><a href="#">Escale petits navires</a></li>
+                            <li class="col-xs-6"><a href="#">Escale en double</a></li>
+                            <li class="col-xs-6"><a href="#">Escale des navires à quai</a></li>
+                            <li class="col-xs-6"><a href="#">Escale Navire en rade exterieure</a></li>
+                            <li class="col-xs-6"><a href="#">Escale bases logistiques</a></li>
+                            <li class="col-xs-6"><a href="#">Escale annulée</a></li>
+                        </ul>
                         <!-- /.box-body -->
                     </div>
                 </div>
             </div>
-        <div class="row">
-                <!-- /.col -->
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Escale/Facture</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
+            <!-- /.col -->
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Escale/Manifeste</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                            <span class="label label-primary"><i class="fa fa-balance-scale"/></span>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">Sans proforma</a></li>
-                                <li class="col-xs-6"><a href="#">Facturée</a></li>
-                                <li class="col-xs-6"><a href="#">Non facturée</a></li>
-                                <li class="col-xs-6"><a href="#">Avec brouillard sans facture</a></li>
-                                <li class="col-xs-6"><a href="#">Sans brouillard</a></li>
-                                <li class="col-xs-6"><a href="#">Avec facture de remplacement ou complementaire</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
+                        <!-- /.box-tools -->
                     </div>
-                </div>
-            
-                <div class="col-md-6 col-sm-12 col-xs-12  ">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Manifeste/Facture</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul class="row">
-                                <li class="col-xs-6"><a href="#">Sans facture marchandise</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste par mois</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste facturé</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste sans facture</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste cloturé</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste nil</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic March. par pays</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic EVP par pays</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul>
+                            <li class="col-xs-6"><a href="#">Ayant manifeste</a></li>
+                            <li class="col-xs-6"><a href="#">N'ayant pas tous les trafics</a></li>
+                            <li class="col-xs-6"><a href="#">Avec manifeste complet</a></li>
+                            <li class="col-xs-6"><a href="#">Sans manifeste</a></li>
+                            <li class="col-xs-6"><a href="#">Avec manifeste incomplet</a></li>
+                            <li class="col-xs-6"><a href="#">Trafic des conteneurs</a></li>
+                            <li class="col-xs-6"><a href="#">Trafic march. par typenav</a></li>
+                            <li class="col-xs-6"><a href="#">Sans valeur commerciale</a></li>
+                        </ul>
                     </div>
+                    <!-- /.box-body -->
                 </div>
-                
+            </div>
         </div>
         <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Chiffre d'affaires</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
+            <!-- /.col -->
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Escale/Facture</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                            <span class="label label-primary"><i class="fa fa-money"/></span>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">CA avoir non deduit</a></li>
-                                <li class="col-xs-6"><a href="#">CA avoir deduit</a></li> 
-                                <li class="col-xs-6"><a href="#">CA sur nombre escale/manifeste)</a></li>
-                                <li class="col-xs-6"><a href="ca-par-an.xhtml">CA par prestation</a></li>
-                                <li class="col-xs-6"><a href="#">CA par client</a></li>
-                                <li class="col-xs-6"><a href="#">CA par année/mois</a></li>
-                                 <li class="col-xs-6"><a href="#">Cautions des mois anterieurs</a></li>
-                                <li class="col-xs-6"><a href="#">Evolution du CA</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
+                        <!-- /.box-tools -->
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Facture/Comptabilité </h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">Facture signée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture non signée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture annulée</a></li>
-                                <li class="col-xs-6"><a href="#">Avoir non signé</a></li>
-                                <li class="col-xs-6"><a href="#">Facture transferée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture non transferée</a></li>
-                                <li class="col-xs-6"><a href="#">proforma non signé</a></li>
-                                <li class="col-xs-6"><a href="#">Facture signée non payée</a></li>
-                                <li class="col-xs-6"><a href="#">Proforma non transferée</a></li>
-                                <li class="col-xs-6"><a href="#">Proforma payé non transferée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture attachée aux proformas</a></li>
-                                <li class="col-xs-6"><a href="#">Proforma sans facture</a></li>
-                                <li class="col-xs-6"><a href="#">Escale annulée avec proforma</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul>
+                            <li class="col-xs-6"><a href="#">Sans proforma</a></li>
+                            <li class="col-xs-6"><a href="#">Facturée</a></li>
+                            <li class="col-xs-6"><a href="#">Non facturée</a></li>
+                            <li class="col-xs-6"><a href="#">Avec brouillard sans facture</a></li>
+                            <li class="col-xs-6"><a href="#">Sans brouillard</a></li>
+                            <li class="col-xs-6"><a href="#">Avec facture de remplacement ou complementaire</a></li>
+                        </ul>
                     </div>
+                    <!-- /.box-body -->
                 </div>
             </div>
-     
+
+            <div class="col-md-6 col-sm-12 col-xs-12  ">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Manifeste/Facture</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                            <span class="label label-primary"><i class="fa fa-money"/></span>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul class="row">
+                            <li class="col-xs-6"><a href="#">Sans facture marchandise</a></li>
+                            <li class="col-xs-6"><a href="#">Manifeste par mois</a></li>
+                            <li class="col-xs-6"><a href="#">Manifeste facturé</a></li>
+                            <li class="col-xs-6"><a href="#">Manifeste sans facture</a></li>
+                            <li class="col-xs-6"><a href="#">Manifeste cloturé</a></li>
+                            <li class="col-xs-6"><a href="#">Manifeste nil</a></li>
+                            <li class="col-xs-6"><a href="#">Trafic March. par pays</a></li>
+                            <li class="col-xs-6"><a href="#">Trafic EVP par pays</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Chiffre d'affaires</h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                            <span class="label label-primary"><i class="fa fa-money"/></span>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul>
+                            <li class="col-xs-6"><a href="#">CA avoir non deduit</a></li>
+                            <li class="col-xs-6"><a href="#">CA avoir deduit</a></li> 
+                            <li class="col-xs-6"><a href="#">CA sur nombre escale/manifeste)</a></li>
+                            <li class="col-xs-6"><a href="ca-par-an.xhtml">CA par prestation</a></li>
+                            <li class="col-xs-6"><a href="#">CA par client</a></li>
+                            <li class="col-xs-6"><a href="#">CA par année/mois</a></li>
+                            <li class="col-xs-6"><a href="#">Cautions des mois anterieurs</a></li>
+                            <li class="col-xs-6"><a href="#">Evolution du CA</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Facture/Comptabilité </h3>
+                        <div class="box-tools pull-right">
+                            <!-- Buttons, labels, and many other things can be placed here! -->
+                            <!-- Here is a label for example -->
+                            <span class="label label-primary"><i class="fa fa-money"/></span>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul>
+                            <li class="col-xs-6"><a href="#">Facture signée</a></li>
+                            <li class="col-xs-6"><a href="#">Facture non signée</a></li>
+                            <li class="col-xs-6"><a href="#">Facture annulée</a></li>
+                            <li class="col-xs-6"><a href="#">Avoir non signé</a></li>
+                            <li class="col-xs-6"><a href="#">Facture transferée</a></li>
+                            <li class="col-xs-6"><a href="#">Facture non transferée</a></li>
+                            <li class="col-xs-6"><a href="#">proforma non signé</a></li>
+                            <li class="col-xs-6"><a href="#">Facture signée non payée</a></li>
+                            <li class="col-xs-6"><a href="#">Proforma non transferée</a></li>
+                            <li class="col-xs-6"><a href="#">Proforma payé non transferée</a></li>
+                            <li class="col-xs-6"><a href="#">Facture attachée aux proformas</a></li>
+                            <li class="col-xs-6"><a href="#">Proforma sans facture</a></li>
+                            <li class="col-xs-6"><a href="#">Escale annulée avec proforma</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
         <!-- /.col -->
     </ui:define>
 

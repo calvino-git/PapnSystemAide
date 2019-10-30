@@ -46,18 +46,47 @@ public class ChiffreAffaireService implements Serializable {
     public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
         return new QueryCriteria<>(entityClass, entityClass, getEntityManager());
     }
+    public String getLibellePrestationParCode(String code) {
+        String libelle = null;
+        switch (code) {
+            case "1":
+                libelle = "REDEVANCE MARCHANDISE";
+                break;
+            case "2":
+                libelle = "REDEVANCE CONCESSION";
+                break;
+            case "4":
+                libelle = "REDEVANCE ELECTRICITE";
+                break;
+            case "5":
+                libelle = "REDEVANCE NAVIRE";
+                break;
+            case "6":
+                libelle = "REDEVANCE DIVERS";
+                break;
+            case "7":
+                libelle = "REDEVANCE DOMANIALE";
+                break;
+            case "A":
+                libelle = "AUTRES REDEVANCES";
+                break;
+            default: ;
+        }
+        return libelle;
+    }
 
-    public void listByAn(Integer debut, Integer fin) {
+    public List<PrestationChiffreAffaire> listByAn(Integer debut, Integer fin) {
         Logger.getGlobal().log(Level.INFO, "Recherche du chiffre d''affaire par type de prestation entre {0} et {1}.", new Object[]{debut.toString(), fin.toString()});
         list = criteria(PrestationChiffreAffaire.class)
                 .between(PrestationChiffreAffaire_.annee, debut, fin)
                 .getResultList();
+        return list;
     }
 
-    public PrestationChiffreAffaire getPrestParAn(String prestation, Integer annee) {
+    public PrestationChiffreAffaire getPrestParAn(String code, Integer annee) {
         return criteria(PrestationChiffreAffaire.class)
                 .eq(PrestationChiffreAffaire_.annee, annee)
-                .eqIgnoreCase(PrestationChiffreAffaire_.prestation, prestation)
+                .eqIgnoreCase(PrestationChiffreAffaire_.code, code)
                 .orderDesc(PrestationChiffreAffaire_.montant)
                 .getSingleResult();
     }

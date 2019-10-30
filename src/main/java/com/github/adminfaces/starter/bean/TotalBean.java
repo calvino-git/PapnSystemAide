@@ -1,12 +1,6 @@
 package com.github.adminfaces.starter.bean;
 
-import com.github.adminfaces.persistence.service.CrudService;
-import com.github.adminfaces.persistence.service.Service;
-import com.github.adminfaces.starter.model.Car;
-import com.github.adminfaces.starter.model.Car_;
-import com.github.adminfaces.starter.model.Ctn;
-import com.github.adminfaces.starter.model.Ctn_;
-import com.github.adminfaces.starter.model.Escale;
+import com.github.adminfaces.starter.service.ChiffreAffaireService;
 import com.github.adminfaces.starter.service.EscaleService;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,7 +8,6 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -23,6 +16,8 @@ import javax.faces.context.FacesContext;
 public class TotalBean implements Serializable {
     @Inject
     private EscaleService escaleService;
+    @Inject
+    private ChiffreAffaireService chiffreAffaireService;
 
     @PostConstruct
     public void init(){
@@ -31,11 +26,15 @@ public class TotalBean implements Serializable {
         System.out.println(locale.getLanguage() + "_" + locale.getCountry());
     }
     
-
     @Produces
     @Named("nombreEscaleByAnnee")
     public Long nombreEscaleByAnnee() {
         return escaleService.getNombreEscaleByAnnee("PARTI","2019");
+    }
+     @Produces
+    @Named("montantTotalParAn")
+    public Double montantTotalParAn() {
+        return chiffreAffaireService.getMontantTotalParAn(2019);
     }
 
 }

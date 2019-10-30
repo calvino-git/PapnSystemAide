@@ -4,8 +4,8 @@ import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.persistence.service.Service;
 import com.github.adminfaces.starter.model.Car;
 import com.github.adminfaces.starter.model.Car_;
-import com.github.adminfaces.starter.model.Ctn;
-import com.github.adminfaces.starter.model.Ctn_;
+import com.github.adminfaces.starter.model.ConteneurCongoTerminal;
+import com.github.adminfaces.starter.model.ConteneurCongoTerminal_;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -21,7 +21,7 @@ import javax.faces.context.FacesContext;
 public class Lists implements Serializable {
     @Inject
     @Service
-    private CrudService<Ctn,Integer> crudService;
+    private CrudService<ConteneurCongoTerminal,Integer> crudService;
     
     @Inject
     @Service

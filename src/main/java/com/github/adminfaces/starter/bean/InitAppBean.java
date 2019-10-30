@@ -28,5 +28,6 @@ public class InitAppBean implements Serializable {
     @PostConstruct
     public void init() {
         adminConfig.setDateFormat("dd/MM/yyyy HH:mm:ss");
+        
     }
 }

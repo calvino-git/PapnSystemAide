@@ -7,8 +7,8 @@ package com.github.adminfaces.starter.service;
 
 import com.github.adminfaces.persistence.model.Filter;
 import com.github.adminfaces.persistence.service.CrudService;
-import com.github.adminfaces.starter.model.Ctn_;
-import com.github.adminfaces.starter.model.Ctn;
+import com.github.adminfaces.starter.model.ConteneurCongoTerminal_;
+import com.github.adminfaces.starter.model.ConteneurCongoTerminal;
 import com.github.adminfaces.template.exception.BusinessException;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.io.Serializable;
@@ -23,55 +23,46 @@ import org.apache.deltaspike.data.api.criteria.Criteria;
  * @author Calvin ILOKI
  */
 @Stateless
-public class CtnService extends CrudService<Ctn, Integer> implements Serializable {
+public class ConteneurCongoTerminalService extends CrudService<ConteneurCongoTerminal, Integer> implements Serializable {
 
     @Override
-    protected Criteria<Ctn, Ctn> configRestrictions(Filter<Ctn> filter) {
+    protected Criteria<ConteneurCongoTerminal, ConteneurCongoTerminal> configRestrictions(Filter<ConteneurCongoTerminal> filter) {
 
-        Criteria<Ctn, Ctn> criteria = criteria();
+        Criteria<ConteneurCongoTerminal, ConteneurCongoTerminal> criteria = criteria();
 
         //create restrictions based on parameters map
         if (filter.hasParam("id")) {
-            criteria.eq(Ctn_.id, filter.getIntParam("id"));
+            criteria.eq(ConteneurCongoTerminal_.id, filter.getIntParam("id"));
         }
 
         if (filter.hasParam("debutDate") && filter.hasParam("finDate")) {
-            criteria.between(Ctn_.date, filter.getStringParam("debutDate"), filter.getStringParam("finDate"));
+            criteria.between(ConteneurCongoTerminal_.date, filter.getStringParam("debutDate"), filter.getStringParam("finDate"));
         } else if (filter.hasParam("debutDate")) {
-            criteria.gtOrEq(Ctn_.date, filter.getStringParam("debutDate"));
+            criteria.gtOrEq(ConteneurCongoTerminal_.date, filter.getStringParam("debutDate"));
         } else if (filter.hasParam("finDate")) {
-            criteria.ltOrEq(Ctn_.date, filter.getStringParam("finDate"));
+            criteria.ltOrEq(ConteneurCongoTerminal_.date, filter.getStringParam("finDate"));
         }
 
         //create restrictions based on filter entity
         if (has(filter.getEntity())) {
-            Ctn filterEntity = filter.getEntity();
-            if (has(filterEntity.getEscale())) {
-                criteria.likeIgnoreCase(Ctn_.escale, "%" + filterEntity.getEscale());
+            System.out.println(" NUMERO : " + filter.getEntity());
+            ConteneurCongoTerminal filterEntity = filter.getEntity();
+            if (has(filterEntity.getMois())) {
+                criteria.eq(ConteneurCongoTerminal_.mois,filterEntity.getMois());
             }
 
             if (has(filterEntity.getDate())) {
-                criteria.eq(Ctn_.date, filterEntity.getDate());
+                criteria.eq(ConteneurCongoTerminal_.date, filterEntity.getDate());
             }
 
             if (has(filterEntity.getTrafic())) {
-                criteria.likeIgnoreCase(Ctn_.trafic, "%" + filterEntity.getTrafic() + "%");
+                criteria.likeIgnoreCase(ConteneurCongoTerminal_.trafic,filterEntity.getTrafic());
             }
         }
         return criteria;
     }
 
-    @Override
-    public void beforeInsert(Ctn cct) {
-        validate(cct);
-    }
-
-    @Override
-    public void beforeUpdate(Ctn cct) {
-        validate(cct);
-    }
-
-    public void validate(Ctn cct) {
+    public void validate(ConteneurCongoTerminal cct) {
         BusinessException be = new BusinessException();
         if (!cct.hasEscale()) {
             be.addException(new BusinessException("Ctn escale cannot be empty"));
@@ -85,8 +76,8 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
         }
 
         if (count(criteria()
-                .eqIgnoreCase(Ctn_.trafic, cct.getTrafic())
-                .notEq(Ctn_.id, cct.getId())) > 0) {
+                .eqIgnoreCase(ConteneurCongoTerminal_.trafic, cct.getTrafic())
+                .notEq(ConteneurCongoTerminal_.id, cct.getId())) > 0) {
 
             be.addException(new BusinessException("Ctn trafic must be unique"));
         }
@@ -96,19 +87,10 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
         }
     }
 
-    public List<Ctn> listByMois(String mois) {
-        BigInteger moisBigInt = BigInteger.valueOf(Long.valueOf(mois));
+    public List<ConteneurCongoTerminal> findByNumero(String numero) {
         return criteria()
-                .eq(Ctn_.mois, moisBigInt)
-                .orderDesc(Ctn_.mois)
-                .getResultList();
-    }
-
-    public List<Ctn> findByMois(Integer mois) {
-        BigInteger moisBigInt = BigInteger.valueOf(mois);
-        return criteria()
-                .eq(Ctn_.mois, moisBigInt)
-                .orderDesc(Ctn_.date)
+                .likeIgnoreCase(ConteneurCongoTerminal_.numCtn, "%" + numero + "%")
+                .orderDesc(ConteneurCongoTerminal_.date)
                 .getResultList();
     }
     
@@ -116,16 +98,16 @@ public class CtnService extends CrudService<Ctn, Integer> implements Serializabl
         if (!query.isEmpty()) {
             BigInteger queryBigInt = BigInteger.valueOf(Long.valueOf(query));
             return criteria()
-                    .select(String.class, attribute(Ctn_.mois))
+                    .select(String.class, attribute(ConteneurCongoTerminal_.mois))
                     .distinct()
-                    .eq(Ctn_.mois, queryBigInt)
-                    .orderDesc(Ctn_.mois)
+                    .eq(ConteneurCongoTerminal_.mois, queryBigInt)
+                    .orderDesc(ConteneurCongoTerminal_.mois)
                     .getResultList();
         } else {
             return criteria()
-                    .select(String.class, attribute(Ctn_.mois))
+                    .select(String.class, attribute(ConteneurCongoTerminal_.mois))
                     .distinct()
-                    .orderDesc(Ctn_.mois)
+                    .orderDesc(ConteneurCongoTerminal_.mois)
                     .getResultList();
         }
 

@@ -7,14 +7,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.omnifaces.cdi.ViewScoped;
 
 import com.github.adminfaces.starter.service.ChiffreAffaireService;
-import com.github.adminfaces.template.exception.BusinessException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -37,11 +31,16 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.omnifaces.io.DefaultServletOutputStream;
 import org.omnifaces.util.Faces;
-import org.primefaces.PrimeFaces;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
+import org.primefaces.event.ItemSelectEvent;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
+import org.primefaces.model.charts.bar.BarChartDataSet;
+import org.primefaces.model.charts.bar.BarChartModel;
+import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.optionconfig.title.Title;
 
 /**
  * Created by rmpestano on 12/02/17.
@@ -49,7 +48,6 @@ import org.primefaces.model.StreamedContent;
 @Named
 @SessionScoped
 public class PrestationChiffreAffaireBean implements Serializable {
-
     private Integer yearCount;
     private List<Integer> years;
     private Integer anneeDebut;
@@ -61,6 +59,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
     private JRBeanCollectionDataSource beanCollectionDataSource;
     private Map<String, Object> parameters;
     private JasperPrint jasperPrint;
+    private BarChartModel barModel2;
 
     @Inject
     private ChiffreAffaireService chiffreAffaireService;
@@ -78,14 +77,17 @@ public class PrestationChiffreAffaireBean implements Serializable {
         years.add(2019);
 
         listPrest = new HashMap<>();
-        listPrest.put("1", "REDEVANCE MARCHANDISE");
         listPrest.put("5", "REDEVANCE NAVIRE");
+        listPrest.put("1", "REDEVANCE MARCHANDISE");
         listPrest.put("7", "REDEVANCE DOMANIALE");
-        listPrest.put("2", "REDEVANCE CONCESSION");
         listPrest.put("4", "REDEVANCE ELECTRICITE");
         listPrest.put("6", "REDEVANCE DIVERS");
-        listPrest.put("A", "REDEVANCE A");
-        keyList = new ArrayList<>(listPrest.keySet().stream().sorted().collect(Collectors.toList()));
+        listPrest.put("2", "REDEVANCE CONCESSION");
+        listPrest.put("A", "AUTRES REDEVANCES");
+        keyList = new ArrayList<>(listPrest.values().stream().sorted((o1, o2) -> {
+            return o2.compareToIgnoreCase(o1); //To change body of generated lambdas, choose Tools | Templates.
+        }).collect(Collectors.toList()));
+        createBarModel2();
     }
 
     public Double montantTotalParAn(Integer annee) {
@@ -96,18 +98,131 @@ public class PrestationChiffreAffaireBean implements Serializable {
 //        return total;
         return chiffreAffaireService.getMontantTotalParAn(annee);
     }
+    public void itemSelect(ItemSelectEvent event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",
+                "Item Index: " + event.getItemIndex() + ", DataSet Index:" + event.getDataSetIndex());
+ 
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void createBarModel2() {
+        barModel2 = new BarChartModel();
+        ChartData data = new ChartData();
+        
+        BarChartDataSet barDataSet = new BarChartDataSet();
+        barDataSet.setLabel("NAVIRE");
+        barDataSet.setBackgroundColor("rgba(255, 51, 51, 0.2)");
+        barDataSet.setBorderColor("rgb(255, 51, 51)");
+        barDataSet.setBorderWidth(1);
+        
+        
+        BarChartDataSet barDataSet2 = new BarChartDataSet();
+        barDataSet2.setLabel("MARCHANDISE");
+        barDataSet2.setBackgroundColor("rgba(0, 128, 255, 0.2)");
+        barDataSet2.setBorderColor("rgb(0, 128, 255)");
+        barDataSet2.setBorderWidth(1);
+        
+        BarChartDataSet barDataSet3 = new BarChartDataSet();
+        barDataSet3.setLabel("ELECTRICITE");
+        barDataSet3.setBackgroundColor("rgba(0, 204, 0, 0.2)");
+        barDataSet3.setBorderColor("rgb(0, 204, 0)");
+        barDataSet3.setBorderWidth(1);
+        
+        BarChartDataSet barDataSet4 = new BarChartDataSet();
+        barDataSet4.setLabel("DOMAINE");
+        barDataSet4.setBackgroundColor("rgba(255, 128, 0, 0.2)");
+        barDataSet4.setBorderColor("rgb(255, 128, 0)");
+        barDataSet4.setBorderWidth(1);
+        
+        BarChartDataSet barDataSet5 = new BarChartDataSet();
+        barDataSet5.setLabel("CONCESSION");
+        barDataSet5.setBackgroundColor("rgba(128, 128, 128, 0.2)");
+        barDataSet5.setBorderColor("rgb(128, 128, 128)");
+        barDataSet5.setBorderWidth(1);
+        
+        BarChartDataSet barDataSet6 = new BarChartDataSet();
+        barDataSet6.setLabel("DIVERS");
+        barDataSet6.setBackgroundColor("rgba(127, 0, 255, 0.2)");
+        barDataSet6.setBorderColor("rgb(127, 0, 255)");
+        barDataSet6.setBorderWidth(1);
+        
+        BarChartDataSet barDataSet7 = new BarChartDataSet();
+        barDataSet7.setLabel("AUTRES");
+        barDataSet7.setBackgroundColor("rgba(51, 51, 255, 0.2)");
+        barDataSet7.setBorderColor("rgb(51, 51, 255)");
+        barDataSet7.setBorderWidth(1);
+        
+
+        List<Number> values = new ArrayList<>();
+        List<Number> values2 = new ArrayList<>();
+        List<Number> values3 = new ArrayList<>();
+        List<Number> values4 = new ArrayList<>();
+        List<Number> values5 = new ArrayList<>();
+        List<Number> values6 = new ArrayList<>();
+        List<Number> values7 = new ArrayList<>();
+        
+        List<String> labels = new ArrayList<>();
+        years.forEach(annee -> {
+            labels.add(annee.toString());
+            values.add(montantPrestationParAn(annee, listPrest.get("5")));
+            values2.add(montantPrestationParAn(annee, listPrest.get("1")));
+            values3.add(montantPrestationParAn(annee, listPrest.get("4")));
+            values4.add(montantPrestationParAn(annee, listPrest.get("7")));
+            values5.add(montantPrestationParAn(annee, listPrest.get("6")));
+            values6.add(montantPrestationParAn(annee, listPrest.get("2")));
+            values7.add(montantPrestationParAn(annee, listPrest.get("A")));
+        });
+        barDataSet.setData(values);
+        barDataSet2.setData(values2);
+        barDataSet3.setData(values3);
+        barDataSet4.setData(values4);
+        barDataSet5.setData(values5);
+        barDataSet6.setData(values6);
+        barDataSet7.setData(values7);
+        
+        
+        data.addChartDataSet(barDataSet);
+        data.addChartDataSet(barDataSet2);
+        data.addChartDataSet(barDataSet3);
+        data.addChartDataSet(barDataSet4);
+        data.addChartDataSet(barDataSet5);
+        data.addChartDataSet(barDataSet6);
+        data.addChartDataSet(barDataSet7);
+        
+        data.setLabels(labels);
+        barModel2.setData(data);
+        
+        //Options
+        BarChartOptions options = new BarChartOptions();
+        CartesianScales cScales = new CartesianScales();
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(true);
+        linearAxes.setTicks(ticks);
+        cScales.addYAxesData(linearAxes);
+        options.setScales(cScales);
+        
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText("CHIFFRE D'AFFAIRE");
+        options.setTitle(title);
+        
+        barModel2.setOptions(options);
+    }
 
     public void viewPdf() {
-        setPdf("/report/ChiffreAffairePrestation.pdf");
-        try {
-            JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
-            String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
-            jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + pdf);
+//        setPdf("/report/ChiffreAffairePrestation.pdf");
+//        try {
+//            JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
+//            String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
+//            jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
+//            JasperExportManager.exportReportToPdfFile(jasperPrint, FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + pdf);
 //            Faces.redirect("viewPdf.xhtml");
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
+//        } catch (JRException e) {
+//            e.printStackTrace();
+//        }
+        Faces.redirect("viewPdf.xhtml");
+
     }
 
     public OutputStream PDF(ServletOutputStream out) throws JRException, IOException {
@@ -126,9 +241,8 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     }
 
-    public OutputStream getPDF(OutputStream outputStream) {
-        beanCollectionDataSource = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    public OutputStream getPDF(ServletContext context, OutputStream outputStream) {
+        beanCollectionDataSource = new JRBeanCollectionDataSource(chiffreAffaireService.listByAn(anneeDebut, anneeFin));
         parameters.put("debut", context.getRealPath("/report/"));
 
         InputStream is = context.getResourceAsStream("/report/ChiffreAffairePrestation.jrxml");
@@ -167,6 +281,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         for (int i = debut; i < fin + 1; i++) {
             years.add(i);
         }
+        createBarModel2();
     }
 
     public String getLibellePrestationParCode(String code) {
@@ -268,6 +383,14 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     public void setPdf(String pdf) {
         this.pdf = pdf;
+    }
+
+    public BarChartModel getBarModel2() {
+        return barModel2;
+    }
+
+    public void setBarModel2(BarChartModel barModel2) {
+        this.barModel2 = barModel2;
     }
 
 }

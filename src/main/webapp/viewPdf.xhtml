@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-            <html xmlns="http://www.w3.org/1999/xhtml"
-                  xmlns:h="http://java.sun.com/jsf/html"
-                  xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
-                <h:head>
-                    <title>Cars</title>
-                    <style type="text/css">
-                        .ui-widget {
-                            font-size: 90%;
-                            width: 100%;
-                            height: 100%;
-                        }
-                    </style>
-                </h:head>
+    <h:head>
+        <title></title>
+    </h:head>
 
-                <h:body>
-                    <p:media class="ui-widget" value="/report/ChiffreAffairePrestation.pdf" player="pdf" />
-                </h:body>
+    <h:body >
+        <p:media style="width: 100%;height: 900px;"  value="/pdf?deb=#{prestationChiffreAffaireBean.anneeDebut}&amp;fin=#{prestationChiffreAffaireBean.anneeFin}" player="pdf" />           
+    </h:body>
 
-            </html>
+</html>

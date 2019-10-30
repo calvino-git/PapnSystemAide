@@ -1,171 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ChiffreAffairePrestation" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9fc21177-1ddf-4455-8059-6f741b8b2b1d">
-    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-    <style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
-        <box>
-            <pen lineWidth="0.5" lineColor="#000000"/>
-            <topPen lineWidth="0.5" lineColor="#000000"/>
-            <leftPen lineWidth="0.5" lineColor="#000000"/>
-            <bottomPen lineWidth="0.5" lineColor="#000000"/>
-            <rightPen lineWidth="0.5" lineColor="#000000"/>
-        </box>
-    </style>
-    <style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
-        <box>
-            <pen lineWidth="0.5" lineColor="#000000"/>
-            <topPen lineWidth="0.5" lineColor="#000000"/>
-            <leftPen lineWidth="0.5" lineColor="#000000"/>
-            <bottomPen lineWidth="0.5" lineColor="#000000"/>
-            <rightPen lineWidth="0.5" lineColor="#000000"/>
-        </box>
-    </style>
-    <style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
-        <box>
-            <pen lineWidth="0.5" lineColor="#000000"/>
-            <topPen lineWidth="0.5" lineColor="#000000"/>
-            <leftPen lineWidth="0.5" lineColor="#000000"/>
-            <bottomPen lineWidth="0.5" lineColor="#000000"/>
-            <rightPen lineWidth="0.5" lineColor="#000000"/>
-        </box>
-    </style>
-    <style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
-        <box>
-            <pen lineWidth="0.5" lineColor="#000000"/>
-            <topPen lineWidth="0.5" lineColor="#000000"/>
-            <leftPen lineWidth="0.5" lineColor="#000000"/>
-            <bottomPen lineWidth="0.5" lineColor="#000000"/>
-            <rightPen lineWidth="0.5" lineColor="#000000"/>
-        </box>
-    </style>
-    <queryString language="SQL">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString language="SQL">
 		<![CDATA[]]>
-    </queryString>
-    <field name="id" class="java.lang.Integer">
-        <property name="com.jaspersoft.studio.field.label" value="id"/>
-    </field>
-    <field name="annee" class="java.lang.Integer">
-        <property name="com.jaspersoft.studio.field.label" value="annee"/>
-    </field>
-    <field name="prestation" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.label" value="prestation"/>
-    </field>
-    <field name="montant" class="java.lang.Double">
-        <property name="com.jaspersoft.studio.field.label" value="montant"/>
-    </field>
-    <group name="annee">
-        <groupExpression><![CDATA[$F{annee}]]></groupExpression>
-    </group>
-    <group name="prestation">
-        <groupExpression><![CDATA[$F{prestation}]]></groupExpression>
-    </group>
-    <background>
-        <band splitType="Stretch"/>
-    </background>
-    <title>
-        <band height="79" splitType="Stretch"/>
-    </title>
-    <summary>
-        <band height="203" splitType="Stretch">
-            <crosstab>
-                <reportElement x="-20" y="0" width="842" height="203" uuid="b8987ac9-eac3-4fa9-9abd-0710ed550416">
-                    <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-                    <property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
-                    <property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
-                    <property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
-                    <property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
-                </reportElement>
-                <rowGroup name="prestation" width="60" totalPosition="End">
-                    <bucket order="Descending" class="java.lang.String">
-                        <bucketExpression><![CDATA[$F{prestation}]]></bucketExpression>
-                    </bucket>
-                    <crosstabRowHeader>
-                        <cellContents mode="Opaque" style="Crosstab_CH">
-                            <textField>
-                                <reportElement x="0" y="0" width="60" height="20" uuid="16354d30-9c91-49a2-955d-18faa63851d4"/>
-                                <textFieldExpression><![CDATA[$V{prestation}]]></textFieldExpression>
-                            </textField>
-                        </cellContents>
-                    </crosstabRowHeader>
-                    <crosstabTotalRowHeader>
-                        <cellContents mode="Opaque" style="Crosstab_CT">
-                            <staticText>
-                                <reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="264b5f64-af2c-44dc-91cb-bcd3eebd61b6"/>
-                                <text><![CDATA[Total prestation]]></text>
-                            </staticText>
-                        </cellContents>
-                    </crosstabTotalRowHeader>
-                </rowGroup>
-                <columnGroup name="annee" height="20" totalPosition="End">
-                    <bucket class="java.lang.Integer">
-                        <bucketExpression><![CDATA[$F{annee}]]></bucketExpression>
-                    </bucket>
-                    <crosstabColumnHeader>
-                        <cellContents mode="Opaque" style="Crosstab_CH">
-                            <textField>
-                                <reportElement x="0" y="0" width="60" height="20" uuid="c75722cb-9e51-4428-ac99-a76900760adf"/>
-                                <textFieldExpression><![CDATA[$V{annee}]]></textFieldExpression>
-                            </textField>
-                        </cellContents>
-                    </crosstabColumnHeader>
-                    <crosstabTotalColumnHeader>
-                        <cellContents mode="Opaque" style="Crosstab_CT">
-                            <staticText>
-                                <reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="655f0d28-6ae7-4d1d-a0d5-f03bd2083d6c"/>
-                                <text><![CDATA[Total annee]]></text>
-                            </staticText>
-                        </cellContents>
-                    </crosstabTotalColumnHeader>
-                </columnGroup>
-                <measure name="MONTANT_MEASURE" class="java.lang.Double" calculation="Sum">
-                    <measureExpression><![CDATA[$F{montant}]]></measureExpression>
-                </measure>
-                <crosstabCell width="90" height="20">
-                    <cellContents mode="Opaque" style="Crosstab_CD">
-                        <textField isStretchWithOverflow="true">
-                            <reportElement x="0" y="0" width="90" height="20" uuid="cf36513f-afae-4e3a-b700-7353549b8fda"/>
-                            <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0").format($V{MONTANT_MEASURE})]]></textFieldExpression>
-                        </textField>
-                    </cellContents>
-                </crosstabCell>
-                <crosstabCell width="90" height="20" columnTotalGroup="annee">
-                    <cellContents mode="Opaque" style="Crosstab_CT">
-                        <textField isStretchWithOverflow="true">
-                            <reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF" uuid="d008c546-922e-4189-82d5-086daea95a01"/>
-                            <textElement textAlignment="Right" verticalAlignment="Middle">
-                                <font fontName="Lucida Sans" size="10" isBold="true"/>
-                                <paragraph rightIndent="2"/>
-                            </textElement>
-                            <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0").format($V{MONTANT_MEASURE})]]></textFieldExpression>
-                        </textField>
-                    </cellContents>
-                </crosstabCell>
-                <crosstabCell width="90" height="20" rowTotalGroup="prestation">
-                    <cellContents mode="Opaque" style="Crosstab_CT">
-                        <textField isStretchWithOverflow="true">
-                            <reportElement x="0" y="0"  width="90" height="20" forecolor="#FFFFFF" uuid="1f0ac648-245d-4868-9e74-f02411d2c115"/>
-                            <textElement textAlignment="Right" verticalAlignment="Middle">
-                                <font fontName="Lucida Sans" size="10" isBold="true"/>
-                                <paragraph rightIndent="2"/>
-                            </textElement>
-                            <textFieldExpression ><![CDATA[new java.text.DecimalFormat("#,##0").format($V{MONTANT_MEASURE})]]></textFieldExpression>
-                        </textField>
-                    </cellContents>
-                </crosstabCell>
-                <crosstabCell width="90" height="20" rowTotalGroup="prestation" columnTotalGroup="annee">
-                    <cellContents mode="Opaque" style="Crosstab_CT">
-                        <textField  isStretchWithOverflow="true">
-                            <reportElement x="0" y="0" width="90" height="20" forecolor="#FFFFFF" uuid="787983bc-8c3b-411d-b84d-5320d03944f2"/>
-                            <textElement textAlignment="Right" verticalAlignment="Middle">
-                                <font fontName="Lucida Sans" size="10" isBold="true"/>
-                                <paragraph rightIndent="2"/>
-                            </textElement>
-                            <textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0").format($V{MONTANT_MEASURE})]]></textFieldExpression>
-                        </textField>
-                    </cellContents>
-                </crosstabCell>
-            </crosstab>
-        </band>
-    </summary>
+	</queryString>
+	<field name="annee" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="annee"/>
+	</field>
+	<field name="prestation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="prestation"/>
+	</field>
+	<field name="montant" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="montant"/>
+	</field>
+	<group name="annee">
+		<groupExpression><![CDATA[$F{annee}]]></groupExpression>
+	</group>
+	<group name="prestation">
+		<groupExpression><![CDATA[$F{prestation}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="159" splitType="Stretch">
+			<staticText>
+				<reportElement x="57" y="18" width="189" height="34" uuid="c6c03aad-7796-4bea-bfbf-3af0a2af4f9b"/>
+				<textElement>
+					<font size="6" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[BP. 711 - Pointe-Noire
+République du Congo
+Tél. : +242 22 294 00 13
+Fax. : + 242 22 294 02 87
+E-mail : info@papn-cg.org]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="750" y="3" width="70" height="20" uuid="77ffeae5-b596-4a26-a977-b1da72d00515"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="57" y="3" width="189" height="13" uuid="f0784cf9-48e0-4394-bc2c-db7652d00415"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PORT AUTONOME DE POINTE NOIRE]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="3" width="53" height="41" uuid="c1906bdc-b27c-4de7-b897-e1d9b5f60dc5"/>
+				<imageExpression><![CDATA["/Users/calviniloki/NetBeansProjects/ManService/data/logo-papn.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="84" width="802" height="30" uuid="ed0de705-19c7-4b50-b5ea-f490437c1205"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CHIFFRE D'AFFAIRE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="110" splitType="Stretch">
+			<crosstab columnBreakOffset="15" horizontalPosition="Center">
+				<reportElement x="0" y="0" width="802" height="110" uuid="b8987ac9-eac3-4fa9-9abd-0710ed550416">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<rowGroup name="prestation" width="160" totalPosition="End">
+					<bucket order="Descending" class="java.lang.String">
+						<bucketExpression><![CDATA[$F{prestation}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="160" height="40" uuid="16354d30-9c91-49a2-955d-18faa63851d4">
+									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="11" isBold="true"/>
+									<paragraph leftIndent="4"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{prestation}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="40" forecolor="#FFFFFF" uuid="264b5f64-af2c-44dc-91cb-bcd3eebd61b6">
+									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+									<paragraph leftIndent="4"/>
+								</textElement>
+								<text><![CDATA[TOTAL : ]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="annee" height="30" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{annee}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="120" height="30" uuid="c75722cb-9e51-4428-ac99-a76900760adf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{annee}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="MONTANT_MEASURE" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{montant}]]></measureExpression>
+				</measure>
+				<crosstabCell width="120" height="40">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<textField isStretchWithOverflow="true">
+							<reportElement x="0" y="0" width="120" height="40" uuid="cf36513f-afae-4e3a-b700-7353549b8fda">
+								<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+								<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+							</reportElement>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="12"/>
+								<paragraph rightIndent="4" spacingAfter="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0").format($V{MONTANT_MEASURE}).replace(","," ")]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="120" height="40" rowTotalGroup="prestation">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField isStretchWithOverflow="true">
+							<reportElement x="0" y="0" width="120" height="40" forecolor="#FFFFFF" uuid="1f0ac648-245d-4868-9e74-f02411d2c115">
+								<property name="com.jaspersoft.studio.unit.spacingAfter" value="px"/>
+								<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+							</reportElement>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="14" isBold="true"/>
+								<paragraph rightIndent="4" spacingAfter="2"/>
+							</textElement>
+							<textFieldExpression><![CDATA[new java.text.DecimalFormat("#,##0").format($V{MONTANT_MEASURE}).replace(","," ")]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="2" height="40" rowTotalGroup="prestation" columnTotalGroup="annee">
+					<cellContents>
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="2" height="40" columnTotalGroup="annee">
+					<cellContents/>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
 </jasperReport>

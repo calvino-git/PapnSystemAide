@@ -9,7 +9,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Immutable;
 
 @Entity
-@Table(name = "CAPARPRESTATION")
+@Table(name = "CAPRESTATION")
 @Immutable
 public class PrestationChiffreAffaire extends BaseEntity {
 
@@ -19,11 +19,22 @@ public class PrestationChiffreAffaire extends BaseEntity {
     private Integer id;
     @Column(name = "annee")
     private Integer annee;
+    @Column(name = "code")
+    private String code;
     @Column(name = "prestation")
     private String prestation;
     @Column(name = "montant")
     private Double montant;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    
     public Integer getAnnee() {
         return annee;
     }
