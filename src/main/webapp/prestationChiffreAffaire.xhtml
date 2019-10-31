@@ -129,7 +129,8 @@
                     </p:splitButton>
 
                     <p:separator/>
-                    <p:dataTable id="caTable" reflow="true" widgetVar="caTable" var="code" value="#{prestationChiffreAffaireBean.keyList}">
+
+                    <p:dataTable id="caTable" widgetVar="caTable" var="code" value="#{prestationChiffreAffaireBean.keyList}">
 
                         <f:facet name="header">
                             <div class="container-fluid">
@@ -153,7 +154,7 @@
                                                     <span class="ui-inputgroup-addon">
                                                         <p:spinner  id="anneeFin"  maxlength="4" value="#{prestationChiffreAffaireBean.anneeFin}" min="2000" max="2050" />
                                                     </span>
-                                                    <p:commandButton id="brFind" value="OK" icon="fa fa-fw fa-search"
+                                                    <p:commandButton id="brFind" icon="fa fa-fw fa-search"
                                                                      action="#{prestationChiffreAffaireBean.findByYear(prestationChiffreAffaireBean.anneeDebut,prestationChiffreAffaireBean.anneeFin)}"
                                                                      process="@form"
                                                                      update="@form"
@@ -165,6 +166,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <p:spacer height="5px"/>
+                                    <div class="col-lg-1 col-md-2 col-sm-3 col-xs-12">
+                                        <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="float:right;width: 100%" icon="fa fa-list" />
+                                        <p:columnToggler  datasource="caTable" trigger="toggler" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -172,39 +178,35 @@
 
                         <p:columnGroup type="header">
                             <p:row>
-                                <p:column style="width:200px;font-size: 16px" rowspan="2" headerText="Prestation" />
-                                <!--p:column style="font-size: 16px" colspan="#{prestationChiffreAffaireBean.yearCount}" headerText="Montant HT" /-->
-                            </p:row>
-                            <p:row>
+                                <p:column style="text-align:left;font-size: 16px" rowspan="1" headerText="Prestation" />
                                 <ui:repeat value="#{prestationChiffreAffaireBean.years}" var="year">
-                                    <p:column style="" headerText="#{year}" />
+                                    <p:column  style="text-align:right;font:bold" headerText="#{year}" />
                                 </ui:repeat>
                             </p:row>
                         </p:columnGroup>
 
-                        <p:column style="width:300px;font:bold">
+                        <p:column style="font:bold">
                             <h:outputText value="#{code}" />
                         </p:column>
 
                         <p:columns style="text-align:right" value="#{prestationChiffreAffaireBean.years}" var="annee">
-                            <h:outputText class="align-right" value="#{prestationChiffreAffaireBean.montantPrestationParAn(annee, code)}">
-                                <f:convertNumber locale="fr_FR" />
+                            <h:outputText  value="#{prestationChiffreAffaireBean.montantPrestationParAn(annee, code)}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                             </h:outputText>
                         </p:columns>
 
                         <p:columnGroup type="footer">
                             <p:row >
                                 <p:column footerText="TOTAUX:" />
-                                <p:columns style="text-align: right; font-size: 16px"  value="${prestationChiffreAffaireBean.years}" var="annee">
+                                <p:columns style="text-align: right; font-size: 20px; font:bold"  value="${prestationChiffreAffaireBean.years}" var="annee">
                                     <f:facet name="footer">
-                                        <h:outputText class="info-box-number" value="#{prestationChiffreAffaireBean.montantTotalParAn(annee)}">
-                                            <f:convertNumber locale="fr_FR" />
+                                        <h:outputText  value="#{prestationChiffreAffaireBean.montantTotalParAn(annee)}">
+                                            <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                         </h:outputText>
                                     </f:facet>
                                 </p:columns>
                             </p:row>
                         </p:columnGroup>
-
                     </p:dataTable>
                 </div>
                 <div class="box-header with-border">
