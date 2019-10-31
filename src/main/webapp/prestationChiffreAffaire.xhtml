@@ -196,11 +196,11 @@
                         </p:columns>
 
                         <p:columnGroup type="footer">
-                            <p:row >
-                                <p:column footerText="TOTAUX:" />
-                                <p:columns style="text-align: right; font:bold"  value="${prestationChiffreAffaireBean.years}" var="annee">
+                            <p:row styleClass="bg-black">
+                                <p:column style="color: white; font:bold" footerText="TOTAUX:" />
+                                <p:columns style="text-align: right"  value="${prestationChiffreAffaireBean.years}" var="annee">
                                     <f:facet name="footer">
-                                        <h:outputText  value="#{prestationChiffreAffaireBean.montantTotalParAn(annee)}">
+                                        <h:outputText style="color: white; font:bold" value="#{prestationChiffreAffaireBean.montantTotalParAn(annee)}">
                                             <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                         </h:outputText>
                                     </f:facet>
