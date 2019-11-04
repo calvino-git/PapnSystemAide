@@ -57,8 +57,8 @@ public class TotalBean implements Serializable {
         
         BarChartDataSet barDataSet = new BarChartDataSet();
         barDataSet.setLabel("Montant HT");
-        barDataSet.setBackgroundColor("rgba(255, 51, 51, 0.2)");
-        barDataSet.setBorderColor("rgb(255, 51, 51)");
+        barDataSet.setBackgroundColor("rgba(51, 51, 255, 0.2)");
+        barDataSet.setBorderColor("rgb(51, 51, 255)");
         barDataSet.setBorderWidth(1);
 
         List<Number> values = new ArrayList<>();

@@ -12,8 +12,6 @@ import org.hibernate.annotations.Immutable;
 @Table(name = "CAPRESTATION")
 @Immutable
 public class PrestationChiffreAffaire extends BaseEntity {
-
-
     @Id
     @Column(name="id")
     private Integer id;

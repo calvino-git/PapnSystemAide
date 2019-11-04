@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Facture Marchandise"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: center !important;
+                border-color: #222222;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: 1;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                text-align: right;
+                font: bold;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+
+            .ui-grid td {
+                white-space: nowrap;
+                border: none;
+            }
+            .ui-ca {
+                align-content: center !important;
+            }
+            .white-button.ui-button.ui-state-default {
+                background-color: #ffffff;
+                color: #222222;
+                border-color: #d6d6d6;
+            }
+
+            .white-button.ui-button.ui-state-default:enabled:hover, 
+            .white-button.ui-button.ui-state-default:focus {
+                background-color: #f2f2f2;
+                border-color: #ccc;
+                color: #373a3c;
+            }
+
+            .green-button.ui-button.ui-state-default {
+                background-color: #5cb85c;
+                border-color: #5cb85c;
+                color: #fff;
+            }
+
+            .green-button.ui-button.ui-state-default:enabled:hover, 
+            .green-button.ui-button.ui-state-default:focus {
+                background-color: #4cae4c;
+                border-color: #5cb85c;
+            }
+
+            .red-button.ui-button.ui-state-default {
+                background-color: #d9534f;
+                border-color: #d9534f;
+                color: #fff;
+            }
+
+            .red-button.ui-button.ui-state-default:enabled:hover, 
+            .red-button.ui-button.ui-state-default:focus {
+                background-color: #d43f3a;
+                border-color: #d9534f;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        Affiche la liste de controle facturation marchandise ('GC','GR','CB','TP','CF','RO').
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="form">
+            <p:focus context="@form"/>  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+
+
+                    <p:separator/>
+
+                    <p:dataTable id="mfTable" widgetVar="mfTable" var="mf" value="#{marchFactBean.list}" filteredValue="#{marchFactBean.filtered}">
+
+                        <f:facet name="header">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-12">
+                                        <p:outputLabel style="font-size: 20px;width: 100%;" value="" />
+                                    </div>
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="ui-g ui-fluid" >
+                                            <div class="ui-g" >
+                                                <div class="ui-inputgroup">
+                                                    <span class="ui-inputgroup-addon">
+                                                        <p:outputLabel for="debut" value="De" />
+                                                    </span>
+
+                                                    <span class="ui-inputgroup-addon">
+                                                        <p:datePicker id="debut" value="#{marchFactBean.debut}" pattern="yyyyMMdd" showIcon="true" />
+                                                    </span>
+                                                </div>
+                                                <div class="ui-inputgroup">
+                                                    <span class="ui-inputgroup-addon">
+                                                        <p:outputLabel for="fin" value="A" />
+                                                    </span>
+
+                                                    <span class="ui-inputgroup-addon">
+                                                        <p:datePicker id="fin" value="#{marchFactBean.fin}" pattern="yyyyMMdd" showIcon="true" />
+                                                    </span>
+                                                </div>
+                                                <div class="ui-inputgroup">
+                                                    <p:commandButton id="brFind" icon="fa fa-fw fa-search"
+                                                                     action="#{marchFactBean}"
+                                                                     process="@form"
+                                                                     update="@form"
+                                                                     styleClass="btn-info"
+                                                                     partialSubmit="true"/>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p:spacer height="5px"/>
+                                    <div class="col-lg-1 col-md-2 col-sm-3 col-xs-12">
+                                        <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="float:right;width: 100%" icon="fa fa-list" />
+                                        <p:columnToggler  datasource="mfTable" trigger="toggler" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </f:facet>
+                        <p:columns value="#{marchFactBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{mf[column.property]}" filterBy="#{mf[column.property]}">
+                            <f:facet name="header">
+                                <h:outputText value="#{column.header}" />
+                            </f:facet>
+                            <h:outputText value="#{mf[column.property]}" />
+                        </p:columns>
+
+                    </p:dataTable>
+                </div>
+
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
