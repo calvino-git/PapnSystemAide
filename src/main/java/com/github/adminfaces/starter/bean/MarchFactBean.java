@@ -26,7 +26,7 @@ public class MarchFactBean implements Serializable {
     private List<Marchfact> list;
     private List<Marchfact> filtered;
     private List<String> columnHeaders;
-    private static List<String> VALID_COLUMN_KEYS =null;
+    private static List<String> VALID_COLUMN_KEYS;
     private List<ColumnModel> columns;
     private String columnTemplate = "id departEffectif type";
 
@@ -35,6 +35,7 @@ public class MarchFactBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("MarchFacture initialisé...");
         list = marchFactService.getList();
         int t = Marchfact.class.getFields().length;
         for(int i=0; i<t; i++){
