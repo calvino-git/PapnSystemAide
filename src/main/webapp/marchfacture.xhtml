@@ -96,9 +96,11 @@
                     <p:separator/>
 
                     <p:dataTable id="mfTable" widgetVar="mfTable" var="mf" value="#{marchFactBean.list}" filteredValue="#{marchFactBean.filtered}"
+                                 sortMode="multiple"
                                  rows="10"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
                                  rowsPerPageTemplate="5,10,15">
                         <f:facet name="header">
                             <div class="container-fluid">
@@ -129,7 +131,7 @@
                                                 </div>
                                                 <div class="ui-inputgroup">
                                                     <p:commandButton id="brFind" icon="fa fa-fw fa-search"
-                                                                     action="#{marchFactBean}"
+                                                                     action="#{marchFactBean.updateList()}"
                                                                      process="@form"
                                                                      update="@form"
                                                                      styleClass="btn-info"
@@ -149,7 +151,7 @@
                             </div>
 
                         </f:facet>
-                        <p:columns value="#{marchFactBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{mf[column.property]}" filterBy="#{mf[column.property]}">
+                        <p:columns value="#{marchFactBean.columns}" var="column" width="150" columnIndexVar="colIndex" sortBy="#{mf[column.property]}" filterBy="#{mf[column.property]}">
                             <f:facet name="header">
                                 <h:outputText value="#{column.header}" />
                             </f:facet>

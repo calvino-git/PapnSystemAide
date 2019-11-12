@@ -5,23 +5,18 @@
  */
 package com.github.adminfaces.starter.service;
 
-import com.github.adminfaces.starter.repos.ChiffreAffaireRepository;
-import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.starter.model.Escale;
-import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
-import com.github.adminfaces.starter.model.PrestationChiffreAffaire_;
 import com.github.adminfaces.starter.repos.EscaleRepository;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import org.apache.deltaspike.data.api.criteria.Criteria;
-import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
 
 /**
  *
@@ -31,31 +26,69 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
 @Startup
 public class EscaleService implements Serializable {
 
-    private List<Escale> list;
     @Inject
     protected EscaleRepository escaleRepo;
 
+    private List<Escale> list;
+    private Long nombreEscaleByAn;
+    private Long nombrePetitEscaleByAn;
+    private Long nombreGrandEscaleByAn;
 
-    public Long getNombreEscaleByAnnee(String situat, String annee){
-        return escaleRepo.getNombreEscaleByAnnee(situat,annee);
+    public long getNombreEscaleByAnnee(String situat, String annee) {
+        return escaleRepo.getNombreEscaleByAnnee(situat, annee);
     }
-    public Long getNombrePetitEscaleByAnnee(String situat, String annee){
-        return escaleRepo.getNombrePetitEscaleByAnnee(situat,annee);
+
+    public Long getNombrePetitEscaleByAnnee(String situat, String annee) {
+        return escaleRepo.getNombrePetitEscaleByAnnee(situat, annee);
     }
-    public Long getNombreGrandEscaleByAnnee(String situat, String annee){
-        return escaleRepo.getNombreGrandEscaleByAnnee(situat,annee);
+
+    public Long getNombreGrandEscaleByAnnee(String situat, String annee) {
+        return escaleRepo.getNombreGrandEscaleByAnnee(situat, annee);
     }
-    
+
     @PostConstruct
     public void init() {
+        update();
+        System.out.println("EscaleService initialisé...");
     }
-    
+    @Schedule(minute = "*/7",persistent = false)
+    public void update(){
+        this.nombrePetitEscaleByAn = getNombrePetitEscaleByAnnee("PARTI", String.valueOf(LocalDate.now().getYear()));
+        this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", String.valueOf(LocalDate.now().getYear()));
+        this.nombreEscaleByAn = this.nombrePetitEscaleByAn + this.nombreGrandEscaleByAn;
+        System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
+    }
+
     public List<Escale> getList() {
         return list;
     }
 
     public void setList(List<Escale> list) {
         this.list = list;
+    }
+
+    public Long getNombreEscaleByAn() {
+        return nombreEscaleByAn;
+    }
+
+    public void setNombreEscaleByAn(Long nombreEscaleByAn) {
+        this.nombreEscaleByAn = nombreEscaleByAn;
+    }
+
+    public Long getNombrePetitEscaleByAn() {
+        return nombrePetitEscaleByAn;
+    }
+
+    public void setNombrePetitEscaleByAn(Long nombrePetitEscaleByAn) {
+        this.nombrePetitEscaleByAn = nombrePetitEscaleByAn;
+    }
+
+    public Long getNombreGrandEscaleByAn() {
+        return nombreGrandEscaleByAn;
+    }
+
+    public void setNombreGrandEscaleByAn(Long nombreGrandEscaleByAn) {
+        this.nombreGrandEscaleByAn = nombreGrandEscaleByAn;
     }
 
 }

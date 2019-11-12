@@ -21,7 +21,7 @@ import org.primefaces.event.SelectEvent;
  */
 @Named
 @ViewScoped
-public class ConteneurCongoTerminalBean extends CrudMB<ConteneurCongoTerminal> implements Serializable {
+public class ConteneurCongoTerminalBean implements Serializable {
 
     @Inject
     ConteneurCongoTerminalService conteneurCongoTerminalService;
@@ -37,23 +37,8 @@ public class ConteneurCongoTerminalBean extends CrudMB<ConteneurCongoTerminal> i
 
     @Inject
     public void initService() {
-        setCrudService(conteneurCongoTerminalService);
     }
 
-    public void findCtnByNumCtn(String numCtn) {
-        System.out.println("Recherche du conteneur numero: " + numCtn);
-        if (numCtn.isEmpty()) {
-            throw new BusinessException("Merci de renseigner le numero de conteneur");
-        }
-        List<ConteneurCongoTerminal> ctnsFound = conteneurCongoTerminalService.findByNumero(numCtn);
-        if (ctnsFound == null || ctnsFound.isEmpty()) {
-            throw new BusinessException(String.format("Aucun conteneur trouvé N° %s", numCtn));
-        }
-        
-        filteredValue = ctnsFound;
-        getFilter().addParam("numCtn", numCtn);
-    }
-    
     public void onRowSelect(SelectEvent event) {
         FacesMessage msg = new FacesMessage("Conteneur selectionné", ((ConteneurCongoTerminal) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);

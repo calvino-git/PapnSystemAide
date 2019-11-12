@@ -7,7 +7,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 import com.github.adminfaces.starter.service.ChiffreAffaireService;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,10 +26,13 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.report;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.omnifaces.util.Faces;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.charts.ChartData;
@@ -48,6 +50,7 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 @Named
 @SessionScoped
 public class PrestationChiffreAffaireBean implements Serializable {
+
     private Integer yearCount;
     private List<Integer> years;
     private Integer anneeDebut;
@@ -91,67 +94,61 @@ public class PrestationChiffreAffaireBean implements Serializable {
     }
 
     public Double montantTotalParAn(Integer annee) {
-//        Double total = 0.0 ;
-//        for(String code : listPrest.keySet()){
-//            total += montantPrestationParAn(annee, code);
-//        }
-//        return total;
-        return chiffreAffaireService.getMontantTotalParAn(annee);
+        return chiffreAffaireService.getTotalRecetteParAn();
     }
+
     public void itemSelect(ItemSelectEvent event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",
                 "Item Index: " + event.getItemIndex() + ", DataSet Index:" + event.getDataSetIndex());
- 
+
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
+
     public void createBarModel2() {
         barModel2 = new BarChartModel();
         ChartData data = new ChartData();
-        
+
         BarChartDataSet barDataSet = new BarChartDataSet();
         barDataSet.setLabel("NAVIRE");
         barDataSet.setBackgroundColor("rgba(255, 51, 51, 0.2)");
         barDataSet.setBorderColor("rgb(255, 51, 51)");
         barDataSet.setBorderWidth(1);
-        
-        
+
         BarChartDataSet barDataSet2 = new BarChartDataSet();
         barDataSet2.setLabel("MARCHANDISE");
         barDataSet2.setBackgroundColor("rgba(0, 128, 255, 0.2)");
         barDataSet2.setBorderColor("rgb(0, 128, 255)");
         barDataSet2.setBorderWidth(1);
-        
+
         BarChartDataSet barDataSet3 = new BarChartDataSet();
         barDataSet3.setLabel("ELECTRICITE");
         barDataSet3.setBackgroundColor("rgba(0, 204, 0, 0.2)");
         barDataSet3.setBorderColor("rgb(0, 204, 0)");
         barDataSet3.setBorderWidth(1);
-        
+
         BarChartDataSet barDataSet4 = new BarChartDataSet();
         barDataSet4.setLabel("DOMAINE");
         barDataSet4.setBackgroundColor("rgba(255, 128, 0, 0.2)");
         barDataSet4.setBorderColor("rgb(255, 128, 0)");
         barDataSet4.setBorderWidth(1);
-        
+
         BarChartDataSet barDataSet5 = new BarChartDataSet();
         barDataSet5.setLabel("CONCESSION");
         barDataSet5.setBackgroundColor("rgba(128, 128, 128, 0.2)");
         barDataSet5.setBorderColor("rgb(128, 128, 128)");
         barDataSet5.setBorderWidth(1);
-        
+
         BarChartDataSet barDataSet6 = new BarChartDataSet();
         barDataSet6.setLabel("DIVERS");
         barDataSet6.setBackgroundColor("rgba(127, 0, 255, 0.2)");
         barDataSet6.setBorderColor("rgb(127, 0, 255)");
         barDataSet6.setBorderWidth(1);
-        
+
         BarChartDataSet barDataSet7 = new BarChartDataSet();
         barDataSet7.setLabel("AUTRES");
         barDataSet7.setBackgroundColor("rgba(51, 51, 255, 0.2)");
         barDataSet7.setBorderColor("rgb(51, 51, 255)");
         barDataSet7.setBorderWidth(1);
-        
 
         List<Number> values = new ArrayList<>();
         List<Number> values2 = new ArrayList<>();
@@ -160,7 +157,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         List<Number> values5 = new ArrayList<>();
         List<Number> values6 = new ArrayList<>();
         List<Number> values7 = new ArrayList<>();
-        
+
         List<String> labels = new ArrayList<>();
         years.forEach(annee -> {
             labels.add(annee.toString());
@@ -179,8 +176,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         barDataSet5.setData(values5);
         barDataSet6.setData(values6);
         barDataSet7.setData(values7);
-        
-        
+
         data.addChartDataSet(barDataSet);
         data.addChartDataSet(barDataSet2);
         data.addChartDataSet(barDataSet3);
@@ -188,10 +184,10 @@ public class PrestationChiffreAffaireBean implements Serializable {
         data.addChartDataSet(barDataSet5);
         data.addChartDataSet(barDataSet6);
         data.addChartDataSet(barDataSet7);
-        
+
         data.setLabels(labels);
         barModel2.setData(data);
-        
+
         //Options
         BarChartOptions options = new BarChartOptions();
         CartesianScales cScales = new CartesianScales();
@@ -201,12 +197,12 @@ public class PrestationChiffreAffaireBean implements Serializable {
         linearAxes.setTicks(ticks);
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
-        
+
         Title title = new Title();
         title.setDisplay(true);
         title.setText("CHIFFRE D'AFFAIRE");
         options.setTitle(title);
-        
+
         barModel2.setOptions(options);
     }
 
@@ -225,19 +221,26 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     }
 
-    public OutputStream PDF(ServletOutputStream out) throws JRException, IOException {
+    public void exportExcel() throws JRException, IOException {
         JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());
         String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/report/ChiffreAffairePrestation.jrxml");
         jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(reportPath), new HashMap<>(), data);
 
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+        configuration.setOnePagePerSheet(true);
+        configuration.setIgnoreGraphics(false);
+        JRXlsxExporter exporter = new JRXlsxExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        
         response.reset();
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment; filename=\"report.pdf\"");
-        out = response.getOutputStream();
-        JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-        return out;
-//        FacesContext.getCurrentInstance().responseComplete();
+        response.setContentType("application/xlsx");
+        response.setHeader("Content-disposition", "attachment; filename=\"report.xlsx\"");
+        ServletOutputStream out = response.getOutputStream();
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(out));
+        exporter.setConfiguration(configuration);
+        exporter.exportReport();
+        FacesContext.getCurrentInstance().responseComplete();
 
     }
 

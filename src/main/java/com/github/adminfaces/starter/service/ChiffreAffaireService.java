@@ -10,10 +10,12 @@ import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire_;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -34,7 +36,23 @@ public class ChiffreAffaireService implements Serializable {
     private EntityManager entityManager;
     @Inject
     protected ChiffreAffaireRepository chiffreAffaireRepo;
+    
+    private Double totalRecetteParAn;
 
+    @PostConstruct
+    public void init() {
+        update();
+        System.out.println("ChiffreAffaireService est initialisé...");
+    }
+
+    @Schedule(minute = "*/6",persistent = false)
+    public void update(){
+        int annee = LocalDate.now().getYear();
+        this.totalRecetteParAn = getMontantTotalParAn(annee);
+        this.list = listByAn(annee-5, annee);
+        System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService mis à jour ...");
+    }
+    
     public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
         return new QueryCriteria<>(entityClass, entityClass, getEntityManager());
     }
@@ -68,7 +86,6 @@ public class ChiffreAffaireService implements Serializable {
     }
 
     public List<PrestationChiffreAffaire> listByAn(Integer debut, Integer fin) {
-        Logger.getGlobal().log(Level.INFO, "Recherche du chiffre d''affaire par type de prestation entre {0} et {1}.", new Object[]{debut.toString(), fin.toString()});
         list = criteria(PrestationChiffreAffaire.class)
                 .between(PrestationChiffreAffaire_.annee, debut, fin)
                 .getResultList();
@@ -87,12 +104,17 @@ public class ChiffreAffaireService implements Serializable {
         return chiffreAffaireRepo.getMontantTotalByAnnee(annee);
     }
 
-    @PostConstruct
-    public void init() {
-        Logger.getGlobal().info(" PrestService est initialisé...");
-        listByAn(2015, 2019);
+    
+    public Double getTotalRecetteParAn() {
+        return totalRecetteParAn;
     }
 
+    public void setTotalRecetteParAn(Double totalRecetteParAn) {
+        this.totalRecetteParAn = totalRecetteParAn;
+    }
+
+    
+    
     public EntityManager getEntityManager() {
         return entityManager;
     }

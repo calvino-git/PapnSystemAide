@@ -27,8 +27,8 @@ import javax.inject.Inject;
  */
 @Named
 @SessionScoped
-//@Specializes
-public class LogonMB implements Serializable {
+@Specializes
+public class LogonMB extends AdminSession implements Serializable {
 
     private String currentUser;
     private String email;
@@ -44,6 +44,7 @@ public class LogonMB implements Serializable {
         Faces.redirect(adminConfig.getIndexPage());
     }
 
+    @Override
     public boolean isLoggedIn() {
 
         return currentUser != null;

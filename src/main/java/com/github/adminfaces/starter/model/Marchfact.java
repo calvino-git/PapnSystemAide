@@ -46,12 +46,12 @@ import org.hibernate.annotations.Immutable;
     @NamedQuery(name = "Marchfact.findByTaux", query = "SELECT m FROM Marchfact m WHERE m.taux = :taux"),
     @NamedQuery(name = "Marchfact.findByTva", query = "SELECT m FROM Marchfact m WHERE m.tva = :tva"),
     @NamedQuery(name = "Marchfact.findByMontantEstime", query = "SELECT m FROM Marchfact m WHERE m.montantEstime = :montantEstime"),
-    @NamedQuery(name = "Marchfact.findByFDateetablie", query = "SELECT m FROM Marchfact m WHERE m.fDateetablie = :fDateetablie"),
-    @NamedQuery(name = "Marchfact.findByFMoiscomptable", query = "SELECT m FROM Marchfact m WHERE m.fMoiscomptable = :fMoiscomptable"),
-    @NamedQuery(name = "Marchfact.findByFNumerofacture", query = "SELECT m FROM Marchfact m WHERE m.fNumerofacture = :fNumerofacture"),
-    @NamedQuery(name = "Marchfact.findByFMontantht", query = "SELECT m FROM Marchfact m WHERE m.fMontantht = :fMontantht"),
-    @NamedQuery(name = "Marchfact.findByFMontanttva", query = "SELECT m FROM Marchfact m WHERE m.fMontanttva = :fMontanttva"),
-    @NamedQuery(name = "Marchfact.findByFMontantttc", query = "SELECT m FROM Marchfact m WHERE m.fMontantttc = :fMontantttc"),
+    @NamedQuery(name = "Marchfact.findByFDateetablie", query = "SELECT m FROM Marchfact m WHERE m.fdate = :fdate"),
+    @NamedQuery(name = "Marchfact.findByMoiscomptable", query = "SELECT m FROM Marchfact m WHERE m.moiscomptable = :moiscomptable"),
+    @NamedQuery(name = "Marchfact.findByNumerofacture", query = "SELECT m FROM Marchfact m WHERE m.numerofacture = :numerofacture"),
+    @NamedQuery(name = "Marchfact.findByMontantht", query = "SELECT m FROM Marchfact m WHERE m.montantht = :montantht"),
+    @NamedQuery(name = "Marchfact.findByMontanttva", query = "SELECT m FROM Marchfact m WHERE m.montanttva = :montanttva"),
+    @NamedQuery(name = "Marchfact.findByMontantttc", query = "SELECT m FROM Marchfact m WHERE m.montantttc = :montantttc"),
     @NamedQuery(name = "Marchfact.findByTexte", query = "SELECT m FROM Marchfact m WHERE m.texte = :texte"),
     @NamedQuery(name = "Marchfact.findByDatepaiement", query = "SELECT m FROM Marchfact m WHERE m.datepaiement = :datepaiement"),
     @NamedQuery(name = "Marchfact.findByMontantpaye", query = "SELECT m FROM Marchfact m WHERE m.montantpaye = :montantpaye"),
@@ -113,19 +113,19 @@ public class Marchfact implements Serializable {
     private BigInteger montantEstime;
     @Size(max = 8)
     @Column(name = "F_DATEETABLIE")
-    private String fDateetablie;
+    private String fdate;
     @Size(max = 6)
     @Column(name = "F_MOISCOMPTABLE")
-    private String fMoiscomptable;
+    private String moiscomptable;
     @Size(max = 12)
     @Column(name = "F_NUMEROFACTURE")
-    private String fNumerofacture;
+    private String numerofacture;
     @Column(name = "F_MONTANTHT")
-    private BigDecimal fMontantht;
+    private BigDecimal montantht;
     @Column(name = "F_MONTANTTVA")
-    private BigDecimal fMontanttva;
+    private BigDecimal montanttva;
     @Column(name = "F_MONTANTTTC")
-    private BigDecimal fMontantttc;
+    private BigDecimal montantttc;
     @Size(max = 80)
     @Column(name = "TEXTE")
     private String texte;
@@ -287,53 +287,54 @@ public class Marchfact implements Serializable {
         this.montantEstime = montantEstime;
     }
 
-    public String getFDateetablie() {
-        return fDateetablie;
+    public String getFdate() {
+        return fdate;
     }
 
-    public void setFDateetablie(String fDateetablie) {
-        this.fDateetablie = fDateetablie;
+    public void setFdate(String fdate) {
+        this.fdate = fdate;
     }
 
-    public String getFMoiscomptable() {
-        return fMoiscomptable;
+    public String getMoiscomptable() {
+        return moiscomptable;
     }
 
-    public void setFMoiscomptable(String fMoiscomptable) {
-        this.fMoiscomptable = fMoiscomptable;
+    public void setMoiscomptable(String moiscomptable) {
+        this.moiscomptable = moiscomptable;
     }
 
-    public String getFNumerofacture() {
-        return fNumerofacture;
+    public String getNumerofacture() {
+        return numerofacture;
     }
 
-    public void setFNumerofacture(String fNumerofacture) {
-        this.fNumerofacture = fNumerofacture;
+    public void setNumerofacture(String numerofacture) {
+        this.numerofacture = numerofacture;
     }
 
-    public BigDecimal getFMontantht() {
-        return fMontantht;
+    public BigDecimal getMontantht() {
+        return montantht;
     }
 
-    public void setFMontantht(BigDecimal fMontantht) {
-        this.fMontantht = fMontantht;
+    public void setMontantht(BigDecimal montantht) {
+        this.montantht = montantht;
     }
 
-    public BigDecimal getFMontanttva() {
-        return fMontanttva;
+    public BigDecimal getMontanttva() {
+        return montanttva;
     }
 
-    public void setFMontanttva(BigDecimal fMontanttva) {
-        this.fMontanttva = fMontanttva;
+    public void setMontanttva(BigDecimal montanttva) {
+        this.montanttva = montanttva;
     }
 
-    public BigDecimal getFMontantttc() {
-        return fMontantttc;
+    public BigDecimal getMontantttc() {
+        return montantttc;
     }
 
-    public void setFMontantttc(BigDecimal fMontantttc) {
-        this.fMontantttc = fMontantttc;
+    public void setMontantttc(BigDecimal montantttc) {
+        this.montantttc = montantttc;
     }
+
 
     public String getTexte() {
         return texte;

@@ -2,6 +2,7 @@ package com.github.adminfaces.starter.bean;
 
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
 import com.github.adminfaces.starter.service.ChiffreAffaireService;
+import com.github.adminfaces.starter.service.ConteneurCongoTerminalService;
 import com.github.adminfaces.starter.service.EscaleService;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,12 +10,13 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -23,20 +25,20 @@ import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
-import org.primefaces.model.charts.optionconfig.legend.Legend;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 @ApplicationScoped
-@Named
 public class TotalBean implements Serializable {
     @Inject
     private EscaleService escaleService;
     @Inject
     private ChiffreAffaireService chiffreAffaireService;
-    private BarChartModel chiffreAffaireBar;
+    @Inject
+    private ConteneurCongoTerminalService cctService;
+    
     private List<Integer> years;
-    Double totalParAn;
-
+    private Double totalParAn;
+    
     @PostConstruct
     public void init(){
         years = new ArrayList<>(5);
@@ -46,13 +48,11 @@ public class TotalBean implements Serializable {
         years.add(2018);
         years.add(2019);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
-        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-        System.out.println(locale.getLanguage() + "_" + locale.getCountry());
-        createChiffreAffaireBarChart();
+        System.out.println("TotalBean est initialisé...");
     }
     
-    public void createChiffreAffaireBarChart() {
-        chiffreAffaireBar = new BarChartModel();
+    public BarChartModel createChiffreAffaireBarChart() {
+        BarChartModel chiffreAffaireBar = new BarChartModel();
         ChartData data = new ChartData();
         
         BarChartDataSet barDataSet = new BarChartDataSet();
@@ -95,37 +95,45 @@ public class TotalBean implements Serializable {
         options.setTitle(title);
         
         chiffreAffaireBar.setOptions(options);
+        return chiffreAffaireBar;
     }
     
     @Produces
     @Named("nombreEscaleByAnnee")
     public Long nombreEscaleByAnnee() {
-        return escaleService.getNombreEscaleByAnnee("PARTI","2019");
+        return escaleService.getNombreEscaleByAn();
     }
     @Produces
     @Named("nombrePetitEscaleByAnnee")
     public Long nombrePetitEscaleByAnnee() {
-        return escaleService.getNombrePetitEscaleByAnnee("PARTI","2019");
+        return escaleService.getNombrePetitEscaleByAn();
     }
     @Produces
     @Named("nombreGrandEscaleByAnnee")
     public Long nombreGrandEscaleByAnnee() {
-        return escaleService.getNombreGrandEscaleByAnnee("PARTI","2019");
+        return escaleService.getNombreGrandEscaleByAn();
     }
-     @Produces
+    @Produces
     @Named("montantTotalParAn")
     public Double montantTotalParAn() {
-        return chiffreAffaireService.getMontantTotalParAn(2019);
+        return chiffreAffaireService.getTotalRecetteParAn();
     }
-
-    public BarChartModel getChiffreAffaireBar() {
-        return chiffreAffaireBar;
+    @Produces
+    @Named("tonnageConteneurParAn")
+    public BigInteger tonnageConteneurParAn() {
+        return BigInteger.valueOf(Math.round((cctService.getTotalTonnageParAn().doubleValue() / 1000)));
     }
-
-    public void setChiffreAffaireBar(BarChartModel chiffreAffaireBar) {
-        this.chiffreAffaireBar = chiffreAffaireBar;
+    @Produces
+    @Named("totalEVPParAn")
+    public BigInteger totalEVPParAn() {
+        return cctService.getTotalEVPParAn();
     }
-
+    @Produces
+    @Named("chiffreAffaireBar")
+    public BarChartModel chiffreAffaireBar() {
+        return createChiffreAffaireBarChart();
+    }
+    
     public List<Integer> getYears() {
         return years;
     }

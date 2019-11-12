@@ -5,111 +5,59 @@
  */
 package com.github.adminfaces.starter.service;
 
-import com.github.adminfaces.persistence.model.Filter;
-import com.github.adminfaces.persistence.service.CrudService;
-import com.github.adminfaces.starter.model.ConteneurCongoTerminal_;
-import com.github.adminfaces.starter.model.ConteneurCongoTerminal;
-import com.github.adminfaces.template.exception.BusinessException;
-import static com.github.adminfaces.template.util.Assert.has;
+import com.github.adminfaces.starter.repos.TdrCongoTerminalRepository;
 import java.io.Serializable;
-import java.util.List;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
-import javax.ejb.Stateless;
-import org.apache.deltaspike.data.api.criteria.Criteria;
+import javax.inject.Inject;
 
 /**
  *
  * @author Calvin ILOKI
  */
-@Stateless
-public class ConteneurCongoTerminalService extends CrudService<ConteneurCongoTerminal, Integer> implements Serializable {
+@Singleton
+@Startup
+public class ConteneurCongoTerminalService implements Serializable {
+    
+    @Inject
+    TdrCongoTerminalRepository tctRepo;
+    
+    private BigInteger totalTonnageParAn;
+    private BigInteger totalEVPParAn;
 
-    @Override
-    protected Criteria<ConteneurCongoTerminal, ConteneurCongoTerminal> configRestrictions(Filter<ConteneurCongoTerminal> filter) {
-
-        Criteria<ConteneurCongoTerminal, ConteneurCongoTerminal> criteria = criteria();
-
-        //create restrictions based on parameters map
-        if (filter.hasParam("id")) {
-            criteria.eq(ConteneurCongoTerminal_.id, filter.getIntParam("id"));
-        }
-
-        if (filter.hasParam("debutDate") && filter.hasParam("finDate")) {
-            criteria.between(ConteneurCongoTerminal_.date, filter.getStringParam("debutDate"), filter.getStringParam("finDate"));
-        } else if (filter.hasParam("debutDate")) {
-            criteria.gtOrEq(ConteneurCongoTerminal_.date, filter.getStringParam("debutDate"));
-        } else if (filter.hasParam("finDate")) {
-            criteria.ltOrEq(ConteneurCongoTerminal_.date, filter.getStringParam("finDate"));
-        }
-
-        //create restrictions based on filter entity
-        if (has(filter.getEntity())) {
-            System.out.println(" NUMERO : " + filter.getEntity());
-            ConteneurCongoTerminal filterEntity = filter.getEntity();
-            if (has(filterEntity.getMois())) {
-                criteria.eq(ConteneurCongoTerminal_.mois,filterEntity.getMois());
-            }
-
-            if (has(filterEntity.getDate())) {
-                criteria.eq(ConteneurCongoTerminal_.date, filterEntity.getDate());
-            }
-
-            if (has(filterEntity.getTrafic())) {
-                criteria.likeIgnoreCase(ConteneurCongoTerminal_.trafic,filterEntity.getTrafic());
-            }
-        }
-        return criteria;
-    }
-
-    public void validate(ConteneurCongoTerminal cct) {
-        BusinessException be = new BusinessException();
-        if (!cct.hasEscale()) {
-            be.addException(new BusinessException("Ctn escale cannot be empty"));
-        }
-        if (!cct.hasTrafic()) {
-            be.addException(new BusinessException("Ctn trafic cannot be empty"));
-        }
-
-        if (!has(cct.getDate())) {
-            be.addException(new BusinessException("Ctn date cannot be empty"));
-        }
-
-        if (count(criteria()
-                .eqIgnoreCase(ConteneurCongoTerminal_.trafic, cct.getTrafic())
-                .notEq(ConteneurCongoTerminal_.id, cct.getId())) > 0) {
-
-            be.addException(new BusinessException("Ctn trafic must be unique"));
-        }
-
-        if (has(be.getExceptionList())) {
-            throw be;
-        }
-    }
-
-    public List<ConteneurCongoTerminal> findByNumero(String numero) {
-        return criteria()
-                .likeIgnoreCase(ConteneurCongoTerminal_.numCtn, "%" + numero + "%")
-                .orderDesc(ConteneurCongoTerminal_.date)
-                .getResultList();
+    @PostConstruct
+    public void init(){
+        update();
+        System.out.println("CCTService initialisé...");
     }
     
-    public List<String> getMois(String query) {
-        if (!query.isEmpty()) {
-            BigInteger queryBigInt = BigInteger.valueOf(Long.valueOf(query));
-            return criteria()
-                    .select(String.class, attribute(ConteneurCongoTerminal_.mois))
-                    .distinct()
-                    .eq(ConteneurCongoTerminal_.mois, queryBigInt)
-                    .orderDesc(ConteneurCongoTerminal_.mois)
-                    .getResultList();
-        } else {
-            return criteria()
-                    .select(String.class, attribute(ConteneurCongoTerminal_.mois))
-                    .distinct()
-                    .orderDesc(ConteneurCongoTerminal_.mois)
-                    .getResultList();
-        }
+    @Schedule(minute = "*/8",persistent = false)
+    public void update(){
+        this.totalEVPParAn = tctRepo.getTotalEVPParAn(String.valueOf(LocalDate.now().getYear()));
+        this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(String.valueOf(LocalDate.now().getYear()));
+        System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
+    }
 
+    public BigInteger getTotalTonnageParAn() {
+        return totalTonnageParAn;
+    }
+
+    public void setTotalTonnageParAn(BigInteger totalTonnageParAn) {
+        this.totalTonnageParAn = totalTonnageParAn;
+    }
+
+    public BigInteger getTotalEVPParAn() {
+        return totalEVPParAn;
+    }
+
+    public void setTotalEVPParAn(BigInteger totalEVPParAn) {
+        this.totalEVPParAn = totalEVPParAn;
     }
 }

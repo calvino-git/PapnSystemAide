@@ -89,7 +89,7 @@ E-mail : info@papn-cg.org]]></text>
 			</staticText>
 			<image>
 				<reportElement x="0" y="3" width="53" height="41" uuid="c1906bdc-b27c-4de7-b897-e1d9b5f60dc5"/>
-				<imageExpression><![CDATA["/Users/calviniloki/NetBeansProjects/ManService/data/logo-papn.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[this.getClass().getResourceAsStream("/resources/images/logo-papn.png")]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="0" y="84" width="802" height="30" uuid="ed0de705-19c7-4b50-b5ea-f490437c1205"/>

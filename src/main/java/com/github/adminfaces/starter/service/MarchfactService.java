@@ -7,14 +7,15 @@ package com.github.adminfaces.starter.service;
 
 import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.starter.model.Marchfact;
-import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
-import com.github.adminfaces.starter.model.PrestationChiffreAffaire_;
 import com.github.adminfaces.starter.repos.MarchFactRepository;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -46,10 +47,16 @@ public class MarchfactService implements Serializable {
     
     @PostConstruct
     public void init() {
-        Logger.getGlobal().info(" PrestService est initialisé...");
-        listMarchFactByDepart("20190101", "20191231");
+        update();
+        System.out.println("MarchFactService est initialisé...");
     }
-
+    
+    @Schedule(minute = "*/5",persistent = false)
+    public void update(){
+        listMarchFactByDepart("20190101", "20191231");
+        System.out.println("[" + LocalDateTime.now() + "] Liste des marchandises mise à jour ...");
+    }
+    
     public EntityManager getEntityManager() {
         return entityManager;
     }

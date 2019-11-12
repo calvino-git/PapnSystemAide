@@ -6,10 +6,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import com.github.adminfaces.starter.service.MarchfactService;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -21,6 +23,7 @@ import javax.faces.context.FacesContext;
 @Named
 @SessionScoped
 public class MarchFactBean implements Serializable {
+
     private Date debut;
     private Date fin;
     private List<Marchfact> list;
@@ -35,39 +38,41 @@ public class MarchFactBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        System.out.println("MarchFacture initialisé...");
+        columnHeaders = new ArrayList<>();
         list = marchFactService.getList();
-        int t = Marchfact.class.getFields().length;
-        for(int i=0; i<t; i++){
+        Marchfact march = new Marchfact();
+        Field[] fields = march.getClass().getDeclaredFields();
+        int t = fields.length;
+        for (int i = 2; i < t; i++) {
             String field = Marchfact.class.getDeclaredFields()[i].getName();
-            System.out.println("Champ : " + field);
             columnHeaders.add(field);
         }
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
+        System.out.println("MarchFactureBean initialisé...");
     }
-    
-    public void updateList(){
+
+    public void updateList() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         marchFactService.listMarchFactByDepart(format.format(debut), format.format(fin));
         list = marchFactService.getList();
     }
-    
+
     public List<ColumnModel> getColumns() {
         return columns;
     }
- 
+
     private void createDynamicColumns() {
-        String[] columnKeys = columnTemplate.split(" ");
-        columns = new ArrayList<>();   
-         
-        for(String columnKey : columnKeys) {
-            String key = columnKey.trim();
-             
-            if(VALID_COLUMN_KEYS.contains(key)) {
+        List<String> columnKeys = columnHeaders.stream().filter(col-> !col.startsWith("_"))
+                .collect(Collectors.toList());
+        columns = new ArrayList<>();
+
+        columnKeys.forEach((columnKey) -> {
+            String key = columnKey;
+            if (VALID_COLUMN_KEYS.contains(key)) {
                 columns.add(new ColumnModel(columnKey.toUpperCase(), columnKey));
             }
-        }
+        });
     }
 
     public List<Marchfact> getFiltered() {
@@ -93,30 +98,30 @@ public class MarchFactBean implements Serializable {
     public void setColumnTemplate(String columnTemplate) {
         this.columnTemplate = columnTemplate;
     }
-     
+
     public void updateColumns() {
         //reset table state
         UIComponent table = FacesContext.getCurrentInstance().getViewRoot().findComponent(":form:mfTable");
         table.setValueExpression("sortBy", null);
-         
+
         //update columns
         createDynamicColumns();
     }
-    
+
     static public class ColumnModel implements Serializable {
- 
+
         private String header;
         private String property;
- 
+
         public ColumnModel(String header, String property) {
             this.header = header;
             this.property = property;
         }
- 
+
         public String getHeader() {
             return header;
         }
- 
+
         public String getProperty() {
             return property;
         }
@@ -154,8 +159,6 @@ public class MarchFactBean implements Serializable {
         this.fin = fin;
     }
 
-    
-
     public MarchfactService getMarchFactService() {
         return marchFactService;
     }
@@ -163,7 +166,5 @@ public class MarchFactBean implements Serializable {
     public void setMarchFactService(MarchfactService marchFactService) {
         this.marchFactService = marchFactService;
     }
-
-   
 
 }
