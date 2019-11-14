@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -32,30 +33,56 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
 public class ChiffreAffaireService implements Serializable {
 
     private List<PrestationChiffreAffaire> list;
+    private List<PrestationChiffreAffaire> listStatic;
     @Inject
     private EntityManager entityManager;
     @Inject
     protected ChiffreAffaireRepository chiffreAffaireRepo;
-    
+
     private Double totalRecetteParAn;
+    Double montantParAn = 0.0;
 
     @PostConstruct
     public void init() {
         update();
-        System.out.println("ChiffreAffaireService est initialisé...");
+        listStatic = list;
+        System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService est initialisé...");
     }
 
-    @Schedule(minute = "*/6",persistent = false)
-    public void update(){
-        int annee = LocalDate.now().getYear();
-        this.totalRecetteParAn = getMontantTotalParAn(annee);
-        this.list = listByAn(annee-5, annee);
+    @Schedule(minute = "*/6", persistent = false)
+    public void update() {
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService mis à jour ...");
+        int annee = LocalDate.now().getYear();
+        this.list = listByAn(annee - 5, annee);
+        this.totalRecetteParAn = getMontantTotalParAn(annee);
     }
-    
+
     public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
         return new QueryCriteria<>(entityClass, entityClass, getEntityManager());
     }
+
+    public List<PrestationChiffreAffaire> listByAn(Integer debut, Integer fin) {
+        list = criteria(PrestationChiffreAffaire.class)
+                .between(PrestationChiffreAffaire_.annee, debut, fin)
+                .getResultList();
+        return list;
+    }
+
+    public PrestationChiffreAffaire getPrestParAn(String code, Integer annee) {
+        return criteria(PrestationChiffreAffaire.class)
+                .eq(PrestationChiffreAffaire_.annee, annee)
+                .eqIgnoreCase(PrestationChiffreAffaire_.code, code)
+                .orderDesc(PrestationChiffreAffaire_.montant)
+                .getSingleResult();
+    }
+
+    public Double getMontantTotalParAn(Integer annee) {
+        montantParAn = 0.0;
+        list.stream().filter(p -> p.getAnnee().intValue() == annee.intValue()).collect(Collectors.toList())
+                .forEach(p -> montantParAn += p.getMontant());
+        return montantParAn;
+    }
+
     public String getLibellePrestationParCode(String code) {
         String libelle = null;
         switch (code) {
@@ -85,26 +112,14 @@ public class ChiffreAffaireService implements Serializable {
         return libelle;
     }
 
-    public List<PrestationChiffreAffaire> listByAn(Integer debut, Integer fin) {
-        list = criteria(PrestationChiffreAffaire.class)
-                .between(PrestationChiffreAffaire_.annee, debut, fin)
-                .getResultList();
-        return list;
+    public List<PrestationChiffreAffaire> getListStatic() {
+        return listStatic;
     }
 
-    public PrestationChiffreAffaire getPrestParAn(String code, Integer annee) {
-        return criteria(PrestationChiffreAffaire.class)
-                .eq(PrestationChiffreAffaire_.annee, annee)
-                .eqIgnoreCase(PrestationChiffreAffaire_.code, code)
-                .orderDesc(PrestationChiffreAffaire_.montant)
-                .getSingleResult();
-    }
-    
-    public Double getMontantTotalParAn(Integer annee){
-        return chiffreAffaireRepo.getMontantTotalByAnnee(annee);
+    public void setListStatic(List<PrestationChiffreAffaire> listStatic) {
+        this.listStatic = listStatic;
     }
 
-    
     public Double getTotalRecetteParAn() {
         return totalRecetteParAn;
     }
@@ -113,8 +128,6 @@ public class ChiffreAffaireService implements Serializable {
         this.totalRecetteParAn = totalRecetteParAn;
     }
 
-    
-    
     public EntityManager getEntityManager() {
         return entityManager;
     }

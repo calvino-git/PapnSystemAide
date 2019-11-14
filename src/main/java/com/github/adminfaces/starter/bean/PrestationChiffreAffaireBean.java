@@ -94,7 +94,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
     }
 
     public Double montantTotalParAn(Integer annee) {
-        return chiffreAffaireService.getTotalRecetteParAn();
+        return chiffreAffaireService.getMontantTotalParAn(annee);
     }
 
     public void itemSelect(ItemSelectEvent event) {

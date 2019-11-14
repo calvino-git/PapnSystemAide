@@ -49,14 +49,14 @@ public class EscaleService implements Serializable {
     @PostConstruct
     public void init() {
         update();
-        System.out.println("EscaleService initialisé...");
+        System.out.println("[" + LocalDateTime.now() + "] EscaleService initialisé...");
     }
     @Schedule(minute = "*/7",persistent = false)
     public void update(){
+        System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
         this.nombrePetitEscaleByAn = getNombrePetitEscaleByAnnee("PARTI", String.valueOf(LocalDate.now().getYear()));
         this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", String.valueOf(LocalDate.now().getYear()));
         this.nombreEscaleByAn = this.nombrePetitEscaleByAn + this.nombreGrandEscaleByAn;
-        System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
     }
 
     public List<Escale> getList() {

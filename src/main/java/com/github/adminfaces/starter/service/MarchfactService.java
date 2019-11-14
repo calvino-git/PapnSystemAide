@@ -48,13 +48,13 @@ public class MarchfactService implements Serializable {
     @PostConstruct
     public void init() {
         update();
-        System.out.println("MarchFactService est initialisé...");
+        System.out.println("[" + LocalDateTime.now() + "] MarchFactService est initialisé...");
     }
     
     @Schedule(minute = "*/5",persistent = false)
     public void update(){
-        listMarchFactByDepart("20190101", "20191231");
         System.out.println("[" + LocalDateTime.now() + "] Liste des marchandises mise à jour ...");
+        listMarchFactByDepart("20190101", "20191231");
     }
     
     public EntityManager getEntityManager() {

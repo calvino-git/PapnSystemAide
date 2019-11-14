@@ -59,15 +59,17 @@ public class TotalBean implements Serializable {
         barDataSet.setLabel("Montant HT");
         barDataSet.setBackgroundColor("rgba(51, 51, 255, 0.2)");
         barDataSet.setBorderColor("rgb(51, 51, 255)");
-        barDataSet.setBorderWidth(1);
+        barDataSet.setBorderWidth(0.5);
 
         List<Number> values = new ArrayList<>();
         
         List<String> labels = new ArrayList<>();
+        
         years.forEach(annee -> {
             labels.add(annee.toString());
             totalParAn = 0.0;
-            List<PrestationChiffreAffaire> list = chiffreAffaireService.getList().stream().filter(ca -> ca.getAnnee().equals(annee)).collect(Collectors.toList());
+            
+            List<PrestationChiffreAffaire> list = chiffreAffaireService.getListStatic().stream().filter(ca -> ca.getAnnee().equals(annee)).collect(Collectors.toList());
             list.forEach(p -> {
                 totalParAn += p.getMontant();
             });

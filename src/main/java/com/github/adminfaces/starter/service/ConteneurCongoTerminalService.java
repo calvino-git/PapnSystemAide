@@ -35,14 +35,14 @@ public class ConteneurCongoTerminalService implements Serializable {
     @PostConstruct
     public void init(){
         update();
-        System.out.println("CCTService initialisé...");
+        System.out.println("[" + LocalDateTime.now() + "] CCTService initialisé...");
     }
     
     @Schedule(minute = "*/8",persistent = false)
     public void update(){
+        System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
         this.totalEVPParAn = tctRepo.getTotalEVPParAn(String.valueOf(LocalDate.now().getYear()));
         this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(String.valueOf(LocalDate.now().getYear()));
-        System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
     }
 
     public BigInteger getTotalTonnageParAn() {

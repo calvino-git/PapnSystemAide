@@ -10,11 +10,11 @@
   <managed-job-config></managed-job-config>
   <system-applications></system-applications>
   <applications>
-    <application deployment-time="792424" context-root="/sysaide" object-type="user" name="SysAide" directory-deployed="true" location="file:/C:/Users/Calvin%20ILOKI/Documents/NetBeansProjects/SysAide/target/SysAide/" time-deployed="1573561297643">
+    <application deployment-time="17637" context-root="/sysaide" object-type="user" name="SysAide" directory-deployed="true" location="file:/C:/Users/Calvin%20ILOKI/Documents/NetBeansProjects/SysAide/target/SysAide/" time-deployed="1573755500522">
       <property name="archiveType" value="war"></property>
       <property name="cdiDevModeEnabled" value="false"></property>
       <property name="appLocation" value="file:/C:/Users/Calvin%20ILOKI/Documents/NetBeansProjects/SysAide/target/SysAide/"></property>
-      <property name="org.glassfish.ejb.container.application_unique_id" value="103124721091215360"></property>
+      <property name="org.glassfish.ejb.container.application_unique_id" value="103137627901460480"></property>
       <property name="defaultAppName" value="SysAide"></property>
       <module name="SysAide">
         <engine sniffer="cdi"></engine>
@@ -31,8 +31,8 @@
       <property name="URL" value="jdbc:h2:${com.sun.aas.instanceRoot}/lib/databases/embedded_default;AUTO_SERVER=TRUE"></property>
     </jdbc-connection-pool>
     <context-service object-type="system-all" description="context service" jndi-name="concurrent/__defaultContextService"></context-service>
-    <managed-executor-service keep-alive-seconds="300" object-type="system-all" maximum-pool-size="200" hung-after-seconds="300" jndi-name="concurrent/__defaultManagedExecutorService" long-running-tasks="true"></managed-executor-service>
-    <managed-scheduled-executor-service keep-alive-seconds="300" object-type="system-all" hung-after-seconds="300" jndi-name="concurrent/__defaultManagedScheduledExecutorService" long-running-tasks="true"></managed-scheduled-executor-service>
+    <managed-executor-service keep-alive-seconds="300" object-type="system-all" maximum-pool-size="200" hung-after-seconds="300" long-running-tasks="true" jndi-name="concurrent/__defaultManagedExecutorService"></managed-executor-service>
+    <managed-scheduled-executor-service keep-alive-seconds="300" object-type="system-all" hung-after-seconds="300" long-running-tasks="true" jndi-name="concurrent/__defaultManagedScheduledExecutorService"></managed-scheduled-executor-service>
     <managed-thread-factory object-type="system-all" description="thread factory" jndi-name="concurrent/__defaultManagedThreadFactory"></managed-thread-factory>
   </resources>
   <servers>
@@ -61,7 +61,7 @@
       </health-check-service-configuration>
       <http-service>
         <access-log rotation-interval-in-minutes="15"></access-log>
-        <virtual-server network-listeners="http-listener, https-listener" access-log="" access-logging-enabled="false" id="server"></virtual-server>
+        <virtual-server network-listeners="http-listener, https-listener" access-log="" id="server" access-logging-enabled="false"></virtual-server>
       </http-service>
       <iiop-service>
         <orb use-thread-pool-ids="thread-pool-1"></orb>
@@ -166,7 +166,7 @@
           </protocol>
         </protocols>
         <network-listeners>
-          <network-listener protocol="http-listener" port="8080" port-range="8080,8085" name="http-listener" thread-pool="http-thread-pool" transport="tcp"></network-listener>
+          <network-listener protocol="http-listener" port-range="8080,8085" port="8080" name="http-listener" thread-pool="http-thread-pool" transport="tcp"></network-listener>
           <network-listener protocol="https-listener" port="8443" name="https-listener" thread-pool="http-thread-pool" transport="tcp" enabled="false"></network-listener>
         </network-listeners>
         <transports>

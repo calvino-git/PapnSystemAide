@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Import Excel"/>
+    </ui:define>
+    <ui:define name="title">
+        Importation du fichier Mensuel Congo Terminal
+    </ui:define>
+
+    <ui:define name="body">
+
+        <div class="box box-info">
+            <div class="box-header with-border ui-fileupload">
+                <h:form>
+                    <p:fileUpload  style="padding: 10px" label="Fichier... " uploadLabel="Importer" cancelLabel= "Annuler" fileUploadListener="#{importExcel.insertData}" mode="advanced"
+                                   dragDropSupport="true" auto="false" onstart="showBar()" oncomplete="hideBar()"
+                                   multiple="true" update="messages" sizeLimit="1000000000" fileLimit="3"
+                                   allowTypes="/(\.|\/)(xlsx)$/">
+                    </p:fileUpload>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="code">
+        <p:tabView>
+            <p:tab title="Trace">
+                <pre>
+               <code class="language-html">
+                   <h:outputText value="" escape="true"/>
+               </code>
+                </pre>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>
