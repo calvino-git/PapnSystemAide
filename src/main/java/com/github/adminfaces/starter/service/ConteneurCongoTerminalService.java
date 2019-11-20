@@ -31,6 +31,10 @@ public class ConteneurCongoTerminalService implements Serializable {
     
     private BigInteger totalTonnageParAn;
     private BigInteger totalEVPParAn;
+    private BigInteger totalImpEVPParAn;
+    private BigInteger totalExpEVPParAn;
+    private BigInteger totalTstEVPParAn;
+    private BigInteger totalTrbEVPParAn;
 
     @PostConstruct
     public void init(){
@@ -41,8 +45,21 @@ public class ConteneurCongoTerminalService implements Serializable {
     @Schedule(minute = "*/8",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
-        this.totalEVPParAn = tctRepo.getTotalEVPParAn(String.valueOf(LocalDate.now().getYear()));
+        String annee = String.valueOf(LocalDate.now().getYear());
+        this.totalEVPParAn = tctRepo.getTotalEVPParAn(annee);
+        this.totalImpEVPParAn = tctRepo.getTotalImportEVPParAn(annee);
+        this.totalExpEVPParAn = tctRepo.getTotalExportEVPParAn(annee);
+        this.totalTrbEVPParAn = tctRepo.getTotalTransboEVPParAn(annee);
+        this.totalTstEVPParAn = tctRepo.getTotalTransitEVPParAn(annee);
         this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(String.valueOf(LocalDate.now().getYear()));
+    }
+
+    public BigInteger getTotalTstEVPParAn() {
+        return totalTstEVPParAn;
+    }
+
+    public void setTotalTstEVPParAn(BigInteger totalTstEVPParAn) {
+        this.totalTstEVPParAn = totalTstEVPParAn;
     }
 
     public BigInteger getTotalTonnageParAn() {
@@ -60,4 +77,29 @@ public class ConteneurCongoTerminalService implements Serializable {
     public void setTotalEVPParAn(BigInteger totalEVPParAn) {
         this.totalEVPParAn = totalEVPParAn;
     }
+
+    public BigInteger getTotalImpEVPParAn() {
+        return totalImpEVPParAn;
+    }
+
+    public void setTotalImpEVPParAn(BigInteger totalImpEVPParAn) {
+        this.totalImpEVPParAn = totalImpEVPParAn;
+    }
+
+    public BigInteger getTotalExpEVPParAn() {
+        return totalExpEVPParAn;
+    }
+
+    public void setTotalExpEVPParAn(BigInteger totalExpEVPParAn) {
+        this.totalExpEVPParAn = totalExpEVPParAn;
+    }
+
+    public BigInteger getTotalTrbEVPParAn() {
+        return totalTrbEVPParAn;
+    }
+
+    public void setTotalTrbEVPParAn(BigInteger totalTrbEVPParAn) {
+        this.totalTrbEVPParAn = totalTrbEVPParAn;
+    }
+    
 }

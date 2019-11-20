@@ -32,22 +32,25 @@
                         <div class="icon">
                             <i class="fa fa-ship"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Plus d'info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>#{totalEVPParAn}</h3>
-                            <h5>20' : <b> #{nombrePetitEscaleByAnnee}</b> </h5>
-                            <h5>40' : <b> #{nombreGrandEscaleByAnnee}</b></h5>
-                            <h4>EVP EN 2019</h4>
+                            <h3><h:outputText value="#{totalEVPParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText> <span style="font-weight: normal;font-size: 30px">EVPs</span>
+                            </h3>
+                            <h4>IMPORT : <b style="font-size : 25px">#{totalImpEVPParAn}</b> | EXPORT : <b style="font-size : 25px">#{totalExpEVPParAn}</b></h4>
+                            <h4>TRANSIT : <b style="font-size : 25px">#{totalTstEVPParAn}</b> | TRANSBO : <b style="font-size : 25px">#{totalTrbEVPParAn}</b></h4>
                         </div>
                         <div class="icon">
                             <i class="fa fa fa-cubes"></i>
+                            <h1 style="text-align: center;font-family: 'Impact';font-size: 50px;margin-top: 0px;margin-bottom: 0px;">2019</h1>
                         </div>
-                        <a href="#" class="small-box-footer">Plus d'info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                     <!-- /.info-box -->
                 </div>
@@ -65,7 +68,7 @@
                         <div class="icon">
                             <i class="fa fa-fw fa-balance-scale"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Plus d'info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                     <!-- /.info-box -->
                 </div>
@@ -75,15 +78,16 @@
                         <div class="inner">
                             <h3><h:outputText style="width : 100%;display: block;" value="#{montantTotalParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText></h3>
+                                </h:outputText>
+                            </h3>
+                            <span class="description-percentage text-warning"><i class="fa fa-caret-down"></i> 0%</span>
                             <h4>RECETTE EN 2019</h4>
                         </div>
                         
                         <div class="icon">
-                            <span class="description-percentage text-warning" style="z-index:2;"><i class="fa fa-caret-down"></i> 0%</span>
-                            <i class="fa fa-fw fa-money" style="z-index:4;" ></i>
+                            <i class="fa fa-fw fa-money" ></i>
                         </div>
-                        <a href="#" class="small-box-footer">Plus d'info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                     <!-- /.info-box -->
                 </div>

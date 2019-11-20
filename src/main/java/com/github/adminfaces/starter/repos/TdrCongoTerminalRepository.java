@@ -13,6 +13,18 @@ public interface TdrCongoTerminalRepository extends EntityRepository<TdrCongoTer
     @Query("SELECT sum(t.evp) FROM TdrCongoTerminal t WHERE t.annee = :annee")
     BigInteger getTotalEVPParAn(@QueryParam("annee") String annee);
     
+    @Query("SELECT sum(t.evp) FROM TdrCongoTerminal t WHERE t.trafic = 'IMP' and t.annee = :annee")
+    BigInteger getTotalImportEVPParAn(@QueryParam("annee") String annee);
+    
+    @Query("SELECT sum(t.evp) FROM TdrCongoTerminal t WHERE t.trafic = 'EXP' and t.annee = :annee")
+    BigInteger getTotalExportEVPParAn(@QueryParam("annee") String annee);
+    
+    @Query("SELECT sum(t.evp) FROM TdrCongoTerminal t WHERE t.trafic = 'IMP1' and t.annee = :annee")
+    BigInteger getTotalTransitEVPParAn(@QueryParam("annee") String annee);
+    
+    @Query("SELECT sum(t.evp) FROM TdrCongoTerminal t WHERE t.trafic like 'TRB%' and t.annee = :annee")
+    BigInteger getTotalTransboEVPParAn(@QueryParam("annee") String annee);
+    
     @Query("SELECT sum(t.poids) FROM TdrCongoTerminal t WHERE t.annee = :annee")
     BigInteger getTotalPoidsConteneurParAn(@QueryParam("annee") String annee);
     
