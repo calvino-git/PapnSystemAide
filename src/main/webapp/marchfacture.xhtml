@@ -117,7 +117,7 @@
                                                     </span>
 
                                                     <span class="ui-inputgroup-addon">
-                                                        <p:datePicker id="debut" value="#{marchFactBean.debut}" pattern="yyyyMMdd" showIcon="true" />
+                                                        <p:datePicker id="debut" value="#{marchFactBean.debut}" showOnFocus="false" pattern="yyyyMMdd" showIcon="true" />
                                                     </span>
                                                 </div>
                                                 <div class="ui-inputgroup">
@@ -126,7 +126,7 @@
                                                     </span>
 
                                                     <span class="ui-inputgroup-addon">
-                                                        <p:datePicker id="fin" value="#{marchFactBean.fin}" pattern="yyyyMMdd" showIcon="true" />
+                                                        <p:datePicker id="fin" value="#{marchFactBean.fin}" showOnFocus="false" pattern="yyyyMMdd" showIcon="true" />
                                                     </span>
                                                 </div>
                                                 <div class="ui-inputgroup">
@@ -136,8 +136,6 @@
                                                                      update="@form"
                                                                      styleClass="btn-info"
                                                                      partialSubmit="true"/>
-
-
                                                 </div>
                                             </div>
                                         </div>
