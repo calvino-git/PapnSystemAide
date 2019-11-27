@@ -24,13 +24,22 @@
                     <!-- small box -->
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>#{nombreEscaleByAnnee}</h3>
-                            <h5>Petit navire: <b> #{nombrePetitEscaleByAnnee}</b> </h5>
-                            <h5>Grand navire: <b> #{nombreGrandEscaleByAnnee}</b></h5>
-                            <h4>ESCALES EN 2019</h4>
+                            <h3><h:outputText value="#{nombreEscaleByAnnee}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText> <span style="font-weight: normal;font-size: 30px">Escales</span>
+                            </h3>
+                            <h4>PETIT NAVIRE : <h:outputText style="font-weight: bold" value="#{nombrePetitEscaleByAnnee}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                            </h4>
+                            <h4>GRAND NAVIRE : <h:outputText style="font-weight: bold" value="#{nombreGrandEscaleByAnnee}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                            </h4>
                         </div>
-                        <div class="icon">
+                        <div class="icon" style="font-size: 80px;">
                             <i class="fa fa-ship"></i>
+                            <h1 style="text-align: center;font-family: 'Impact';font-size: 45px;margin-top: 0px;margin-bottom: 0px;">2019</h1>
                         </div>
                         <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -38,17 +47,36 @@
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-red">
-                        <div class="inner">
-                            <h3><h:outputText value="#{totalEVPParAn}">
+                        <div class="inner container-fluid">
+                            <h3 class="row">
+                                <h:outputText value="#{totalEVPParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                 </h:outputText> <span style="font-weight: normal;font-size: 30px">EVPs</span>
                             </h3>
-                            <h4>IMPORT : <b style="font-size : 25px">#{totalImpEVPParAn}</b> EXPORT : <b style="font-size : 25px">#{totalExpEVPParAn}</b>
-                            TRANSIT : <b style="font-size : 25px">#{totalTstEVPParAn}</b> | TRANSBO : <b style="font-size : 25px">#{totalTrbEVPParAn}</b></h4>
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span>
+                            </div> 
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                            </div>
                         </div>
-                        <div class="icon">
-                            <i class="fa fa fa-cubes"></i>
-                            <h1 style="text-align: center;font-family: 'Impact';font-size: 50px;margin-top: 0px;margin-bottom: 0px;">2019</h1>
+                        <div class="icon" style="font-size: 80px;">
+                            <i class="fa fa-cubes"></i>
+                            <h1 style="text-align: center;font-family: 'Impact';font-size: 45px;margin-top: 0px;margin-bottom: 0px;">2019</h1>
                         </div>
                         <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -61,12 +89,36 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-green">
-                        <div class="inner">
-                            <h3>#{tonnageConteneurParAn}</h3>
-                            <h4>TONNAGE EN 2019</h4>
+                        <div class="inner container-fluid">
+                            <h3 class="row">
+                                <h:outputText value="#{tonnageConteneurParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText> <span style="font-weight: normal;font-size: 30px">Tonnes</span>
+                            </h3>
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span>
+                            </div> 
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                            </div>
                         </div>
-                        <div class="icon">
+                        <div class="icon" style="font-size: 80px;">
                             <i class="fa fa-fw fa-balance-scale"></i>
+                            <h1 style="text-align: center;font-family: 'Impact';font-size: 45px;margin-top: 0px;margin-bottom: 0px;">2019</h1>
                         </div>
                         <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -75,17 +127,37 @@
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3><h:outputText style="width : 100%;display: block;" value="#{montantTotalParAn}">
+                        <div class="inner container-fluid">
+                            <h3 class="row">
+                                <h:outputText value="#{montantTotalParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText>
+                                </h:outputText> <span style="font-weight: normal;font-size: 30px">Fcfa</span>
                             </h3>
-                            <span class="description-percentage text-warning"><i class="fa fa-caret-down"></i> 0%</span>
-                            <h4>RECETTE EN 2019</h4>
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span>
+                            </div> 
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                            </div>
                         </div>
-                        
-                        <div class="icon">
-                            <i class="fa fa-fw fa-money" ></i>
+
+                        <div class="icon" style="font-size: 80px;">
+                            <i class="fa fa-money" ></i>
+                            <h1 style="text-align: center;font-family: 'Impact';font-size: 45px;margin-top: 0px;margin-bottom: 0px;">2019</h1>
                         </div>
                         <a href="#" class="small-box-footer">Détails<i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -103,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="box box-danger">
                         <div class="box-header with-border">
@@ -114,7 +186,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="box box-success">
                         <div class="box-header with-border">
@@ -125,7 +197,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="box box-warning">
                         <div class="box-header with-border">
