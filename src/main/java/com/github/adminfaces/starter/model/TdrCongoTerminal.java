@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Calvin ILOKI
  */
 @Entity
-@Table(name = "CCT_VIEW", catalog = "", schema = "PPNCARGO")
+@Table(name = "CONTENEUR_VIEW", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TdrCongoTerminal.findAll", query = "SELECT t FROM TdrCongoTerminal t"),
@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TdrCongoTerminal.findByNavire", query = "SELECT t FROM TdrCongoTerminal t WHERE t.navire = :navire"),
     @NamedQuery(name = "TdrCongoTerminal.findByMois", query = "SELECT t FROM TdrCongoTerminal t WHERE t.mois = :mois"),
     @NamedQuery(name = "TdrCongoTerminal.findByTrafic", query = "SELECT t FROM TdrCongoTerminal t WHERE t.trafic = :trafic"),
-    @NamedQuery(name = "TdrCongoTerminal.findByPays", query = "SELECT t FROM TdrCongoTerminal t WHERE t.pays = :pays"),
+    @NamedQuery(name = "TdrCongoTerminal.findByPort", query = "SELECT t FROM TdrCongoTerminal t WHERE t.port = :port"),
     @NamedQuery(name = "TdrCongoTerminal.findByClients", query = "SELECT t FROM TdrCongoTerminal t WHERE t.clients = :clients"),
     @NamedQuery(name = "TdrCongoTerminal.findByDebaPlein20", query = "SELECT t FROM TdrCongoTerminal t WHERE t.debaPlein20 = :debaPlein20"),
     @NamedQuery(name = "TdrCongoTerminal.findByDebaVide20", query = "SELECT t FROM TdrCongoTerminal t WHERE t.debaVide20 = :debaVide20"),
@@ -59,6 +59,12 @@ public class TdrCongoTerminal implements Serializable {
     @Id
     private BigInteger id;
     @Size(max = 8)
+    @Column(name = "MARQUES", length = 8)
+    private String marques;
+    @Size(max = 10)
+    @Column(name = "NUMERO", length = 10)
+    private String numero;
+    @Size(max = 8)
     @Column(name = "DEPART_EFF", length = 8)
     private String departEff;
     @Size(max = 4)
@@ -74,8 +80,8 @@ public class TdrCongoTerminal implements Serializable {
     @Column(name = "TRAFIC", length = 8)
     private String trafic;
     @Size(max = 40)
-    @Column(name = "PAYS", length = 40)
-    private String pays;
+    @Column(name = "PORT", length = 10)
+    private String port;
     @Size(max = 50)
     @Column(name = "CLIENTS", length = 50)
     private String clients;
@@ -129,6 +135,22 @@ public class TdrCongoTerminal implements Serializable {
         this.id = id;
     }
 
+    public String getMarques() {
+        return marques;
+    }
+
+    public void setMarques(String marques) {
+        this.marques = marques;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
     public String getDepartEff() {
         return departEff;
     }
@@ -169,12 +191,12 @@ public class TdrCongoTerminal implements Serializable {
         this.trafic = trafic;
     }
 
-    public String getPays() {
-        return pays;
+    public String getPort() {
+        return port;
     }
 
-    public void setPays(String pays) {
-        this.pays = pays;
+    public void setPort(String port) {
+        this.port = port;
     }
 
     public String getClients() {

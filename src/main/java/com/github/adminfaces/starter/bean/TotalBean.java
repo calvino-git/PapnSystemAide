@@ -151,6 +151,26 @@ public class TotalBean implements Serializable {
         return cctService.getTotalTstEVPParAn();
     }
     @Produces
+    @Named("totalImpTonnageParAn")
+    public BigInteger totalImpTonnageParAn() {
+        return BigInteger.valueOf(Math.round((cctService.getTotalImpTonnageParAn().doubleValue() / 1000)));
+    }
+    @Produces
+    @Named("totalExpTonnageParAn")
+    public BigInteger totalExpTonnageParAn() {
+        return BigInteger.valueOf(Math.round((cctService.getTotalExpTonnageParAn().doubleValue() / 1000)));
+    }
+    @Produces
+    @Named("totalTrbTonnageParAn")
+    public BigInteger totalTrbTonnageParAn() {
+        return BigInteger.valueOf(Math.round((cctService.getTotalTrbTonnageParAn().doubleValue() / 1000)));
+    }
+    @Produces
+    @Named("totalTstTonnageParAn")
+    public BigInteger totalTstTonnageParAn() {
+        return BigInteger.valueOf(Math.round((cctService.getTotalTstTonnageParAn().doubleValue() / 1000)));
+    }
+    @Produces
     @Named("chiffreAffaireBar")
     public BarChartModel chiffreAffaireBar() {
         return createChiffreAffaireBarChart();

@@ -23,19 +23,23 @@
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <!-- small box -->
                     <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3><h:outputText value="#{nombreEscaleByAnnee}">
+                        <div class="inner container-fluid" >
+                            <h3 class="row"><h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{nombreEscaleByAnnee}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: 30px">Escales</span>
+                                </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">Escales</span>
                             </h3>
-                            <h4>PETIT NAVIRE : <h:outputText style="font-weight: bold" value="#{nombrePetitEscaleByAnnee}">
-                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText>
-                            </h4>
-                            <h4>GRAND NAVIRE : <h:outputText style="font-weight: bold" value="#{nombreGrandEscaleByAnnee}">
-                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText>
-                            </h4>
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-8 col-md-8 col-sm-8">PETIT NAVIRE : <h:outputText style="font-weight: bold" value="#{nombrePetitEscaleByAnnee}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span> 
+                            </div>
+                            <div class="row" style="font-size: 18px">
+                                <span class="col-lg-8 col-md-8 col-sm-8">GRAND NAVIRE : <h:outputText style="font-weight: bold" value="#{nombreGrandEscaleByAnnee}">
+                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                    </h:outputText>
+                                </span>
+                            </div>
                         </div>
                         <div class="icon" style="font-size: 80px;">
                             <i class="fa fa-ship"></i>
@@ -48,10 +52,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-red">
                         <div class="inner container-fluid">
-                            <h3 class="row">
-                                <h:outputText value="#{totalEVPParAn}">
+                            <h3 class="row" >
+                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{totalEVPParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: 30px">EVPs</span>
+                                </h:outputText> <span style="font-weight: normal;font-size:calc(100% - 0.7vw - 0.7vh">EVPs</span>
                             </h3>
                             <div class="row" style="font-size: 18px">
                                 <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
@@ -90,27 +94,27 @@
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-green">
                         <div class="inner container-fluid">
-                            <h3 class="row">
-                                <h:outputText value="#{tonnageConteneurParAn}">
+                            <h3 class="row" >
+                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{tonnageConteneurParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: 30px">Tonnes</span>
+                                </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">Tonnes</span>
                             </h3>
                             <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpTonnageParAn}">
                                         <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                     </h:outputText>
                                 </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpEVPParAn}">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpTonnageParAn}">
                                         <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                     </h:outputText>
                                 </span>
                             </div> 
                             <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbTonnageParAn}">
                                         <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                     </h:outputText>
                                 </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
+                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbTonnageParAn}">
                                         <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                     </h:outputText>
                                 </span> 
@@ -128,10 +132,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-yellow">
                         <div class="inner container-fluid">
-                            <h3 class="row">
-                                <h:outputText value="#{montantTotalParAn}">
+                            <h3 class="row" >
+                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{montantTotalParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: 30px">Fcfa</span>
+                                </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">F</span>
                             </h3>
                             <div class="row" style="font-size: 18px">
                                 <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
@@ -165,18 +169,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="box box-primary ">
                         <div class="box-header with-border">
                             <p:growl id="growl1" showDetail="true" />
-                            <p:barChart model="#{chiffreAffaireBar}" style="width: 100%; height: 350px;">
+                            <p:barChart model="#{chiffreAffaireBar}" style="width: 100%; height: 350px;" >
                                 <!--p:ajax event="itemSelect" listener="{prestationChiffreAffaireBean.itemSelect}" update="growl"/-->
                             </p:barChart>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="box box-danger">
                         <div class="box-header with-border">
                             <p:growl id="growl2" showDetail="true" />
@@ -187,21 +191,10 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="box box-success">
                         <div class="box-header with-border">
                             <p:growl id="growl3" showDetail="true" />
-                            <p:barChart model="#{chiffreAffaireBar}" style="width: 100%; height: 350px;">
-                                <!--p:ajax event="itemSelect" listener="{prestationChiffreAffaireBean.itemSelect}" update="growl"/-->
-                            </p:barChart>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="box box-warning">
-                        <div class="box-header with-border">
-                            <p:growl id="growl4" showDetail="true" />
                             <p:barChart model="#{chiffreAffaireBar}" style="width: 100%; height: 350px;">
                                 <!--p:ajax event="itemSelect" listener="{prestationChiffreAffaireBean.itemSelect}" update="growl"/-->
                             </p:barChart>
@@ -394,7 +387,6 @@
                 </div>
             </div>
         </div>
-
         <!-- /.col -->
     </ui:define>
 
