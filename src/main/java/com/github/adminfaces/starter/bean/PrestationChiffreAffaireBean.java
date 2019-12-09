@@ -19,6 +19,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +55,8 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     private Integer yearCount;
     private List<Integer> years;
+    private String labels;
+    private String listMnt;
     private Integer anneeDebut;
     private Integer anneeFin;
     private Map<String, String> listPrest;
@@ -78,6 +82,16 @@ public class PrestationChiffreAffaireBean implements Serializable {
         years.add(2017);
         years.add(2018);
         years.add(2019);
+
+        JsonArrayBuilder totals = Json.createArrayBuilder();
+        JsonArrayBuilder totalCosts = Json.createArrayBuilder();
+        for (Integer year : years) {
+            totals.add(year);
+            Double mnt = Math.ceil(montantTotalParAn(year));
+            totalCosts.add(mnt);
+        }
+        labels = totals.build().toString();
+        listMnt = totalCosts.build().toString();
 
         listPrest = new HashMap<>();
         listPrest.put("5", "REDEVANCE NAVIRE");
@@ -232,7 +246,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         configuration.setIgnoreGraphics(false);
         JRXlsxExporter exporter = new JRXlsxExporter();
         exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        
+
         response.reset();
         response.setContentType("application/xlsx");
         response.setHeader("Content-disposition", "attachment; filename=\"report.xlsx\"");
@@ -394,6 +408,22 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     public void setBarModel2(BarChartModel barModel2) {
         this.barModel2 = barModel2;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
+    }
+
+    public String getListMnt() {
+        return listMnt;
+    }
+
+    public void setListMnt(String listMnt) {
+        this.listMnt = listMnt;
     }
 
 }
