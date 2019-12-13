@@ -8,104 +8,6 @@
 
     <ui:define name="head-end">
         <ui:param name="renderBreadCrumb" value="false"/>
-        <style type="text/css">
-            .ui-datatable .ui-datatable-header {
-                text-align: right !important;
-            }
-
-            body div.ui-datalist-content {
-                border: none;
-                text-align: center;
-            }
-
-            body div.ui-datalist .ui-datalist-data .ui-datalist-item {
-                font-weight: normal;
-            }
-
-            body div.ui-datalist .ui-paginator {
-                border: none !important;
-            }
-
-            #visitorsByMonthChart {
-                height: 200px;
-            }
-
-            #visitorsByPageChart {
-                height: 400px;
-            }
-
-            #visitorsByCountryChart {
-                height: 450px;
-            }
-
-            .ui-panel .leaflet-container {
-                width: 100%;
-                height: 500px
-            }
-
-            @media (max-width: 1280px) {
-                #visitorsByPageChart {
-                    height: 325px;
-                }
-
-                .ui-panel .leaflet-container {
-                    width: 100%;
-                    height: 400px
-                }
-            }
-
-            @media (max-width: 768px) {
-                #visitorsByMonthChart {
-                    height: 250px;
-                }
-
-                #visitorsByPageChart {
-                    height: 275px;
-                }
-
-                #visitorsByCountryChart {
-                    height: 350px;
-                }
-
-                .ui-panel .leaflet-container {
-                    height: 300px
-                }
-
-            }
-
-            @media (max-width: 640px) {
-                #visitorsByMonthChart {
-                    height: 275px;
-                }
-
-                #visitorsByPageChart {
-                    height: 200px;
-                }
-
-                #visitorsByCountryChart {
-                    height: 250px;
-                }
-
-                .ui-panel .leaflet-container {
-                    height: 250px
-                }
-            }
-
-            .month-picker-month-table a.ui-state-highlight {
-                background: #fff;
-                color: #444;
-            }
-
-            .month-picker-month-table a.ui-state-highlight > span {
-                font-weight: bold;
-            }
-
-            .month-picker-month-table a.ui-state-active {
-                background: #337ab7;
-                color: #fff;
-            }
-
-        </style>
     </ui:define>
 
     <ui:define name="title">
@@ -122,22 +24,21 @@
                     <!-- small box -->
                     <div class="small-box bg-aqua">
                         <div class="inner container-fluid" >
-                            <h3 class="row"><h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{nombreEscaleByAnnee}">
+                            <h3 class="row">
+                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{nombreEscaleByAnnee}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                 </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">Escales</span>
                             </h3>
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-8 col-md-8 col-sm-8">PETIT NAVIRE : <h:outputText style="font-weight: bold" value="#{nombrePetitEscaleByAnnee}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                            </div>
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-8 col-md-8 col-sm-8">GRAND NAVIRE : <h:outputText style="font-weight: bold" value="#{nombreGrandEscaleByAnnee}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span>
-                            </div>
+                            <h:panelGrid width="70%" border="0" columns="2">
+                                <h:outputText style="font-size: 18px;" value="PETIT NAVIRE   "/>
+                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{nombrePetitEscaleByAnnee}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="GRAND NAVIRE   "/>
+                                <h:outputText  style="font-size: 18px;font-weight: bold" value="#{nombreGrandEscaleByAnnee}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                            </h:panelGrid>
                         </div>
                         <div class="icon" style="font-size: 80px;">
                             <i class="fa fa-ship"></i>
@@ -155,26 +56,25 @@
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                 </h:outputText> <span style="font-weight: normal;font-size:calc(100% - 0.7vw - 0.7vh">EVPs</span>
                             </h3>
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span>
-                            </div> 
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                            </div>
+                            <h:panelGrid width="70%" border="0" columns="2">
+                                <h:outputText style="font-size: 18px;" value="IMPORT"/>
+                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{totalImpEVPParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="EXPORT"/>
+                                <h:outputText  style="font-size: 18px;font-weight: bold;text-align: right" value="#{totalExpEVPParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="TRANSIT"/>
+                                <h:outputText style="font-size: 18px;font-weight: bold;text-align: right" value="#{totalTrbEVPParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="TRANSBO"/>
+                                <h:outputText  style="font-size: 18px;font-weight: bold;text-align: right" value="#{totalTrbEVPParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                            </h:panelGrid>
+                            
                         </div>
                         <div class="icon" style="font-size: 80px;">
                             <i class="fa fa-cubes"></i>
@@ -197,26 +97,25 @@
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                 </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">Tonnes</span>
                             </h3>
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpTonnageParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpTonnageParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span>
-                            </div> 
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbTonnageParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbTonnageParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                            </div>
+                            <h:panelGrid width="70%" border="0" columns="2">
+                                <h:outputText style="font-size: 18px;" value="IMPORT"/>
+                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{totalImpTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="EXPORT"/>
+                                <h:outputText  style="font-size: 18px;font-weight: bold" value="#{totalExpTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="TRANSIT"/>
+                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{totalTrbTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="TRANSBO"/>
+                                <h:outputText  style="font-size: 18px;font-weight: bold" value="#{totalTrbTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                            </h:panelGrid>
+                            
                         </div>
                         <div class="icon" style="font-size: 80px;">
                             <i class="fa fa-fw fa-balance-scale"></i>
@@ -235,26 +134,21 @@
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                 </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">F</span>
                             </h3>
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">IMPORT  : <h:outputText style="font-weight: bold" value="#{totalImpEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">EXPORT  : <h:outputText style="font-weight: bold" value="#{totalExpEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span>
-                            </div> 
-                            <div class="row" style="font-size: 18px">
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSIT :  <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                                <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">TRANSB : <h:outputText style="font-weight: bold" value="#{totalTrbEVPParAn}">
-                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                    </h:outputText>
-                                </span> 
-                            </div>
+                            <h:panelGrid width="70%" border="0" columns="2">
+                                <h:outputText style="font-size: 18px;" value="HORS TAXE"/>
+                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{totalImpTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="PAYE"/>
+                                <h:outputText  style="font-size: 18px;font-weight: bold" value="#{totalExpTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText style="font-size: 18px;" value="NON PAYE"/>
+                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{totalTrbTonnageParAn}">
+                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                </h:outputText>
+                            </h:panelGrid>
+                            
                         </div>
 
                         <div class="icon" style="font-size: 80px;">
@@ -267,7 +161,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="col-lg-4 col-md-5 col-sm-12">
                     <div class="box box-primary ">
                         <div class="box-header with-border">
                             <p:growl id="growl1" showDetail="true" />
@@ -277,215 +171,20 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="box box-danger">
-                        <div class="box-header with-border">
-                            <p:growl id="growl2" showDetail="true" />
-                            <p:barChart model="#{chiffreAffaireBar}">
-                                <!--p:ajax event="itemSelect" listener="{prestationChiffreAffaireBean.itemSelect}" update="growl"/-->
-                            </p:barChart>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="box box-success">
+                <div class="col-lg-8 col-md-7 col-sm-12">
+                    <div class="box box-title">
                         <div class="box-header with-border">
                             <p:growl id="growl3" showDetail="true" />
                             <div class="position-relative mb-4">
-                                <canvas id="salesChart" height="250"></canvas>
+                                <canvas id="caChart" height="250"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <section class="content-header" style="padding-left: 0px">
-                        <h1 class="align-center">Menu principal</h1>
-                    </section>
-                </div>
-            </div>
-            <p:spacer height="10px"/>
-
-            <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Escale des navires</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-ship"></i></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul class="row">
-                                <li class="col-xs-6"><a href="#">Escale par mois</a></li>
-                                <li class="col-xs-6"><a href="#">Escale grands navires</a></li>
-                                <li class="col-xs-6"><a href="#">Escale petits navires</a></li>
-                                <li class="col-xs-6"><a href="#">Escale en double</a></li>
-                                <li class="col-xs-6"><a href="#">Escale des navires à quai</a></li>
-                                <li class="col-xs-6"><a href="#">Escale Navire en rade exterieure</a></li>
-                                <li class="col-xs-6"><a href="#">Escale bases logistiques</a></li>
-                                <li class="col-xs-6"><a href="#">Escale annulée</a></li>
-                            </ul>
-                            <!-- /.box-body -->
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Escale/Manifeste</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-balance-scale"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">Ayant manifeste</a></li>
-                                <li class="col-xs-6"><a href="#">N'ayant pas tous les trafics</a></li>
-                                <li class="col-xs-6"><a href="#">Avec manifeste complet</a></li>
-                                <li class="col-xs-6"><a href="#">Sans manifeste</a></li>
-                                <li class="col-xs-6"><a href="#">Avec manifeste incomplet</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic des conteneurs</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic march. par typenav</a></li>
-                                <li class="col-xs-6"><a href="#">Sans valeur commerciale</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- /.col -->
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Escale/Facture</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">Sans proforma</a></li>
-                                <li class="col-xs-6"><a href="#">Facturée</a></li>
-                                <li class="col-xs-6"><a href="#">Non facturée</a></li>
-                                <li class="col-xs-6"><a href="#">Avec brouillard sans facture</a></li>
-                                <li class="col-xs-6"><a href="#">Sans brouillard</a></li>
-                                <li class="col-xs-6"><a href="#">Avec facture de remplacement ou complementaire</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-sm-12 col-xs-12  ">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Manifeste/Facture</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul class="row">
-                                <li class="col-xs-6"><a href="#">Sans facture marchandise</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste par mois</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste facturé</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste sans facture</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste cloturé</a></li>
-                                <li class="col-xs-6"><a href="#">Manifeste nil</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic March. par pays</a></li>
-                                <li class="col-xs-6"><a href="#">Trafic EVP par pays</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Chiffre d'affaires</h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">CA avoir non deduit</a></li>
-                                <li class="col-xs-6"><a href="#">CA avoir deduit</a></li> 
-                                <li class="col-xs-6"><a href="#">CA sur nombre escale/manifeste)</a></li>
-                                <li class="col-xs-6"><a href="prestationChiffreAffaire.xhtml">CA par prestation</a></li>
-                                <li class="col-xs-6"><a href="#">CA par client</a></li>
-                                <li class="col-xs-6"><a href="#">CA par année/mois</a></li>
-                                <li class="col-xs-6"><a href="#">Cautions des mois anterieurs</a></li>
-                                <li class="col-xs-6"><a href="#">Evolution du CA</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Facture/Comptabilité </h3>
-                            <div class="box-tools pull-right">
-                                <!-- Buttons, labels, and many other things can be placed here! -->
-                                <!-- Here is a label for example -->
-                                <span class="label label-primary"><i class="fa fa-money"/></span>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <ul>
-                                <li class="col-xs-6"><a href="#">Facture signée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture non signée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture annulée</a></li>
-                                <li class="col-xs-6"><a href="#">Avoir non signé</a></li>
-                                <li class="col-xs-6"><a href="#">Facture transferée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture non transferée</a></li>
-                                <li class="col-xs-6"><a href="#">proforma non signé</a></li>
-                                <li class="col-xs-6"><a href="#">Facture signée non payée</a></li>
-                                <li class="col-xs-6"><a href="#">Proforma non transferée</a></li>
-                                <li class="col-xs-6"><a href="#">Proforma payé non transferée</a></li>
-                                <li class="col-xs-6"><a href="#">Facture attachée aux proformas</a></li>
-                                <li class="col-xs-6"><a href="#">Proforma sans facture</a></li>
-                                <li class="col-xs-6"><a href="#">Escale annulée avec proforma</a></li>
-                            </ul>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-            </div>
+            
         </div>
-        <!-- /.col -->
+        
     </ui:define>
 
     <ui:define name="content-end">
@@ -508,7 +207,7 @@
                         datasets: [
                             {
                                 label: '2019',
-                                backgroundColor: '#007bff',
+                                backgroundColor: '#006edb',
                                 borderColor: '#007bff',
                                 data: #{prestationChiffreAffaireBean.listMnt}
                             }/*,
@@ -523,7 +222,7 @@
                     options: {
                         title: {
                             display: true,
-                            text: 'Chiffre d\'affaire'
+                            text: 'CHIFFRE D\'AFFAIRE'
                         },
                         maintainAspectRatio: false,
                         tooltips: {
@@ -536,6 +235,84 @@
                         },
                         legend: {
                             display: false,
+                            position: 'bottom'
+                        },
+                        scales: {
+                            yAxes: [{
+                                    // display: false,
+                                    gridLines: {
+                                        display: true
+                                    },
+                                    ticks: $.extend({
+                                        beginAtZero: true,
+                                        // Include a dollar sign in the ticks
+                                        callback: function (value, index, values) {
+                                            if (value >= 1000) {
+                                                value /= 1000;
+                                                if (value >= 1000) {
+                                                    value /= 1000;
+                                                    if (value >= 1000) {
+                                                        value /= 1000;
+                                                        value += ' Milliard';
+                                                    } else {
+                                                        value += ' Million';
+                                                    }
+                                                } else {
+                                                    value += ' Mille';
+                                                }
+
+                                            }
+                                            return value;
+                                        }
+                                    }, ticksStyle)
+                                }],
+                            xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: true
+                                    },
+                                    ticks: ticksStyle
+                                }]
+                        }
+                    }
+                });
+
+                var $caChart = $("#caChart").get(0).getContext("2d");
+                var caChart = new Chart($caChart, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Dec"],
+                        datasets: [
+                            {
+                                label: '2019',
+                                backgroundColor: '#007bff',
+                                borderColor: '#007bff',
+                                data: #{prestationChiffreAffaireBean.listParMoisN}
+                            },
+                            {
+                                label: '2018',
+                                backgroundColor: '#808080',
+                                borderColor: '#808080',
+                                data: #{prestationChiffreAffaireBean.listParMoisN_1}
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'EVOLUTION DU CHIFFRE D\'AFFAIRE EN 2019'
+                        },
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            mode: mode,
+                            intersect: intersect
+                        },
+                        hover: {
+                            mode: mode,
+                            intersect: intersect
+                        },
+                        legend: {
+                            display: true,
                             position: 'bottom'
                         },
                         scales: {

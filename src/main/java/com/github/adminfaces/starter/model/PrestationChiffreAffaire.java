@@ -17,6 +17,8 @@ public class PrestationChiffreAffaire extends BaseEntity {
     private Integer id;
     @Column(name = "annee")
     private Integer annee;
+    @Column(name = "mois")
+    private Integer mois;
     @Column(name = "code")
     private String code;
     @Column(name = "prestation")
@@ -32,6 +34,15 @@ public class PrestationChiffreAffaire extends BaseEntity {
         this.code = code;
     }
 
+    public Integer getMois() {
+        return mois;
+    }
+
+    public void setMois(Integer mois) {
+        this.mois = mois;
+    }
+
+    
     
     public Integer getAnnee() {
         return annee;

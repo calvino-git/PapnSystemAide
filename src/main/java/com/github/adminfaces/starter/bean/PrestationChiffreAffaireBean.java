@@ -11,6 +11,7 @@ import com.github.adminfaces.starter.service.ChiffreAffaireService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
     private List<Integer> years;
     private String labels;
     private String listMnt;
+    private String listParMoisN;
     private Integer anneeDebut;
     private Integer anneeFin;
     private Map<String, String> listPrest;
@@ -70,29 +72,45 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     @Inject
     private ChiffreAffaireService chiffreAffaireService;
+    private String listParMoisN_1;
+    
 
     @PostConstruct
     public void init() {
-        anneeDebut = 2015;
-        anneeFin = 2019;
         yearCount = 5;
+        anneeFin = LocalDate.now().getYear();
+        anneeDebut = anneeFin-yearCount;
         years = new ArrayList<>(yearCount);
-        years.add(2015);
-        years.add(2016);
-        years.add(2017);
-        years.add(2018);
-        years.add(2019);
+        for(int i=anneeDebut;i<=anneeFin;i++){
+            years.add(i);
+        }
 
         JsonArrayBuilder totals = Json.createArrayBuilder();
         JsonArrayBuilder totalCosts = Json.createArrayBuilder();
-        for (Integer year : years) {
+        JsonArrayBuilder dataParMoisN = Json.createArrayBuilder();
+        JsonArrayBuilder dataParMoisN_1 = Json.createArrayBuilder();
+        years.stream().map((year) -> {
             totals.add(year);
-            Double mnt = Math.ceil(montantTotalParAn(year));
+            return year;
+        }).map((year) -> Math.ceil(montantTotalParAn(year))).forEachOrdered((mnt) -> {
             totalCosts.add(mnt);
+        });
+        for(int i = 1;i <= 12;i++){
+            String t ;
+            if(i<10) {
+                t = "0"+i;
+            }else{
+                t = String.valueOf(i);
+            }
+            Double mnt1 = Math.ceil(montantTotalParMois(Integer.valueOf(anneeFin.toString() + "" + t)));
+            Double mnt2 = Math.ceil(montantTotalParMois(Integer.valueOf((anneeFin - 1) + "" + t )));
+            dataParMoisN.add(mnt1);
+            dataParMoisN_1.add(mnt2);
         }
         labels = totals.build().toString();
         listMnt = totalCosts.build().toString();
-
+        listParMoisN = dataParMoisN.build().toString();
+        listParMoisN_1 = dataParMoisN_1.build().toString();
         listPrest = new HashMap<>();
         listPrest.put("5", "REDEVANCE NAVIRE");
         listPrest.put("1", "REDEVANCE MARCHANDISE");
@@ -107,8 +125,19 @@ public class PrestationChiffreAffaireBean implements Serializable {
         createBarModel2();
     }
 
+    public String getListParMoisN_1() {
+        return listParMoisN_1;
+    }
+
+    public void setListParMoisN_1(String listParMoisN_1) {
+        this.listParMoisN_1 = listParMoisN_1;
+    }
+
     public Double montantTotalParAn(Integer annee) {
         return chiffreAffaireService.getMontantTotalParAn(annee);
+    }
+    public Double montantTotalParMois(Integer mois) {
+        return chiffreAffaireService.getMontantTotalParMois(mois);
     }
 
     public void itemSelect(ItemSelectEvent event) {
@@ -425,5 +454,14 @@ public class PrestationChiffreAffaireBean implements Serializable {
     public void setListMnt(String listMnt) {
         this.listMnt = listMnt;
     }
+
+    public String getListParMoisN() {
+        return listParMoisN;
+    }
+
+    public void setListParMoisN(String listParMoisN) {
+        this.listParMoisN = listParMoisN;
+    }
+    
 
 }

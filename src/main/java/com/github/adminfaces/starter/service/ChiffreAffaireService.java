@@ -41,6 +41,7 @@ public class ChiffreAffaireService implements Serializable {
 
     private Double totalRecetteParAn;
     Double montantParAn = 0.0;
+    private double montantParMois;
 
     @PostConstruct
     public void init() {
@@ -75,12 +76,26 @@ public class ChiffreAffaireService implements Serializable {
                 .orderDesc(PrestationChiffreAffaire_.montant)
                 .getSingleResult();
     }
+    
+    public PrestationChiffreAffaire getPrestParMois(String code, Integer mois) {
+        return criteria(PrestationChiffreAffaire.class)
+                .eq(PrestationChiffreAffaire_.mois, mois)
+                .eqIgnoreCase(PrestationChiffreAffaire_.code, code)
+                .orderDesc(PrestationChiffreAffaire_.montant)
+                .getSingleResult();
+    }
 
     public Double getMontantTotalParAn(Integer annee) {
         montantParAn = 0.0;
         list.stream().filter(p -> p.getAnnee().intValue() == annee.intValue()).collect(Collectors.toList())
                 .forEach(p -> montantParAn += p.getMontant());
         return montantParAn;
+    }
+    public Double getMontantTotalParMois(Integer mois) {
+        montantParMois = 0.0;
+        list.stream().filter(p -> p.getMois().intValue() == mois.intValue()).collect(Collectors.toList())
+                .forEach(p -> montantParMois += p.getMontant());
+        return montantParMois;
     }
 
     public String getLibellePrestationParCode(String code) {
@@ -120,6 +135,23 @@ public class ChiffreAffaireService implements Serializable {
         this.listStatic = listStatic;
     }
 
+    public Double getMontantParAn() {
+        return montantParAn;
+    }
+
+    public void setMontantParAn(Double montantParAn) {
+        this.montantParAn = montantParAn;
+    }
+
+    public double getMontantParMois() {
+        return montantParMois;
+    }
+
+    public void setMontantParMois(double montantParMois) {
+        this.montantParMois = montantParMois;
+    }
+
+    
     public Double getTotalRecetteParAn() {
         return totalRecetteParAn;
     }

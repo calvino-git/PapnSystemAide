@@ -11,5 +11,8 @@ public interface ChiffreAffaireRepository extends EntityRepository<PrestationChi
 
     @Query("SELECT SUM(c.montant) FROM PrestationChiffreAffaire c WHERE c.annee = :annee")
     Double getMontantTotalByAnnee(@QueryParam("annee") Integer annee);
+    
+    @Query("SELECT SUM(c.montant) FROM PrestationChiffreAffaire c WHERE c.mois = :mois")
+    Double getMontantTotalBymois(@QueryParam("mois") Integer mois);
 
 }
