@@ -120,95 +120,142 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Navire implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false, precision = 19, scale = 0)
+    @Column(name = "NACLEUNIK")
     private BigDecimal nacleunik;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "NUMERO")
     private String numero;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "RADIO")
     private String radio;
     @Size(max = 40)
-    @Column(length = 40)
+    @Column(name = "NOM")
     private String nom;
     @Size(max = 40)
-    @Column(length = 40)
+    @Column(name = "LIBELLE")
     private String libelle;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "PAVILLON")
     private String pavillon;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "ARMATEUR")
     private String armateur;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "AFFRETEUR")
     private String affreteur;
     @Size(max = 25)
-    @Column(length = 25)
+    @Column(name = "CAPITAINE")
     private String capitaine;
+    @Column(name = "CONSTRUC")
     private Integer construc;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "TYPE")
     private String type;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "NATURE")
     private String nature;
+    @Column(name = "VOLUME")
     private BigInteger volume;
-    @Column(precision = 63)
+    @Column(name = "CAPACITE")
     private Double capacite;
+    @Column(name = "TARE")
+    private BigDecimal tare;
+    @Column(name = "CONTEN")
+    private BigInteger conten;
+    @Column(name = "LONGU")
+    private Double longu;
+    @Column(name = "LARGEUR")
+    private Double largeur;
+    @Column(name = "HAUTEUR")
+    private Double hauteur;
+    @Column(name = "NOMBRE")
+    private BigInteger nombre;
+    @Column(name = "PERSON")
+    private BigInteger person;
+    @Column(name = "UNITE")
+    private BigInteger unite;
+    @Column(name = "PASSAG")
+    private BigInteger passag;
+    @Column(name = "QUANTITE")
+    private BigInteger quantite;
+    @Size(max = 80)
+    @Column(name = "TEXTE")
+    private String texte;
+    @Size(max = 8)
+    @Column(name = "DESSERTE")
+    private String desserte;
+    @Size(max = 8)
+    @Column(name = "LIGNE")
+    private String ligne;
+    @Size(max = 8)
+    @Column(name = "EMPLAC")
+    private String emplac;
+    @Size(max = 8)
+    @Column(name = "AFFRET")
+    private String affret;
+    @Size(max = 2)
+    @Column(name = "CATEGORIE")
+    private String categorie;
+    @Column(name = "CHATEAU")
+    private Double chateau;
+    @Column(name = "CELLULARISE")
+    private Short cellularise;
+    @Size(max = 8)
+    @Column(name = "RAMPE")
+    private String rampe;
+    @Column(name = "GESTION")
+    private BigInteger gestion;
+    @Size(max = 8)
+    @Column(name = "STATUT")
+    private String statut;
+    @Size(max = 10)
+    @Column(name = "CREATEUR")
+    private String createur;
+    @Size(max = 10)
+    @Column(name = "UTILISAT")
+    private String utilisat;
+    @Size(max = 8)
+    @Column(name = "PORTS")
+    private String ports;
+    @Column(name = "MANIFOLD")
+    private BigDecimal manifold;
+    @Column(name = "CONSIGNES")
+    private Short consignes;
+    @Size(max = 8)
+    @Column(name = "AGENT")
+    private String agent;
+    @Size(max = 8)
+    @Column(name = "DATE_DEBUT_RELACHE")
+    private String dateDebutRelache;
+    @Size(max = 8)
+    @Column(name = "DATE_FIN_RELACHE")
+    private String dateFinRelache;
+
+    private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "CHARG_B", precision = 63)
     private Double chargB;
     @Column(name = "CHARG_N", precision = 63)
     private Double chargN;
-    @Column(precision = 19, scale = 6)
-    private BigDecimal tare;
-    private BigInteger conten;
-    @Column(precision = 63)
-    private Double longu;
-    @Column(precision = 63)
-    private Double largeur;
-    @Column(precision = 63)
-    private Double hauteur;
-    private BigInteger nombre;
     @Size(max = 8)
     @Column(name = "PORT_ATTAC", length = 8)
     private String portAttac;
-    private BigInteger person;
     @Column(name = "PROP_AV")
     private Short propAv;
     @Column(name = "PROP_AR")
     private Short propAr;
-    private BigInteger unite;
-    private BigInteger passag;
-    private BigInteger quantite;
-    @Size(max = 80)
-    @Column(length = 80)
-    private String texte;
     @Column(name = "L_DEB")
     private BigInteger lDeb;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String desserte;
     @Column(name = "NB_MOT")
     private Short nbMot;
     @Column(name = "NB_REM")
     private Short nbRem;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String ligne;
     @Column(name = "TRAIT_SHT")
     private BigInteger traitSht;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String emplac;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String affret;
     @Column(name = "CAP_GRAIN")
     private Integer capGrain;
     @Column(name = "CAP_BALLE")
@@ -217,51 +264,26 @@ public class Navire implements Serializable {
     private Short grueBab;
     @Column(name = "GRUE_TRI")
     private Short grueTri;
-    @Size(max = 2)
-    @Column(length = 2)
-    private String categorie;
     @Size(max = 8)
     @Column(name = "T_LONG", length = 8)
     private String tLong;
     @Size(max = 8)
     @Column(name = "T_LARGEUR", length = 8)
     private String tLargeur;
-    @Column(precision = 63)
-    private Double chateau;
-    private Short cellularise;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String rampe;
-    private BigInteger gestion;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String statut;
-    @Size(max = 10)
-    @Column(length = 10)
-    private String createur;
     @Size(max = 8)
     @Column(name = "D_CREAT", length = 8)
     private String dCreat;
     @Size(max = 4)
     @Column(name = "H_CREAT", length = 4)
     private String hCreat;
-    @Size(max = 10)
-    @Column(length = 10)
-    private String utilisat;
     @Size(max = 8)
     @Column(name = "D_MODIF", length = 8)
     private String dModif;
     @Size(max = 4)
     @Column(name = "H_MODIF", length = 4)
     private String hModif;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String ports;
-    @Column(precision = 19, scale = 6)
-    private BigDecimal manifold;
     @Column(name = "JAUGE_UMS", precision = 19, scale = 6)
     private BigDecimal jaugeUms;
-    private Short consignes;
     @Size(max = 8)
     @Column(name = "DATE_CONSIGNES", length = 8)
     private String dateConsignes;
@@ -274,9 +296,6 @@ public class Navire implements Serializable {
     @Size(max = 8)
     @Column(name = "NOM_COURT", length = 8)
     private String nomCourt;
-    @Size(max = 8)
-    @Column(length = 8)
-    private String agent;
     @Column(name = "LONGUEUR_PORTE", precision = 19, scale = 6)
     private BigDecimal longueurPorte;
     @Size(max = 8)
@@ -1041,5 +1060,4 @@ public class Navire implements Serializable {
     public String toString() {
         return "db.Navire[ nacleunik=" + nacleunik + " ]";
     }
-    
 }

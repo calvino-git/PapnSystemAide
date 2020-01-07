@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?wsdl" uri="wsdl/192.168.115.125_8080/SydoniaPapnWS/AWPAPNWebService.wsdl"/>
+    <system systemId="http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?wsdl=1" uri="wsdl/192.168.115.125_8080/SydoniaPapnWS/AWPAPNWebService.wsdl_1.wsdl"/>
+    <system systemId="http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?xsd=1" uri="wsdl/192.168.115.125_8080/SydoniaPapnWS/AWPAPNWebService.xsd_1.xsd"/>
+</catalog>

@@ -10,19 +10,32 @@
   <managed-job-config></managed-job-config>
   <system-applications></system-applications>
   <applications>
-    <application deployment-time="28272" context-root="/sysaide" object-type="user" name="SysAide" directory-deployed="true" location="file:/C:/Users/Calvin%20ILOKI/Documents/NetBeansProjects/SysAide/target/SysAide/" time-deployed="1576239613134">
+    <application deployment-time="27704" context-root="/sysaide" object-type="user" name="SysAide" directory-deployed="true" location="file:/C:/Users/Calvin%20ILOKI/Documents/NetBeansProjects/SysAide/target/SysAide/" time-deployed="1577966248947">
       <property name="archiveType" value="war"></property>
       <property name="cdiDevModeEnabled" value="false"></property>
       <property name="appLocation" value="file:/C:/Users/Calvin%20ILOKI/Documents/NetBeansProjects/SysAide/target/SysAide/"></property>
-      <property name="org.glassfish.ejb.container.application_unique_id" value="103299940825235456"></property>
+      <property name="org.glassfish.ejb.container.application_unique_id" value="103412551583989760"></property>
       <property name="defaultAppName" value="SysAide"></property>
       <module name="SysAide">
         <engine sniffer="cdi"></engine>
         <engine sniffer="ejb"></engine>
         <engine sniffer="security"></engine>
         <engine sniffer="jpa"></engine>
+        <engine sniffer="resources"></engine>
         <engine sniffer="web"></engine>
       </module>
+      <resources>
+        <jdbc-connection-pool datasource-classname="oracle.jdbc.pool.OracleDataSource" name="java:app/oracle-thin_VIRTRE_ppncargoPool" wrap-jdbc-objects="false" sql-trace-listeners="" connection-validation-method="auto-commit" res-type="javax.sql.DataSource">
+          <property name="URL" value="jdbc:oracle:thin:@10.0.55.203:1521:VIRTRE"></property>
+          <property name="driverClass" value="oracle.jdbc.OracleDriver"></property>
+          <property name="Password" value="ppncargo"></property>
+          <property name="portNumber" value="1521"></property>
+          <property name="databaseName" value="VIRTRE"></property>
+          <property name="User" value="ppncargo"></property>
+          <property name="serverName" value="10.0.55.203"></property>
+        </jdbc-connection-pool>
+        <jdbc-resource pool-name="java:app/oracle-thin_VIRTRE_ppncargoPool" jndi-name="java:app/jdbc/cargo"></jdbc-resource>
+      </resources>
     </application>
   </applications>
   <resources>

@@ -8,6 +8,8 @@ import org.apache.deltaspike.data.api.Repository;
 
 @Repository
 public interface EscaleRepository extends EntityRepository<Escale,Integer> {
+    @Query("SELECT e FROM Escale e WHERE  substring(e.departEffectif,0,4) = :annee order by e.arrivee desc")
+    Long listEscaleByAnnee(@QueryParam("annee") String annee);
 
     @Query("SELECT COUNT(e.escleunik) FROM Escale e WHERE e.situat = :situat and substring(e.departEffectif,0,4) = :annee")
     Long getNombreEscaleByAnnee(@QueryParam("situat") String situat,@QueryParam("annee") String annee);

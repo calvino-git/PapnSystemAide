@@ -37,7 +37,7 @@
         <li class="header">
             Menu principal
         </li>
-        <li class="treeview">
+        <!--li class="treeview">
             <a href="#">
                 <i class="fa fa-fw fa-dollar"></i>
                 <span>Chiffre d'affaire</span>
@@ -54,12 +54,60 @@
                     </p:link>
                 </li>
             </ul>
+        </li-->
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-ship"></i>
+                <span>Escale</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <!--ul class="treeview-menu">
+
+                <li>
+                    <p:link outcome="/escalepetitnavire">
+                        <i class="fa fa-list"></i>
+                        <span>Petits navires</span>
+                    </p:link>
+                </li>
+                <li>
+                    <p:link outcome="/escalegrandnavire">
+                        <i class="fa fa-list"></i>
+                        <span>Grands navires</span>
+                    </p:link>
+                </li>
+            </ul-->
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-cubes"></i>
+                <span>Trafic Conteneur</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+
+                <li>
+                    <p:link outcome="/recap">
+                        <i class="fa fa-list"></i>
+                        <span>Recap. par source</span>
+                    </p:link>
+                </li>
+            </ul>
         </li>
 
         <li>
             <p:link outcome="/upload">
                 <i class="fa fa-fw fa-file-pdf-o"></i>
                 <span>Conversion</span>
+            </p:link>
+        </li>
+        <li>
+            <p:link outcome="/manifestedouane">
+                <i class="fa fa-fw fa-file-pdf-o"></i>
+                <span>Manifeste - Douane</span>
             </p:link>
         </li>
 

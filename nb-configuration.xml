@@ -26,5 +26,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-css-prep.less_2e_compiler_2e_options/>
         <org-netbeans-modules-css-prep.sass_2e_mappings>/scss:/css</org-netbeans-modules-css-prep.sass_2e_mappings>
         <org-netbeans-modules-payara-micro.version/>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_AWPAPNWebService>http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_AWPAPNWebService>
     </properties>
 </project-shared-configuration>

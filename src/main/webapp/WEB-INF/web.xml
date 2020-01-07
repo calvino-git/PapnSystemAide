@@ -78,7 +78,7 @@
         <password>ppncargo</password>
         <property>
             <name>timezoneAsRegion</name>
-            <value>true</value>
+            <value>false</value>
         </property>
     </data-source>
 </web-app>

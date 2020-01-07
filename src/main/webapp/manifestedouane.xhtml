@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Manifeste - Douane"/>
+    </ui:define>
+    <ui:define name="title">
+        Recherche des manifestes a la douane
+    </ui:define>
+
+    <ui:define name="body">
+        <div class="box box-info">
+            <div class="box-header with-border ui-fileupload">
+
+                <h:form>
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+
+                    <h:panelGrid columns="2" cellpadding="5" cellspacing="10" rowClasses="">
+                        <f:facet name="header">
+                            Saisir la période et le type de trafic
+                        </f:facet>
+                        <p:outputLabel for="debut" value="Debut: " />
+                        <p:inputMask id="debut" value="#{manifestBean.debut}" mask="99/99/9999"/>
+                        <p:outputLabel for="fin" value="Fin: " />
+                        <p:inputMask id="fin" value="#{manifestBean.fin}" mask="99/99/9999"/>
+                        <p:outputLabel for="trafic" value="Trafic: " />
+                        <p:inputText id="trafic" value="#{manifestBean.trafic}"/>
+                        <f:facet name="footer">
+                            <p:commandButton value="Vider" type="reset" styleClass="ui-priority-primary"/>
+                            <p:commandButton value="Lancer" action="#{manifestBean.searchRefMan}" process="@form" update="@form" styleClass="ui-priority-primary"/>
+                        </f:facet>  
+                    </h:panelGrid>
+                    <p:spacer height="5"/>
+                    <p:dataTable id="refman" var="refman" value="#{manifestBean.refManList}" rendered="#{not manifestBean.refManList.isEmpty()}">
+                        <p:column headerText="Numero">
+                            <h:outputText value="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" />
+                        </p:column>
+
+                        <p:column headerText="Navire">
+                            <h:outputText value="#{refman.navire}" />
+                        </p:column>
+
+                        <p:column headerText="Voyage">
+                            <h:outputText value="#{refman.numeroVoyage}" />
+                        </p:column>
+
+                        <p:column headerText="Date Depart">
+                            <h:outputText value="#{refman.dateDepart}" />
+                        </p:column>
+
+                        <p:column headerText="Date Arrivée">
+                            <h:outputText value="#{refman.dateArrivee}" />
+                        </p:column>
+
+                        <p:column headerText="Consignataire">
+                            <h:outputText value="#{refman.codeTransporteur} : #{refman.nomTransporteur}" />
+                        </p:column>
+                        <p:column headerText="Action">
+                            <p:commandButton icon="fa fa-download" action="#" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="code">
+        <p:tabView>
+            <p:tab title="Trace">
+                <pre>
+               <code class="language-html">
+                   <h:outputText value="" escape="true"/>
+               </code>
+                </pre>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

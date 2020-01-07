@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.1-b01-. --><xs:schema xmlns:tns="http://interf/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://interf/">
+
+<xs:element name="InputReference" type="tns:inputReference"/>
+
+<xs:element name="InputReferenceGetManifest" type="tns:inputReferenceGetManifest"/>
+
+<xs:element name="genererManifeste" type="tns:genererManifeste"/>
+
+<xs:element name="genererManifesteResponse" type="tns:genererManifesteResponse"/>
+
+<xs:element name="getManListRef" type="tns:getManListRef"/>
+
+<xs:element name="getManListRefResponse" type="tns:getManListRefResponse"/>
+
+<xs:complexType name="getManListRef">
+<xs:sequence>
+<xs:element name="arg0" type="tns:inputReference" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inputReference">
+<xs:sequence>
+<xs:element name="debut" type="xs:string"/>
+<xs:element name="fin" type="xs:string"/>
+<xs:element name="type" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getManListRefResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:refManResult" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="refManResult">
+<xs:complexContent>
+<xs:extension base="tns:webServiceResult">
+<xs:sequence>
+<xs:element name="instance_id" type="xs:string" minOccurs="0"/>
+<xs:element name="bureau_douane" type="xs:string" minOccurs="0"/>
+<xs:element name="numero_voyage" type="xs:string" minOccurs="0"/>
+<xs:element name="date_depart" type="xs:string" minOccurs="0"/>
+<xs:element name="annee_enregistrement" type="xs:string" minOccurs="0"/>
+<xs:element name="numero_enregistrement" type="xs:string" minOccurs="0"/>
+<xs:element name="date_enregistrement" type="xs:string" minOccurs="0"/>
+<xs:element name="date_arrivee" type="xs:string" minOccurs="0"/>
+<xs:element name="code_transporteur" type="xs:string" minOccurs="0"/>
+<xs:element name="nom_transporteur" type="xs:string" minOccurs="0"/>
+<xs:element name="navire" type="xs:string" minOccurs="0"/>
+<xs:element name="lieu_chargement" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="webServiceResult">
+<xs:sequence>
+<xs:element name="code" type="xs:int" minOccurs="0"/>
+<xs:element name="code_description" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="genererManifeste">
+<xs:sequence>
+<xs:element name="arg0" type="tns:inputReferenceGetManifest" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inputReferenceGetManifest">
+<xs:sequence>
+<xs:element name="numEnreg" type="xs:string"/>
+<xs:element name="numVoy" type="xs:string"/>
+<xs:element name="dateDepart" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="genererManifesteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

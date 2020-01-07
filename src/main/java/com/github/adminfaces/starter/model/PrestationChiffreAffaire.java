@@ -41,8 +41,6 @@ public class PrestationChiffreAffaire extends BaseEntity {
     public void setMois(Integer mois) {
         this.mois = mois;
     }
-
-    
     
     public Integer getAnnee() {
         return annee;
