@@ -121,7 +121,7 @@
                                               requiredMessage="Date de fin obligatoire"
                                               required="true" label="Fin" style="width:auto"/>
                             </p:panelGrid>
-                            <p:panelGrid columns="2" columnClasses="ui-g-6 ui-md-6 ui-lg-6 align-left,ui-g-6 ui-md-6 ui-lg-6 align-right"
+                            <p:panelGrid columns="2" columnClasses="ui-g-6 align-left,ui-g-6 align-right"
                                          layout="grid" styleClass="ui-fluid">
                                 <p:commandButton id="brFind" icon="fa fa-fw fa-search"
                                                  value="Lancer la recherche"
@@ -129,9 +129,9 @@
                                                  process="@form"
                                                  update="@form"
                                                  styleClass="btn-primary"
-                                                 style="width: 50%"
+                                                 style="width: auto"
                                                  partialSubmit="true"/>
-                                <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="width: 30%" icon="fa fa-list" />
+                                <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="width: auto" icon="fa fa-list" />
                                 <p:columnToggler  datasource="mfTable" trigger="toggler" />
                             </p:panelGrid>
                         </f:facet>
