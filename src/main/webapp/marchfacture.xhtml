@@ -91,21 +91,14 @@
             <p:focus context="@form"/>  
             <div class="box box-primary">
                 <div class="box-header with-border">
-                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                         <p:commandButton value="Excel" icon="fa fa-file-excel-o" styleClass="btn-danger">
-                            <p:dataExporter type="xls" target="mfTable" customExporter=""
-                                            fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
-
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton value="Excel" icon="fa fa-file-excel-o" styleClass="btn-danger">
+                            <p:dataExporter type="xls" target="mfTable" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
                         </p:commandButton>
-
                     </div>
-                    <p:splitButton value="Excel"
-                                   icon="fa fa-file-excel-o"
-                                   styleClass="hidden-md hidden-lg btn-primary" >
-                        <p:dataExporter type="xls" target="mfTable" customExporter=""
-                                          fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
+                    <p:splitButton value="Excel" icon="fa fa-file-excel-o" styleClass="hidden-md hidden-lg btn-primary" >
+                        <p:dataExporter type="xls" target="mfTable"  fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
                     </p:splitButton>
-
                     <p:separator/>
 
                     <p:dataTable id="mfTable" widgetVar="mfTable" var="mf" value="#{marchFactBean.list}" filteredValue="#{marchFactBean.filtered}"
@@ -116,51 +109,31 @@
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
                                  rowsPerPageTemplate="5,10,15,">
                         <f:facet name="header">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-6 col-xs-12">
-                                        <p:outputLabel style="font-size: 20px;width: 100%;" value="" />
-                                    </div>
-                                    <div class="col-md-6 col-xs-12">
-                                        <div class="ui-g ui-fluid" >
-                                            <div class="ui-g" >
-                                                <div class="ui-inputgroup">
-                                                    <span class="ui-inputgroup-addon">
-                                                        <p:outputLabel for="debut" value="De" />
-                                                    </span>
+                            <p:growl id="growl" showDetail="true" sticky="true" />
+                            <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
+                                         layout="grid" styleClass="showcase-text-align-center ui-fluid">
+                                <p:outputLabel value="Date debut: *" for="debut"/>
+                                <p:datePicker id="debut" value="#{marchFactBean.debut}"  pattern="yyyyMMdd" showIcon="true" requiredMessage="Date de debut obligatoire"
+                                              required="true" label="Debut" style="width:auto"/>
 
-                                                    <span class="ui-inputgroup-addon">
-                                                        <p:datePicker id="debut" value="#{marchFactBean.debut}" showOnFocus="false" pattern="yyyyMMdd" showIcon="true" />
-                                                    </span>
-                                                </div>
-                                                <div class="ui-inputgroup">
-                                                    <span class="ui-inputgroup-addon">
-                                                        <p:outputLabel for="fin" value="A" />
-                                                    </span>
-
-                                                    <span class="ui-inputgroup-addon">
-                                                        <p:datePicker id="fin" value="#{marchFactBean.fin}" showOnFocus="false" pattern="yyyyMMdd" showIcon="true" />
-                                                    </span>
-                                                </div>
-                                                <div class="ui-inputgroup">
-                                                    <p:commandButton id="brFind" icon="fa fa-fw fa-search"
-                                                                     action="#{marchFactBean.updateList()}"
-                                                                     process="@form"
-                                                                     update="@form"
-                                                                     styleClass="btn-info"
-                                                                     partialSubmit="true"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p:spacer height="5px"/>
-                                    <div class="col-lg-1 col-md-2 col-sm-3 col-xs-12">
-                                        <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="float:right;width: 100%" icon="fa fa-list" />
-                                        <p:columnToggler  datasource="mfTable" trigger="toggler" />
-                                    </div>
-                                </div>
-                            </div>
-
+                                <p:outputLabel value="Date fin: *" for="fin"/>
+                                <p:datePicker id="fin" value="#{marchFactBean.fin}" pattern="yyyyMMdd" showIcon="true" 
+                                              requiredMessage="Date de fin obligatoire"
+                                              required="true" label="Fin" style="width:auto"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-g-6 ui-md-6 ui-lg-6 align-left,ui-g-6 ui-md-6 ui-lg-6 align-right"
+                                         layout="grid" styleClass="ui-fluid">
+                                <p:commandButton id="brFind" icon="fa fa-fw fa-search"
+                                                 value="Lancer la recherche"
+                                                 action="#{marchFactBean.updateList()}"
+                                                 process="@form"
+                                                 update="@form"
+                                                 styleClass="btn-primary"
+                                                 style="width: 50%"
+                                                 partialSubmit="true"/>
+                                <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="width: 30%" icon="fa fa-list" />
+                                <p:columnToggler  datasource="mfTable" trigger="toggler" />
+                            </p:panelGrid>
                         </f:facet>
                         <p:columns value="#{marchFactBean.columns}" var="column" width="150" columnIndexVar="colIndex" sortBy="#{mf[column.property]}" filterBy="#{mf[column.property]}">
                             <f:facet name="header">
