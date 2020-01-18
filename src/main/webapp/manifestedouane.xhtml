@@ -14,59 +14,92 @@
     </ui:define>
 
     <ui:define name="body">
-        <div class="box box-info">
-            <div class="box-header with-border ui-fileupload">
 
+        <div class="box box-info">
+            <div class="box-header with-border">
                 <h:form>
                     <p:growl id="growl" showDetail="true" sticky="true" />
+                    <p:panel header="Saisir la période et le type de trafic">
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-2"
+                                     layout="grid" styleClass="ui-fluid">
+                            <p:outputLabel value="Date debut: *" for="debut"/>
+                            <p:inputMask  id="debut" value="#{manifestBean.debut}" mask="99/99/9999"
+                                          requiredMessage="Date de debut obligatoire"
+                                          required="true" label="Debut" style="text-align: right"/>
 
-                    <h:panelGrid columns="2" cellpadding="5" cellspacing="10" rowClasses="">
-                        <f:facet name="header">
-                            Saisir la période et le type de trafic
-                        </f:facet>
-                        <p:outputLabel for="debut" value="Debut: " />
-                        <p:inputMask id="debut" value="#{manifestBean.debut}" mask="99/99/9999"/>
-                        <p:outputLabel for="fin" value="Fin: " />
-                        <p:inputMask id="fin" value="#{manifestBean.fin}" mask="99/99/9999"/>
-                        <p:outputLabel for="trafic" value="Trafic: " />
-                        <p:inputText id="trafic" value="#{manifestBean.trafic}"/>
-                        <f:facet name="footer">
-                            <p:commandButton value="Vider" type="reset" styleClass="ui-priority-primary"/>
-                            <p:commandButton value="Lancer" action="#{manifestBean.searchRefMan}" process="@form" update="@form" styleClass="ui-priority-primary"/>
-                        </f:facet>  
-                    </h:panelGrid>
-                    <p:spacer height="5"/>
-                    <p:dataTable id="refman" var="refman" value="#{manifestBean.refManList}" rendered="#{not manifestBean.refManList.isEmpty()}">
-                        <p:column headerText="Numero">
-                            <h:outputText value="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" />
-                        </p:column>
+                            <p:outputLabel value="Date fin: *" for="fin"/>
+                            <p:inputMask id="fin" value="#{manifestBean.fin}" mask="99/99/9999"
+                                         requiredMessage="Date de fin obligatoire"
+                                         required="true" label="Fin" style="text-align: right"/>
 
-                        <p:column headerText="Navire">
-                            <h:outputText value="#{refman.navire}" />
-                        </p:column>
+                            <p:outputLabel for="trafic" value="Trafic: * "/>
+                            <p:selectOneMenu id="trafic" value="#{manifestBean.trafic}" required="true">
+                                <f:selectItem itemLabel="IMPORT" itemValue="IMP"/>
+                                <f:selectItem itemLabel="EXPORT" itemValue="EXP"/>
+                            </p:selectOneMenu>
 
-                        <p:column headerText="Voyage">
-                            <h:outputText value="#{refman.numeroVoyage}" />
-                        </p:column>
 
-                        <p:column headerText="Date Depart">
-                            <h:outputText value="#{refman.dateDepart}" />
-                        </p:column>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-2"
+                                     layout="grid" styleClass="ui-fluid">
+                            <p:commandButton value="Lancer la recherche" action="#{manifestBean.searchRefMan}" update="refman pan"/>
+                        </p:panelGrid>
+                    </p:panel>
 
-                        <p:column headerText="Date Arrivée">
-                            <h:outputText value="#{refman.dateArrivee}" />
-                        </p:column>
 
-                        <p:column headerText="Consignataire">
-                            <h:outputText value="#{refman.codeTransporteur} : #{refman.nomTransporteur}" />
-                        </p:column>
-                        <p:column headerText="Action">
-                            <p:commandButton icon="fa fa-download" action="#" />
-                        </p:column>
-                    </p:dataTable>
+                    <p:panel id="pan" styleClass="card no-border" visible="#{not empty manifestBean.refManList}" >
+                        <p:dataTable id="refman" widgetVar="refTable" var="refman" value="#{manifestBean.refManList}" paginator="true" 
+                                     rowsPerPageTemplate="10,15,20,30" rows="10">
+                            <f:facet name="header">
+                                <p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"  layout="grid" styleClass="ui-fluid">
+                                <p:outputPanel style="text-align: left">
+                                    <h:outputText value="#{manifestBean.refManList.size()} MANIFESTES TROUVES EN #{manifestBean.trafic}ORT." style="color: red;font-size: large"/>
+                                </p:outputPanel>
+                                <p:outputPanel style="text-align: right">
+                                    <h:outputText value="Recherche sur tous les champs :"/>
+                                    <p:spacer height="10"/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('refTable').filter()" style="width:150px"
+                                                 placeholder="Entrer ici..."/>
+                                </p:outputPanel>
+                                </p:panelGrid>
+                            </f:facet>
+                            <p:column headerText="Bureau" filterBy="#{refman.bureauDouane}" sortBy="#{refman.bureauDouane}">
+                                <h:outputText value="#{refman.bureauDouane}" />
+                            </p:column>
+                            <p:column headerText="Numero" filterBy="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" sortBy="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}">
+                                <h:outputText value="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" />
+                            </p:column>
+
+                            <p:column headerText="Navire" filterBy="#{refman.navire}" sortBy="#{refman.navire}">
+                                <h:outputText value="#{refman.navire}" />
+                            </p:column>
+
+                            <p:column headerText="Voyage" filterBy="#{refman.numeroVoyage}" sortBy="#{refman.numeroVoyage}">
+                                <h:outputText value="#{refman.numeroVoyage}" />
+                            </p:column>
+
+                            <p:column headerText="Date Depart" filterBy="#{refman.dateDepart}" sortBy="#{refman.dateDepart}">
+                                <h:outputText value="#{refman.dateDepart}" />
+                            </p:column>
+
+                            <p:column headerText="Date Arrivée" filterBy="#{refman.dateArrivee}" sortBy="#{refman.dateArrivee}">
+                                <h:outputText value="#{refman.dateArrivee}" />
+                            </p:column>
+
+                            <p:column headerText="Consignataire " filterBy="#{refman.nomTransporteur}" sortBy="#{refman.nomTransporteur}">
+                                <h:outputText value="#{refman.codeTransporteur} : #{refman.nomTransporteur}" />
+                            </p:column>
+                            <p:column headerText="Action">
+                                <p:commandButton icon="fa fa-download" action="#" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
                 </h:form>
             </div>
         </div>
+
+
+
     </ui:define>
 
     <ui:define name="code">

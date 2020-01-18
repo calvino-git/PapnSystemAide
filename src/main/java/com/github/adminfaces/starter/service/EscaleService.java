@@ -54,8 +54,8 @@ public class EscaleService implements Serializable {
     @Schedule(minute = "*/7",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
-        this.nombrePetitEscaleByAn = getNombrePetitEscaleByAnnee("PARTI", String.valueOf(LocalDate.now().getYear()));
-        this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", String.valueOf(LocalDate.now().getYear()));
+        this.nombrePetitEscaleByAn = getNombrePetitEscaleByAnnee("PARTI", String.valueOf(2019));
+        this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", String.valueOf(2019));
         this.nombreEscaleByAn = this.nombrePetitEscaleByAn + this.nombreGrandEscaleByAn;
     }
 

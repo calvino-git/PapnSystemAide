@@ -49,7 +49,7 @@ public class ConteneurCongoTerminalService implements Serializable {
     @Schedule(minute = "*/8",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
-        String annee = String.valueOf(LocalDate.now().getYear());
+        String annee = String.valueOf(2019);
         this.totalEVPParAn = tctRepo.getTotalEVPParAn(annee);
         this.totalImpEVPParAn = tctRepo.getTotalImportEVPParAn(annee);
         this.totalExpEVPParAn = tctRepo.getTotalExportEVPParAn(annee);

@@ -13,10 +13,12 @@ import com.github.adminfaces.starter.util.GetManListRefResponse;
 import com.github.adminfaces.starter.util.InputReference;
 import com.github.adminfaces.starter.util.ObjectFactory;
 import com.github.adminfaces.starter.util.RefManResult;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -25,8 +27,8 @@ import javax.faces.context.FacesContext;
  * @author Calvin ILOKI
  */
 @Named
-@Dependent
-public class ManifestBean {
+@SessionScoped
+public class ManifestBean implements Serializable {
 
     private String debut;
     private String fin;
@@ -36,7 +38,7 @@ public class ManifestBean {
 
     @PostConstruct
     private void init() {
-        
+
     }
 
     public void searchRefMan() {
@@ -49,17 +51,18 @@ public class ManifestBean {
         inRef.setType(trafic);
         GetManListRef requestRefListManifest = factory.createGetManListRef();
         requestRefListManifest.setArg0(inRef);
-        
+
         if (awService != null) {
             System.out.println("Apple du Web Service de la douane... ");
             System.out.println("Date de debut : " + inRef.getDebut());
             System.out.println("Date de fin : " + inRef.getFin());
             System.out.println("Trafic : " + inRef.getType());
-            refManList = awService.getManListRef(inRef);
+            List<RefManResult> refManList2 =  awService.getManListRef(inRef);
+            FacesContext context = FacesContext.getCurrentInstance();
+            refManList = refManList2;
+            context.addMessage(null, new FacesMessage("Successful", "Ref Man resultat : " + refManList.size()));
         }
-        
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful", "Ref Man resultat : " + refManList.size()));
+
     }
 
     public AWPAPNWebService getAwService() {

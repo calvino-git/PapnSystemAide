@@ -53,7 +53,7 @@ public class ChiffreAffaireService implements Serializable {
     @Schedule(minute = "*/6", persistent = false)
     public void update() {
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService mis à jour ...");
-        int annee = LocalDate.now().getYear();
+        int annee = 2019;
         this.list = listByAn(annee - 5, annee);
         this.totalRecetteParAn = getMontantTotalParAn(annee);
     }

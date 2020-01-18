@@ -78,7 +78,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
     @PostConstruct
     public void init() {
         yearCount = 5;
-        anneeFin = LocalDate.now().getYear();
+        anneeFin = 2019;
         anneeDebut = anneeFin-yearCount;
         years = new ArrayList<>(yearCount);
         for(int i=anneeDebut;i<=anneeFin;i++){
