@@ -100,7 +100,6 @@
                         <p:dataExporter type="xls" target="mfTable"  fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
                     </p:splitButton>
                     <p:separator/>
-
                     <p:dataTable id="mfTable" widgetVar="mfTable" var="mf" value="#{marchFactBean.list}" filteredValue="#{marchFactBean.filtered}"
                                  sortMode="multiple"
                                  rows="10"
@@ -108,6 +107,7 @@
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
                                  rowsPerPageTemplate="5,10,15,">
+                        
                         <f:facet name="header">
                             <p:growl id="growl" showDetail="true" sticky="true" />
                             <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
@@ -141,6 +141,14 @@
                             </f:facet>
                             <h:outputText value="#{mf[column.property]}" />
                         </p:columns>
+                        <f:facet name="footer">
+                            <div style="float:right;padding-top: 5px;">
+                                <h:commandLink value="Excel">
+                                    
+                                    <p:dataExporter type="xls" target="mfTable" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
+                                </h:commandLink>                      
+                            </div>
+                        </f:facet>
 
                     </p:dataTable>
                 </div>

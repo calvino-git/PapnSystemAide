@@ -17,7 +17,7 @@ public class DbHandler {
     
     private static void setDbConnection() {
         
-        final String ConnectionString = "jdbc:oracle:thin:@10.0.55.203:1521:cargo";
+        final String ConnectionString = "jdbc:oracle:thin:@10.0.55.203:1521:VIRTRE";
         try {
             Class.forName("oracle.jdbc.OracleDriver");
         } catch (ClassNotFoundException e) {
