@@ -17,10 +17,10 @@
         <div class="box box-info">
             <div class="box-header with-border ui-fileupload">
                 <h:form>
-                    <p:fileUpload  style="padding: 10px" label="Fichier... " uploadLabel="Importer" cancelLabel= "Annuler" fileUploadListener="#{importExcel.insertData}" mode="advanced"
+                    <p:fileUpload  style="padding: 10px" label="Fichier" uploadLabel="Importer" cancelLabel= "Annuler" fileUploadListener="#{importExcel.insertData}" mode="advanced"
                                    dragDropSupport="true" auto="false" onstart="showBar()" oncomplete="hideBar()"
                                    multiple="true" update="messages" sizeLimit="1000000000" fileLimit="3"
-                                   allowTypes="/(\.|\/)(xlsx)$/">
+                                   allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Fichier incorrect">
                     </p:fileUpload>
                 </h:form>
             </div>

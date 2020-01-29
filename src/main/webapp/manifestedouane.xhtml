@@ -19,26 +19,25 @@
             <div class="box-header with-border">
                 <h:form>
                     <p:growl id="growl" showDetail="true" sticky="true" />
-                    <p:panel header="Saisir la période et le type de trafic">
-                        <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
+                    <p:panel header="Saisir la période et le type de trafic" >
+                        <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-3 ui-lg-3 align-left"
                                      layout="grid" styleClass="showcase-text-align-center ui-fluid">
                             <p:outputLabel value="Date debut: *" for="debut"/>
-                            <p:inputMask  id="debut" value="#{manifestBean.debut}" mask="99/99/9999"
+                            <p:datePicker id="debut" value="#{manifestBean.debut}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de debut obligatoire"
+                                          required="true" placeholder="01/01/2019" label="Debut" style="width:200px;text-align: right"/>
+                            <!--p:inputMask  id="debut" value="" mask="99/99/9999"
                                           requiredMessage="Date de debut obligatoire"
-                                          required="true" label="Debut" style="width:auto;text-align: right"/>
+                                          required="true" placeholder="01/01/2019" label="Debut" style="width:200px;text-align: right"/-->
 
                             <p:outputLabel value="Date fin: *" for="fin"/>
-                            <p:inputMask id="fin" value="#{manifestBean.fin}" mask="99/99/9999"
-                                         requiredMessage="Date de fin obligatoire"
-                                         required="true" label="Fin" style="width:auto;text-align: right"/>
+                            <p:datePicker id="fin" value="#{manifestBean.debut}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de fin obligatoire"
+                                          required="true" placeholder="31/12/202019" label="Fin" style="width:200px;text-align: right"/>
 
                             <p:outputLabel for="trafic" value="Trafic: * "/>
-                            <p:selectOneMenu id="trafic" value="#{manifestBean.trafic}" required="true" style="width:50%;text-align: right">
+                            <p:selectOneMenu id="trafic" value="#{manifestBean.trafic}" required="true" style="width:200px;text-align: right">
                                 <f:selectItem itemLabel="IMPORT" itemValue="IMP"/>
                                 <f:selectItem itemLabel="EXPORT" itemValue="EXP"/>
                             </p:selectOneMenu>
-
-
                         </p:panelGrid>
                         <p:panelGrid columns="1" columnClasses="ui-g-6 align-left"
                                      layout="grid" styleClass="ui-fluid">

@@ -32,26 +32,26 @@ import org.hibernate.annotations.Subselect;
 @XmlRootElement
 @Immutable
 @NamedQueries({
-    @NamedQuery(name = "ConteneurCongoTerminal.findAll", query = "SELECT c FROM ConteneurCongoTerminal c")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findById", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.id = :id")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByMois", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.mois = :mois")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByNumCtn", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.numCtn = :numCtn")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByDate", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.date = :date")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByMouvement", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.mouvement = :mouvement")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByTrafic", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.trafic = :trafic")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByVidePlein", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.videPlein = :videPlein")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByIso", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.iso = :iso")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByTare", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.tare = :tare")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByExpCours", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.expCours = :expCours")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByEscale", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.escale = :escale")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByVoyage", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.voyage = :voyage")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByPol", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.pol = :pol")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByPod", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.pod = :pod")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByArmateur", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.armateur = :armateur")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByPoidsBrut", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.poidsBrut = :poidsBrut")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByDateArr", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.dateArr = :dateArr")
-    , @NamedQuery(name = "ConteneurCongoTerminal.findByDateDep", query = "SELECT c FROM ConteneurCongoTerminal c WHERE c.dateDep = :dateDep")})
-public class ConteneurCongoTerminal  extends BaseEntity implements Serializable {
+    @NamedQuery(name = "ConteneurCT.findAll", query = "SELECT c FROM ConteneurCT c")
+    , @NamedQuery(name = "ConteneurCT.findById", query = "SELECT c FROM ConteneurCT c WHERE c.id = :id")
+    , @NamedQuery(name = "ConteneurCT.findByMois", query = "SELECT c FROM ConteneurCT c WHERE c.mois = :mois")
+    , @NamedQuery(name = "ConteneurCT.findByNumCtn", query = "SELECT c FROM ConteneurCT c WHERE c.numCtn = :numCtn")
+    , @NamedQuery(name = "ConteneurCT.findByDate", query = "SELECT c FROM ConteneurCT c WHERE c.date = :date")
+    , @NamedQuery(name = "ConteneurCT.findByMouvement", query = "SELECT c FROM ConteneurCT c WHERE c.mouvement = :mouvement")
+    , @NamedQuery(name = "ConteneurCT.findByTrafic", query = "SELECT c FROM ConteneurCT c WHERE c.trafic = :trafic")
+    , @NamedQuery(name = "ConteneurCT.findByVidePlein", query = "SELECT c FROM ConteneurCT c WHERE c.videPlein = :videPlein")
+    , @NamedQuery(name = "ConteneurCT.findByIso", query = "SELECT c FROM ConteneurCT c WHERE c.iso = :iso")
+    , @NamedQuery(name = "ConteneurCT.findByTare", query = "SELECT c FROM ConteneurCT c WHERE c.tare = :tare")
+    , @NamedQuery(name = "ConteneurCT.findByExpCours", query = "SELECT c FROM ConteneurCT c WHERE c.expCours = :expCours")
+    , @NamedQuery(name = "ConteneurCT.findByEscale", query = "SELECT c FROM ConteneurCT c WHERE c.escale = :escale")
+    , @NamedQuery(name = "ConteneurCT.findByVoyage", query = "SELECT c FROM ConteneurCT c WHERE c.voyage = :voyage")
+    , @NamedQuery(name = "ConteneurCT.findByPol", query = "SELECT c FROM ConteneurCT c WHERE c.pol = :pol")
+    , @NamedQuery(name = "ConteneurCT.findByPod", query = "SELECT c FROM ConteneurCT c WHERE c.pod = :pod")
+    , @NamedQuery(name = "ConteneurCT.findByArmateur", query = "SELECT c FROM ConteneurCT c WHERE c.armateur = :armateur")
+    , @NamedQuery(name = "ConteneurCT.findByPoidsBrut", query = "SELECT c FROM ConteneurCT c WHERE c.poidsBrut = :poidsBrut")
+    , @NamedQuery(name = "ConteneurCT.findByDateArr", query = "SELECT c FROM ConteneurCT c WHERE c.dateArr = :dateArr")
+    , @NamedQuery(name = "ConteneurCT.findByDateDep", query = "SELECT c FROM ConteneurCT c WHERE c.dateDep = :dateDep")})
+public class ConteneurCT  extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -113,14 +113,14 @@ public class ConteneurCongoTerminal  extends BaseEntity implements Serializable 
     @Column(name = "DATE_DEP", length = 50)
     private String dateDep;
 
-    public ConteneurCongoTerminal() {
+    public ConteneurCT() {
     }
 
-    public ConteneurCongoTerminal(Integer id) {
+    public ConteneurCT(Integer id) {
         this.id = id;
     }
 
-    public ConteneurCongoTerminal(Integer id, BigInteger mois) {
+    public ConteneurCT(Integer id, BigInteger mois) {
         this.id = id;
         this.mois = mois;
     }
@@ -291,7 +291,7 @@ public class ConteneurCongoTerminal  extends BaseEntity implements Serializable 
 
     @Override
     public String toString() {
-        return "db.ConteneurCongoTerminal[ id=" + id + " ]";
+        return "db.ConteneurCT[ id=" + id + " ]";
     }
 
     public boolean hasEscale() {

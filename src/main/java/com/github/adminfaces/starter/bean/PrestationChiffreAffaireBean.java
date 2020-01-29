@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,9 +79,9 @@ public class PrestationChiffreAffaireBean implements Serializable {
     @PostConstruct
     public void init() {
         yearCount = 5;
-        anneeFin = 2019;
-        anneeDebut = anneeFin-yearCount;
-        years = new ArrayList<>(yearCount);
+        anneeFin = chiffreAffaireService.getAnneeFin();
+        anneeDebut = chiffreAffaireService.getAnneeDebut();
+        years = new ArrayList<>(anneeFin-anneeDebut+1);
         for(int i=anneeDebut;i<=anneeFin;i++){
             years.add(i);
         }

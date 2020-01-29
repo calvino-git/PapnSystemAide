@@ -17,6 +17,7 @@ import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.persistence.service.Service;
 import com.github.adminfaces.starter.model.Car;
 import com.github.adminfaces.starter.service.CarService;
+import com.github.adminfaces.starter.service.ConteneurCTService;
 import com.github.adminfaces.template.exception.BusinessException;
 
 /**

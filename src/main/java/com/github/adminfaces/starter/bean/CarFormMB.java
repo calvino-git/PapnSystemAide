@@ -7,7 +7,7 @@ package com.github.adminfaces.starter.bean;
 import com.github.adminfaces.persistence.bean.BeanService;
 import com.github.adminfaces.persistence.bean.CrudMB;
 import com.github.adminfaces.starter.model.Car;
-import com.github.adminfaces.starter.service.CarService;
+import com.github.adminfaces.starter.service.ConteneurCTService;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
 
@@ -20,7 +20,7 @@ import java.util.logging.Level;
  */
 @Named
 @ViewScoped
-@BeanService(CarService.class)//use annotation instead of setter
+@BeanService(ConteneurCTService.class)//use annotation instead of setter
 public class CarFormMB extends CrudMB<Car> implements Serializable {
 
     public void afterRemove() {

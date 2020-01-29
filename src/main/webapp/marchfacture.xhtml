@@ -91,33 +91,30 @@
             <p:focus context="@form"/>  
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="Excel" icon="fa fa-file-excel-o" styleClass="btn-danger">
-                            <p:dataExporter type="xls" target="mfTable" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
-                        </p:commandButton>
-                    </div>
-                    <p:splitButton value="Excel" icon="fa fa-file-excel-o" styleClass="hidden-md hidden-lg btn-primary" >
-                        <p:dataExporter type="xls" target="mfTable"  fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
-                    </p:splitButton>
-                    <p:separator/>
                     <p:dataTable id="mfTable" widgetVar="mfTable" var="mf" value="#{marchFactBean.list}" filteredValue="#{marchFactBean.filtered}"
-                                 sortMode="multiple"
                                  rows="10"
                                  paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 paginatorTemplate="{Exporters} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
-                                 rowsPerPageTemplate="5,10,15,">
-                        
+                                 rowsPerPageTemplate="5,10,15,25,50">
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;padding-top: 5px;">
+                                <h:commandLink>
+                                    <p:graphicImage value="#{resource['images/microsoft_excel_2019_480px.png']}"  width="30"/>
+                                    <p:dataExporter type="xlsx" target="mfTable" postProcessor="#{marchFactBean.postProcessXLS}" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.simpleDate(marchFactBean.debut)}-#{marchFactBean.simpleDate(marchFactBean.fin)}" />
+                                </h:commandLink>                      
+                            </div>
+                        </f:facet>
                         <f:facet name="header">
                             <p:growl id="growl" showDetail="true" sticky="true" />
                             <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
                                          layout="grid" styleClass="showcase-text-align-center ui-fluid">
                                 <p:outputLabel value="Date debut: *" for="debut"/>
-                                <p:datePicker id="debut" value="#{marchFactBean.debut}"  pattern="yyyyMMdd" showIcon="true" requiredMessage="Date de debut obligatoire"
+                                <p:datePicker id="debut" value="#{marchFactBean.debut}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de debut obligatoire"
                                               required="true" label="Debut" style="width:auto"/>
 
                                 <p:outputLabel value="Date fin: *" for="fin"/>
-                                <p:datePicker id="fin" value="#{marchFactBean.fin}" pattern="yyyyMMdd" showIcon="true" 
+                                <p:datePicker id="fin" value="#{marchFactBean.fin}" pattern="dd/MM/yyyy" showIcon="true" 
                                               requiredMessage="Date de fin obligatoire"
                                               required="true" label="Fin" style="width:auto"/>
                             </p:panelGrid>
@@ -141,14 +138,6 @@
                             </f:facet>
                             <h:outputText value="#{mf[column.property]}" />
                         </p:columns>
-                        <f:facet name="footer">
-                            <div style="float:right;padding-top: 5px;">
-                                <h:commandLink value="Excel">
-                                    
-                                    <p:dataExporter type="xls" target="mfTable" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.debut}-#{marchFactBean.fin}" />
-                                </h:commandLink>                      
-                            </div>
-                        </f:facet>
 
                     </p:dataTable>
                 </div>

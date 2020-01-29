@@ -9,7 +9,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Immutable;
 
 @Entity
-@Table(name = "CAPRESTATION_VIEW")
+@Table(name = "VUE_CAPRESTATION")
 @Immutable
 public class PrestationChiffreAffaire extends BaseEntity {
     @Id

@@ -53,7 +53,7 @@ public class ManifestBean implements Serializable {
         requestRefListManifest.setArg0(inRef);
 
         if (awService != null) {
-            System.out.println("Apple du Web Service de la douane... ");
+            System.out.println("Appel du Web Service de la douane... ");
             System.out.println("Date de debut : " + inRef.getDebut());
             System.out.println("Date de fin : " + inRef.getFin());
             System.out.println("Trafic : " + inRef.getType());

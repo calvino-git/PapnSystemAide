@@ -10,9 +10,7 @@ import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire_;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -34,6 +32,8 @@ public class ChiffreAffaireService implements Serializable {
 
     private List<PrestationChiffreAffaire> list;
     private List<PrestationChiffreAffaire> listStatic;
+    private Integer anneeDebut;
+    private Integer anneeFin;
     @Inject
     private EntityManager entityManager;
     @Inject
@@ -45,17 +45,18 @@ public class ChiffreAffaireService implements Serializable {
 
     @PostConstruct
     public void init() {
+        anneeFin = LocalDateTime.now().getYear()-1;
+        anneeDebut = anneeFin - 4;
         update();
         listStatic = list;
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService est initialisé...");
     }
 
-    @Schedule(minute = "*/6", persistent = false)
+    @Schedule(minute = "*/10", hour = "*",persistent = false)
     public void update() {
-        System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService mis à jour ...");
-        int annee = 2019;
-        this.list = listByAn(annee - 5, annee);
-        this.totalRecetteParAn = getMontantTotalParAn(annee);
+        System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService actualisé ...");
+        this.list = listByAn(anneeDebut, anneeFin);
+        this.totalRecetteParAn = getMontantTotalParAn(anneeFin);
     }
 
     public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
@@ -126,6 +127,24 @@ public class ChiffreAffaireService implements Serializable {
         }
         return libelle;
     }
+
+    public Integer getAnneeDebut() {
+        return anneeDebut;
+    }
+
+    public void setAnneeDebut(Integer anneeDebut) {
+        this.anneeDebut = anneeDebut;
+    }
+
+    public Integer getAnneeFin() {
+        return anneeFin;
+    }
+
+    public void setAnneeFin(Integer anneeFin) {
+        this.anneeFin = anneeFin;
+    }
+    
+    
 
     public List<PrestationChiffreAffaire> getListStatic() {
         return listStatic;

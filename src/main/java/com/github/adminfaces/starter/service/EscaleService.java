@@ -29,6 +29,7 @@ public class EscaleService implements Serializable {
     @Inject
     protected EscaleRepository escaleRepo;
 
+    private String annee;
     private List<Escale> list;
     private Long nombreEscaleByAn;
     private Long nombrePetitEscaleByAn;
@@ -48,15 +49,29 @@ public class EscaleService implements Serializable {
 
     @PostConstruct
     public void init() {
+        annee = String.valueOf(LocalDateTime.now().getYear()-1);
         update();
         System.out.println("[" + LocalDateTime.now() + "] EscaleService initialisé...");
     }
-    @Schedule(minute = "*/7",persistent = false)
-    public void update(){
+
+    @Schedule(minute = "*/10", hour = "*", persistent = false)
+    public void update() {
         System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
-        this.nombrePetitEscaleByAn = getNombrePetitEscaleByAnnee("PARTI", String.valueOf(2019));
-        this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", String.valueOf(2019));
+        this.nombrePetitEscaleByAn = getNombrePetitEscaleByAnnee("PARTI", annee);
+        this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", annee);
         this.nombreEscaleByAn = this.nombrePetitEscaleByAn + this.nombreGrandEscaleByAn;
+    }
+
+    public Long getNbrPetitEscaleByAn(String an) {
+        return getNombrePetitEscaleByAnnee("PARTI", an);
+    }
+
+    public Long getNbrGrandEscaleByAn(String an) {
+        return getNombreGrandEscaleByAnnee("PARTI", an);
+    }
+
+    public Long getNbrEscaleByAn(String an) {
+        return getNombreEscaleByAnnee("PARTI", an);
     }
 
     public List<Escale> getList() {
@@ -89,6 +104,14 @@ public class EscaleService implements Serializable {
 
     public void setNombreGrandEscaleByAn(Long nombreGrandEscaleByAn) {
         this.nombreGrandEscaleByAn = nombreGrandEscaleByAn;
+    }
+
+    public String getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(String annee) {
+        this.annee = annee;
     }
 
 }

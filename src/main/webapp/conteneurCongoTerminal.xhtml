@@ -68,13 +68,11 @@
 
                     <p:separator/>
                     <p:dataTable widgetVar="ctnTable" var="c" value="#{conteneurCongoTerminalBean.list}" rows="10"
-                                 rowKey="#{c.id}" lazy="true" paginator="true" sortMode="multiple"
-                                 filteredValue="#{conteneurCongoTerminalBean.filteredValue}" sortBy="date"
+                                 rowKey="#{c.id}" lazy="true" paginator="true" sortMode="multiple" sortBy="#{c.id}"
                                  paginatorPosition="bottom" selectionMode="single" selection="#{conteneurCongoTerminalBean.selectedConteneur}"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 scrollable="true" >
+                                 rowsPerPageTemplate="10,15,25,50" >
                         <p:ajax event="rowSelect" listener="#{conteneurCongoTerminalBean.onRowSelect}" update="@(.ui-dialog)" oncomplete="PF('detailDialog').show()" />
 
                         <f:facet name="header">
@@ -93,9 +91,11 @@
                         </p:column>
                         <p:column headerText="Mois" filterBy="#{c.mois}" sortBy="#{c.mois}">
                             <f:facet name="filter">
-                                <p:datePicker id="month" view="month" value="#{conteneurCongoTerminalBean.date}" pattern="yyyyMM"
-                                      yearNavigator="true" yearRange="2000:2030"/>
-                                <!--p:inputNumber id="inptMois" decimalPlaces="0"  maxlength="6" decimalSeparator="" thousandSeparator="" value="#{conteneurCongoTerminalBean.filter.entity.mois}">
+                                <p:datePicker id="month" view="month" value="#{conteneurCongoTerminalBean.filter.entity.mois}" pattern="yyyyMM"
+                                              yearNavigator="true" yearRange="2000:2030">
+                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
+                                </p:datePicker>
+                                <!--p:inputNumber id="inptMois" decimalPlaces="0"  maxlength="6" decimalSeparator="" thousandSeparator="" value="">
                                     <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
                                 </p:inputNumber-->
                             </f:facet>

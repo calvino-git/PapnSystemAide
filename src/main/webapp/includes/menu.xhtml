@@ -12,34 +12,28 @@
             </p:link>
         </li>
         <li class="header">
-            Liens rapides
+            Tableau de bord
         </li>
         <li>
             <li>
-                <p:link outcome="/marchfacture">
-                    <i class="fa fa-fw fa-dollar"></i>
-                    <span>Facture Marchandise</span>
+                <p:link outcome="/index" >
+                    <i class="fa fa-fw fa-tachometer"></i>
+                    <span>2019</span>
                 </p:link>
             </li>
             <li>
-                <p:link outcome="/prestationChiffreAffaire">
-                    <i class="fa fa-fw fa-dollar"></i>
-                    <span>CA par prestation</span>
+                <p:link outcome="/index">
+                    <i class="fa fa-fw fa-tachometer"></i>
+                    <span>2020</span>
                 </p:link>
-            </li>
-            <li>
-                <p:link outcome="/conteneurCongoTerminal">
-                    <i class="fa fa-fw fa-cubes"></i>
-                    <span>Conteneur Congo-Terminal</span>
-                </p:link>
-            </li>
+            </li>   
         </li>
         <li class="header">
             Menu principal
         </li>
-        <!--li class="treeview">
+        <li class="treeview">
             <a href="#">
-                <i class="fa fa-fw fa-dollar"></i>
+                <i class="fa fa-fw fa-cubes"></i>
                 <span>Chiffre d'affaire</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
@@ -50,11 +44,58 @@
                 <li>
                     <p:link outcome="/prestationChiffreAffaire">
                         <i class="fa fa-fw fa-dollar"></i>
-                        <span>CA par prestation</span>
+                        <span>Evolution par prestation </span>
                     </p:link>
                 </li>
             </ul>
-        </li-->
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-fw fa-cubes"></i>
+                <span>Congo Terminal</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+
+                <li>
+                    <p:link outcome="/importExcel">
+                        <i class="fa fa-fw fa-file-pdf-o"></i>
+                        <span>Import du fichier mensuel </span>
+                    </p:link>
+                </li>
+                <li>
+                    <p:link outcome="/conteneurCongoTerminal">
+                        <i class="fa fa-fw fa-cubes"></i>
+                        <span>Liste de conteneurs</span>
+                    </p:link>
+                </li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-fw fa-cubes"></i>
+                <span>Manifeste</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <p:link outcome="/manifestedouane">
+                        <i class="fa fa-fw fa-file-pdf-o"></i>
+                        <span>Manifeste/Douane</span>
+                    </p:link>
+                </li>
+                <li>
+                    <p:link outcome="/importExcel">
+                        <i class="fa fa-fw fa-file-pdf-o"></i>
+                        <span>Correction des ports</span>
+                    </p:link>
+                </li>
+            </ul>
+        </li>
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-ship"></i>
@@ -63,21 +104,20 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
-            <!--ul class="treeview-menu">
-
-                <li>
-                    <p:link outcome="/escalepetitnavire">
-                        <i class="fa fa-list"></i>
-                        <span>Petits navires</span>
-                    </p:link>
-                </li>
+            <ul class="treeview-menu">
                 <li>
                     <p:link outcome="/escalegrandnavire">
                         <i class="fa fa-list"></i>
                         <span>Grands navires</span>
                     </p:link>
                 </li>
-            </ul-->
+                <li>
+                    <p:link outcome="/escalepetitnavire">
+                        <i class="fa fa-list"></i>
+                        <span>Petits navires</span>
+                    </p:link>
+                </li>
+            </ul>
         </li>
         <li class="treeview">
             <a href="#">
@@ -98,18 +138,8 @@
             </ul>
         </li>
 
-        <li>
-            <p:link outcome="/importExcel">
-                <i class="fa fa-fw fa-file-pdf-o"></i>
-                <span>Conversion</span>
-            </p:link>
-        </li>
-        <li>
-            <p:link outcome="/manifestedouane">
-                <i class="fa fa-fw fa-file-pdf-o"></i>
-                <span>Manifeste - Douane</span>
-            </p:link>
-        </li>
+
+
 
     </ul>
 

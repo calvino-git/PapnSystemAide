@@ -46,20 +46,20 @@ public class ConteneurCongoTerminalService implements Serializable {
         System.out.println("[" + LocalDateTime.now() + "] CCTService initialisé...");
     }
     
-    @Schedule(minute = "*/8",persistent = false)
+    @Schedule(minute = "*/10",hour = "*",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
-        String annee = String.valueOf(2019);
+        String annee = String.valueOf(LocalDateTime.now().getYear()-1);
         this.totalEVPParAn = tctRepo.getTotalEVPParAn(annee);
-        this.totalImpEVPParAn = tctRepo.getTotalImportEVPParAn(annee);
-        this.totalExpEVPParAn = tctRepo.getTotalExportEVPParAn(annee);
-        this.totalTrbEVPParAn = tctRepo.getTotalTransboEVPParAn(annee);
-        this.totalTstEVPParAn = tctRepo.getTotalTransitEVPParAn(annee);
-        this.totalImpTonnageParAn = tctRepo.getTotalImportTonnageParAn(annee);
-        this.totalExpTonnageParAn = tctRepo.getTotalExportTonnageParAn(annee);
-        this.totalTrbTonnageParAn = tctRepo.getTotalTransboTonnageParAn(annee);
-        this.totalTstTonnageParAn = tctRepo.getTotalTransitTonnageParAn(annee);
-        this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(annee);
+        this.totalImpEVPParAn = tctRepo.getTotalImportEVPParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalImportEVPParAn(annee);
+        this.totalExpEVPParAn = tctRepo.getTotalExportEVPParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalExportEVPParAn(annee);
+        this.totalTrbEVPParAn = tctRepo.getTotalTransboEVPParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransboEVPParAn(annee);
+        this.totalTstEVPParAn = tctRepo.getTotalTransitEVPParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransitEVPParAn(annee);
+        this.totalImpTonnageParAn = tctRepo.getTotalImportTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalImportTonnageParAn(annee);
+        this.totalExpTonnageParAn = tctRepo.getTotalExportTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalExportTonnageParAn(annee);
+        this.totalTrbTonnageParAn = tctRepo.getTotalTransboTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransboTonnageParAn(annee);
+        this.totalTstTonnageParAn = tctRepo.getTotalTransitTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransitTonnageParAn(annee);
+        this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalPoidsConteneurParAn(annee);
     }
 
     public BigInteger getTotalImpTonnageParAn() {

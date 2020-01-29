@@ -36,6 +36,8 @@ public class MarchfactService implements Serializable {
     private EntityManager entityManager;
     @Inject
     protected MarchFactRepository marchFactRepo;
+    private String debut;
+    private String fin;
 
     public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
         return new QueryCriteria<>(entityClass, entityClass, getEntityManager());
@@ -47,14 +49,16 @@ public class MarchfactService implements Serializable {
     
     @PostConstruct
     public void init() {
+        debut = LocalDateTime.now().getYear()-1 + "0101";
+        fin = LocalDateTime.now().getYear()-1 + "1231";
         update();
         System.out.println("[" + LocalDateTime.now() + "] MarchFactService est initialisé...");
     }
     
-    @Schedule(minute = "*/5",persistent = false)
+    @Schedule(minute = "*/10",hour = "*",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Liste des marchandises mise à jour ...");
-        listMarchFactByDepart("20190101", "20191231");
+        listMarchFactByDepart(debut, fin);
     }
     
     public EntityManager getEntityManager() {
@@ -64,6 +68,8 @@ public class MarchfactService implements Serializable {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+    
+    
 
     public List<Marchfact> getList() {
         return list;
@@ -71,6 +77,22 @@ public class MarchfactService implements Serializable {
 
     public void setList(List<Marchfact> list) {
         this.list = list;
+    }
+
+    public String getDebut() {
+        return debut;
+    }
+
+    public void setDebut(String debut) {
+        this.debut = debut;
+    }
+
+    public String getFin() {
+        return fin;
+    }
+
+    public void setFin(String fin) {
+        this.fin = fin;
     }
 
 }

@@ -7,15 +7,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import com.github.adminfaces.starter.service.MarchfactService;
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import org.apache.poi.ss.usermodel.Color;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * Created by rmpestano on 12/02/17.
@@ -38,6 +46,14 @@ public class MarchFactBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        try {
+            debut = format.parse(marchFactService.getDebut());
+            fin = format.parse(marchFactService.getFin());
+        } catch (ParseException ex) {
+            Logger.getLogger(MarchFactBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         columnHeaders = new ArrayList<>();
         list = marchFactService.getList();
         Marchfact march = new Marchfact();
@@ -51,7 +67,23 @@ public class MarchFactBean implements Serializable {
         createDynamicColumns();
         System.out.println("MarchFactureBean initialisé...");
     }
+    
+    public String simpleDate(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        return format.format(date);
+    }
 
+    public void postProcessXLS(Object document) {
+    XSSFWorkbook wb = (XSSFWorkbook) document;
+    XSSFSheet sheet = wb.getSheetAt(0);
+    XSSFRow header = sheet.getRow(0);
+    XSSFCellStyle cellStyle = wb.createCellStyle();
+    cellStyle.setFillForegroundColor((short) 12);
+
+    for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
+        header.getCell(i).setCellStyle(cellStyle);
+    }
+}
     public void updateList() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         marchFactService.listMarchFactByDepart(format.format(debut), format.format(fin));
