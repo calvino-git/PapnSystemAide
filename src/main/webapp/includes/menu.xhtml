@@ -121,6 +121,23 @@
         </li>
         <li class="treeview">
             <a href="#">
+                <i class="fa fa-dollar"></i>
+                <span>Facturation</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <p:link outcome="/marchfacture">
+                        <i class="fa fa-list"></i>
+                        <span>Marchandise</span>
+                    </p:link>
+                </li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
                 <i class="fa fa-cubes"></i>
                 <span>Trafic Conteneur</span>
                 <span class="pull-right-container">
@@ -130,17 +147,13 @@
             <ul class="treeview-menu">
 
                 <li>
-                    <p:link outcome="/recap">
+                    <p:link outcome="/recapevp">
                         <i class="fa fa-list"></i>
-                        <span>Recap. par source</span>
+                        <span>Recap. EVP par source</span>
                     </p:link>
                 </li>
             </ul>
         </li>
-
-
-
-
     </ul>
 
 </ui:composition>

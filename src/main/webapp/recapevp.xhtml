@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Etude comparative des EVPs (CONGO TERMINAL/DOUANE/FACTURATION)"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: center !important;
+                border-color: #222222;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: 1;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                text-align: right;
+                font: bold;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+
+            .ui-grid td {
+                white-space: nowrap;
+                border: none;
+            }
+            .ui-ca {
+                align-content: center !important;
+            }
+            .white-button.ui-button.ui-state-default {
+                background-color: #ffffff;
+                color: #222222;
+                border-color: #d6d6d6;
+            }
+
+            .white-button.ui-button.ui-state-default:enabled:hover, 
+            .white-button.ui-button.ui-state-default:focus {
+                background-color: #f2f2f2;
+                border-color: #ccc;
+                color: #373a3c;
+            }
+
+            .green-button.ui-button.ui-state-default {
+                background-color: #5cb85c;
+                border-color: #5cb85c;
+                color: #fff;
+            }
+
+            .green-button.ui-button.ui-state-default:enabled:hover, 
+            .green-button.ui-button.ui-state-default:focus {
+                background-color: #4cae4c;
+                border-color: #5cb85c;
+            }
+
+            .red-button.ui-button.ui-state-default {
+                background-color: #d9534f;
+                border-color: #d9534f;
+                color: #fff;
+            }
+
+            .red-button.ui-button.ui-state-default:enabled:hover, 
+            .red-button.ui-button.ui-state-default:focus {
+                background-color: #d43f3a;
+                border-color: #d9534f;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        Affiche la liste comparatif des EVPs provenant de CONGO TERMINAL/DOUANE/FACTURATION.
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form id="form">
+            <p:focus context="@form"/>  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <p:treeTable id="evpTable" widgetVar="evpTable" value="#{rootEVP}" var="document" styleClass="no-border" style="table-layout: fixed" 
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+                                 currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,25,50">
+                        <f:facet name="header">
+                            <h:outputText class="col-md-11 align-left" value="TRAFIC MARCHANDISE EN 2019" />
+                            <p:growl id="growl" showDetail="true" sticky="true" />
+                            <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
+                                         layout="grid" styleClass="showcase-text-align-center ui-fluid">
+                                <p:outputLabel value="Date debut: *" for="debut"/>
+                                <p:datePicker id="debut" value="#{totalBean.debut}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de debut obligatoire"
+                                              required="true" label="Debut" style="width:auto">
+                                    <f:convertDateTime pattern="yyyyMMdd" />
+                                </p:datePicker>
+
+                                <p:outputLabel value="Date fin: *" for="fin"/>
+                                <p:datePicker id="fin" value="#{totalBean.fin}" pattern="dd/MM/yyyy" showIcon="true" 
+                                              requiredMessage="Date de fin obligatoire"
+                                              required="true" label="Fin" style="width:auto">
+                                    <f:convertDateTime pattern="yyyyMMdd" />
+                                </p:datePicker>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="ui-g-6 align-left,ui-g-6 align-right"
+                                         layout="grid" styleClass="ui-fluid">
+                                <p:commandButton id="brFind" icon="fa fa-fw fa-search"
+                                                 value="Lancer la recherche"
+                                                 action="#{totalBean.updateRootEVP()}"
+                                                 process="@form"
+                                                 update="@form"
+                                                 styleClass="btn-primary"
+                                                 style="width: auto"
+                                                 partialSubmit="true"/>
+                                <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="width: auto" icon="fa fa-list" />
+                                <p:columnToggler  datasource="evpTable" trigger="toggler" />
+                            </p:panelGrid>
+                        </f:facet>
+                        <p:columns value="#{totalBean.columns}" var="column" width="150" columnIndexVar="colIndex" sortBy="#{document[column.property]}" filterBy="#{document[column.property]}">
+                            <f:facet name="header">
+                                <h:outputText value="#{column.header}" />
+                            </f:facet>
+                            <h:outputText value="#{document[column.property]}" />
+                        </p:columns>
+                        <p:column style="width:24px">
+                            <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="fa fa-search">
+                                <f:setPropertyActionListener value="#{document}" target="#{selectedDocumentEVP}" />
+                            </p:commandLink>
+                        </p:column>
+                    </p:treeTable>
+
+                    <p:dialog id="dialog"  showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false" style="width: 200px">
+                        <p:outputPanel id="documentPanel" style="width: 200px">
+                            <p:panelGrid  columns="1" rendered="#{not empty selectedDocumentEVP}" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12 align-left">
+                                <f:facet  name="header">
+                                    #{selectedDocumentEVP.navire}
+                                </f:facet>
+                                <h:outputText id="depart" value="EVP plein : #{selectedDocumentEVP.departEff}" style="font-weight:bold" />
+                                <h:outputText id="escale" value="EVP vide : #{selectedDocumentEVP.escale}" style="font-weight:bold" />
+                                <h:outputText id="plein" value="EVP plein : #{selectedDocumentEVP.plein}" style="font-weight:bold" />
+                                <h:outputText id="vide" value="EVP vide : #{selectedDocumentEVP.vide}" style="font-weight:bold" />
+                                <h:outputText id="total" value="EVP TOTAL : #{selectedDocumentEVP.totalEvp}" style="font-weight:bold" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+
+                </div>
+
+            </div>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

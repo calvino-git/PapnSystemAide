@@ -1,9 +1,11 @@
 package com.github.adminfaces.starter.bean;
 
 import com.github.adminfaces.starter.model.Document;
+import com.github.adminfaces.starter.model.DocumentEVP;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
 import com.github.adminfaces.starter.service.ChiffreAffaireService;
 import com.github.adminfaces.starter.service.ConteneurCongoTerminalService;
+import com.github.adminfaces.starter.service.DocumentEVPService;
 import com.github.adminfaces.starter.service.DocumentService;
 import com.github.adminfaces.starter.service.EscaleService;
 import java.beans.EventHandler;
@@ -13,11 +15,17 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
@@ -36,6 +44,8 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 @ApplicationScoped
 public class TotalBean implements Serializable {
 
+    private Date debut;
+    private Date fin;
     @Inject
     private EscaleService escaleService;
     @Inject
@@ -43,30 +53,161 @@ public class TotalBean implements Serializable {
     @Inject
     private ConteneurCongoTerminalService cctService;
     private TreeNode root;
+    private TreeNode rootEVP;
 
     private Document selectedDocument;
+    private DocumentEVP selectedDocumentEVP;
 
     private Integer anneeEnCours;
 
+    private List<String> columnHeaders;
+    private static List<String> VALID_COLUMN_KEYS;
+    private List<TotalBean.ColumnModel> columns;
+    private String columnTemplate = "id departEffectif type";
+
     @Inject
     private DocumentService documentService;
+    @Inject
+    private DocumentEVPService documentEVPService;
+
     private List<Integer> years;
     private Double totalParAn;
 
     @PostConstruct
     public void init() {
-        anneeEnCours = LocalDate.now().getYear()-1;
+        anneeEnCours = LocalDate.now().getYear() - 1;
         years = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             years.add(anneeEnCours - i);
         }
         updateRoot();
+        rootEVP = documentEVPService.createDocuments();
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        try {
+            debut = format.parse(documentEVPService.getDebut());
+            fin = format.parse(documentEVPService.getFin());
+        } catch (ParseException ex) {
+            Logger.getLogger(MarchFactBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        columnHeaders = new ArrayList<>();
+        DocumentEVP docEVP = new DocumentEVP();
+        Field[] fields = docEVP.getClass().getDeclaredFields();
+        int t = fields.length;
+        for (int i = 2; i < t; i++) {
+            String field = DocumentEVP.class.getDeclaredFields()[i].getName();
+            columnHeaders.add(field);
+        }
+        VALID_COLUMN_KEYS = columnHeaders;
+        createDynamicColumns();
         System.out.println("TotalBean est initialisé...");
+    }
+
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public DocumentEVP getSelectedDocumentEVP() {
+        return selectedDocumentEVP;
+    }
+
+    public void setSelectedDocumentEVP(DocumentEVP selectedDocumentEVP) {
+        this.selectedDocumentEVP = selectedDocumentEVP;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public List<String> getColumnHeaders() {
+        return columnHeaders;
+    }
+
+    public void setColumnHeaders(List<String> columnHeaders) {
+        this.columnHeaders = columnHeaders;
+    }
+
+    public static List<String> getVALID_COLUMN_KEYS() {
+        return VALID_COLUMN_KEYS;
+    }
+
+    public static void setVALID_COLUMN_KEYS(List<String> VALID_COLUMN_KEYS) {
+        TotalBean.VALID_COLUMN_KEYS = VALID_COLUMN_KEYS;
+    }
+
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+
+    public String getColumnTemplate() {
+        return columnTemplate;
+    }
+
+    public void setColumnTemplate(String columnTemplate) {
+        this.columnTemplate = columnTemplate;
+    }
+
+    static public class ColumnModel implements Serializable {
+
+        private String header;
+        private String property;
+
+        public ColumnModel(String header, String property) {
+            this.header = header;
+            this.property = property;
+        }
+
+        public String getHeader() {
+            return header;
+        }
+
+        public String getProperty() {
+            return property;
+        }
+    }
+
+    private void createDynamicColumns() {
+        List<String> columnKeys = columnHeaders.stream().filter(col -> !col.startsWith("_"))
+                .collect(Collectors.toList());
+        columns = new ArrayList<>();
+
+        columnKeys.forEach((columnKey) -> {
+            String key = columnKey;
+            if (VALID_COLUMN_KEYS.contains(key)) {
+                columns.add(new TotalBean.ColumnModel(columnKey.toUpperCase(), columnKey));
+            }
+        });
+    }
+
+    public TreeNode getRootEVP() {
+        return rootEVP;
+    }
+
+    public void setRootEVP(TreeNode rootEVP) {
+        this.rootEVP = rootEVP;
     }
 
     public void updateRoot() {
         root = documentService.createDocuments();
+    }
+
+    public void updateRootEVP() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        rootEVP = documentEVPService.createDocuments(format.format(debut),format.format(fin));
     }
 
     public TreeNode getRoot() {
@@ -231,10 +372,22 @@ public class TotalBean implements Serializable {
     }
 
     @Produces
+    @Named("rootEVP")
+    public TreeNode produceRootEVP() {
+        return rootEVP;
+    }
+
+    @Produces
     @Named("selectedDocument")
     public Document produceSelectedDocument() {
         return selectedDocument;
     }
+    @Produces
+    @Named("selectedDocumentEVP")
+    public DocumentEVP produceSelectedDocumentEVP() {
+        return selectedDocumentEVP;
+    }
+    
 
     public List<Integer> getYears() {
         return years;
