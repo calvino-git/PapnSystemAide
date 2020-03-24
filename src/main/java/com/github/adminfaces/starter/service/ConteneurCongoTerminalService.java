@@ -5,12 +5,15 @@
  */
 package com.github.adminfaces.starter.service;
 
+import com.github.adminfaces.starter.model.ConteneurCT;
+import com.github.adminfaces.starter.model.ConteneurCT_;
 import com.github.adminfaces.starter.repos.TdrCongoTerminalRepository;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -23,7 +26,7 @@ import javax.inject.Inject;
  * @author Calvin ILOKI
  */
 @Singleton
-@Startup
+//@Startup
 public class ConteneurCongoTerminalService implements Serializable {
     
     @Inject
@@ -49,7 +52,7 @@ public class ConteneurCongoTerminalService implements Serializable {
     @Schedule(minute = "*/10",hour = "*",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
-        String annee = String.valueOf(LocalDateTime.now().getYear()-1);
+        String annee = String.valueOf(LocalDateTime.now().getYear());
         this.totalEVPParAn = tctRepo.getTotalEVPParAn(annee);
         this.totalImpEVPParAn = tctRepo.getTotalImportEVPParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalImportEVPParAn(annee);
         this.totalExpEVPParAn = tctRepo.getTotalExportEVPParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalExportEVPParAn(annee);
@@ -61,6 +64,8 @@ public class ConteneurCongoTerminalService implements Serializable {
         this.totalTstTonnageParAn = tctRepo.getTotalTransitTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransitTonnageParAn(annee);
         this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalPoidsConteneurParAn(annee);
     }
+    
+    
 
     public BigInteger getTotalImpTonnageParAn() {
         return totalImpTonnageParAn;

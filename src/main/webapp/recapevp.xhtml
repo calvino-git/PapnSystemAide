@@ -82,7 +82,6 @@
     </ui:define>
 
     <ui:define name="description">
-        Affiche la liste comparatif des EVPs provenant de CONGO TERMINAL/DOUANE/FACTURATION.
     </ui:define>
 
     <ui:define name="body">
@@ -99,20 +98,19 @@
                         <f:facet name="header">
                             <h:outputText class="col-md-11 align-left" value="TRAFIC MARCHANDISE EN 2019" />
                             <p:growl id="growl" showDetail="true" sticky="true" />
-                            <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
+                            <p:panelGrid columns="4" columnClasses="ui-g-12 ui-md-6 ui-lg-2 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-2 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
                                          layout="grid" styleClass="showcase-text-align-center ui-fluid">
-                                <p:outputLabel value="Date debut: *" for="debut"/>
-                                <p:datePicker id="debut" value="#{totalBean.debut}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de debut obligatoire"
-                                              required="true" label="Debut" style="width:auto">
-                                    <f:convertDateTime pattern="yyyyMMdd" />
-                                </p:datePicker>
-
-                                <p:outputLabel value="Date fin: *" for="fin"/>
-                                <p:datePicker id="fin" value="#{totalBean.fin}" pattern="dd/MM/yyyy" showIcon="true" 
-                                              requiredMessage="Date de fin obligatoire"
-                                              required="true" label="Fin" style="width:auto">
-                                    <f:convertDateTime pattern="yyyyMMdd" />
-                                </p:datePicker>
+                                <p:outputLabel value="Date debut:" for="debut"/>
+                                <p:inputMask id="debut" value="#{totalBean.debut}" mask="99/99/9999" requiredMessage="Date de debut obligatoire"
+                                             required="true" label="Debut" style="width:auto">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </p:inputMask>
+                                <p:outputLabel value="Date fin:" for="fin"/>
+                                <p:inputMask id="fin" value="#{totalBean.fin}" mask="99/99/9999" 
+                                             requiredMessage="Date de fin obligatoire"
+                                             required="true" label="Fin" style="width:auto">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:inputMask>
                             </p:panelGrid>
                             <p:panelGrid columns="2" columnClasses="ui-g-6 align-left,ui-g-6 align-right"
                                          layout="grid" styleClass="ui-fluid">

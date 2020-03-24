@@ -6,216 +6,210 @@
 package com.github.adminfaces.starter.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author 60610H
  */
 @Entity
-@Table(name = "BILL_OF_LANDING", catalog = "", schema = "PPNCARGO")
+@Table(name = "BILL_OF_LANDING")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BillOfLanding.findAll", query = "SELECT b FROM BillOfLanding b")
-    , @NamedQuery(name = "BillOfLanding.findByIdBol", query = "SELECT b FROM BillOfLanding b WHERE b.idBol = :idBol")
-    , @NamedQuery(name = "BillOfLanding.findByPcIndicator", query = "SELECT b FROM BillOfLanding b WHERE b.pcIndicator = :pcIndicator")
-    , @NamedQuery(name = "BillOfLanding.findByBolNature", query = "SELECT b FROM BillOfLanding b WHERE b.bolNature = :bolNature")
-    , @NamedQuery(name = "BillOfLanding.findByBolReference", query = "SELECT b FROM BillOfLanding b WHERE b.bolReference = :bolReference")
-    , @NamedQuery(name = "BillOfLanding.findByBolTypeCode", query = "SELECT b FROM BillOfLanding b WHERE b.bolTypeCode = :bolTypeCode")
-    , @NamedQuery(name = "BillOfLanding.findByConsigneeAddress", query = "SELECT b FROM BillOfLanding b WHERE b.consigneeAddress = :consigneeAddress")
-    , @NamedQuery(name = "BillOfLanding.findByConsigneeCode", query = "SELECT b FROM BillOfLanding b WHERE b.consigneeCode = :consigneeCode")
-    , @NamedQuery(name = "BillOfLanding.findByConsigneeName", query = "SELECT b FROM BillOfLanding b WHERE b.consigneeName = :consigneeName")
-    , @NamedQuery(name = "BillOfLanding.findByCustomsCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.customsCurrency = :customsCurrency")
-    , @NamedQuery(name = "BillOfLanding.findByCustomsValue", query = "SELECT b FROM BillOfLanding b WHERE b.customsValue = :customsValue")
-    , @NamedQuery(name = "BillOfLanding.findByExporterAddress", query = "SELECT b FROM BillOfLanding b WHERE b.exporterAddress = :exporterAddress")
-    , @NamedQuery(name = "BillOfLanding.findByExporterCode", query = "SELECT b FROM BillOfLanding b WHERE b.exporterCode = :exporterCode")
-    , @NamedQuery(name = "BillOfLanding.findByExporterName", query = "SELECT b FROM BillOfLanding b WHERE b.exporterName = :exporterName")
-    , @NamedQuery(name = "BillOfLanding.findByFreightCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.freightCurrency = :freightCurrency")
-    , @NamedQuery(name = "BillOfLanding.findByFreightValue", query = "SELECT b FROM BillOfLanding b WHERE b.freightValue = :freightValue")
-    , @NamedQuery(name = "BillOfLanding.findByGoodsDescription", query = "SELECT b FROM BillOfLanding b WHERE b.goodsDescription = :goodsDescription")
-    , @NamedQuery(name = "BillOfLanding.findByGrossMass", query = "SELECT b FROM BillOfLanding b WHERE b.grossMass = :grossMass")
-    , @NamedQuery(name = "BillOfLanding.findByInformation", query = "SELECT b FROM BillOfLanding b WHERE b.information = :information")
-    , @NamedQuery(name = "BillOfLanding.findByInsuranceCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.insuranceCurrency = :insuranceCurrency")
-    , @NamedQuery(name = "BillOfLanding.findByInsuranceValue", query = "SELECT b FROM BillOfLanding b WHERE b.insuranceValue = :insuranceValue")
-    , @NamedQuery(name = "BillOfLanding.findByLineNumber", query = "SELECT b FROM BillOfLanding b WHERE b.lineNumber = :lineNumber")
-    , @NamedQuery(name = "BillOfLanding.findByLocationCode", query = "SELECT b FROM BillOfLanding b WHERE b.locationCode = :locationCode")
-    , @NamedQuery(name = "BillOfLanding.findByLocationInfo", query = "SELECT b FROM BillOfLanding b WHERE b.locationInfo = :locationInfo")
-    , @NamedQuery(name = "BillOfLanding.findByMasterBolRefNumber", query = "SELECT b FROM BillOfLanding b WHERE b.masterBolRefNumber = :masterBolRefNumber")
-    , @NamedQuery(name = "BillOfLanding.findByNotifyAddress", query = "SELECT b FROM BillOfLanding b WHERE b.notifyAddress = :notifyAddress")
-    , @NamedQuery(name = "BillOfLanding.findByNotifyCode", query = "SELECT b FROM BillOfLanding b WHERE b.notifyCode = :notifyCode")
-    , @NamedQuery(name = "BillOfLanding.findByNotifyName", query = "SELECT b FROM BillOfLanding b WHERE b.notifyName = :notifyName")
-    , @NamedQuery(name = "BillOfLanding.findByNumOfCtnForThisBol", query = "SELECT b FROM BillOfLanding b WHERE b.numOfCtnForThisBol = :numOfCtnForThisBol")
-    , @NamedQuery(name = "BillOfLanding.findByNumberOfPackages", query = "SELECT b FROM BillOfLanding b WHERE b.numberOfPackages = :numberOfPackages")
-    , @NamedQuery(name = "BillOfLanding.findByPackageTypeCode", query = "SELECT b FROM BillOfLanding b WHERE b.packageTypeCode = :packageTypeCode")
-    , @NamedQuery(name = "BillOfLanding.findByPlaceOfLoadingCode", query = "SELECT b FROM BillOfLanding b WHERE b.placeOfLoadingCode = :placeOfLoadingCode")
-    , @NamedQuery(name = "BillOfLanding.findByPlaceOfUnloadingCode", query = "SELECT b FROM BillOfLanding b WHERE b.placeOfUnloadingCode = :placeOfUnloadingCode")
-    , @NamedQuery(name = "BillOfLanding.findByShippingMarks", query = "SELECT b FROM BillOfLanding b WHERE b.shippingMarks = :shippingMarks")
-    , @NamedQuery(name = "BillOfLanding.findByTransportCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.transportCurrency = :transportCurrency")
-    , @NamedQuery(name = "BillOfLanding.findByTransportValue", query = "SELECT b FROM BillOfLanding b WHERE b.transportValue = :transportValue")
-    , @NamedQuery(name = "BillOfLanding.findByUniqueCarrierReference", query = "SELECT b FROM BillOfLanding b WHERE b.uniqueCarrierReference = :uniqueCarrierReference")
-    , @NamedQuery(name = "BillOfLanding.findByVolumeInCubicMeters", query = "SELECT b FROM BillOfLanding b WHERE b.volumeInCubicMeters = :volumeInCubicMeters")})
+    @NamedQuery(name = "BillOfLanding.findAll", query = "SELECT b FROM BillOfLanding b"),
+    @NamedQuery(name = "BillOfLanding.findByIdBol", query = "SELECT b FROM BillOfLanding b WHERE b.idBol = :idBol"),
+    @NamedQuery(name = "BillOfLanding.findByPcIndicator", query = "SELECT b FROM BillOfLanding b WHERE b.pcIndicator = :pcIndicator"),
+    @NamedQuery(name = "BillOfLanding.findByBolNature", query = "SELECT b FROM BillOfLanding b WHERE b.bolNature = :bolNature"),
+    @NamedQuery(name = "BillOfLanding.findByBolReference", query = "SELECT b FROM BillOfLanding b WHERE b.bolReference = :bolReference"),
+    @NamedQuery(name = "BillOfLanding.findByBolTypeCode", query = "SELECT b FROM BillOfLanding b WHERE b.bolTypeCode = :bolTypeCode"),
+    @NamedQuery(name = "BillOfLanding.findByConsigneeAddress", query = "SELECT b FROM BillOfLanding b WHERE b.consigneeAddress = :consigneeAddress"),
+    @NamedQuery(name = "BillOfLanding.findByConsigneeCode", query = "SELECT b FROM BillOfLanding b WHERE b.consigneeCode = :consigneeCode"),
+    @NamedQuery(name = "BillOfLanding.findByConsigneeName", query = "SELECT b FROM BillOfLanding b WHERE b.consigneeName = :consigneeName"),
+    @NamedQuery(name = "BillOfLanding.findByCustomsCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.customsCurrency = :customsCurrency"),
+    @NamedQuery(name = "BillOfLanding.findByCustomsValue", query = "SELECT b FROM BillOfLanding b WHERE b.customsValue = :customsValue"),
+    @NamedQuery(name = "BillOfLanding.findByExporterAddress", query = "SELECT b FROM BillOfLanding b WHERE b.exporterAddress = :exporterAddress"),
+    @NamedQuery(name = "BillOfLanding.findByExporterCode", query = "SELECT b FROM BillOfLanding b WHERE b.exporterCode = :exporterCode"),
+    @NamedQuery(name = "BillOfLanding.findByExporterName", query = "SELECT b FROM BillOfLanding b WHERE b.exporterName = :exporterName"),
+    @NamedQuery(name = "BillOfLanding.findByFreightCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.freightCurrency = :freightCurrency"),
+    @NamedQuery(name = "BillOfLanding.findByFreightValue", query = "SELECT b FROM BillOfLanding b WHERE b.freightValue = :freightValue"),
+    @NamedQuery(name = "BillOfLanding.findByGoodsDescription", query = "SELECT b FROM BillOfLanding b WHERE b.goodsDescription = :goodsDescription"),
+    @NamedQuery(name = "BillOfLanding.findByGrossMass", query = "SELECT b FROM BillOfLanding b WHERE b.grossMass = :grossMass"),
+    @NamedQuery(name = "BillOfLanding.findByIdGeneral", query = "SELECT b FROM BillOfLanding b WHERE b.idGeneral = :idGeneral"),
+    @NamedQuery(name = "BillOfLanding.findByInformation", query = "SELECT b FROM BillOfLanding b WHERE b.information = :information"),
+    @NamedQuery(name = "BillOfLanding.findByInsuranceCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.insuranceCurrency = :insuranceCurrency"),
+    @NamedQuery(name = "BillOfLanding.findByInsuranceValue", query = "SELECT b FROM BillOfLanding b WHERE b.insuranceValue = :insuranceValue"),
+    @NamedQuery(name = "BillOfLanding.findByLineNumber", query = "SELECT b FROM BillOfLanding b WHERE b.lineNumber = :lineNumber"),
+    @NamedQuery(name = "BillOfLanding.findByLocationCode", query = "SELECT b FROM BillOfLanding b WHERE b.locationCode = :locationCode"),
+    @NamedQuery(name = "BillOfLanding.findByLocationInfo", query = "SELECT b FROM BillOfLanding b WHERE b.locationInfo = :locationInfo"),
+    @NamedQuery(name = "BillOfLanding.findByMasterBolRefNumber", query = "SELECT b FROM BillOfLanding b WHERE b.masterBolRefNumber = :masterBolRefNumber"),
+    @NamedQuery(name = "BillOfLanding.findByNotifyAddress", query = "SELECT b FROM BillOfLanding b WHERE b.notifyAddress = :notifyAddress"),
+    @NamedQuery(name = "BillOfLanding.findByNotifyCode", query = "SELECT b FROM BillOfLanding b WHERE b.notifyCode = :notifyCode"),
+    @NamedQuery(name = "BillOfLanding.findByNotifyName", query = "SELECT b FROM BillOfLanding b WHERE b.notifyName = :notifyName"),
+    @NamedQuery(name = "BillOfLanding.findByNumOfCtnForThisBol", query = "SELECT b FROM BillOfLanding b WHERE b.numOfCtnForThisBol = :numOfCtnForThisBol"),
+    @NamedQuery(name = "BillOfLanding.findByNumberOfPackages", query = "SELECT b FROM BillOfLanding b WHERE b.numberOfPackages = :numberOfPackages"),
+    @NamedQuery(name = "BillOfLanding.findByPackageTypeCode", query = "SELECT b FROM BillOfLanding b WHERE b.packageTypeCode = :packageTypeCode"),
+    @NamedQuery(name = "BillOfLanding.findByPlaceOfLoadingCode", query = "SELECT b FROM BillOfLanding b WHERE b.placeOfLoadingCode = :placeOfLoadingCode"),
+    @NamedQuery(name = "BillOfLanding.findByPlaceOfUnloadingCode", query = "SELECT b FROM BillOfLanding b WHERE b.placeOfUnloadingCode = :placeOfUnloadingCode"),
+    @NamedQuery(name = "BillOfLanding.findByShippingMarks", query = "SELECT b FROM BillOfLanding b WHERE b.shippingMarks = :shippingMarks"),
+    @NamedQuery(name = "BillOfLanding.findByTransportCurrency", query = "SELECT b FROM BillOfLanding b WHERE b.transportCurrency = :transportCurrency"),
+    @NamedQuery(name = "BillOfLanding.findByTransportValue", query = "SELECT b FROM BillOfLanding b WHERE b.transportValue = :transportValue"),
+    @NamedQuery(name = "BillOfLanding.findByUniqueCarrierReference", query = "SELECT b FROM BillOfLanding b WHERE b.uniqueCarrierReference = :uniqueCarrierReference"),
+    @NamedQuery(name = "BillOfLanding.findByVolumeInCubicMeters", query = "SELECT b FROM BillOfLanding b WHERE b.volumeInCubicMeters = :volumeInCubicMeters")})
 public class BillOfLanding implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_BOL", nullable = false)
-    private Integer idBol;
+    @Column(name = "ID_BOL")
+    private Long idBol;
     @Size(max = 255)
-    @Column(name = "PC_INDICATOR", length = 255)
+    @Column(name = "PC_INDICATOR")
     private String pcIndicator;
     @Size(max = 255)
-    @Column(name = "BOL_NATURE", length = 255)
+    @Column(name = "BOL_NATURE")
     private String bolNature;
     @Size(max = 255)
-    @Column(name = "BOL_REFERENCE", length = 255)
+    @Column(name = "BOL_REFERENCE")
     private String bolReference;
     @Size(max = 255)
-    @Column(name = "BOL_TYPE_CODE", length = 255)
+    @Column(name = "BOL_TYPE_CODE")
     private String bolTypeCode;
     @Size(max = 255)
-    @Column(name = "CONSIGNEE_ADDRESS", length = 255)
+    @Column(name = "CONSIGNEE_ADDRESS")
     private String consigneeAddress;
     @Size(max = 255)
-    @Column(name = "CONSIGNEE_CODE", length = 255)
+    @Column(name = "CONSIGNEE_CODE")
     private String consigneeCode;
     @Size(max = 255)
-    @Column(name = "CONSIGNEE_NAME", length = 255)
+    @Column(name = "CONSIGNEE_NAME")
     private String consigneeName;
     @Size(max = 255)
-    @Column(name = "CUSTOMS_CURRENCY", length = 255)
+    @Column(name = "CUSTOMS_CURRENCY")
     private String customsCurrency;
-    @Size(max = 20)
-    @Column(name = "CUSTOMS_VALUE", length = 20)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "CUSTOMS_VALUE")
     private Double customsValue;
     @Size(max = 255)
-    @Column(name = "EXPORTER_ADDRESS", length = 255)
+    @Column(name = "EXPORTER_ADDRESS")
     private String exporterAddress;
     @Size(max = 255)
-    @Column(name = "EXPORTER_CODE", length = 255)
+    @Column(name = "EXPORTER_CODE")
     private String exporterCode;
     @Size(max = 255)
-    @Column(name = "EXPORTER_NAME", length = 255)
+    @Column(name = "EXPORTER_NAME")
     private String exporterName;
     @Size(max = 255)
-    @Column(name = "FREIGHT_CURRENCY", length = 255)
+    @Column(name = "FREIGHT_CURRENCY")
     private String freightCurrency;
-    @Size(max = 20)
-    @Column(name = "FREIGHT_VALUE", length = 20)
+    @Column(name = "FREIGHT_VALUE")
     private Double freightValue;
-    @Size(max = 255)
-    @Column(name = "GOODS_DESCRIPTION", length = 255)
+    @Size(max = 2000)
+    @Column(name = "GOODS_DESCRIPTION")
     private String goodsDescription;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "GROSS_MASS", nullable = false)
+    @Column(name = "GROSS_MASS")
     private double grossMass;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID_GENERAL")
+    private long idGeneral;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "INFORMATION")
     private String information;
     @Size(max = 255)
-    @Column(name = "INSURANCE_CURRENCY", length = 255)
+    @Column(name = "INSURANCE_CURRENCY")
     private String insuranceCurrency;
-    @Size(max = 20)
-    @Column(name = "INSURANCE_VALUE", length = 20)
+    @Column(name = "INSURANCE_VALUE")
     private Double insuranceValue;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "LINE_NUMBER", nullable = false)
-    private Integer lineNumber;
+    @Column(name = "LINE_NUMBER")
+    private BigInteger lineNumber;
     @Size(max = 255)
-    @Column(name = "LOCATION_CODE", length = 255)
+    @Column(name = "LOCATION_CODE")
     private String locationCode;
     @Size(max = 255)
-    @Column(name = "LOCATION_INFO", length = 255)
+    @Column(name = "LOCATION_INFO")
     private String locationInfo;
     @Size(max = 255)
-    @Column(name = "MASTER_BOL_REF_NUMBER", length = 255)
+    @Column(name = "MASTER_BOL_REF_NUMBER")
     private String masterBolRefNumber;
     @Size(max = 255)
-    @Column(name = "NOTIFY_ADDRESS", length = 255)
+    @Column(name = "NOTIFY_ADDRESS")
     private String notifyAddress;
     @Size(max = 255)
-    @Column(name = "NOTIFY_CODE", length = 255)
+    @Column(name = "NOTIFY_CODE")
     private String notifyCode;
     @Size(max = 255)
-    @Column(name = "NOTIFY_NAME", length = 255)
+    @Column(name = "NOTIFY_NAME")
     private String notifyName;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "NUM_OF_CTN_FOR_THIS_BOL", nullable = false)
+    @Column(name = "NUM_OF_CTN_FOR_THIS_BOL")
     private double numOfCtnForThisBol;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "NUMBER_OF_PACKAGES", nullable = false)
+    @Column(name = "NUMBER_OF_PACKAGES")
     private double numberOfPackages;
     @Size(max = 255)
-    @Column(name = "PACKAGE_TYPE_CODE", length = 255)
+    @Column(name = "PACKAGE_TYPE_CODE")
     private String packageTypeCode;
     @Size(max = 255)
-    @Column(name = "PLACE_OF_LOADING_CODE", length = 255)
+    @Column(name = "PLACE_OF_LOADING_CODE")
     private String placeOfLoadingCode;
     @Size(max = 255)
-    @Column(name = "PLACE_OF_UNLOADING_CODE", length = 255)
+    @Column(name = "PLACE_OF_UNLOADING_CODE")
     private String placeOfUnloadingCode;
-    @Size(max = 255)
-    @Column(name = "SHIPPING_MARKS", length = 255)
+    @Size(max = 1000)
+    @Column(name = "SHIPPING_MARKS")
     private String shippingMarks;
     @Size(max = 255)
-    @Column(name = "TRANSPORT_CURRENCY", length = 255)
+    @Column(name = "TRANSPORT_CURRENCY")
     private String transportCurrency;
-    @Size(max = 20)
-    @Column(name = "TRANSPORT_VALUE", length = 20)
+    @Column(name = "TRANSPORT_VALUE")
     private Double transportValue;
     @Size(max = 255)
-    @Column(name = "UNIQUE_CARRIER_REFERENCE", length = 255)
+    @Column(name = "UNIQUE_CARRIER_REFERENCE")
     private String uniqueCarrierReference;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VOLUME_IN_CUBIC_METERS", nullable = false)
+    @Column(name = "VOLUME_IN_CUBIC_METERS")
     private double volumeInCubicMeters;
-    @JoinColumn(name = "ID_GENERAL", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private GeneralInfo idGeneral;
-    @OneToMany(mappedBy = "idBol")
-    private Collection<Container> containerCollection;
 
     public BillOfLanding() {
     }
 
-    public BillOfLanding(Integer idBol) {
+    public BillOfLanding(Long idBol) {
         this.idBol = idBol;
     }
 
-    public BillOfLanding(Integer idBol, double grossMass, Integer lineNumber, double numOfCtnForThisBol, double numberOfPackages, double volumeInCubicMeters) {
+    public BillOfLanding(Long idBol, double grossMass, long idGeneral, BigInteger lineNumber, double numOfCtnForThisBol, double numberOfPackages, double volumeInCubicMeters) {
         this.idBol = idBol;
         this.grossMass = grossMass;
+        this.idGeneral = idGeneral;
         this.lineNumber = lineNumber;
         this.numOfCtnForThisBol = numOfCtnForThisBol;
         this.numberOfPackages = numberOfPackages;
         this.volumeInCubicMeters = volumeInCubicMeters;
     }
 
-    public Integer getIdBol() {
+    public Long getIdBol() {
         return idBol;
     }
 
-    public void setIdBol(Integer idBol) {
+    public void setIdBol(Long idBol) {
         this.idBol = idBol;
     }
 
@@ -347,6 +341,14 @@ public class BillOfLanding implements Serializable {
         this.grossMass = grossMass;
     }
 
+    public long getIdGeneral() {
+        return idGeneral;
+    }
+
+    public void setIdGeneral(long idGeneral) {
+        this.idGeneral = idGeneral;
+    }
+
     public String getInformation() {
         return information;
     }
@@ -371,11 +373,11 @@ public class BillOfLanding implements Serializable {
         this.insuranceValue = insuranceValue;
     }
 
-    public Integer getLineNumber() {
+    public BigInteger getLineNumber() {
         return lineNumber;
     }
 
-    public void setLineNumber(Integer lineNumber) {
+    public void setLineNumber(BigInteger lineNumber) {
         this.lineNumber = lineNumber;
     }
 
@@ -507,23 +509,6 @@ public class BillOfLanding implements Serializable {
         this.volumeInCubicMeters = volumeInCubicMeters;
     }
 
-    public GeneralInfo getIdGeneral() {
-        return idGeneral;
-    }
-
-    public void setIdGeneral(GeneralInfo idGeneral) {
-        this.idGeneral = idGeneral;
-    }
-
-    @XmlTransient
-    public Collection<Container> getContainerCollection() {
-        return containerCollection;
-    }
-
-    public void setContainerCollection(Collection<Container> containerCollection) {
-        this.containerCollection = containerCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -546,7 +531,7 @@ public class BillOfLanding implements Serializable {
 
     @Override
     public String toString() {
-        return "db.BillOfLanding[ idBol=" + idBol + " ]";
+        return "com.github.adminfaces.starter.model.BillOfLanding[ idBol=" + idBol + " ]";
     }
     
 }

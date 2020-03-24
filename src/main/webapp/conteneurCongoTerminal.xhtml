@@ -11,6 +11,8 @@
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
                 text-align: right !important;
+                border-left-style: solid !important;
+                border-left-width: 5px !important;
             }
 
             th.ui-filter-column {
@@ -36,7 +38,7 @@
     </ui:define>
 
     <ui:define name="description">
-        Find container by date, trafic and escale
+        Consultation les conteneurs de source CONGO-TERMINAL
     </ui:define>
 
     <ui:define name="body">
@@ -45,63 +47,36 @@
             <p:focus context="@form"/>  
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="Recherche avancée" update="@(.ui-dialog)" styleClass="btn-info"
-                                         oncomplete="PF('searchDialog').show()" icon="fa fa-search"/>
+                    <p:dataTable widgetVar="ctnTable" var="c" value="#{conteneurCongoTerminalBean.list}" rows="10" rowKey="#{c.id}" lazy="true" 
+                                 paginator="true" sortMode="single" sortBy="#{c.mois}" sortOrder="descending" tableStyleClass="align-center"
+                                 paginatorPosition="bottom" selectionMode="single" selection="#{conteneurCongoTerminalBean.selection}" 
+                                 filteredValue="#{conteneurCongoTerminalBean.filteredValue}" rowsPerPageTemplate="10,15,25,50" rowIndexVar="x" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="[{startRecord} à {endRecord} de {totalRecords}]">
 
-                        <p:spacer width="5"/>
-                        <p:commandButton value="Vider" update="@(.ui-dialog, .ui-datatable)" process="@form"
-                                         action="#{conteneurCongoTerminalBean.clear()}"
-                                         icon="fa fa-refresh"/>
-                    </div>
-
-                    <p:splitButton value="Recherche" oncomplete="PF('searchDialog').show()" icon="fa fa-search"
-                                   styleClass="hidden-md hidden-lg btn-primary">
-                        <p:menuitem value="Search" update="@(.ui-dialog)"
-                                    oncomplete="PF('searchDialog').show()"
-                                    icon="fa fa-search"/>
-
-                        <p:menuitem value="Vider" update="@(.ui-dialog, .ui-datatable)" process="@form"
-                                    action="#{conteneurCongoTerminalBean.clear()}"
-                                    icon="fa fa-refresh"/>
-                    </p:splitButton>
-
-                    <p:separator/>
-                    <p:dataTable widgetVar="ctnTable" var="c" value="#{conteneurCongoTerminalBean.list}" rows="10"
-                                 rowKey="#{c.id}" lazy="true" paginator="true" sortMode="multiple" sortBy="#{c.id}"
-                                 paginatorPosition="bottom" selectionMode="single" selection="#{conteneurCongoTerminalBean.selectedConteneur}"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
-                                 currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
-                                 rowsPerPageTemplate="10,15,25,50" >
-                        <p:ajax event="rowSelect" listener="#{conteneurCongoTerminalBean.onRowSelect}" update="@(.ui-dialog)" oncomplete="PF('detailDialog').show()" />
+                        <p:ajax event="rowSelect" listener="#{conteneurCongoTerminalBean.onRowSelect}"/>
 
                         <f:facet name="header">
-                            Recherche par N° : 
-                            <p:inputText id="inptNumCtn" value="#{conteneurCongoTerminalBean.numCtn}"/>
+                            Recherche par numéro de conteneur : 
+                            <p:inputText id="inptId" value="#{conteneurCongoTerminalBean.numCtn}" placeholder="exp:TGBU6792256"/>
                             <p:spacer height="5"/>
-                            <p:commandButton id="brFind" value="Valider"
-                                             action="#{conteneurCongoTerminalBean.findCtnByNumCtn(conteneurCongoTerminalBean.numCtn)}"
+                            <p:commandButton id="brFind" icon="fa fa-search"
+                                             action="#{conteneurCongoTerminalBean.findCTNByNumCtn}"
                                              process="@form"
                                              update="@form"
-                                             styleClass="btn-flat bg-black btn-states"
+                                             styleClass="btn-info btn-flat"
                                              partialSubmit="true"/>
                         </f:facet>
-                        <p:column headerText="Id" sortBy="#{c.id}" styleClass="align-center">
-                            #{c.id}
+                        <p:column headerText="#" sortBy="#{c.id}" width="2%" styleClass="with-border">
+                            #{x+1}
                         </p:column>
-                        <p:column headerText="Mois" filterBy="#{c.mois}" sortBy="#{c.mois}">
-                            <f:facet name="filter">
-                                <p:datePicker id="month" view="month" value="#{conteneurCongoTerminalBean.filter.entity.mois}" pattern="yyyyMM"
-                                              yearNavigator="true" yearRange="2000:2030">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:datePicker>
-                                <!--p:inputNumber id="inptMois" decimalPlaces="0"  maxlength="6" decimalSeparator="" thousandSeparator="" value="">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputNumber-->
-                            </f:facet>
+                        <p:column headerText="Date" sortBy="#{(c.date).split('/')[2](c.date).split('/')[1](c.date).split('/')[0]}" width="8%">
+                            #{c.date}
+                        </p:column>
+                        <p:column headerText="Mois" sortBy="#{c.mois}" width="6%">
                             #{c.mois}
                         </p:column>
-                        <p:column headerText="N° CTN" sortBy="#{c.numCtn}" filterBy="#{c.numCtn}">
+                        <p:column headerText="N° CTN" sortBy="#{c.numCtn}" filterBy="#{c.numCtn}" width="10%">
                             <f:facet name="filter">
                                 <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.numCtn}">
                                     <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
@@ -109,95 +84,46 @@
                             </f:facet>
                             #{c.numCtn}
                         </p:column>
-                        <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}">
-                            <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.trafic}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
-                            </f:facet>
-                            #{c.trafic}
+                        <p:column headerText="Type" sortBy="#{c.tare}" width="6%">
+                            #{c.tare}
                         </p:column>
-                        <p:column headerText="Date" sortBy="#{c.date}" filterBy="#{c.date}">
-                            <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.date}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
-                            </f:facet>
-                            #{c.date}
+                        <p:column headerText="Poids" sortBy="#{c.poidsBrut}" width="6%">
+                            #{c.poidsBrut}
                         </p:column>
-                        <p:column headerText="Escale" sortBy="#{c.escale}" filterBy="#{c.escale}">
-                            <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.escale}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
-                            </f:facet>
-                            #{c.escale}
+                        <p:column headerText="P/V" sortBy="#{c.videPlein}" width="5%">
+                            #{c.videPlein}
                         </p:column>
-
-                        <p:column headerText="Mouvement" sortBy="#{c.mouvement}" filterBy="#{c.mouvement}">
-                            <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.mouvement}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
-                            </f:facet>
+                        <p:column headerText="MVMT" sortBy="#{c.mouvement}" width="6%">
                             #{c.mouvement}
                         </p:column>
-                        <p:column headerText="N° VOYAGE" sortBy="#{c.voyage}" filterBy="#{c.voyage}">
+                        <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}"
+                                  filterMatchMode="equals" priority="3" width="13%">
                             <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.voyage}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
+                                <p:selectOneButton value="#{conteneurCongoTerminalBean.filter.entity.trafic}">
+                                    <f:selectItem itemLabel="EXP" itemValue="E"/>
+                                    <f:selectItem itemLabel="IMP" itemValue="I"/>
+                                    <f:selectItem itemLabel="TRB" itemValue="T"/>
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('ctnTable').filter()"/>
+                                </p:selectOneButton>
                             </f:facet>
+                            <h:outputText value="#{c.trafic == 'E' ? 'EXPORT': c.trafic == 'I' ?'IMPORT' : 'TRANSBO'}"/>
+                        </p:column>
+                        <p:column headerText="Escale" sortBy="#{c.escale}" width="15%">
+                            #{c.escale}
+                        </p:column>
+                        <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" width="10%">
                             #{c.voyage}
                         </p:column>
-                        <p:column headerText="POL" sortBy="#{c.pol}" filterBy="#{c.pol}">
-                            <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.pol}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
-                            </f:facet>
+                        <p:column headerText="POL" sortBy="#{c.pol}" width="5%">
                             #{c.pol}
                         </p:column>
-                        <p:column headerText="POD" sortBy="#{c.pod}" filterBy="#{c.pod}">
-                            <f:facet name="filter">
-                                <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.pod}">
-                                    <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                </p:inputText>
-                            </f:facet>
+                        <p:column headerText="POD" sortBy="#{c.pod}" width="5%">
                             #{c.pod}
                         </p:column>
 
                     </p:dataTable>
                 </div>
             </div>
-            <p:dialog header="Detail du conteneur N° #{conteneurCongoTerminalBean.selectedConteneur.numCtn}" 
-                      widgetVar="detailDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="ctnDetail" style="text-align:center;">
-                    <p:panelGrid  columns="2" layout="grid" rendered="#{not empty conteneurCongoTerminalBean.selectedConteneur}">
-                        <f:facet name="header">
-                            <p:outputLabel value="#{conteneurCongoTerminalBean.selectedConteneur.numCtn}"/>
-                        </f:facet>
-
-                        <h:outputLabel style="text-align: right" value="Poids:" />
-                        <h:outputText value="#{conteneurCongoTerminalBean.selectedConteneur.poidsBrut}" />
-
-                        <h:outputLabel style="text-align: right" value="Tare :" />
-                        <h:outputText value="#{conteneurCongoTerminalBean.selectedConteneur.tare}" />
-
-                        <h:outputLabel style="text-align: right" value="P/V :" />
-                        <h:outputText value="#{conteneurCongoTerminalBean.selectedConteneur.videPlein}"/>
-
-                        <h:outputLabel style="text-align: right" value="Mouvement :" />
-                        <h:outputText value="#{conteneurCongoTerminalBean.selectedConteneur.mouvement}"/>
-                    </p:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-solid box-danger">
-                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
-                                 icon="fa fa-check"/>
-                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
-                                 icon="fa fa-close"/>
-            </p:confirmDialog>
         </h:form>
 
     </ui:define>

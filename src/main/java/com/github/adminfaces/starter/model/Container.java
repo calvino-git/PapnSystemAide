@@ -5,14 +5,11 @@
  */
 package com.github.adminfaces.starter.model;
 
-import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,76 +19,78 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Admin
+ * @author 60610H
  */
 @Entity
-@Table(catalog = "", schema = "PPNCARGO")
+@Table(name = "CONTAINER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Container.findAll", query = "SELECT c FROM Container c")
-    , @NamedQuery(name = "Container.findByIdCtn", query = "SELECT c FROM Container c WHERE c.idCtn = :idCtn")
-    , @NamedQuery(name = "Container.findByCtnReference", query = "SELECT c FROM Container c WHERE c.ctnReference = :ctnReference")
-    , @NamedQuery(name = "Container.findByEmptyFull", query = "SELECT c FROM Container c WHERE c.emptyFull = :emptyFull")
-    , @NamedQuery(name = "Container.findByEmptyWeight", query = "SELECT c FROM Container c WHERE c.emptyWeight = :emptyWeight")
-    , @NamedQuery(name = "Container.findByGoodsWeight", query = "SELECT c FROM Container c WHERE c.goodsWeight = :goodsWeight")
-    , @NamedQuery(name = "Container.findByMarks1", query = "SELECT c FROM Container c WHERE c.marks1 = :marks1")
-    , @NamedQuery(name = "Container.findByMarks2", query = "SELECT c FROM Container c WHERE c.marks2 = :marks2")
-    , @NamedQuery(name = "Container.findByMarks3", query = "SELECT c FROM Container c WHERE c.marks3 = :marks3")
-    , @NamedQuery(name = "Container.findByNumberOfPackages", query = "SELECT c FROM Container c WHERE c.numberOfPackages = :numberOfPackages")
-    , @NamedQuery(name = "Container.findBySealingParty", query = "SELECT c FROM Container c WHERE c.sealingParty = :sealingParty")
-    , @NamedQuery(name = "Container.findByTypeOfContainer", query = "SELECT c FROM Container c WHERE c.typeOfContainer = :typeOfContainer")})
-public class Container extends BaseEntity implements Serializable {
+    @NamedQuery(name = "Container.findAll", query = "SELECT c FROM Container c"),
+    @NamedQuery(name = "Container.findByIdCtn", query = "SELECT c FROM Container c WHERE c.idCtn = :idCtn"),
+    @NamedQuery(name = "Container.findByCtnReference", query = "SELECT c FROM Container c WHERE c.ctnReference = :ctnReference"),
+    @NamedQuery(name = "Container.findByEmptyFull", query = "SELECT c FROM Container c WHERE c.emptyFull = :emptyFull"),
+    @NamedQuery(name = "Container.findByEmptyWeight", query = "SELECT c FROM Container c WHERE c.emptyWeight = :emptyWeight"),
+    @NamedQuery(name = "Container.findByGoodsWeight", query = "SELECT c FROM Container c WHERE c.goodsWeight = :goodsWeight"),
+    @NamedQuery(name = "Container.findByIdBol", query = "SELECT c FROM Container c WHERE c.idBol = :idBol"),
+    @NamedQuery(name = "Container.findByMarks1", query = "SELECT c FROM Container c WHERE c.marks1 = :marks1"),
+    @NamedQuery(name = "Container.findByMarks2", query = "SELECT c FROM Container c WHERE c.marks2 = :marks2"),
+    @NamedQuery(name = "Container.findByMarks3", query = "SELECT c FROM Container c WHERE c.marks3 = :marks3"),
+    @NamedQuery(name = "Container.findByNumberOfPackages", query = "SELECT c FROM Container c WHERE c.numberOfPackages = :numberOfPackages"),
+    @NamedQuery(name = "Container.findBySealingParty", query = "SELECT c FROM Container c WHERE c.sealingParty = :sealingParty"),
+    @NamedQuery(name = "Container.findByTypeOfContainer", query = "SELECT c FROM Container c WHERE c.typeOfContainer = :typeOfContainer")})
+public class Container implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_CTN", nullable = false)
-    private Integer idCtn;
+    @Column(name = "ID_CTN")
+    private Long idCtn;
     @Size(max = 255)
-    @Column(name = "CTN_REFERENCE", length = 255)
+    @Column(name = "CTN_REFERENCE")
     private String ctnReference;
     @Size(max = 255)
-    @Column(name = "EMPTY_FULL", length = 255)
+    @Column(name = "EMPTY_FULL")
     private String emptyFull;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "EMPTY_WEIGHT", precision = 126)
+    @Size(max = 20)
+    @Column(name = "EMPTY_WEIGHT")
     private String emptyWeight;
-    @Column(name = "GOODS_WEIGHT", precision = 126)
+    @Size(max = 20)
+    @Column(name = "GOODS_WEIGHT")
     private String goodsWeight;
+    @Column(name = "ID_BOL")
+    private Long idBol;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "MARKS1")
     private String marks1;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "MARKS2")
     private String marks2;
     @Size(max = 255)
-    @Column(length = 255)
+    @Column(name = "MARKS3")
     private String marks3;
-    @Column(name = "NUMBER_OF_PACKAGES", precision = 126)
+    @Size(max = 20)
+    @Column(name = "NUMBER_OF_PACKAGES")
     private String numberOfPackages;
     @Size(max = 255)
-    @Column(name = "SEALING_PARTY", length = 255)
+    @Column(name = "SEALING_PARTY")
     private String sealingParty;
     @Size(max = 255)
-    @Column(name = "TYPE_OF_CONTAINER", length = 255)
+    @Column(name = "TYPE_OF_CONTAINER")
     private String typeOfContainer;
-    @JoinColumn(name = "ID_BOL", referencedColumnName = "ID_BOL")
-    @ManyToOne
-    private BillOfLanding idBol;
 
     public Container() {
     }
 
-    public Container(Integer idCtn) {
+    public Container(Long idCtn) {
         this.idCtn = idCtn;
     }
 
-    public Integer getIdCtn() {
+    public Long getIdCtn() {
         return idCtn;
     }
 
-    public void setIdCtn(Integer idCtn) {
+    public void setIdCtn(Long idCtn) {
         this.idCtn = idCtn;
     }
 
@@ -125,6 +124,14 @@ public class Container extends BaseEntity implements Serializable {
 
     public void setGoodsWeight(String goodsWeight) {
         this.goodsWeight = goodsWeight;
+    }
+
+    public Long getIdBol() {
+        return idBol;
+    }
+
+    public void setIdBol(Long idBol) {
+        this.idBol = idBol;
     }
 
     public String getMarks1() {
@@ -175,14 +182,6 @@ public class Container extends BaseEntity implements Serializable {
         this.typeOfContainer = typeOfContainer;
     }
 
-    public BillOfLanding getIdBol() {
-        return idBol;
-    }
-
-    public void setIdBol(BillOfLanding idBol) {
-        this.idBol = idBol;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -205,12 +204,7 @@ public class Container extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "db.Container[ idCtn=" + idCtn + " ]";
-    }
-
-    @Override
-    public <ID extends Serializable> ID getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "com.github.adminfaces.starter.model.Container[ idCtn=" + idCtn + " ]";
     }
     
 }

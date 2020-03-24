@@ -21,7 +21,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 @Singleton
-@Startup
+//@Startup
 public class DocumentService implements Serializable {
 
     @Inject
@@ -39,7 +39,7 @@ public class DocumentService implements Serializable {
 
     @PostConstruct
     public void init() {
-        listRedevMarch = redMarchRepo.listRedevMarchByAn(LocalDateTime.now().getYear()-1);
+        listRedevMarch = redMarchRepo.listRedevMarchByAn(LocalDateTime.now().getYear());
         streamConteneurTonnage = listRedevMarch.stream().filter(rm -> rm.getCondit() != null && rm.getCondit().startsWith("TCS"));
         streamConventionTonnage = listRedevMarch.stream().filter(rm -> rm.getCondit() != null && !rm.getCondit().startsWith("TCS"));
         streamConteneurMontant = listRedevMarch.stream().filter(rm -> rm.getTarif() != null && rm.getTarif().startsWith("MARCHANDTCS"));

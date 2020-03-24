@@ -28,7 +28,7 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
  * @author Calvin ILOKI
  */
 @Singleton
-@Startup
+//@Startup
 public class MarchfactService implements Serializable {
 
     private List<Marchfact> list;
@@ -49,8 +49,8 @@ public class MarchfactService implements Serializable {
     
     @PostConstruct
     public void init() {
-        debut = LocalDateTime.now().getYear()-1 + "0101";
-        fin = LocalDateTime.now().getYear()-1 + "1231";
+        debut = LocalDateTime.now().getYear() + "0101";
+        fin = LocalDateTime.now().getYear() + "1231";
         update();
         System.out.println("[" + LocalDateTime.now() + "] MarchFactService est initialisé...");
     }

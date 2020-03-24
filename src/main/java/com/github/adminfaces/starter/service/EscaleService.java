@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * @author Calvin ILOKI
  */
 @Singleton
-@Startup
+//@Startup
 public class EscaleService implements Serializable {
 
     @Inject
@@ -49,7 +49,7 @@ public class EscaleService implements Serializable {
 
     @PostConstruct
     public void init() {
-        annee = String.valueOf(LocalDateTime.now().getYear()-1);
+        annee = String.valueOf(LocalDateTime.now().getYear());
         update();
         System.out.println("[" + LocalDateTime.now() + "] EscaleService initialisé...");
     }

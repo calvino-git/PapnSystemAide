@@ -33,19 +33,19 @@ public class ConteneurCTService extends CrudService<ConteneurCT, Integer> implem
     protected Criteria<ConteneurCT, ConteneurCT> configRestrictions(Filter<ConteneurCT> filter) {
 
         Criteria<ConteneurCT, ConteneurCT> criteria = criteria();
-
-        //create restrictions based on parameters map
-        if (filter.hasParam("id")) {
-            criteria.eq(ConteneurCT_.id, filter.getIntParam("id"));
-        }
-
-        if (filter.hasParam("deb") && filter.hasParam("fin")) {
-            criteria.between(ConteneurCT_.date, filter.getStringParam("deb"), filter.getStringParam("fin"));
-        } else if (filter.hasParam("deb")) {
-            criteria.gtOrEq(ConteneurCT_.date, filter.getStringParam("deb"));
-        } else if (filter.hasParam("fin")) {
-            criteria.ltOrEq(ConteneurCT_.date, filter.getStringParam("fin"));
-        }
+//
+//        //create restrictions based on parameters map
+//        if (filter.hasParam("id")) {
+//            criteria.eq(ConteneurCT_.id, filter.getIntParam("id"));
+//        }
+//
+//        if (filter.hasParam("deb") && filter.hasParam("fin")) {
+//            criteria.between(ConteneurCT_.date, filter.getStringParam("deb"), filter.getStringParam("fin"));
+//        } else if (filter.hasParam("deb")) {
+//            criteria.gtOrEq(ConteneurCT_.date, filter.getStringParam("deb"));
+//        } else if (filter.hasParam("fin")) {
+//            criteria.ltOrEq(ConteneurCT_.date, filter.getStringParam("fin"));
+//        }
 
         //create restrictions based on filter entity
         if (has(filter.getEntity())) {
@@ -100,6 +100,12 @@ public class ConteneurCTService extends CrudService<ConteneurCT, Integer> implem
         }
     }
 
+    public List<ConteneurCT> findByNumCtn(String num){
+        ConteneurCT sample = new ConteneurCT();
+        sample.setNumCtn(num);
+        List<ConteneurCT> liste = conteneurCTRepository.findByLike(sample, ConteneurCT_.numCtn);
+        return liste;
+    }
 
     public List<ConteneurCT> listByTrafic(String trafic) {
         return criteria()

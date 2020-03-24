@@ -56,8 +56,7 @@ public class MarchFactBean implements Serializable {
         
         columnHeaders = new ArrayList<>();
         list = marchFactService.getList();
-        Marchfact march = new Marchfact();
-        Field[] fields = march.getClass().getDeclaredFields();
+        Field[] fields = Marchfact.class.getDeclaredFields();
         int t = fields.length;
         for (int i = 2; i < t; i++) {
             String field = Marchfact.class.getDeclaredFields()[i].getName();

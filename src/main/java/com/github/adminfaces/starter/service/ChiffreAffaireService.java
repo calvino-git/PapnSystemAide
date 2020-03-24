@@ -27,7 +27,7 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
  * @author Calvin ILOKI
  */
 @Singleton
-@Startup
+//@Startup
 public class ChiffreAffaireService implements Serializable {
 
     private List<PrestationChiffreAffaire> list;
@@ -45,8 +45,8 @@ public class ChiffreAffaireService implements Serializable {
 
     @PostConstruct
     public void init() {
-        anneeFin = LocalDateTime.now().getYear()-1;
-        anneeDebut = anneeFin - 4;
+        anneeFin = LocalDateTime.now().getYear();
+        anneeDebut = anneeFin;
         update();
         listStatic = list;
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService est initialisé...");

@@ -250,7 +250,7 @@ public class PrestationChiffreAffaireBean implements Serializable {
         barModel2.setOptions(options);
     }
 
-    public void viewPdf() {
+    public void viewPdf() throws IOException {
 //        setPdf("/report/ChiffreAffairePrestation.pdf");
 //        try {
 //            JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(chiffreAffaireService.getList());

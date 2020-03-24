@@ -3,6 +3,7 @@
   <persistence-unit name="StarterPU" transaction-type="JTA">
     <jta-data-source>java:app/cargo</jta-data-source>
     <class>com.github.adminfaces.starter.model.Marchfact</class>
+    <class>com.github.adminfaces.starter.model.ConteneurDouane</class>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
       <property name="eclipselink.ddl-generation" value="none"/>

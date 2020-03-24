@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.charts.ChartData;
@@ -41,17 +42,20 @@ import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 @Named
-@ApplicationScoped
+@SessionScoped
 public class TotalBean implements Serializable {
 
-    private Date debut;
-    private Date fin;
     @Inject
     private EscaleService escaleService;
     @Inject
     private ChiffreAffaireService chiffreAffaireService;
     @Inject
     private ConteneurCongoTerminalService cctService;
+    @Inject
+    private DocumentService documentService;
+    @Inject
+    private DocumentEVPService documentEVPService;
+
     private TreeNode root;
     private TreeNode rootEVP;
 
@@ -65,17 +69,15 @@ public class TotalBean implements Serializable {
     private List<TotalBean.ColumnModel> columns;
     private String columnTemplate = "id departEffectif type";
 
-    @Inject
-    private DocumentService documentService;
-    @Inject
-    private DocumentEVPService documentEVPService;
-
     private List<Integer> years;
     private Double totalParAn;
+    
+    private Date debut;
+    private Date fin;
 
     @PostConstruct
     public void init() {
-        anneeEnCours = LocalDate.now().getYear() - 1;
+        anneeEnCours = LocalDate.now().getYear();
         years = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             years.add(anneeEnCours - i);
@@ -84,7 +86,7 @@ public class TotalBean implements Serializable {
         rootEVP = documentEVPService.createDocuments();
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
         
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
             debut = format.parse(documentEVPService.getDebut());
             fin = format.parse(documentEVPService.getFin());
@@ -96,7 +98,7 @@ public class TotalBean implements Serializable {
         DocumentEVP docEVP = new DocumentEVP();
         Field[] fields = docEVP.getClass().getDeclaredFields();
         int t = fields.length;
-        for (int i = 2; i < t; i++) {
+        for (int i = 1; i < t; i++) {
             String field = DocumentEVP.class.getDeclaredFields()[i].getName();
             columnHeaders.add(field);
         }

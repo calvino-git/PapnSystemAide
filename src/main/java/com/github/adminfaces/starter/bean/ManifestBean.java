@@ -5,22 +5,26 @@
  */
 package com.github.adminfaces.starter.bean;
 
-import com.github.adminfaces.starter.util.AWPAPNWebService;
-import com.github.adminfaces.starter.util.AWPAPNWebService_Service;
-import com.github.adminfaces.starter.util.GenererManifesteResponse;
-import com.github.adminfaces.starter.util.GetManListRef;
-import com.github.adminfaces.starter.util.GetManListRefResponse;
-import com.github.adminfaces.starter.util.InputReference;
-import com.github.adminfaces.starter.util.ObjectFactory;
+import com.github.adminfaces.starter.model.Awmds;
+import com.github.adminfaces.starter.service.ManifesteService;
 import com.github.adminfaces.starter.util.RefManResult;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -30,63 +34,45 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class ManifestBean implements Serializable {
 
-    private String debut;
-    private String fin;
+    private Date debut;
+    private Date fin;
     private String trafic;
     private List<RefManResult> refManList;
-    private AWPAPNWebService awService;
+    private UploadedFile xmlManifeste;
+    
+    
+    @Inject
+    ManifesteService manifesteService;
 
     @PostConstruct
     private void init() {
 
     }
 
-    public void searchRefMan() {
-        AWPAPNWebService_Service ws = new AWPAPNWebService_Service();
-        ObjectFactory factory = new ObjectFactory();
-        awService = ws.getAWPAPNWebServicePort();
-        InputReference inRef = factory.createInputReference();
-        inRef.setDebut(debut);
-        inRef.setFin(fin);
-        inRef.setType(trafic);
-        GetManListRef requestRefListManifest = factory.createGetManListRef();
-        requestRefListManifest.setArg0(inRef);
-
-        if (awService != null) {
-            System.out.println("Appel du Web Service de la douane... ");
-            System.out.println("Date de debut : " + inRef.getDebut());
-            System.out.println("Date de fin : " + inRef.getFin());
-            System.out.println("Trafic : " + inRef.getType());
-            List<RefManResult> refManList2 =  awService.getManListRef(inRef);
-            FacesContext context = FacesContext.getCurrentInstance();
-            refManList = refManList2;
-            context.addMessage(null, new FacesMessage("Successful", "Ref Man resultat : " + refManList.size()));
-        }
-
+    public void rechercherRefMan() {
+        refManList = manifesteService.rechercherRefMan(debut, fin, trafic);
     }
 
-    public AWPAPNWebService getAwService() {
-        return awService;
+    public void downloadManifeste(RefManResult ref) throws IOException {
+        manifesteService.telechargerManifesteFromDouane(ref);
     }
-
-    public void setAwService(AWPAPNWebService awService) {
-        this.awService = awService;
-    }
-
-    public String getDebut() {
-        return debut;
-    }
-
-    public void setDebut(String debut) {
-        this.debut = debut;
-    }
-
-    public String getFin() {
-        return fin;
-    }
-
-    public void setFin(String fin) {
-        this.fin = fin;
+    
+    public void convertirManifeste(FileUploadEvent event) throws IOException, JAXBException{
+        xmlManifeste = event.getFile();
+        Awmds awmds = manifesteService.convertirManifeste(xmlManifeste.getInputstream());
+        JAXBContext jaxbContext = JAXBContext.newInstance(Awmds.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+//      Initialize response.
+        response.reset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
+        response.setContentType("application/xml"); // Check http://www.iana.org/assignments/media-types for all types. Use if necessary ServletContext#getMimeType() for auto-detection based on filename.
+        response.setHeader("Content-disposition", "attachment; filename=\"manifeste.xml\"");
+        OutputStream out = response.getOutputStream();
+        marshaller.marshal(awmds, out);
+        facesContext.responseComplete();
     }
 
     public String getTrafic() {
@@ -105,4 +91,27 @@ public class ManifestBean implements Serializable {
         this.refManList = refManList;
     }
 
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public UploadedFile getXmlManifeste() {
+        return xmlManifeste;
+    }
+
+    public void setXmlManifeste(UploadedFile xmlManifeste) {
+        this.xmlManifeste = xmlManifeste;
+    }
 }

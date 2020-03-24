@@ -24,7 +24,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 @Singleton
-@Startup
+//@Startup
 public class DocumentEVPService implements Serializable {
 
     @Inject
@@ -37,9 +37,9 @@ public class DocumentEVPService implements Serializable {
     @PostConstruct
     public void init() {
         listDocEVP = new ArrayList<>();
-        debut="20190601";
-        fin="20190631";
-        listVueAllEvp = vueAllEvpRepo.listVueAllEvpByDate(debut, fin);
+        debut="01/01/2020";
+        fin="31/01/2020";
+        listVueAllEvp = vueAllEvpRepo.listVueAllEvpByDate("20200101", "20200131");
         listVueAllEvp.stream().forEach(evp -> {
             listDocEVP.add(new DocumentEVP(evp.getDepartEff(), evp.getNavire(), evp.getEscale(), evp.getMouvement(), evp.getSource(), "", "", ""));
         });
@@ -73,7 +73,7 @@ public class DocumentEVPService implements Serializable {
     }
 
     public TreeNode createDocuments(String debut, String fin) {
-        listVueAllEvp = vueAllEvpRepo.listVueAllEvpByDate("20191201", "20191231");
+        listVueAllEvp = vueAllEvpRepo.listVueAllEvpByDate("20200101", "20200131");
         DecimalFormat df = new DecimalFormat("#,##0");
         TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", "-", "-", "-"), null);
 

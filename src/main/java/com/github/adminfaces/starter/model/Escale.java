@@ -5,7 +5,6 @@
  */
 package com.github.adminfaces.starter.model;
 
-import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -14,6 +13,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +23,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,469 +30,481 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Admin
+ * @author 60610H
  */
 @Entity
-@Table(catalog = "", schema = "PPNCARGO", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"NUMERO"})})
+@Table(name = "ESCALE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Escale.findAll", query = "SELECT e FROM Escale e")
-    , @NamedQuery(name = "Escale.findByEscleunik", query = "SELECT e FROM Escale e WHERE e.escleunik = :escleunik")
-    , @NamedQuery(name = "Escale.findByNumero", query = "SELECT e FROM Escale e WHERE e.numero = :numero")
-    , @NamedQuery(name = "Escale.findByAgent", query = "SELECT e FROM Escale e WHERE e.agent = :agent")
-    , @NamedQuery(name = "Escale.findByManuten", query = "SELECT e FROM Escale e WHERE e.manuten = :manuten")
-    , @NamedQuery(name = "Escale.findByFiliere", query = "SELECT e FROM Escale e WHERE e.filiere = :filiere")
-    , @NamedQuery(name = "Escale.findByRadio", query = "SELECT e FROM Escale e WHERE e.radio = :radio")
-    , @NamedQuery(name = "Escale.findByService", query = "SELECT e FROM Escale e WHERE e.service = :service")
-    , @NamedQuery(name = "Escale.findByIdentite", query = "SELECT e FROM Escale e WHERE e.identite = :identite")
-    , @NamedQuery(name = "Escale.findByLigne", query = "SELECT e FROM Escale e WHERE e.ligne = :ligne")
-    , @NamedQuery(name = "Escale.findByMoisStat", query = "SELECT e FROM Escale e WHERE e.moisStat = :moisStat")
-    , @NamedQuery(name = "Escale.findByCapitaine", query = "SELECT e FROM Escale e WHERE e.capitaine = :capitaine")
-    , @NamedQuery(name = "Escale.findByConstruc", query = "SELECT e FROM Escale e WHERE e.construc = :construc")
-    , @NamedQuery(name = "Escale.findByObjet", query = "SELECT e FROM Escale e WHERE e.objet = :objet")
-    , @NamedQuery(name = "Escale.findByEtat", query = "SELECT e FROM Escale e WHERE e.etat = :etat")
-    , @NamedQuery(name = "Escale.findByNombre", query = "SELECT e FROM Escale e WHERE e.nombre = :nombre")
-    , @NamedQuery(name = "Escale.findByNbAtt", query = "SELECT e FROM Escale e WHERE e.nbAtt = :nbAtt")
-    , @NamedQuery(name = "Escale.findBySejour", query = "SELECT e FROM Escale e WHERE e.sejour = :sejour")
-    , @NamedQuery(name = "Escale.findByDuree", query = "SELECT e FROM Escale e WHERE e.duree = :duree")
-    , @NamedQuery(name = "Escale.findByTravail", query = "SELECT e FROM Escale e WHERE e.travail = :travail")
-    , @NamedQuery(name = "Escale.findBySituat", query = "SELECT e FROM Escale e WHERE e.situat = :situat")
-    , @NamedQuery(name = "Escale.findByArrivee", query = "SELECT e FROM Escale e WHERE e.arrivee = :arrivee")
-    , @NamedQuery(name = "Escale.findByArrH", query = "SELECT e FROM Escale e WHERE e.arrH = :arrH")
-    , @NamedQuery(name = "Escale.findByMouill", query = "SELECT e FROM Escale e WHERE e.mouill = :mouill")
-    , @NamedQuery(name = "Escale.findByMouillh", query = "SELECT e FROM Escale e WHERE e.mouillh = :mouillh")
-    , @NamedQuery(name = "Escale.findByPilEnt", query = "SELECT e FROM Escale e WHERE e.pilEnt = :pilEnt")
-    , @NamedQuery(name = "Escale.findByPilEnth", query = "SELECT e FROM Escale e WHERE e.pilEnth = :pilEnth")
-    , @NamedQuery(name = "Escale.findByRemE", query = "SELECT e FROM Escale e WHERE e.remE = :remE")
-    , @NamedQuery(name = "Escale.findByDebut", query = "SELECT e FROM Escale e WHERE e.debut = :debut")
-    , @NamedQuery(name = "Escale.findByDebH", query = "SELECT e FROM Escale e WHERE e.debH = :debH")
-    , @NamedQuery(name = "Escale.findByDebOpe", query = "SELECT e FROM Escale e WHERE e.debOpe = :debOpe")
-    , @NamedQuery(name = "Escale.findByDebOpeh", query = "SELECT e FROM Escale e WHERE e.debOpeh = :debOpeh")
-    , @NamedQuery(name = "Escale.findByAttAr", query = "SELECT e FROM Escale e WHERE e.attAr = :attAr")
-    , @NamedQuery(name = "Escale.findByMotAr", query = "SELECT e FROM Escale e WHERE e.motAr = :motAr")
-    , @NamedQuery(name = "Escale.findByCondAr", query = "SELECT e FROM Escale e WHERE e.condAr = :condAr")
-    , @NamedQuery(name = "Escale.findByPortAttac", query = "SELECT e FROM Escale e WHERE e.portAttac = :portAttac")
-    , @NamedQuery(name = "Escale.findByRemS", query = "SELECT e FROM Escale e WHERE e.remS = :remS")
-    , @NamedQuery(name = "Escale.findByFinOpe", query = "SELECT e FROM Escale e WHERE e.finOpe = :finOpe")
-    , @NamedQuery(name = "Escale.findByFinOpeh", query = "SELECT e FROM Escale e WHERE e.finOpeh = :finOpeh")
-    , @NamedQuery(name = "Escale.findByPilSor", query = "SELECT e FROM Escale e WHERE e.pilSor = :pilSor")
-    , @NamedQuery(name = "Escale.findByPilSorh", query = "SELECT e FROM Escale e WHERE e.pilSorh = :pilSorh")
-    , @NamedQuery(name = "Escale.findByDepart", query = "SELECT e FROM Escale e WHERE e.depart = :depart")
-    , @NamedQuery(name = "Escale.findByDepH", query = "SELECT e FROM Escale e WHERE e.depH = :depH")
-    , @NamedQuery(name = "Escale.findByFin", query = "SELECT e FROM Escale e WHERE e.fin = :fin")
-    , @NamedQuery(name = "Escale.findByFinH", query = "SELECT e FROM Escale e WHERE e.finH = :finH")
-    , @NamedQuery(name = "Escale.findByAttDp", query = "SELECT e FROM Escale e WHERE e.attDp = :attDp")
-    , @NamedQuery(name = "Escale.findByMotDp", query = "SELECT e FROM Escale e WHERE e.motDp = :motDp")
-    , @NamedQuery(name = "Escale.findByCondDp", query = "SELECT e FROM Escale e WHERE e.condDp = :condDp")
-    , @NamedQuery(name = "Escale.findByFoBrd", query = "SELECT e FROM Escale e WHERE e.foBrd = :foBrd")
-    , @NamedQuery(name = "Escale.findByDoBrd", query = "SELECT e FROM Escale e WHERE e.doBrd = :doBrd")
-    , @NamedQuery(name = "Escale.findByFoStg", query = "SELECT e FROM Escale e WHERE e.foStg = :foStg")
-    , @NamedQuery(name = "Escale.findByDoStg", query = "SELECT e FROM Escale e WHERE e.doStg = :doStg")
-    , @NamedQuery(name = "Escale.findByEau", query = "SELECT e FROM Escale e WHERE e.eau = :eau")
-    , @NamedQuery(name = "Escale.findByActivite", query = "SELECT e FROM Escale e WHERE e.activite = :activite")
-    , @NamedQuery(name = "Escale.findByPerson", query = "SELECT e FROM Escale e WHERE e.person = :person")
-    , @NamedQuery(name = "Escale.findByTraite", query = "SELECT e FROM Escale e WHERE e.traite = :traite")
-    , @NamedQuery(name = "Escale.findByQuai", query = "SELECT e FROM Escale e WHERE e.quai = :quai")
-    , @NamedQuery(name = "Escale.findByTonnage", query = "SELECT e FROM Escale e WHERE e.tonnage = :tonnage")
-    , @NamedQuery(name = "Escale.findByFDate", query = "SELECT e FROM Escale e WHERE e.fDate = :fDate")
-    , @NamedQuery(name = "Escale.findByFHeure", query = "SELECT e FROM Escale e WHERE e.fHeure = :fHeure")
-    , @NamedQuery(name = "Escale.findByNFact", query = "SELECT e FROM Escale e WHERE e.nFact = :nFact")
-    , @NamedQuery(name = "Escale.findByFEche", query = "SELECT e FROM Escale e WHERE e.fEche = :fEche")
-    , @NamedQuery(name = "Escale.findByNbrTcs", query = "SELECT e FROM Escale e WHERE e.nbrTcs = :nbrTcs")
-    , @NamedQuery(name = "Escale.findByNbrVeh", query = "SELECT e FROM Escale e WHERE e.nbrVeh = :nbrVeh")
-    , @NamedQuery(name = "Escale.findByNbrPas", query = "SELECT e FROM Escale e WHERE e.nbrPas = :nbrPas")
-    , @NamedQuery(name = "Escale.findByNbrTcst", query = "SELECT e FROM Escale e WHERE e.nbrTcst = :nbrTcst")
-    , @NamedQuery(name = "Escale.findByChargN", query = "SELECT e FROM Escale e WHERE e.chargN = :chargN")
-    , @NamedQuery(name = "Escale.findByNbrTcsn", query = "SELECT e FROM Escale e WHERE e.nbrTcsn = :nbrTcsn")
-    , @NamedQuery(name = "Escale.findByMotif", query = "SELECT e FROM Escale e WHERE e.motif = :motif")
-    , @NamedQuery(name = "Escale.findByNbrSht", query = "SELECT e FROM Escale e WHERE e.nbrSht = :nbrSht")
-    , @NamedQuery(name = "Escale.findByPort", query = "SELECT e FROM Escale e WHERE e.port = :port")
-    , @NamedQuery(name = "Escale.findByRendement", query = "SELECT e FROM Escale e WHERE e.rendement = :rendement")
-    , @NamedQuery(name = "Escale.findByAvarie", query = "SELECT e FROM Escale e WHERE e.avarie = :avarie")
-    , @NamedQuery(name = "Escale.findByNature", query = "SELECT e FROM Escale e WHERE e.nature = :nature")
-    , @NamedQuery(name = "Escale.findByImportance", query = "SELECT e FROM Escale e WHERE e.importance = :importance")
-    , @NamedQuery(name = "Escale.findByTopTriton", query = "SELECT e FROM Escale e WHERE e.topTriton = :topTriton")
-    , @NamedQuery(name = "Escale.findByTopDanger", query = "SELECT e FROM Escale e WHERE e.topDanger = :topDanger")
-    , @NamedQuery(name = "Escale.findByHauteur", query = "SELECT e FROM Escale e WHERE e.hauteur = :hauteur")
-    , @NamedQuery(name = "Escale.findByLargeur", query = "SELECT e FROM Escale e WHERE e.largeur = :largeur")
-    , @NamedQuery(name = "Escale.findByTopFacAg", query = "SELECT e FROM Escale e WHERE e.topFacAg = :topFacAg")
-    , @NamedQuery(name = "Escale.findByTopFacMn", query = "SELECT e FROM Escale e WHERE e.topFacMn = :topFacMn")
-    , @NamedQuery(name = "Escale.findByTHoraire", query = "SELECT e FROM Escale e WHERE e.tHoraire = :tHoraire")
-    , @NamedQuery(name = "Escale.findByNbPortique", query = "SELECT e FROM Escale e WHERE e.nbPortique = :nbPortique")
-    , @NamedQuery(name = "Escale.findByOkAgent", query = "SELECT e FROM Escale e WHERE e.okAgent = :okAgent")
-    , @NamedQuery(name = "Escale.findByOkCapitaine", query = "SELECT e FROM Escale e WHERE e.okCapitaine = :okCapitaine")
-    , @NamedQuery(name = "Escale.findByOkManutentionnaire", query = "SELECT e FROM Escale e WHERE e.okManutentionnaire = :okManutentionnaire")
-    , @NamedQuery(name = "Escale.findByDateAgent", query = "SELECT e FROM Escale e WHERE e.dateAgent = :dateAgent")
-    , @NamedQuery(name = "Escale.findByHeureAgent", query = "SELECT e FROM Escale e WHERE e.heureAgent = :heureAgent")
-    , @NamedQuery(name = "Escale.findByDateCapitaine", query = "SELECT e FROM Escale e WHERE e.dateCapitaine = :dateCapitaine")
-    , @NamedQuery(name = "Escale.findByHeureCapitaine", query = "SELECT e FROM Escale e WHERE e.heureCapitaine = :heureCapitaine")
-    , @NamedQuery(name = "Escale.findByDateManutentionnaire", query = "SELECT e FROM Escale e WHERE e.dateManutentionnaire = :dateManutentionnaire")
-    , @NamedQuery(name = "Escale.findByHeureManutentionnaire", query = "SELECT e FROM Escale e WHERE e.heureManutentionnaire = :heureManutentionnaire")
-    , @NamedQuery(name = "Escale.findByProvenanceI", query = "SELECT e FROM Escale e WHERE e.provenanceI = :provenanceI")
-    , @NamedQuery(name = "Escale.findByProvenanceO", query = "SELECT e FROM Escale e WHERE e.provenanceO = :provenanceO")
-    , @NamedQuery(name = "Escale.findByDestinationI", query = "SELECT e FROM Escale e WHERE e.destinationI = :destinationI")
-    , @NamedQuery(name = "Escale.findByDestinationF", query = "SELECT e FROM Escale e WHERE e.destinationF = :destinationF")
-    , @NamedQuery(name = "Escale.findByNavire", query = "SELECT e FROM Escale e WHERE e.navire = :navire")
-    , @NamedQuery(name = "Escale.findByDDemande", query = "SELECT e FROM Escale e WHERE e.dDemande = :dDemande")
-    , @NamedQuery(name = "Escale.findByHDemande", query = "SELECT e FROM Escale e WHERE e.hDemande = :hDemande")
-    , @NamedQuery(name = "Escale.findByReferenc", query = "SELECT e FROM Escale e WHERE e.referenc = :referenc")
-    , @NamedQuery(name = "Escale.findByTotPrimeEq1", query = "SELECT e FROM Escale e WHERE e.totPrimeEq1 = :totPrimeEq1")
-    , @NamedQuery(name = "Escale.findByTotPrimeEq2", query = "SELECT e FROM Escale e WHERE e.totPrimeEq2 = :totPrimeEq2")
-    , @NamedQuery(name = "Escale.findByVoyage", query = "SELECT e FROM Escale e WHERE e.voyage = :voyage")
-    , @NamedQuery(name = "Escale.findByNbrHtrb", query = "SELECT e FROM Escale e WHERE e.nbrHtrb = :nbrHtrb")
-    , @NamedQuery(name = "Escale.findByNbrTrb", query = "SELECT e FROM Escale e WHERE e.nbrTrb = :nbrTrb")
-    , @NamedQuery(name = "Escale.findByNbrNtrb", query = "SELECT e FROM Escale e WHERE e.nbrNtrb = :nbrNtrb")
-    , @NamedQuery(name = "Escale.findByHrsNdf", query = "SELECT e FROM Escale e WHERE e.hrsNdf = :hrsNdf")
-    , @NamedQuery(name = "Escale.findByHrsNbr", query = "SELECT e FROM Escale e WHERE e.hrsNbr = :hrsNbr")
-    , @NamedQuery(name = "Escale.findByGestion", query = "SELECT e FROM Escale e WHERE e.gestion = :gestion")
-    , @NamedQuery(name = "Escale.findByStatut", query = "SELECT e FROM Escale e WHERE e.statut = :statut")
-    , @NamedQuery(name = "Escale.findByCreateur", query = "SELECT e FROM Escale e WHERE e.createur = :createur")
-    , @NamedQuery(name = "Escale.findByDCreat", query = "SELECT e FROM Escale e WHERE e.dCreat = :dCreat")
-    , @NamedQuery(name = "Escale.findByHCreat", query = "SELECT e FROM Escale e WHERE e.hCreat = :hCreat")
-    , @NamedQuery(name = "Escale.findByUtilisat", query = "SELECT e FROM Escale e WHERE e.utilisat = :utilisat")
-    , @NamedQuery(name = "Escale.findByDModif", query = "SELECT e FROM Escale e WHERE e.dModif = :dModif")
-    , @NamedQuery(name = "Escale.findByHModif", query = "SELECT e FROM Escale e WHERE e.hModif = :hModif")
-    , @NamedQuery(name = "Escale.findByFacleunik", query = "SELECT e FROM Escale e WHERE e.facleunik = :facleunik")
-    , @NamedQuery(name = "Escale.findByChargB", query = "SELECT e FROM Escale e WHERE e.chargB = :chargB")
-    , @NamedQuery(name = "Escale.findByPavillon", query = "SELECT e FROM Escale e WHERE e.pavillon = :pavillon")
-    , @NamedQuery(name = "Escale.findByArmateur", query = "SELECT e FROM Escale e WHERE e.armateur = :armateur")
-    , @NamedQuery(name = "Escale.findByJaugeNet", query = "SELECT e FROM Escale e WHERE e.jaugeNet = :jaugeNet")
-    , @NamedQuery(name = "Escale.findByRedemU", query = "SELECT e FROM Escale e WHERE e.redemU = :redemU")
-    , @NamedQuery(name = "Escale.findByChefPoste", query = "SELECT e FROM Escale e WHERE e.chefPoste = :chefPoste")
-    , @NamedQuery(name = "Escale.findByOkFactNav", query = "SELECT e FROM Escale e WHERE e.okFactNav = :okFactNav")
-    , @NamedQuery(name = "Escale.findByOkFactEqu", query = "SELECT e FROM Escale e WHERE e.okFactEqu = :okFactEqu")
-    , @NamedQuery(name = "Escale.findByTraiteHier", query = "SELECT e FROM Escale e WHERE e.traiteHier = :traiteHier")
-    , @NamedQuery(name = "Escale.findByDateStat", query = "SELECT e FROM Escale e WHERE e.dateStat = :dateStat")
-    , @NamedQuery(name = "Escale.findByPriorite", query = "SELECT e FROM Escale e WHERE e.priorite = :priorite")
-    , @NamedQuery(name = "Escale.findByDatePasseEntree", query = "SELECT e FROM Escale e WHERE e.datePasseEntree = :datePasseEntree")
-    , @NamedQuery(name = "Escale.findByHeurePasseEntree", query = "SELECT e FROM Escale e WHERE e.heurePasseEntree = :heurePasseEntree")
-    , @NamedQuery(name = "Escale.findByDatePasseSortie", query = "SELECT e FROM Escale e WHERE e.datePasseSortie = :datePasseSortie")
-    , @NamedQuery(name = "Escale.findByHeurePasseSortie", query = "SELECT e FROM Escale e WHERE e.heurePasseSortie = :heurePasseSortie")
-    , @NamedQuery(name = "Escale.findByDateArriveeRade", query = "SELECT e FROM Escale e WHERE e.dateArriveeRade = :dateArriveeRade")
-    , @NamedQuery(name = "Escale.findByHeureArriveeRade", query = "SELECT e FROM Escale e WHERE e.heureArriveeRade = :heureArriveeRade")
-    , @NamedQuery(name = "Escale.findByResponsableShipping", query = "SELECT e FROM Escale e WHERE e.responsableShipping = :responsableShipping")
-    , @NamedQuery(name = "Escale.findByChefEscale", query = "SELECT e FROM Escale e WHERE e.chefEscale = :chefEscale")
-    , @NamedQuery(name = "Escale.findByTelAgent", query = "SELECT e FROM Escale e WHERE e.telAgent = :telAgent")
-    , @NamedQuery(name = "Escale.findByTelResponsableShipping", query = "SELECT e FROM Escale e WHERE e.telResponsableShipping = :telResponsableShipping")
-    , @NamedQuery(name = "Escale.findByTelChefEscale", query = "SELECT e FROM Escale e WHERE e.telChefEscale = :telChefEscale")
-    , @NamedQuery(name = "Escale.findByArriveeRade", query = "SELECT e FROM Escale e WHERE e.arriveeRade = :arriveeRade")
-    , @NamedQuery(name = "Escale.findByArrHRade", query = "SELECT e FROM Escale e WHERE e.arrHRade = :arrHRade")
-    , @NamedQuery(name = "Escale.findByDepartEffectif", query = "SELECT e FROM Escale e WHERE e.departEffectif = :departEffectif")
-    , @NamedQuery(name = "Escale.findByDepHEffectif", query = "SELECT e FROM Escale e WHERE e.depHEffectif = :depHEffectif")
-    , @NamedQuery(name = "Escale.findByMouillDepart", query = "SELECT e FROM Escale e WHERE e.mouillDepart = :mouillDepart")
-    , @NamedQuery(name = "Escale.findByMouillhDepart", query = "SELECT e FROM Escale e WHERE e.mouillhDepart = :mouillhDepart")
-    , @NamedQuery(name = "Escale.findByAgentSortie", query = "SELECT e FROM Escale e WHERE e.agentSortie = :agentSortie")
-    , @NamedQuery(name = "Escale.findByTelephoneAgentSortie", query = "SELECT e FROM Escale e WHERE e.telephoneAgentSortie = :telephoneAgentSortie")
-    , @NamedQuery(name = "Escale.findByOkApparaux", query = "SELECT e FROM Escale e WHERE e.okApparaux = :okApparaux")
-    , @NamedQuery(name = "Escale.findByOkAssurance", query = "SELECT e FROM Escale e WHERE e.okAssurance = :okAssurance")
-    , @NamedQuery(name = "Escale.findByOkDeclaration", query = "SELECT e FROM Escale e WHERE e.okDeclaration = :okDeclaration")
-    , @NamedQuery(name = "Escale.findByFreeGaz", query = "SELECT e FROM Escale e WHERE e.freeGaz = :freeGaz")
-    , @NamedQuery(name = "Escale.findByReparation", query = "SELECT e FROM Escale e WHERE e.reparation = :reparation")
-    , @NamedQuery(name = "Escale.findByControle", query = "SELECT e FROM Escale e WHERE e.controle = :controle")
-    , @NamedQuery(name = "Escale.findByAvaries", query = "SELECT e FROM Escale e WHERE e.avaries = :avaries")
-    , @NamedQuery(name = "Escale.findByManutentionnaireSortie", query = "SELECT e FROM Escale e WHERE e.manutentionnaireSortie = :manutentionnaireSortie")
-    , @NamedQuery(name = "Escale.findByDateStatut", query = "SELECT e FROM Escale e WHERE e.dateStatut = :dateStatut")
-    , @NamedQuery(name = "Escale.findByHeureStatut", query = "SELECT e FROM Escale e WHERE e.heureStatut = :heureStatut")
-    , @NamedQuery(name = "Escale.findByMobileChefEscale", query = "SELECT e FROM Escale e WHERE e.mobileChefEscale = :mobileChefEscale")
-    , @NamedQuery(name = "Escale.findByMobileResponsableShipping", query = "SELECT e FROM Escale e WHERE e.mobileResponsableShipping = :mobileResponsableShipping")
-    , @NamedQuery(name = "Escale.findByQuai2", query = "SELECT e FROM Escale e WHERE e.quai2 = :quai2")
-    , @NamedQuery(name = "Escale.findByQuai3", query = "SELECT e FROM Escale e WHERE e.quai3 = :quai3")
-    , @NamedQuery(name = "Escale.findByDateModifEta", query = "SELECT e FROM Escale e WHERE e.dateModifEta = :dateModifEta")
-    , @NamedQuery(name = "Escale.findByHeureModifEta", query = "SELECT e FROM Escale e WHERE e.heureModifEta = :heureModifEta")
-    , @NamedQuery(name = "Escale.findByDateAppelVigie", query = "SELECT e FROM Escale e WHERE e.dateAppelVigie = :dateAppelVigie")
-    , @NamedQuery(name = "Escale.findByHeureAppelVigie", query = "SELECT e FROM Escale e WHERE e.heureAppelVigie = :heureAppelVigie")
-    , @NamedQuery(name = "Escale.findByControleurVigie", query = "SELECT e FROM Escale e WHERE e.controleurVigie = :controleurVigie")
-    , @NamedQuery(name = "Escale.findBySaisieNavire", query = "SELECT e FROM Escale e WHERE e.saisieNavire = :saisieNavire")
-    , @NamedQuery(name = "Escale.findByDateModifEtd", query = "SELECT e FROM Escale e WHERE e.dateModifEtd = :dateModifEtd")
-    , @NamedQuery(name = "Escale.findByHeureModifEtd", query = "SELECT e FROM Escale e WHERE e.heureModifEtd = :heureModifEtd")
-    , @NamedQuery(name = "Escale.findByBassin", query = "SELECT e FROM Escale e WHERE e.bassin = :bassin")
-    , @NamedQuery(name = "Escale.findByDateFeux", query = "SELECT e FROM Escale e WHERE e.dateFeux = :dateFeux")
-    , @NamedQuery(name = "Escale.findByHeureFeux", query = "SELECT e FROM Escale e WHERE e.heureFeux = :heureFeux")
-    , @NamedQuery(name = "Escale.findByDateFeuxSortie", query = "SELECT e FROM Escale e WHERE e.dateFeuxSortie = :dateFeuxSortie")
-    , @NamedQuery(name = "Escale.findByHeureFeuxSortie", query = "SELECT e FROM Escale e WHERE e.heureFeuxSortie = :heureFeuxSortie")
-    , @NamedQuery(name = "Escale.findByPosition", query = "SELECT e FROM Escale e WHERE e.position = :position")
-    , @NamedQuery(name = "Escale.findByEtaNavire", query = "SELECT e FROM Escale e WHERE e.etaNavire = :etaNavire")
-    , @NamedQuery(name = "Escale.findByHEtaNavire", query = "SELECT e FROM Escale e WHERE e.hEtaNavire = :hEtaNavire")
-    , @NamedQuery(name = "Escale.findByModifEtaNavire", query = "SELECT e FROM Escale e WHERE e.modifEtaNavire = :modifEtaNavire")
-    , @NamedQuery(name = "Escale.findByModifHEtaNavire", query = "SELECT e FROM Escale e WHERE e.modifHEtaNavire = :modifHEtaNavire")
-    , @NamedQuery(name = "Escale.findByUtilisatEtaNavire", query = "SELECT e FROM Escale e WHERE e.utilisatEtaNavire = :utilisatEtaNavire")
-    , @NamedQuery(name = "Escale.findByTeauArEntree", query = "SELECT e FROM Escale e WHERE e.teauArEntree = :teauArEntree")
-    , @NamedQuery(name = "Escale.findByTeauArSortie", query = "SELECT e FROM Escale e WHERE e.teauArSortie = :teauArSortie")
-    , @NamedQuery(name = "Escale.findByOkAgentSortie", query = "SELECT e FROM Escale e WHERE e.okAgentSortie = :okAgentSortie")
-    , @NamedQuery(name = "Escale.findByOkCapitaineSortie", query = "SELECT e FROM Escale e WHERE e.okCapitaineSortie = :okCapitaineSortie")
-    , @NamedQuery(name = "Escale.findByDateAgentSortie", query = "SELECT e FROM Escale e WHERE e.dateAgentSortie = :dateAgentSortie")
-    , @NamedQuery(name = "Escale.findByHeureAgentSortie", query = "SELECT e FROM Escale e WHERE e.heureAgentSortie = :heureAgentSortie")
-    , @NamedQuery(name = "Escale.findByDateCapitaineSortie", query = "SELECT e FROM Escale e WHERE e.dateCapitaineSortie = :dateCapitaineSortie")
-    , @NamedQuery(name = "Escale.findByHeureCapitaineSortie", query = "SELECT e FROM Escale e WHERE e.heureCapitaineSortie = :heureCapitaineSortie")
-    , @NamedQuery(name = "Escale.findByEMail", query = "SELECT e FROM Escale e WHERE e.eMail = :eMail")
-    , @NamedQuery(name = "Escale.findByLongitudeRade", query = "SELECT e FROM Escale e WHERE e.longitudeRade = :longitudeRade")
-    , @NamedQuery(name = "Escale.findByLatitudeRade", query = "SELECT e FROM Escale e WHERE e.latitudeRade = :latitudeRade")
-    , @NamedQuery(name = "Escale.findByNumeroVetting", query = "SELECT e FROM Escale e WHERE e.numeroVetting = :numeroVetting")
-    , @NamedQuery(name = "Escale.findByTypeManutention", query = "SELECT e FROM Escale e WHERE e.typeManutention = :typeManutention")
-    , @NamedQuery(name = "Escale.findByTonnageDeb", query = "SELECT e FROM Escale e WHERE e.tonnageDeb = :tonnageDeb")
-    , @NamedQuery(name = "Escale.findByTonnageEmb", query = "SELECT e FROM Escale e WHERE e.tonnageEmb = :tonnageEmb")
-    , @NamedQuery(name = "Escale.findByPiloteEntree", query = "SELECT e FROM Escale e WHERE e.piloteEntree = :piloteEntree")
-    , @NamedQuery(name = "Escale.findByPiloteSortie", query = "SELECT e FROM Escale e WHERE e.piloteSortie = :piloteSortie")
-    , @NamedQuery(name = "Escale.findByDateAppelVigieSortie", query = "SELECT e FROM Escale e WHERE e.dateAppelVigieSortie = :dateAppelVigieSortie")
-    , @NamedQuery(name = "Escale.findByHeureAppelVigieSortie", query = "SELECT e FROM Escale e WHERE e.heureAppelVigieSortie = :heureAppelVigieSortie")
-    , @NamedQuery(name = "Escale.findByDDebPilote", query = "SELECT e FROM Escale e WHERE e.dDebPilote = :dDebPilote")
-    , @NamedQuery(name = "Escale.findByHDebPilote", query = "SELECT e FROM Escale e WHERE e.hDebPilote = :hDebPilote")
-    , @NamedQuery(name = "Escale.findByDEmbPilote", query = "SELECT e FROM Escale e WHERE e.dEmbPilote = :dEmbPilote")
-    , @NamedQuery(name = "Escale.findByHEmbPilote", query = "SELECT e FROM Escale e WHERE e.hEmbPilote = :hEmbPilote")
-    , @NamedQuery(name = "Escale.findByDateProgrammation", query = "SELECT e FROM Escale e WHERE e.dateProgrammation = :dateProgrammation")
-    , @NamedQuery(name = "Escale.findByHeureProgrammation", query = "SELECT e FROM Escale e WHERE e.heureProgrammation = :heureProgrammation")
-    , @NamedQuery(name = "Escale.findByDureeProgrammation", query = "SELECT e FROM Escale e WHERE e.dureeProgrammation = :dureeProgrammation")
-    , @NamedQuery(name = "Escale.findByStatutConferenceEntree", query = "SELECT e FROM Escale e WHERE e.statutConferenceEntree = :statutConferenceEntree")
-    , @NamedQuery(name = "Escale.findByDateConferenceEntree", query = "SELECT e FROM Escale e WHERE e.dateConferenceEntree = :dateConferenceEntree")
-    , @NamedQuery(name = "Escale.findByHeureConferenceEntree", query = "SELECT e FROM Escale e WHERE e.heureConferenceEntree = :heureConferenceEntree")
-    , @NamedQuery(name = "Escale.findByStatutConferenceSortie", query = "SELECT e FROM Escale e WHERE e.statutConferenceSortie = :statutConferenceSortie")
-    , @NamedQuery(name = "Escale.findByDateConferenceSortie", query = "SELECT e FROM Escale e WHERE e.dateConferenceSortie = :dateConferenceSortie")
-    , @NamedQuery(name = "Escale.findByHeureConferenceSortie", query = "SELECT e FROM Escale e WHERE e.heureConferenceSortie = :heureConferenceSortie")
-    , @NamedQuery(name = "Escale.findByTonnageDebDeclare", query = "SELECT e FROM Escale e WHERE e.tonnageDebDeclare = :tonnageDebDeclare")
-    , @NamedQuery(name = "Escale.findByTonnageEmbDeclare", query = "SELECT e FROM Escale e WHERE e.tonnageEmbDeclare = :tonnageEmbDeclare")
-    , @NamedQuery(name = "Escale.findByNbreBl", query = "SELECT e FROM Escale e WHERE e.nbreBl = :nbreBl")
-    , @NamedQuery(name = "Escale.findByTonnageFPilotageImport", query = "SELECT e FROM Escale e WHERE e.tonnageFPilotageImport = :tonnageFPilotageImport")
-    , @NamedQuery(name = "Escale.findByTonnageFPilotageExport", query = "SELECT e FROM Escale e WHERE e.tonnageFPilotageExport = :tonnageFPilotageExport")
-    , @NamedQuery(name = "Escale.findByTonnageFPilotageTotal", query = "SELECT e FROM Escale e WHERE e.tonnageFPilotageTotal = :tonnageFPilotageTotal")
-    , @NamedQuery(name = "Escale.findByTonnageMaxFacture", query = "SELECT e FROM Escale e WHERE e.tonnageMaxFacture = :tonnageMaxFacture")
-    , @NamedQuery(name = "Escale.findByNumEscCt", query = "SELECT e FROM Escale e WHERE e.numEscCt = :numEscCt")
-    , @NamedQuery(name = "Escale.findByOkDepotManifesteEntree", query = "SELECT e FROM Escale e WHERE e.okDepotManifesteEntree = :okDepotManifesteEntree")
-    , @NamedQuery(name = "Escale.findByDateDepotManifesteEntree", query = "SELECT e FROM Escale e WHERE e.dateDepotManifesteEntree = :dateDepotManifesteEntree")
-    , @NamedQuery(name = "Escale.findByHeureDepotManifesteEntree", query = "SELECT e FROM Escale e WHERE e.heureDepotManifesteEntree = :heureDepotManifesteEntree")
-    , @NamedQuery(name = "Escale.findByOkDepotManifesteSortie", query = "SELECT e FROM Escale e WHERE e.okDepotManifesteSortie = :okDepotManifesteSortie")
-    , @NamedQuery(name = "Escale.findByDateDepotManifesteSortie", query = "SELECT e FROM Escale e WHERE e.dateDepotManifesteSortie = :dateDepotManifesteSortie")
-    , @NamedQuery(name = "Escale.findByHeureDepotManifesteSortie", query = "SELECT e FROM Escale e WHERE e.heureDepotManifesteSortie = :heureDepotManifesteSortie")
-    , @NamedQuery(name = "Escale.findByNombreConteneur20Import", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Import = :nombreConteneur20Import")
-    , @NamedQuery(name = "Escale.findByNombreConteneur40Import", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Import = :nombreConteneur40Import")
-    , @NamedQuery(name = "Escale.findByNombreConteneur20Export", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Export = :nombreConteneur20Export")
-    , @NamedQuery(name = "Escale.findByNombreConteneur40Export", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Export = :nombreConteneur40Export")
-    , @NamedQuery(name = "Escale.findByNombreConteneur20Transbi", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Transbi = :nombreConteneur20Transbi")
-    , @NamedQuery(name = "Escale.findByNombreConteneur40Transbi", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Transbi = :nombreConteneur40Transbi")
-    , @NamedQuery(name = "Escale.findByNombreConteneur20Transbe", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Transbe = :nombreConteneur20Transbe")
-    , @NamedQuery(name = "Escale.findByNombreConteneur40Transbe", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Transbe = :nombreConteneur40Transbe")
-    , @NamedQuery(name = "Escale.findByTopTdr", query = "SELECT e FROM Escale e WHERE e.topTdr = :topTdr")
-    , @NamedQuery(name = "Escale.findByTopTdrDate", query = "SELECT e FROM Escale e WHERE e.topTdrDate = :topTdrDate")
-    , @NamedQuery(name = "Escale.findByTopTdrHeure", query = "SELECT e FROM Escale e WHERE e.topTdrHeure = :topTdrHeure")
-    , @NamedQuery(name = "Escale.findByTopTimesheet", query = "SELECT e FROM Escale e WHERE e.topTimesheet = :topTimesheet")
-    , @NamedQuery(name = "Escale.findByTopTimesheetDate", query = "SELECT e FROM Escale e WHERE e.topTimesheetDate = :topTimesheetDate")
-    , @NamedQuery(name = "Escale.findByTopTimesheetHeure", query = "SELECT e FROM Escale e WHERE e.topTimesheetHeure = :topTimesheetHeure")
-    , @NamedQuery(name = "Escale.findByTopTdrMensuel", query = "SELECT e FROM Escale e WHERE e.topTdrMensuel = :topTdrMensuel")
-    , @NamedQuery(name = "Escale.findByTopTdrMensuelDate", query = "SELECT e FROM Escale e WHERE e.topTdrMensuelDate = :topTdrMensuelDate")
-    , @NamedQuery(name = "Escale.findByTopTdrMensuelHeure", query = "SELECT e FROM Escale e WHERE e.topTdrMensuelHeure = :topTdrMensuelHeure")
-    , @NamedQuery(name = "Escale.findByDateMatrice", query = "SELECT e FROM Escale e WHERE e.dateMatrice = :dateMatrice")
-    , @NamedQuery(name = "Escale.findByDateBrouillard", query = "SELECT e FROM Escale e WHERE e.dateBrouillard = :dateBrouillard")
-    , @NamedQuery(name = "Escale.findByDateFacture", query = "SELECT e FROM Escale e WHERE e.dateFacture = :dateFacture")
-    , @NamedQuery(name = "Escale.findByDateValidationTimesheet", query = "SELECT e FROM Escale e WHERE e.dateValidationTimesheet = :dateValidationTimesheet")
-    , @NamedQuery(name = "Escale.findByUtilisatValidationTimesheet", query = "SELECT e FROM Escale e WHERE e.utilisatValidationTimesheet = :utilisatValidationTimesheet")
-    , @NamedQuery(name = "Escale.findByUtilisatMatrice", query = "SELECT e FROM Escale e WHERE e.utilisatMatrice = :utilisatMatrice")
-    , @NamedQuery(name = "Escale.findByUtilisatBrouillard", query = "SELECT e FROM Escale e WHERE e.utilisatBrouillard = :utilisatBrouillard")
-    , @NamedQuery(name = "Escale.findByUtilisatFacture", query = "SELECT e FROM Escale e WHERE e.utilisatFacture = :utilisatFacture")
-    , @NamedQuery(name = "Escale.findByDateEscaleInitiale", query = "SELECT e FROM Escale e WHERE e.dateEscaleInitiale = :dateEscaleInitiale")})
-public class Escale extends BaseEntity implements Serializable {
+    @NamedQuery(name = "Escale.findAll", query = "SELECT e FROM Escale e"),
+    @NamedQuery(name = "Escale.findByEscleunik", query = "SELECT e FROM Escale e WHERE e.escleunik = :escleunik"),
+    @NamedQuery(name = "Escale.findByNumero", query = "SELECT e FROM Escale e WHERE e.numero = :numero"),
+    @NamedQuery(name = "Escale.findByAgent", query = "SELECT e FROM Escale e WHERE e.agent = :agent"),
+    @NamedQuery(name = "Escale.findByManuten", query = "SELECT e FROM Escale e WHERE e.manuten = :manuten"),
+    @NamedQuery(name = "Escale.findByFiliere", query = "SELECT e FROM Escale e WHERE e.filiere = :filiere"),
+    @NamedQuery(name = "Escale.findByRadio", query = "SELECT e FROM Escale e WHERE e.radio = :radio"),
+    @NamedQuery(name = "Escale.findByService", query = "SELECT e FROM Escale e WHERE e.service = :service"),
+    @NamedQuery(name = "Escale.findByIdentite", query = "SELECT e FROM Escale e WHERE e.identite = :identite"),
+    @NamedQuery(name = "Escale.findByLigne", query = "SELECT e FROM Escale e WHERE e.ligne = :ligne"),
+    @NamedQuery(name = "Escale.findByMoisStat", query = "SELECT e FROM Escale e WHERE e.moisStat = :moisStat"),
+    @NamedQuery(name = "Escale.findByCapitaine", query = "SELECT e FROM Escale e WHERE e.capitaine = :capitaine"),
+    @NamedQuery(name = "Escale.findByConstruc", query = "SELECT e FROM Escale e WHERE e.construc = :construc"),
+    @NamedQuery(name = "Escale.findByObjet", query = "SELECT e FROM Escale e WHERE e.objet = :objet"),
+    @NamedQuery(name = "Escale.findByEtat", query = "SELECT e FROM Escale e WHERE e.etat = :etat"),
+    @NamedQuery(name = "Escale.findByNombre", query = "SELECT e FROM Escale e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "Escale.findByNbAtt", query = "SELECT e FROM Escale e WHERE e.nbAtt = :nbAtt"),
+    @NamedQuery(name = "Escale.findBySejour", query = "SELECT e FROM Escale e WHERE e.sejour = :sejour"),
+    @NamedQuery(name = "Escale.findByDuree", query = "SELECT e FROM Escale e WHERE e.duree = :duree"),
+    @NamedQuery(name = "Escale.findByTravail", query = "SELECT e FROM Escale e WHERE e.travail = :travail"),
+    @NamedQuery(name = "Escale.findBySituat", query = "SELECT e FROM Escale e WHERE e.situat = :situat"),
+    @NamedQuery(name = "Escale.findByArrivee", query = "SELECT e FROM Escale e WHERE e.arrivee = :arrivee"),
+    @NamedQuery(name = "Escale.findByArrH", query = "SELECT e FROM Escale e WHERE e.arrH = :arrH"),
+    @NamedQuery(name = "Escale.findByMouill", query = "SELECT e FROM Escale e WHERE e.mouill = :mouill"),
+    @NamedQuery(name = "Escale.findByMouillh", query = "SELECT e FROM Escale e WHERE e.mouillh = :mouillh"),
+    @NamedQuery(name = "Escale.findByPilEnt", query = "SELECT e FROM Escale e WHERE e.pilEnt = :pilEnt"),
+    @NamedQuery(name = "Escale.findByPilEnth", query = "SELECT e FROM Escale e WHERE e.pilEnth = :pilEnth"),
+    @NamedQuery(name = "Escale.findByRemE", query = "SELECT e FROM Escale e WHERE e.remE = :remE"),
+    @NamedQuery(name = "Escale.findByDebut", query = "SELECT e FROM Escale e WHERE e.debut = :debut"),
+    @NamedQuery(name = "Escale.findByDebH", query = "SELECT e FROM Escale e WHERE e.debH = :debH"),
+    @NamedQuery(name = "Escale.findByDebOpe", query = "SELECT e FROM Escale e WHERE e.debOpe = :debOpe"),
+    @NamedQuery(name = "Escale.findByDebOpeh", query = "SELECT e FROM Escale e WHERE e.debOpeh = :debOpeh"),
+    @NamedQuery(name = "Escale.findByAttAr", query = "SELECT e FROM Escale e WHERE e.attAr = :attAr"),
+    @NamedQuery(name = "Escale.findByMotAr", query = "SELECT e FROM Escale e WHERE e.motAr = :motAr"),
+    @NamedQuery(name = "Escale.findByCondAr", query = "SELECT e FROM Escale e WHERE e.condAr = :condAr"),
+    @NamedQuery(name = "Escale.findByPortAttac", query = "SELECT e FROM Escale e WHERE e.portAttac = :portAttac"),
+    @NamedQuery(name = "Escale.findByRemS", query = "SELECT e FROM Escale e WHERE e.remS = :remS"),
+    @NamedQuery(name = "Escale.findByFinOpe", query = "SELECT e FROM Escale e WHERE e.finOpe = :finOpe"),
+    @NamedQuery(name = "Escale.findByFinOpeh", query = "SELECT e FROM Escale e WHERE e.finOpeh = :finOpeh"),
+    @NamedQuery(name = "Escale.findByPilSor", query = "SELECT e FROM Escale e WHERE e.pilSor = :pilSor"),
+    @NamedQuery(name = "Escale.findByPilSorh", query = "SELECT e FROM Escale e WHERE e.pilSorh = :pilSorh"),
+    @NamedQuery(name = "Escale.findByDepart", query = "SELECT e FROM Escale e WHERE e.depart = :depart"),
+    @NamedQuery(name = "Escale.findByDepH", query = "SELECT e FROM Escale e WHERE e.depH = :depH"),
+    @NamedQuery(name = "Escale.findByFin", query = "SELECT e FROM Escale e WHERE e.fin = :fin"),
+    @NamedQuery(name = "Escale.findByFinH", query = "SELECT e FROM Escale e WHERE e.finH = :finH"),
+    @NamedQuery(name = "Escale.findByAttDp", query = "SELECT e FROM Escale e WHERE e.attDp = :attDp"),
+    @NamedQuery(name = "Escale.findByMotDp", query = "SELECT e FROM Escale e WHERE e.motDp = :motDp"),
+    @NamedQuery(name = "Escale.findByCondDp", query = "SELECT e FROM Escale e WHERE e.condDp = :condDp"),
+    @NamedQuery(name = "Escale.findByFoBrd", query = "SELECT e FROM Escale e WHERE e.foBrd = :foBrd"),
+    @NamedQuery(name = "Escale.findByDoBrd", query = "SELECT e FROM Escale e WHERE e.doBrd = :doBrd"),
+    @NamedQuery(name = "Escale.findByFoStg", query = "SELECT e FROM Escale e WHERE e.foStg = :foStg"),
+    @NamedQuery(name = "Escale.findByDoStg", query = "SELECT e FROM Escale e WHERE e.doStg = :doStg"),
+    @NamedQuery(name = "Escale.findByEau", query = "SELECT e FROM Escale e WHERE e.eau = :eau"),
+    @NamedQuery(name = "Escale.findByActivite", query = "SELECT e FROM Escale e WHERE e.activite = :activite"),
+    @NamedQuery(name = "Escale.findByPerson", query = "SELECT e FROM Escale e WHERE e.person = :person"),
+    @NamedQuery(name = "Escale.findByTraite", query = "SELECT e FROM Escale e WHERE e.traite = :traite"),
+    @NamedQuery(name = "Escale.findByQuai", query = "SELECT e FROM Escale e WHERE e.quai = :quai"),
+    @NamedQuery(name = "Escale.findByTonnage", query = "SELECT e FROM Escale e WHERE e.tonnage = :tonnage"),
+    @NamedQuery(name = "Escale.findByFDate", query = "SELECT e FROM Escale e WHERE e.fDate = :fDate"),
+    @NamedQuery(name = "Escale.findByFHeure", query = "SELECT e FROM Escale e WHERE e.fHeure = :fHeure"),
+    @NamedQuery(name = "Escale.findByNFact", query = "SELECT e FROM Escale e WHERE e.nFact = :nFact"),
+    @NamedQuery(name = "Escale.findByFEche", query = "SELECT e FROM Escale e WHERE e.fEche = :fEche"),
+    @NamedQuery(name = "Escale.findByNbrTcs", query = "SELECT e FROM Escale e WHERE e.nbrTcs = :nbrTcs"),
+    @NamedQuery(name = "Escale.findByNbrVeh", query = "SELECT e FROM Escale e WHERE e.nbrVeh = :nbrVeh"),
+    @NamedQuery(name = "Escale.findByNbrPas", query = "SELECT e FROM Escale e WHERE e.nbrPas = :nbrPas"),
+    @NamedQuery(name = "Escale.findByNbrTcst", query = "SELECT e FROM Escale e WHERE e.nbrTcst = :nbrTcst"),
+    @NamedQuery(name = "Escale.findByChargN", query = "SELECT e FROM Escale e WHERE e.chargN = :chargN"),
+    @NamedQuery(name = "Escale.findByNbrTcsn", query = "SELECT e FROM Escale e WHERE e.nbrTcsn = :nbrTcsn"),
+    @NamedQuery(name = "Escale.findByMotif", query = "SELECT e FROM Escale e WHERE e.motif = :motif"),
+    @NamedQuery(name = "Escale.findByNbrSht", query = "SELECT e FROM Escale e WHERE e.nbrSht = :nbrSht"),
+    @NamedQuery(name = "Escale.findByPort", query = "SELECT e FROM Escale e WHERE e.port = :port"),
+    @NamedQuery(name = "Escale.findByRendement", query = "SELECT e FROM Escale e WHERE e.rendement = :rendement"),
+    @NamedQuery(name = "Escale.findByAvarie", query = "SELECT e FROM Escale e WHERE e.avarie = :avarie"),
+    @NamedQuery(name = "Escale.findByNature", query = "SELECT e FROM Escale e WHERE e.nature = :nature"),
+    @NamedQuery(name = "Escale.findByImportance", query = "SELECT e FROM Escale e WHERE e.importance = :importance"),
+    @NamedQuery(name = "Escale.findByTopTriton", query = "SELECT e FROM Escale e WHERE e.topTriton = :topTriton"),
+    @NamedQuery(name = "Escale.findByTopDanger", query = "SELECT e FROM Escale e WHERE e.topDanger = :topDanger"),
+    @NamedQuery(name = "Escale.findByHauteur", query = "SELECT e FROM Escale e WHERE e.hauteur = :hauteur"),
+    @NamedQuery(name = "Escale.findByLargeur", query = "SELECT e FROM Escale e WHERE e.largeur = :largeur"),
+    @NamedQuery(name = "Escale.findByTopFacAg", query = "SELECT e FROM Escale e WHERE e.topFacAg = :topFacAg"),
+    @NamedQuery(name = "Escale.findByTopFacMn", query = "SELECT e FROM Escale e WHERE e.topFacMn = :topFacMn"),
+    @NamedQuery(name = "Escale.findByTHoraire", query = "SELECT e FROM Escale e WHERE e.tHoraire = :tHoraire"),
+    @NamedQuery(name = "Escale.findByNbPortique", query = "SELECT e FROM Escale e WHERE e.nbPortique = :nbPortique"),
+    @NamedQuery(name = "Escale.findByOkAgent", query = "SELECT e FROM Escale e WHERE e.okAgent = :okAgent"),
+    @NamedQuery(name = "Escale.findByOkCapitaine", query = "SELECT e FROM Escale e WHERE e.okCapitaine = :okCapitaine"),
+    @NamedQuery(name = "Escale.findByOkManutentionnaire", query = "SELECT e FROM Escale e WHERE e.okManutentionnaire = :okManutentionnaire"),
+    @NamedQuery(name = "Escale.findByDateAgent", query = "SELECT e FROM Escale e WHERE e.dateAgent = :dateAgent"),
+    @NamedQuery(name = "Escale.findByHeureAgent", query = "SELECT e FROM Escale e WHERE e.heureAgent = :heureAgent"),
+    @NamedQuery(name = "Escale.findByDateCapitaine", query = "SELECT e FROM Escale e WHERE e.dateCapitaine = :dateCapitaine"),
+    @NamedQuery(name = "Escale.findByHeureCapitaine", query = "SELECT e FROM Escale e WHERE e.heureCapitaine = :heureCapitaine"),
+    @NamedQuery(name = "Escale.findByDateManutentionnaire", query = "SELECT e FROM Escale e WHERE e.dateManutentionnaire = :dateManutentionnaire"),
+    @NamedQuery(name = "Escale.findByHeureManutentionnaire", query = "SELECT e FROM Escale e WHERE e.heureManutentionnaire = :heureManutentionnaire"),
+    @NamedQuery(name = "Escale.findByProvenanceI", query = "SELECT e FROM Escale e WHERE e.provenanceI = :provenanceI"),
+    @NamedQuery(name = "Escale.findByProvenanceO", query = "SELECT e FROM Escale e WHERE e.provenanceO = :provenanceO"),
+    @NamedQuery(name = "Escale.findByDestinationI", query = "SELECT e FROM Escale e WHERE e.destinationI = :destinationI"),
+    @NamedQuery(name = "Escale.findByDestinationF", query = "SELECT e FROM Escale e WHERE e.destinationF = :destinationF"),
+    @NamedQuery(name = "Escale.findByNavire", query = "SELECT e FROM Escale e WHERE e.navire = :navire"),
+    @NamedQuery(name = "Escale.findByDDemande", query = "SELECT e FROM Escale e WHERE e.dDemande = :dDemande"),
+    @NamedQuery(name = "Escale.findByHDemande", query = "SELECT e FROM Escale e WHERE e.hDemande = :hDemande"),
+    @NamedQuery(name = "Escale.findByReferenc", query = "SELECT e FROM Escale e WHERE e.referenc = :referenc"),
+    @NamedQuery(name = "Escale.findByTotPrimeEq1", query = "SELECT e FROM Escale e WHERE e.totPrimeEq1 = :totPrimeEq1"),
+    @NamedQuery(name = "Escale.findByTotPrimeEq2", query = "SELECT e FROM Escale e WHERE e.totPrimeEq2 = :totPrimeEq2"),
+    @NamedQuery(name = "Escale.findByVoyage", query = "SELECT e FROM Escale e WHERE e.voyage = :voyage"),
+    @NamedQuery(name = "Escale.findByNbrHtrb", query = "SELECT e FROM Escale e WHERE e.nbrHtrb = :nbrHtrb"),
+    @NamedQuery(name = "Escale.findByNbrTrb", query = "SELECT e FROM Escale e WHERE e.nbrTrb = :nbrTrb"),
+    @NamedQuery(name = "Escale.findByNbrNtrb", query = "SELECT e FROM Escale e WHERE e.nbrNtrb = :nbrNtrb"),
+    @NamedQuery(name = "Escale.findByHrsNdf", query = "SELECT e FROM Escale e WHERE e.hrsNdf = :hrsNdf"),
+    @NamedQuery(name = "Escale.findByHrsNbr", query = "SELECT e FROM Escale e WHERE e.hrsNbr = :hrsNbr"),
+    @NamedQuery(name = "Escale.findByGestion", query = "SELECT e FROM Escale e WHERE e.gestion = :gestion"),
+    @NamedQuery(name = "Escale.findByStatut", query = "SELECT e FROM Escale e WHERE e.statut = :statut"),
+    @NamedQuery(name = "Escale.findByCreateur", query = "SELECT e FROM Escale e WHERE e.createur = :createur"),
+    @NamedQuery(name = "Escale.findByDCreat", query = "SELECT e FROM Escale e WHERE e.dCreat = :dCreat"),
+    @NamedQuery(name = "Escale.findByHCreat", query = "SELECT e FROM Escale e WHERE e.hCreat = :hCreat"),
+    @NamedQuery(name = "Escale.findByUtilisat", query = "SELECT e FROM Escale e WHERE e.utilisat = :utilisat"),
+    @NamedQuery(name = "Escale.findByDModif", query = "SELECT e FROM Escale e WHERE e.dModif = :dModif"),
+    @NamedQuery(name = "Escale.findByHModif", query = "SELECT e FROM Escale e WHERE e.hModif = :hModif"),
+    @NamedQuery(name = "Escale.findByNacleunik", query = "SELECT e FROM Escale e WHERE e.nacleunik = :nacleunik"),
+    @NamedQuery(name = "Escale.findByFacleunik", query = "SELECT e FROM Escale e WHERE e.facleunik = :facleunik"),
+    @NamedQuery(name = "Escale.findByChargB", query = "SELECT e FROM Escale e WHERE e.chargB = :chargB"),
+    @NamedQuery(name = "Escale.findByPavillon", query = "SELECT e FROM Escale e WHERE e.pavillon = :pavillon"),
+    @NamedQuery(name = "Escale.findByArmateur", query = "SELECT e FROM Escale e WHERE e.armateur = :armateur"),
+    @NamedQuery(name = "Escale.findByJaugeNet", query = "SELECT e FROM Escale e WHERE e.jaugeNet = :jaugeNet"),
+    @NamedQuery(name = "Escale.findByRedemU", query = "SELECT e FROM Escale e WHERE e.redemU = :redemU"),
+    @NamedQuery(name = "Escale.findByChefPoste", query = "SELECT e FROM Escale e WHERE e.chefPoste = :chefPoste"),
+    @NamedQuery(name = "Escale.findByOkFactNav", query = "SELECT e FROM Escale e WHERE e.okFactNav = :okFactNav"),
+    @NamedQuery(name = "Escale.findByOkFactEqu", query = "SELECT e FROM Escale e WHERE e.okFactEqu = :okFactEqu"),
+    @NamedQuery(name = "Escale.findByTraiteHier", query = "SELECT e FROM Escale e WHERE e.traiteHier = :traiteHier"),
+    @NamedQuery(name = "Escale.findByDateStat", query = "SELECT e FROM Escale e WHERE e.dateStat = :dateStat"),
+    @NamedQuery(name = "Escale.findByPriorite", query = "SELECT e FROM Escale e WHERE e.priorite = :priorite"),
+    @NamedQuery(name = "Escale.findByDatePasseEntree", query = "SELECT e FROM Escale e WHERE e.datePasseEntree = :datePasseEntree"),
+    @NamedQuery(name = "Escale.findByHeurePasseEntree", query = "SELECT e FROM Escale e WHERE e.heurePasseEntree = :heurePasseEntree"),
+    @NamedQuery(name = "Escale.findByDatePasseSortie", query = "SELECT e FROM Escale e WHERE e.datePasseSortie = :datePasseSortie"),
+    @NamedQuery(name = "Escale.findByHeurePasseSortie", query = "SELECT e FROM Escale e WHERE e.heurePasseSortie = :heurePasseSortie"),
+    @NamedQuery(name = "Escale.findByDateArriveeRade", query = "SELECT e FROM Escale e WHERE e.dateArriveeRade = :dateArriveeRade"),
+    @NamedQuery(name = "Escale.findByHeureArriveeRade", query = "SELECT e FROM Escale e WHERE e.heureArriveeRade = :heureArriveeRade"),
+    @NamedQuery(name = "Escale.findByResponsableShipping", query = "SELECT e FROM Escale e WHERE e.responsableShipping = :responsableShipping"),
+    @NamedQuery(name = "Escale.findByChefEscale", query = "SELECT e FROM Escale e WHERE e.chefEscale = :chefEscale"),
+    @NamedQuery(name = "Escale.findByTelAgent", query = "SELECT e FROM Escale e WHERE e.telAgent = :telAgent"),
+    @NamedQuery(name = "Escale.findByTelResponsableShipping", query = "SELECT e FROM Escale e WHERE e.telResponsableShipping = :telResponsableShipping"),
+    @NamedQuery(name = "Escale.findByTelChefEscale", query = "SELECT e FROM Escale e WHERE e.telChefEscale = :telChefEscale"),
+    @NamedQuery(name = "Escale.findByArriveeRade", query = "SELECT e FROM Escale e WHERE e.arriveeRade = :arriveeRade"),
+    @NamedQuery(name = "Escale.findByArrHRade", query = "SELECT e FROM Escale e WHERE e.arrHRade = :arrHRade"),
+    @NamedQuery(name = "Escale.findByDepartEffectif", query = "SELECT e FROM Escale e WHERE e.departEffectif = :departEffectif"),
+    @NamedQuery(name = "Escale.findByDepHEffectif", query = "SELECT e FROM Escale e WHERE e.depHEffectif = :depHEffectif"),
+    @NamedQuery(name = "Escale.findByMouillDepart", query = "SELECT e FROM Escale e WHERE e.mouillDepart = :mouillDepart"),
+    @NamedQuery(name = "Escale.findByMouillhDepart", query = "SELECT e FROM Escale e WHERE e.mouillhDepart = :mouillhDepart"),
+    @NamedQuery(name = "Escale.findByAgentSortie", query = "SELECT e FROM Escale e WHERE e.agentSortie = :agentSortie"),
+    @NamedQuery(name = "Escale.findByTelephoneAgentSortie", query = "SELECT e FROM Escale e WHERE e.telephoneAgentSortie = :telephoneAgentSortie"),
+    @NamedQuery(name = "Escale.findByOkApparaux", query = "SELECT e FROM Escale e WHERE e.okApparaux = :okApparaux"),
+    @NamedQuery(name = "Escale.findByOkAssurance", query = "SELECT e FROM Escale e WHERE e.okAssurance = :okAssurance"),
+    @NamedQuery(name = "Escale.findByOkDeclaration", query = "SELECT e FROM Escale e WHERE e.okDeclaration = :okDeclaration"),
+    @NamedQuery(name = "Escale.findByFreeGaz", query = "SELECT e FROM Escale e WHERE e.freeGaz = :freeGaz"),
+    @NamedQuery(name = "Escale.findByReparation", query = "SELECT e FROM Escale e WHERE e.reparation = :reparation"),
+    @NamedQuery(name = "Escale.findByControle", query = "SELECT e FROM Escale e WHERE e.controle = :controle"),
+    @NamedQuery(name = "Escale.findByAvaries", query = "SELECT e FROM Escale e WHERE e.avaries = :avaries"),
+    @NamedQuery(name = "Escale.findByManutentionnaireSortie", query = "SELECT e FROM Escale e WHERE e.manutentionnaireSortie = :manutentionnaireSortie"),
+    @NamedQuery(name = "Escale.findByDateStatut", query = "SELECT e FROM Escale e WHERE e.dateStatut = :dateStatut"),
+    @NamedQuery(name = "Escale.findByHeureStatut", query = "SELECT e FROM Escale e WHERE e.heureStatut = :heureStatut"),
+    @NamedQuery(name = "Escale.findByMobileChefEscale", query = "SELECT e FROM Escale e WHERE e.mobileChefEscale = :mobileChefEscale"),
+    @NamedQuery(name = "Escale.findByMobileResponsableShipping", query = "SELECT e FROM Escale e WHERE e.mobileResponsableShipping = :mobileResponsableShipping"),
+    @NamedQuery(name = "Escale.findByQuai2", query = "SELECT e FROM Escale e WHERE e.quai2 = :quai2"),
+    @NamedQuery(name = "Escale.findByQuai3", query = "SELECT e FROM Escale e WHERE e.quai3 = :quai3"),
+    @NamedQuery(name = "Escale.findByDateModifEta", query = "SELECT e FROM Escale e WHERE e.dateModifEta = :dateModifEta"),
+    @NamedQuery(name = "Escale.findByHeureModifEta", query = "SELECT e FROM Escale e WHERE e.heureModifEta = :heureModifEta"),
+    @NamedQuery(name = "Escale.findByDateAppelVigie", query = "SELECT e FROM Escale e WHERE e.dateAppelVigie = :dateAppelVigie"),
+    @NamedQuery(name = "Escale.findByHeureAppelVigie", query = "SELECT e FROM Escale e WHERE e.heureAppelVigie = :heureAppelVigie"),
+    @NamedQuery(name = "Escale.findByControleurVigie", query = "SELECT e FROM Escale e WHERE e.controleurVigie = :controleurVigie"),
+    @NamedQuery(name = "Escale.findBySaisieNavire", query = "SELECT e FROM Escale e WHERE e.saisieNavire = :saisieNavire"),
+    @NamedQuery(name = "Escale.findByDateModifEtd", query = "SELECT e FROM Escale e WHERE e.dateModifEtd = :dateModifEtd"),
+    @NamedQuery(name = "Escale.findByHeureModifEtd", query = "SELECT e FROM Escale e WHERE e.heureModifEtd = :heureModifEtd"),
+    @NamedQuery(name = "Escale.findByBassin", query = "SELECT e FROM Escale e WHERE e.bassin = :bassin"),
+    @NamedQuery(name = "Escale.findByDateFeux", query = "SELECT e FROM Escale e WHERE e.dateFeux = :dateFeux"),
+    @NamedQuery(name = "Escale.findByHeureFeux", query = "SELECT e FROM Escale e WHERE e.heureFeux = :heureFeux"),
+    @NamedQuery(name = "Escale.findByDateFeuxSortie", query = "SELECT e FROM Escale e WHERE e.dateFeuxSortie = :dateFeuxSortie"),
+    @NamedQuery(name = "Escale.findByHeureFeuxSortie", query = "SELECT e FROM Escale e WHERE e.heureFeuxSortie = :heureFeuxSortie"),
+    @NamedQuery(name = "Escale.findByPosition", query = "SELECT e FROM Escale e WHERE e.position = :position"),
+    @NamedQuery(name = "Escale.findByEtaNavire", query = "SELECT e FROM Escale e WHERE e.etaNavire = :etaNavire"),
+    @NamedQuery(name = "Escale.findByHEtaNavire", query = "SELECT e FROM Escale e WHERE e.hEtaNavire = :hEtaNavire"),
+    @NamedQuery(name = "Escale.findByModifEtaNavire", query = "SELECT e FROM Escale e WHERE e.modifEtaNavire = :modifEtaNavire"),
+    @NamedQuery(name = "Escale.findByModifHEtaNavire", query = "SELECT e FROM Escale e WHERE e.modifHEtaNavire = :modifHEtaNavire"),
+    @NamedQuery(name = "Escale.findByUtilisatEtaNavire", query = "SELECT e FROM Escale e WHERE e.utilisatEtaNavire = :utilisatEtaNavire"),
+    @NamedQuery(name = "Escale.findByTeauArEntree", query = "SELECT e FROM Escale e WHERE e.teauArEntree = :teauArEntree"),
+    @NamedQuery(name = "Escale.findByTeauArSortie", query = "SELECT e FROM Escale e WHERE e.teauArSortie = :teauArSortie"),
+    @NamedQuery(name = "Escale.findByOkAgentSortie", query = "SELECT e FROM Escale e WHERE e.okAgentSortie = :okAgentSortie"),
+    @NamedQuery(name = "Escale.findByOkCapitaineSortie", query = "SELECT e FROM Escale e WHERE e.okCapitaineSortie = :okCapitaineSortie"),
+    @NamedQuery(name = "Escale.findByDateAgentSortie", query = "SELECT e FROM Escale e WHERE e.dateAgentSortie = :dateAgentSortie"),
+    @NamedQuery(name = "Escale.findByHeureAgentSortie", query = "SELECT e FROM Escale e WHERE e.heureAgentSortie = :heureAgentSortie"),
+    @NamedQuery(name = "Escale.findByDateCapitaineSortie", query = "SELECT e FROM Escale e WHERE e.dateCapitaineSortie = :dateCapitaineSortie"),
+    @NamedQuery(name = "Escale.findByHeureCapitaineSortie", query = "SELECT e FROM Escale e WHERE e.heureCapitaineSortie = :heureCapitaineSortie"),
+    @NamedQuery(name = "Escale.findByEMail", query = "SELECT e FROM Escale e WHERE e.eMail = :eMail"),
+    @NamedQuery(name = "Escale.findByLongitudeRade", query = "SELECT e FROM Escale e WHERE e.longitudeRade = :longitudeRade"),
+    @NamedQuery(name = "Escale.findByLatitudeRade", query = "SELECT e FROM Escale e WHERE e.latitudeRade = :latitudeRade"),
+    @NamedQuery(name = "Escale.findByNumeroVetting", query = "SELECT e FROM Escale e WHERE e.numeroVetting = :numeroVetting"),
+    @NamedQuery(name = "Escale.findByTypeManutention", query = "SELECT e FROM Escale e WHERE e.typeManutention = :typeManutention"),
+    @NamedQuery(name = "Escale.findByTonnageDeb", query = "SELECT e FROM Escale e WHERE e.tonnageDeb = :tonnageDeb"),
+    @NamedQuery(name = "Escale.findByTonnageEmb", query = "SELECT e FROM Escale e WHERE e.tonnageEmb = :tonnageEmb"),
+    @NamedQuery(name = "Escale.findByPiloteEntree", query = "SELECT e FROM Escale e WHERE e.piloteEntree = :piloteEntree"),
+    @NamedQuery(name = "Escale.findByPiloteSortie", query = "SELECT e FROM Escale e WHERE e.piloteSortie = :piloteSortie"),
+    @NamedQuery(name = "Escale.findByDateAppelVigieSortie", query = "SELECT e FROM Escale e WHERE e.dateAppelVigieSortie = :dateAppelVigieSortie"),
+    @NamedQuery(name = "Escale.findByHeureAppelVigieSortie", query = "SELECT e FROM Escale e WHERE e.heureAppelVigieSortie = :heureAppelVigieSortie"),
+    @NamedQuery(name = "Escale.findByDDebPilote", query = "SELECT e FROM Escale e WHERE e.dDebPilote = :dDebPilote"),
+    @NamedQuery(name = "Escale.findByHDebPilote", query = "SELECT e FROM Escale e WHERE e.hDebPilote = :hDebPilote"),
+    @NamedQuery(name = "Escale.findByDEmbPilote", query = "SELECT e FROM Escale e WHERE e.dEmbPilote = :dEmbPilote"),
+    @NamedQuery(name = "Escale.findByHEmbPilote", query = "SELECT e FROM Escale e WHERE e.hEmbPilote = :hEmbPilote"),
+    @NamedQuery(name = "Escale.findByDateProgrammation", query = "SELECT e FROM Escale e WHERE e.dateProgrammation = :dateProgrammation"),
+    @NamedQuery(name = "Escale.findByHeureProgrammation", query = "SELECT e FROM Escale e WHERE e.heureProgrammation = :heureProgrammation"),
+    @NamedQuery(name = "Escale.findByDureeProgrammation", query = "SELECT e FROM Escale e WHERE e.dureeProgrammation = :dureeProgrammation"),
+    @NamedQuery(name = "Escale.findByStatutConferenceEntree", query = "SELECT e FROM Escale e WHERE e.statutConferenceEntree = :statutConferenceEntree"),
+    @NamedQuery(name = "Escale.findByDateConferenceEntree", query = "SELECT e FROM Escale e WHERE e.dateConferenceEntree = :dateConferenceEntree"),
+    @NamedQuery(name = "Escale.findByHeureConferenceEntree", query = "SELECT e FROM Escale e WHERE e.heureConferenceEntree = :heureConferenceEntree"),
+    @NamedQuery(name = "Escale.findByStatutConferenceSortie", query = "SELECT e FROM Escale e WHERE e.statutConferenceSortie = :statutConferenceSortie"),
+    @NamedQuery(name = "Escale.findByDateConferenceSortie", query = "SELECT e FROM Escale e WHERE e.dateConferenceSortie = :dateConferenceSortie"),
+    @NamedQuery(name = "Escale.findByHeureConferenceSortie", query = "SELECT e FROM Escale e WHERE e.heureConferenceSortie = :heureConferenceSortie"),
+    @NamedQuery(name = "Escale.findByTonnageDebDeclare", query = "SELECT e FROM Escale e WHERE e.tonnageDebDeclare = :tonnageDebDeclare"),
+    @NamedQuery(name = "Escale.findByTonnageEmbDeclare", query = "SELECT e FROM Escale e WHERE e.tonnageEmbDeclare = :tonnageEmbDeclare"),
+    @NamedQuery(name = "Escale.findByNbreBl", query = "SELECT e FROM Escale e WHERE e.nbreBl = :nbreBl"),
+    @NamedQuery(name = "Escale.findByTonnageFPilotageImport", query = "SELECT e FROM Escale e WHERE e.tonnageFPilotageImport = :tonnageFPilotageImport"),
+    @NamedQuery(name = "Escale.findByTonnageFPilotageExport", query = "SELECT e FROM Escale e WHERE e.tonnageFPilotageExport = :tonnageFPilotageExport"),
+    @NamedQuery(name = "Escale.findByTonnageFPilotageTotal", query = "SELECT e FROM Escale e WHERE e.tonnageFPilotageTotal = :tonnageFPilotageTotal"),
+    @NamedQuery(name = "Escale.findByTonnageMaxFacture", query = "SELECT e FROM Escale e WHERE e.tonnageMaxFacture = :tonnageMaxFacture"),
+    @NamedQuery(name = "Escale.findByNumEscCt", query = "SELECT e FROM Escale e WHERE e.numEscCt = :numEscCt"),
+    @NamedQuery(name = "Escale.findByOkDepotManifesteEntree", query = "SELECT e FROM Escale e WHERE e.okDepotManifesteEntree = :okDepotManifesteEntree"),
+    @NamedQuery(name = "Escale.findByDateDepotManifesteEntree", query = "SELECT e FROM Escale e WHERE e.dateDepotManifesteEntree = :dateDepotManifesteEntree"),
+    @NamedQuery(name = "Escale.findByHeureDepotManifesteEntree", query = "SELECT e FROM Escale e WHERE e.heureDepotManifesteEntree = :heureDepotManifesteEntree"),
+    @NamedQuery(name = "Escale.findByOkDepotManifesteSortie", query = "SELECT e FROM Escale e WHERE e.okDepotManifesteSortie = :okDepotManifesteSortie"),
+    @NamedQuery(name = "Escale.findByDateDepotManifesteSortie", query = "SELECT e FROM Escale e WHERE e.dateDepotManifesteSortie = :dateDepotManifesteSortie"),
+    @NamedQuery(name = "Escale.findByHeureDepotManifesteSortie", query = "SELECT e FROM Escale e WHERE e.heureDepotManifesteSortie = :heureDepotManifesteSortie"),
+    @NamedQuery(name = "Escale.findByNombreConteneur20Import", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Import = :nombreConteneur20Import"),
+    @NamedQuery(name = "Escale.findByNombreConteneur40Import", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Import = :nombreConteneur40Import"),
+    @NamedQuery(name = "Escale.findByNombreConteneur20Export", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Export = :nombreConteneur20Export"),
+    @NamedQuery(name = "Escale.findByNombreConteneur40Export", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Export = :nombreConteneur40Export"),
+    @NamedQuery(name = "Escale.findByNombreConteneur20Transbi", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Transbi = :nombreConteneur20Transbi"),
+    @NamedQuery(name = "Escale.findByNombreConteneur40Transbi", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Transbi = :nombreConteneur40Transbi"),
+    @NamedQuery(name = "Escale.findByNombreConteneur20Transbe", query = "SELECT e FROM Escale e WHERE e.nombreConteneur20Transbe = :nombreConteneur20Transbe"),
+    @NamedQuery(name = "Escale.findByNombreConteneur40Transbe", query = "SELECT e FROM Escale e WHERE e.nombreConteneur40Transbe = :nombreConteneur40Transbe"),
+    @NamedQuery(name = "Escale.findByTopTdr", query = "SELECT e FROM Escale e WHERE e.topTdr = :topTdr"),
+    @NamedQuery(name = "Escale.findByTopTdrDate", query = "SELECT e FROM Escale e WHERE e.topTdrDate = :topTdrDate"),
+    @NamedQuery(name = "Escale.findByTopTdrHeure", query = "SELECT e FROM Escale e WHERE e.topTdrHeure = :topTdrHeure"),
+    @NamedQuery(name = "Escale.findByTopTimesheet", query = "SELECT e FROM Escale e WHERE e.topTimesheet = :topTimesheet"),
+    @NamedQuery(name = "Escale.findByTopTimesheetDate", query = "SELECT e FROM Escale e WHERE e.topTimesheetDate = :topTimesheetDate"),
+    @NamedQuery(name = "Escale.findByTopTimesheetHeure", query = "SELECT e FROM Escale e WHERE e.topTimesheetHeure = :topTimesheetHeure"),
+    @NamedQuery(name = "Escale.findByTopTdrMensuel", query = "SELECT e FROM Escale e WHERE e.topTdrMensuel = :topTdrMensuel"),
+    @NamedQuery(name = "Escale.findByTopTdrMensuelDate", query = "SELECT e FROM Escale e WHERE e.topTdrMensuelDate = :topTdrMensuelDate"),
+    @NamedQuery(name = "Escale.findByTopTdrMensuelHeure", query = "SELECT e FROM Escale e WHERE e.topTdrMensuelHeure = :topTdrMensuelHeure"),
+    @NamedQuery(name = "Escale.findByDateMatrice", query = "SELECT e FROM Escale e WHERE e.dateMatrice = :dateMatrice"),
+    @NamedQuery(name = "Escale.findByDateBrouillard", query = "SELECT e FROM Escale e WHERE e.dateBrouillard = :dateBrouillard"),
+    @NamedQuery(name = "Escale.findByDateFacture", query = "SELECT e FROM Escale e WHERE e.dateFacture = :dateFacture"),
+    @NamedQuery(name = "Escale.findByDateValidationTimesheet", query = "SELECT e FROM Escale e WHERE e.dateValidationTimesheet = :dateValidationTimesheet"),
+    @NamedQuery(name = "Escale.findByUtilisatValidationTimesheet", query = "SELECT e FROM Escale e WHERE e.utilisatValidationTimesheet = :utilisatValidationTimesheet"),
+    @NamedQuery(name = "Escale.findByUtilisatMatrice", query = "SELECT e FROM Escale e WHERE e.utilisatMatrice = :utilisatMatrice"),
+    @NamedQuery(name = "Escale.findByUtilisatBrouillard", query = "SELECT e FROM Escale e WHERE e.utilisatBrouillard = :utilisatBrouillard"),
+    @NamedQuery(name = "Escale.findByUtilisatFacture", query = "SELECT e FROM Escale e WHERE e.utilisatFacture = :utilisatFacture"),
+    @NamedQuery(name = "Escale.findByDateEscaleInitiale", query = "SELECT e FROM Escale e WHERE e.dateEscaleInitiale = :dateEscaleInitiale"),
+    @NamedQuery(name = "Escale.findByNbreCochargeur", query = "SELECT e FROM Escale e WHERE e.nbreCochargeur = :nbreCochargeur"),
+    @NamedQuery(name = "Escale.findByVoyageSortie", query = "SELECT e FROM Escale e WHERE e.voyageSortie = :voyageSortie")})
+public class Escale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false, precision = 19, scale = 0)
+    @Column(name = "ESCLEUNIK")
     private BigDecimal escleunik;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "NUMERO")
     private String numero;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "AGENT")
     private String agent;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "MANUTEN")
     private String manuten;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "FILIERE")
     private String filiere;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "RADIO")
     private String radio;
+    @Column(name = "SERVICE")
     private Integer service;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "IDENTITE")
     private String identite;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "LIGNE")
     private String ligne;
     @Size(max = 2)
-    @Column(name = "MOIS_STAT", length = 2)
+    @Column(name = "MOIS_STAT")
     private String moisStat;
     @Size(max = 25)
-    @Column(length = 25)
+    @Column(name = "CAPITAINE")
     private String capitaine;
+    @Column(name = "CONSTRUC")
     private Integer construc;
     @Size(max = 8)
-    @Column(name = "OBJET_", length = 8)
+    @Column(name = "OBJET_")
     private String objet;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "ETAT")
     private String etat;
+    @Column(name = "NOMBRE")
     private BigInteger nombre;
     @Column(name = "NB_ATT")
     private Short nbAtt;
+    @Column(name = "SEJOUR")
     private BigInteger sejour;
+    @Column(name = "DUREE")
     private BigInteger duree;
+    @Column(name = "TRAVAIL")
     private BigInteger travail;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "SITUAT")
     private String situat;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "ARRIVEE")
     private String arrivee;
     @Size(max = 4)
-    @Column(name = "ARR_H", length = 4)
+    @Column(name = "ARR_H")
     private String arrH;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "MOUILL")
     private String mouill;
     @Size(max = 4)
-    @Column(length = 4)
+    @Column(name = "MOUILLH")
     private String mouillh;
     @Size(max = 8)
-    @Column(name = "PIL_ENT", length = 8)
+    @Column(name = "PIL_ENT")
     private String pilEnt;
     @Size(max = 4)
-    @Column(name = "PIL_ENTH", length = 4)
+    @Column(name = "PIL_ENTH")
     private String pilEnth;
     @Column(name = "REM_E")
     private Short remE;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "DEBUT")
     private String debut;
     @Size(max = 4)
-    @Column(name = "DEB_H", length = 4)
+    @Column(name = "DEB_H")
     private String debH;
     @Size(max = 8)
-    @Column(name = "DEB_OPE", length = 8)
+    @Column(name = "DEB_OPE")
     private String debOpe;
     @Size(max = 4)
-    @Column(name = "DEB_OPEH", length = 4)
+    @Column(name = "DEB_OPEH")
     private String debOpeh;
     @Column(name = "ATT_AR")
     private BigInteger attAr;
     @Size(max = 8)
-    @Column(name = "MOT_AR", length = 8)
+    @Column(name = "MOT_AR")
     private String motAr;
     @Size(max = 8)
-    @Column(name = "COND_AR", length = 8)
+    @Column(name = "COND_AR")
     private String condAr;
     @Size(max = 8)
-    @Column(name = "PORT_ATTAC", length = 8)
+    @Column(name = "PORT_ATTAC")
     private String portAttac;
     @Column(name = "REM_S")
     private Short remS;
     @Size(max = 8)
-    @Column(name = "FIN_OPE", length = 8)
+    @Column(name = "FIN_OPE")
     private String finOpe;
     @Size(max = 4)
-    @Column(name = "FIN_OPEH", length = 4)
+    @Column(name = "FIN_OPEH")
     private String finOpeh;
     @Size(max = 8)
-    @Column(name = "PIL_SOR", length = 8)
+    @Column(name = "PIL_SOR")
     private String pilSor;
     @Size(max = 4)
-    @Column(name = "PIL_SORH", length = 4)
+    @Column(name = "PIL_SORH")
     private String pilSorh;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "DEPART")
     private String depart;
     @Size(max = 4)
-    @Column(name = "DEP_H", length = 4)
+    @Column(name = "DEP_H")
     private String depH;
     @Size(max = 8)
-    @Column(name = "FIN_", length = 8)
+    @Column(name = "FIN_")
     private String fin;
     @Size(max = 4)
-    @Column(name = "FIN_H", length = 4)
+    @Column(name = "FIN_H")
     private String finH;
     @Column(name = "ATT_DP")
     private BigInteger attDp;
     @Size(max = 8)
-    @Column(name = "MOT_DP", length = 8)
+    @Column(name = "MOT_DP")
     private String motDp;
     @Size(max = 8)
-    @Column(name = "COND_DP", length = 8)
+    @Column(name = "COND_DP")
     private String condDp;
-    @Column(name = "FO_BRD", precision = 63)
+    @Column(name = "FO_BRD")
     private Double foBrd;
-    @Column(name = "DO_BRD", precision = 63)
+    @Column(name = "DO_BRD")
     private Double doBrd;
-    @Column(name = "FO_STG", precision = 63)
+    @Column(name = "FO_STG")
     private Double foStg;
-    @Column(name = "DO_STG", precision = 63)
+    @Column(name = "DO_STG")
     private Double doStg;
-    @Column(precision = 63)
+    @Column(name = "EAU")
     private Double eau;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "ACTIVITE")
     private String activite;
+    @Column(name = "PERSON")
     private BigInteger person;
+    @Column(name = "TRAITE")
     private BigInteger traite;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "QUAI")
     private String quai;
-    @Column(precision = 19, scale = 6)
+    @Column(name = "TONNAGE")
     private BigDecimal tonnage;
     @Size(max = 8)
-    @Column(name = "F_DATE", length = 8)
+    @Column(name = "F_DATE")
     private String fDate;
     @Size(max = 4)
-    @Column(name = "F_HEURE", length = 4)
+    @Column(name = "F_HEURE")
     private String fHeure;
     @Size(max = 12)
-    @Column(name = "N_FACT", length = 12)
+    @Column(name = "N_FACT")
     private String nFact;
     @Size(max = 8)
-    @Column(name = "F_ECHE", length = 8)
+    @Column(name = "F_ECHE")
     private String fEche;
-    @Column(name = "NBR_TCS", precision = 126)
+    @Column(name = "NBR_TCS")
     private Double nbrTcs;
-    @Column(name = "NBR_VEH", precision = 126)
+    @Column(name = "NBR_VEH")
     private Double nbrVeh;
-    @Column(name = "NBR_PAS", precision = 126)
+    @Column(name = "NBR_PAS")
     private Double nbrPas;
-    @Column(name = "NBR_TCST", precision = 126)
+    @Column(name = "NBR_TCST")
     private Double nbrTcst;
-    @Column(name = "CHARG_N", precision = 19, scale = 6)
+    @Column(name = "CHARG_N")
     private BigDecimal chargN;
-    @Column(name = "NBR_TCSN", precision = 126)
+    @Column(name = "NBR_TCSN")
     private Double nbrTcsn;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "MOTIF")
     private String motif;
     @Column(name = "NBR_SHT")
     private Integer nbrSht;
     @Size(max = 2)
-    @Column(length = 2)
+    @Column(name = "PORT")
     private String port;
+    @Column(name = "RENDEMENT")
     private BigInteger rendement;
+    @Column(name = "AVARIE")
     private Short avarie;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "NATURE")
     private String nature;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "IMPORTANCE")
     private String importance;
     @Column(name = "TOP_TRITON")
     private Integer topTriton;
     @Column(name = "TOP_DANGER")
     private Short topDanger;
-    @Column(precision = 63)
+    @Column(name = "HAUTEUR")
     private Double hauteur;
-    @Column(precision = 63)
+    @Column(name = "LARGEUR")
     private Double largeur;
     @Column(name = "TOP_FAC_AG")
     private Short topFacAg;
     @Column(name = "TOP_FAC_MN")
     private Short topFacMn;
     @Size(max = 8)
-    @Column(name = "T_HORAIRE", length = 8)
+    @Column(name = "T_HORAIRE")
     private String tHoraire;
     @Column(name = "NB_PORTIQUE")
     private Short nbPortique;
@@ -504,53 +515,53 @@ public class Escale extends BaseEntity implements Serializable {
     @Column(name = "OK_MANUTENTIONNAIRE")
     private Short okManutentionnaire;
     @Size(max = 8)
-    @Column(name = "DATE_AGENT", length = 8)
+    @Column(name = "DATE_AGENT")
     private String dateAgent;
     @Size(max = 4)
-    @Column(name = "HEURE_AGENT", length = 4)
+    @Column(name = "HEURE_AGENT")
     private String heureAgent;
     @Size(max = 8)
-    @Column(name = "DATE_CAPITAINE", length = 8)
+    @Column(name = "DATE_CAPITAINE")
     private String dateCapitaine;
     @Size(max = 4)
-    @Column(name = "HEURE_CAPITAINE", length = 4)
+    @Column(name = "HEURE_CAPITAINE")
     private String heureCapitaine;
     @Size(max = 8)
-    @Column(name = "DATE_MANUTENTIONNAIRE", length = 8)
+    @Column(name = "DATE_MANUTENTIONNAIRE")
     private String dateManutentionnaire;
     @Size(max = 4)
-    @Column(name = "HEURE_MANUTENTIONNAIRE", length = 4)
+    @Column(name = "HEURE_MANUTENTIONNAIRE")
     private String heureManutentionnaire;
     @Size(max = 8)
-    @Column(name = "PROVENANCE_I", length = 8)
+    @Column(name = "PROVENANCE_I")
     private String provenanceI;
     @Size(max = 8)
-    @Column(name = "PROVENANCE_O", length = 8)
+    @Column(name = "PROVENANCE_O")
     private String provenanceO;
     @Size(max = 8)
-    @Column(name = "DESTINATION_I", length = 8)
+    @Column(name = "DESTINATION_I")
     private String destinationI;
     @Size(max = 8)
-    @Column(name = "DESTINATION_F", length = 8)
+    @Column(name = "DESTINATION_F")
     private String destinationF;
     @Size(max = 40)
-    @Column(length = 40)
+    @Column(name = "NAVIRE")
     private String navire;
     @Size(max = 8)
-    @Column(name = "D_DEMANDE", length = 8)
+    @Column(name = "D_DEMANDE")
     private String dDemande;
     @Size(max = 4)
-    @Column(name = "H_DEMANDE", length = 4)
+    @Column(name = "H_DEMANDE")
     private String hDemande;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "REFERENC")
     private String referenc;
-    @Column(name = "TOT_PRIME_EQ1", precision = 19, scale = 6)
+    @Column(name = "TOT_PRIME_EQ1")
     private BigDecimal totPrimeEq1;
-    @Column(name = "TOT_PRIME_EQ2", precision = 19, scale = 6)
+    @Column(name = "TOT_PRIME_EQ2")
     private BigDecimal totPrimeEq2;
     @Size(max = 12)
-    @Column(length = 12)
+    @Column(name = "VOYAGE")
     private String voyage;
     @Column(name = "NBR_HTRB")
     private Integer nbrHtrb;
@@ -562,112 +573,114 @@ public class Escale extends BaseEntity implements Serializable {
     private Integer hrsNdf;
     @Column(name = "HRS_NBR")
     private Integer hrsNbr;
+    @Column(name = "GESTION")
     private BigInteger gestion;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "STATUT")
     private String statut;
     @Size(max = 10)
-    @Column(length = 10)
+    @Column(name = "CREATEUR")
     private String createur;
     @Size(max = 8)
-    @Column(name = "D_CREAT", length = 8)
+    @Column(name = "D_CREAT")
     private String dCreat;
     @Size(max = 4)
-    @Column(name = "H_CREAT", length = 4)
+    @Column(name = "H_CREAT")
     private String hCreat;
     @Size(max = 10)
-    @Column(length = 10)
+    @Column(name = "UTILISAT")
     private String utilisat;
     @Size(max = 8)
-    @Column(name = "D_MODIF", length = 8)
+    @Column(name = "D_MODIF")
     private String dModif;
     @Size(max = 4)
-    @Column(name = "H_MODIF", length = 4)
+    @Column(name = "H_MODIF")
     private String hModif;
+    @Column(name = "FACLEUNIK")
     private BigInteger facleunik;
-    @Column(name = "CHARG_B", precision = 19, scale = 6)
+    @Column(name = "CHARG_B")
     private BigDecimal chargB;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "PAVILLON")
     private String pavillon;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "ARMATEUR")
     private String armateur;
-    @Column(name = "JAUGE_NET", precision = 19, scale = 6)
+    @Column(name = "JAUGE_NET")
     private BigDecimal jaugeNet;
-    @Column(name = "REDEM_U", precision = 19, scale = 6)
+    @Column(name = "REDEM_U")
     private BigDecimal redemU;
     @Size(max = 8)
-    @Column(name = "CHEF_POSTE", length = 8)
+    @Column(name = "CHEF_POSTE")
     private String chefPoste;
     @Column(name = "OK_FACT_NAV")
     private Short okFactNav;
     @Column(name = "OK_FACT_EQU")
     private Short okFactEqu;
-    @Column(name = "TRAITE_HIER", precision = 19, scale = 6)
+    @Column(name = "TRAITE_HIER")
     private BigDecimal traiteHier;
     @Column(name = "DATE_STAT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateStat;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "PRIORITE")
     private String priorite;
     @Size(max = 8)
-    @Column(name = "DATE_PASSE_ENTREE", length = 8)
+    @Column(name = "DATE_PASSE_ENTREE")
     private String datePasseEntree;
     @Size(max = 4)
-    @Column(name = "HEURE_PASSE_ENTREE", length = 4)
+    @Column(name = "HEURE_PASSE_ENTREE")
     private String heurePasseEntree;
     @Size(max = 8)
-    @Column(name = "DATE_PASSE_SORTIE", length = 8)
+    @Column(name = "DATE_PASSE_SORTIE")
     private String datePasseSortie;
     @Size(max = 4)
-    @Column(name = "HEURE_PASSE_SORTIE", length = 4)
+    @Column(name = "HEURE_PASSE_SORTIE")
     private String heurePasseSortie;
     @Size(max = 8)
-    @Column(name = "DATE_ARRIVEE_RADE", length = 8)
+    @Column(name = "DATE_ARRIVEE_RADE")
     private String dateArriveeRade;
     @Size(max = 4)
-    @Column(name = "HEURE_ARRIVEE_RADE", length = 4)
+    @Column(name = "HEURE_ARRIVEE_RADE")
     private String heureArriveeRade;
     @Size(max = 20)
-    @Column(name = "RESPONSABLE_SHIPPING", length = 20)
+    @Column(name = "RESPONSABLE_SHIPPING")
     private String responsableShipping;
     @Size(max = 20)
-    @Column(name = "CHEF_ESCALE", length = 20)
+    @Column(name = "CHEF_ESCALE")
     private String chefEscale;
     @Size(max = 20)
-    @Column(name = "TEL_AGENT", length = 20)
+    @Column(name = "TEL_AGENT")
     private String telAgent;
     @Size(max = 20)
-    @Column(name = "TEL_RESPONSABLE_SHIPPING", length = 20)
+    @Column(name = "TEL_RESPONSABLE_SHIPPING")
     private String telResponsableShipping;
     @Size(max = 20)
-    @Column(name = "TEL_CHEF_ESCALE", length = 20)
+    @Column(name = "TEL_CHEF_ESCALE")
     private String telChefEscale;
     @Size(max = 8)
-    @Column(name = "ARRIVEE_RADE", length = 8)
+    @Column(name = "ARRIVEE_RADE")
     private String arriveeRade;
     @Size(max = 4)
-    @Column(name = "ARR_H_RADE", length = 4)
+    @Column(name = "ARR_H_RADE")
     private String arrHRade;
     @Size(max = 8)
-    @Column(name = "DEPART_EFFECTIF", length = 8)
+    @Column(name = "DEPART_EFFECTIF")
     private String departEffectif;
     @Size(max = 4)
-    @Column(name = "DEP_H_EFFECTIF", length = 4)
+    @Column(name = "DEP_H_EFFECTIF")
     private String depHEffectif;
     @Size(max = 8)
-    @Column(name = "MOUILL_DEPART", length = 8)
+    @Column(name = "MOUILL_DEPART")
     private String mouillDepart;
     @Size(max = 4)
-    @Column(name = "MOUILLH_DEPART", length = 4)
+    @Column(name = "MOUILLH_DEPART")
     private String mouillhDepart;
     @Size(max = 8)
-    @Column(name = "AGENT_SORTIE", length = 8)
+    @Column(name = "AGENT_SORTIE")
     private String agentSortie;
     @Size(max = 20)
-    @Column(name = "TELEPHONE_AGENT_SORTIE", length = 20)
+    @Column(name = "TELEPHONE_AGENT_SORTIE")
     private String telephoneAgentSortie;
     @Column(name = "OK_APPARAUX")
     private Short okApparaux;
@@ -678,212 +691,212 @@ public class Escale extends BaseEntity implements Serializable {
     @Column(name = "FREE_GAZ")
     private Short freeGaz;
     @Size(max = 20)
-    @Column(length = 20)
+    @Column(name = "REPARATION")
     private String reparation;
     @Size(max = 20)
-    @Column(length = 20)
+    @Column(name = "CONTROLE")
     private String controle;
     @Size(max = 20)
-    @Column(length = 20)
+    @Column(name = "AVARIES")
     private String avaries;
     @Size(max = 8)
-    @Column(name = "MANUTENTIONNAIRE_SORTIE", length = 8)
+    @Column(name = "MANUTENTIONNAIRE_SORTIE")
     private String manutentionnaireSortie;
     @Size(max = 8)
-    @Column(name = "DATE_STATUT", length = 8)
+    @Column(name = "DATE_STATUT")
     private String dateStatut;
     @Size(max = 4)
-    @Column(name = "HEURE_STATUT", length = 4)
+    @Column(name = "HEURE_STATUT")
     private String heureStatut;
     @Size(max = 15)
-    @Column(name = "MOBILE_CHEF_ESCALE", length = 15)
+    @Column(name = "MOBILE_CHEF_ESCALE")
     private String mobileChefEscale;
     @Size(max = 15)
-    @Column(name = "MOBILE_RESPONSABLE_SHIPPING", length = 15)
+    @Column(name = "MOBILE_RESPONSABLE_SHIPPING")
     private String mobileResponsableShipping;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "QUAI2")
     private String quai2;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "QUAI3")
     private String quai3;
     @Size(max = 8)
-    @Column(name = "DATE_MODIF_ETA", length = 8)
+    @Column(name = "DATE_MODIF_ETA")
     private String dateModifEta;
     @Size(max = 4)
-    @Column(name = "HEURE_MODIF_ETA", length = 4)
+    @Column(name = "HEURE_MODIF_ETA")
     private String heureModifEta;
     @Size(max = 8)
-    @Column(name = "DATE_APPEL_VIGIE", length = 8)
+    @Column(name = "DATE_APPEL_VIGIE")
     private String dateAppelVigie;
     @Size(max = 4)
-    @Column(name = "HEURE_APPEL_VIGIE", length = 4)
+    @Column(name = "HEURE_APPEL_VIGIE")
     private String heureAppelVigie;
     @Size(max = 10)
-    @Column(name = "CONTROLEUR_VIGIE", length = 10)
+    @Column(name = "CONTROLEUR_VIGIE")
     private String controleurVigie;
     @Size(max = 20)
-    @Column(name = "SAISIE_NAVIRE", length = 20)
+    @Column(name = "SAISIE_NAVIRE")
     private String saisieNavire;
     @Size(max = 8)
-    @Column(name = "DATE_MODIF_ETD", length = 8)
+    @Column(name = "DATE_MODIF_ETD")
     private String dateModifEtd;
     @Size(max = 4)
-    @Column(name = "HEURE_MODIF_ETD", length = 4)
+    @Column(name = "HEURE_MODIF_ETD")
     private String heureModifEtd;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "BASSIN")
     private String bassin;
     @Size(max = 8)
-    @Column(name = "DATE_FEUX", length = 8)
+    @Column(name = "DATE_FEUX")
     private String dateFeux;
     @Size(max = 4)
-    @Column(name = "HEURE_FEUX", length = 4)
+    @Column(name = "HEURE_FEUX")
     private String heureFeux;
     @Size(max = 8)
-    @Column(name = "DATE_FEUX_SORTIE", length = 8)
+    @Column(name = "DATE_FEUX_SORTIE")
     private String dateFeuxSortie;
     @Size(max = 4)
-    @Column(name = "HEURE_FEUX_SORTIE", length = 4)
+    @Column(name = "HEURE_FEUX_SORTIE")
     private String heureFeuxSortie;
     @Size(max = 8)
-    @Column(length = 8)
+    @Column(name = "POSITION")
     private String position;
     @Size(max = 8)
-    @Column(name = "ETA_NAVIRE", length = 8)
+    @Column(name = "ETA_NAVIRE")
     private String etaNavire;
     @Size(max = 4)
-    @Column(name = "H_ETA_NAVIRE", length = 4)
+    @Column(name = "H_ETA_NAVIRE")
     private String hEtaNavire;
     @Size(max = 8)
-    @Column(name = "MODIF_ETA_NAVIRE", length = 8)
+    @Column(name = "MODIF_ETA_NAVIRE")
     private String modifEtaNavire;
     @Size(max = 4)
-    @Column(name = "MODIF_H_ETA_NAVIRE", length = 4)
+    @Column(name = "MODIF_H_ETA_NAVIRE")
     private String modifHEtaNavire;
     @Size(max = 10)
-    @Column(name = "UTILISAT_ETA_NAVIRE", length = 10)
+    @Column(name = "UTILISAT_ETA_NAVIRE")
     private String utilisatEtaNavire;
-    @Column(name = "TEAU_AR_ENTREE", precision = 19, scale = 6)
+    @Column(name = "TEAU_AR_ENTREE")
     private BigDecimal teauArEntree;
-    @Column(name = "TEAU_AR_SORTIE", precision = 19, scale = 6)
+    @Column(name = "TEAU_AR_SORTIE")
     private BigDecimal teauArSortie;
     @Column(name = "OK_AGENT_SORTIE")
     private Short okAgentSortie;
     @Column(name = "OK_CAPITAINE_SORTIE")
     private Short okCapitaineSortie;
     @Size(max = 8)
-    @Column(name = "DATE_AGENT_SORTIE", length = 8)
+    @Column(name = "DATE_AGENT_SORTIE")
     private String dateAgentSortie;
     @Size(max = 4)
-    @Column(name = "HEURE_AGENT_SORTIE", length = 4)
+    @Column(name = "HEURE_AGENT_SORTIE")
     private String heureAgentSortie;
     @Size(max = 8)
-    @Column(name = "DATE_CAPITAINE_SORTIE", length = 8)
+    @Column(name = "DATE_CAPITAINE_SORTIE")
     private String dateCapitaineSortie;
     @Size(max = 4)
-    @Column(name = "HEURE_CAPITAINE_SORTIE", length = 4)
+    @Column(name = "HEURE_CAPITAINE_SORTIE")
     private String heureCapitaineSortie;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 50)
-    @Column(name = "E_MAIL", length = 50)
+    @Column(name = "E_MAIL")
     private String eMail;
-    @Column(name = "LONGITUDE_RADE", precision = 19, scale = 6)
+    @Column(name = "LONGITUDE_RADE")
     private BigDecimal longitudeRade;
-    @Column(name = "LATITUDE_RADE", precision = 19, scale = 6)
+    @Column(name = "LATITUDE_RADE")
     private BigDecimal latitudeRade;
     @Size(max = 12)
-    @Column(name = "NUMERO_VETTING", length = 12)
+    @Column(name = "NUMERO_VETTING")
     private String numeroVetting;
     @Size(max = 8)
-    @Column(name = "TYPE_MANUTENTION", length = 8)
+    @Column(name = "TYPE_MANUTENTION")
     private String typeManutention;
-    @Column(name = "TONNAGE_DEB", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_DEB")
     private BigDecimal tonnageDeb;
-    @Column(name = "TONNAGE_EMB", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_EMB")
     private BigDecimal tonnageEmb;
     @Size(max = 8)
-    @Column(name = "PILOTE_ENTREE", length = 8)
+    @Column(name = "PILOTE_ENTREE")
     private String piloteEntree;
     @Size(max = 8)
-    @Column(name = "PILOTE_SORTIE", length = 8)
+    @Column(name = "PILOTE_SORTIE")
     private String piloteSortie;
     @Size(max = 8)
-    @Column(name = "DATE_APPEL_VIGIE_SORTIE", length = 8)
+    @Column(name = "DATE_APPEL_VIGIE_SORTIE")
     private String dateAppelVigieSortie;
     @Size(max = 8)
-    @Column(name = "HEURE_APPEL_VIGIE_SORTIE", length = 8)
+    @Column(name = "HEURE_APPEL_VIGIE_SORTIE")
     private String heureAppelVigieSortie;
     @Size(max = 8)
-    @Column(name = "D_DEB_PILOTE", length = 8)
+    @Column(name = "D_DEB_PILOTE")
     private String dDebPilote;
     @Size(max = 4)
-    @Column(name = "H_DEB_PILOTE", length = 4)
+    @Column(name = "H_DEB_PILOTE")
     private String hDebPilote;
     @Size(max = 8)
-    @Column(name = "D_EMB_PILOTE", length = 8)
+    @Column(name = "D_EMB_PILOTE")
     private String dEmbPilote;
     @Size(max = 4)
-    @Column(name = "H_EMB_PILOTE", length = 4)
+    @Column(name = "H_EMB_PILOTE")
     private String hEmbPilote;
     @Size(max = 8)
-    @Column(name = "DATE_PROGRAMMATION", length = 8)
+    @Column(name = "DATE_PROGRAMMATION")
     private String dateProgrammation;
     @Size(max = 4)
-    @Column(name = "HEURE_PROGRAMMATION", length = 4)
+    @Column(name = "HEURE_PROGRAMMATION")
     private String heureProgrammation;
-    @Column(name = "DUREE_PROGRAMMATION", precision = 19, scale = 6)
+    @Column(name = "DUREE_PROGRAMMATION")
     private BigDecimal dureeProgrammation;
     @Size(max = 8)
-    @Column(name = "STATUT_CONFERENCE_ENTREE", length = 8)
+    @Column(name = "STATUT_CONFERENCE_ENTREE")
     private String statutConferenceEntree;
     @Size(max = 8)
-    @Column(name = "DATE_CONFERENCE_ENTREE", length = 8)
+    @Column(name = "DATE_CONFERENCE_ENTREE")
     private String dateConferenceEntree;
     @Size(max = 4)
-    @Column(name = "HEURE_CONFERENCE_ENTREE", length = 4)
+    @Column(name = "HEURE_CONFERENCE_ENTREE")
     private String heureConferenceEntree;
     @Size(max = 8)
-    @Column(name = "STATUT_CONFERENCE_SORTIE", length = 8)
+    @Column(name = "STATUT_CONFERENCE_SORTIE")
     private String statutConferenceSortie;
     @Size(max = 8)
-    @Column(name = "DATE_CONFERENCE_SORTIE", length = 8)
+    @Column(name = "DATE_CONFERENCE_SORTIE")
     private String dateConferenceSortie;
     @Size(max = 4)
-    @Column(name = "HEURE_CONFERENCE_SORTIE", length = 4)
+    @Column(name = "HEURE_CONFERENCE_SORTIE")
     private String heureConferenceSortie;
-    @Column(name = "TONNAGE_DEB_DECLARE", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_DEB_DECLARE")
     private BigDecimal tonnageDebDeclare;
-    @Column(name = "TONNAGE_EMB_DECLARE", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_EMB_DECLARE")
     private BigDecimal tonnageEmbDeclare;
     @Column(name = "NBRE_BL")
     private BigInteger nbreBl;
-    @Column(name = "TONNAGE_F_PILOTAGE_IMPORT", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_F_PILOTAGE_IMPORT")
     private BigDecimal tonnageFPilotageImport;
-    @Column(name = "TONNAGE_F_PILOTAGE_EXPORT", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_F_PILOTAGE_EXPORT")
     private BigDecimal tonnageFPilotageExport;
-    @Column(name = "TONNAGE_F_PILOTAGE_TOTAL", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_F_PILOTAGE_TOTAL")
     private BigDecimal tonnageFPilotageTotal;
-    @Column(name = "TONNAGE_MAX_FACTURE", precision = 19, scale = 6)
+    @Column(name = "TONNAGE_MAX_FACTURE")
     private BigDecimal tonnageMaxFacture;
     @Size(max = 12)
-    @Column(name = "NUM_ESC_CT", length = 12)
+    @Column(name = "NUM_ESC_CT")
     private String numEscCt;
     @Column(name = "OK_DEPOT_MANIFESTE_ENTREE")
     private Short okDepotManifesteEntree;
     @Size(max = 8)
-    @Column(name = "DATE_DEPOT_MANIFESTE_ENTREE", length = 8)
+    @Column(name = "DATE_DEPOT_MANIFESTE_ENTREE")
     private String dateDepotManifesteEntree;
     @Size(max = 4)
-    @Column(name = "HEURE_DEPOT_MANIFESTE_ENTREE", length = 4)
+    @Column(name = "HEURE_DEPOT_MANIFESTE_ENTREE")
     private String heureDepotManifesteEntree;
     @Column(name = "OK_DEPOT_MANIFESTE_SORTIE")
     private Short okDepotManifesteSortie;
     @Size(max = 8)
-    @Column(name = "DATE_DEPOT_MANIFESTE_SORTIE", length = 8)
+    @Column(name = "DATE_DEPOT_MANIFESTE_SORTIE")
     private String dateDepotManifesteSortie;
     @Size(max = 4)
-    @Column(name = "HEURE_DEPOT_MANIFESTE_SORTIE", length = 4)
+    @Column(name = "HEURE_DEPOT_MANIFESTE_SORTIE")
     private String heureDepotManifesteSortie;
     @Column(name = "NOMBRE_CONTENEUR_20_IMPORT")
     private BigInteger nombreConteneur20Import;
@@ -904,59 +917,64 @@ public class Escale extends BaseEntity implements Serializable {
     @Column(name = "TOP_TDR")
     private Short topTdr;
     @Size(max = 8)
-    @Column(name = "TOP_TDR_DATE", length = 8)
+    @Column(name = "TOP_TDR_DATE")
     private String topTdrDate;
     @Size(max = 4)
-    @Column(name = "TOP_TDR_HEURE", length = 4)
+    @Column(name = "TOP_TDR_HEURE")
     private String topTdrHeure;
     @Column(name = "TOP_TIMESHEET")
     private Short topTimesheet;
     @Size(max = 8)
-    @Column(name = "TOP_TIMESHEET_DATE", length = 8)
+    @Column(name = "TOP_TIMESHEET_DATE")
     private String topTimesheetDate;
     @Size(max = 4)
-    @Column(name = "TOP_TIMESHEET_HEURE", length = 4)
+    @Column(name = "TOP_TIMESHEET_HEURE")
     private String topTimesheetHeure;
     @Column(name = "TOP_TDR_MENSUEL")
     private Short topTdrMensuel;
     @Size(max = 8)
-    @Column(name = "TOP_TDR_MENSUEL_DATE", length = 8)
+    @Column(name = "TOP_TDR_MENSUEL_DATE")
     private String topTdrMensuelDate;
     @Size(max = 4)
-    @Column(name = "TOP_TDR_MENSUEL_HEURE", length = 4)
+    @Column(name = "TOP_TDR_MENSUEL_HEURE")
     private String topTdrMensuelHeure;
     @Size(max = 8)
-    @Column(name = "DATE_MATRICE", length = 8)
+    @Column(name = "DATE_MATRICE")
     private String dateMatrice;
     @Size(max = 8)
-    @Column(name = "DATE_BROUILLARD", length = 8)
+    @Column(name = "DATE_BROUILLARD")
     private String dateBrouillard;
     @Size(max = 8)
-    @Column(name = "DATE_FACTURE", length = 8)
+    @Column(name = "DATE_FACTURE")
     private String dateFacture;
     @Size(max = 8)
-    @Column(name = "DATE_VALIDATION_TIMESHEET", length = 8)
+    @Column(name = "DATE_VALIDATION_TIMESHEET")
     private String dateValidationTimesheet;
     @Size(max = 10)
-    @Column(name = "UTILISAT_VALIDATION_TIMESHEET", length = 10)
+    @Column(name = "UTILISAT_VALIDATION_TIMESHEET")
     private String utilisatValidationTimesheet;
     @Size(max = 10)
-    @Column(name = "UTILISAT_MATRICE", length = 10)
+    @Column(name = "UTILISAT_MATRICE")
     private String utilisatMatrice;
     @Size(max = 10)
-    @Column(name = "UTILISAT_BROUILLARD", length = 10)
+    @Column(name = "UTILISAT_BROUILLARD")
     private String utilisatBrouillard;
     @Size(max = 10)
-    @Column(name = "UTILISAT_FACTURE", length = 10)
+    @Column(name = "UTILISAT_FACTURE")
     private String utilisatFacture;
     @Size(max = 8)
-    @Column(name = "DATE_ESCALE_INITIALE", length = 8)
+    @Column(name = "DATE_ESCALE_INITIALE")
     private String dateEscaleInitiale;
-    @JoinColumn(name = "NACLEUNIK", referencedColumnName = "NACLEUNIK")
+    @Column(name = "NBRE_COCHARGEUR")
+    private Integer nbreCochargeur;
+    @Size(max = 12)
+    @Column(name = "VOYAGE_SORTIE")
+    private String voyageSortie;
+    @OneToMany(mappedBy = "idEscale", fetch = FetchType.EAGER)
+    private Collection<GeneralInfo> generalInfoCollection;
+    @JoinColumn(name = "nacleunik", referencedColumnName = "nacleunik")
     @ManyToOne
     private Navire nacleunik;
-    @OneToMany(mappedBy = "idEscale")
-    private Collection<GeneralInfo> generalInfoCollection;
 
     public Escale() {
     }
@@ -1883,6 +1901,14 @@ public class Escale extends BaseEntity implements Serializable {
 
     public void setHModif(String hModif) {
         this.hModif = hModif;
+    }
+
+    public Navire getNacleunik() {
+        return nacleunik;
+    }
+
+    public void setNacleunik(Navire nacleunik) {
+        this.nacleunik = nacleunik;
     }
 
     public BigInteger getFacleunik() {
@@ -2973,12 +2999,20 @@ public class Escale extends BaseEntity implements Serializable {
         this.dateEscaleInitiale = dateEscaleInitiale;
     }
 
-    public Navire getNacleunik() {
-        return nacleunik;
+    public Integer getNbreCochargeur() {
+        return nbreCochargeur;
     }
 
-    public void setNacleunik(Navire nacleunik) {
-        this.nacleunik = nacleunik;
+    public void setNbreCochargeur(Integer nbreCochargeur) {
+        this.nbreCochargeur = nbreCochargeur;
+    }
+
+    public String getVoyageSortie() {
+        return voyageSortie;
+    }
+
+    public void setVoyageSortie(String voyageSortie) {
+        this.voyageSortie = voyageSortie;
     }
 
     @XmlTransient
@@ -3012,12 +3046,6 @@ public class Escale extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "db.Escale[ escleunik=" + escleunik + " ]";
+        return "com.github.adminfaces.starter.model.Escale[ escleunik=" + escleunik + " ]";
     }
-
-    @Override
-    public <ID extends Serializable> ID getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Conversion"/>
+    </ui:define>
+    <ui:define name="title">
+        Conversion de manifestes
+    </ui:define>
+
+    <ui:define name="body">
+
+        <div class="box box-info">
+            <div class="box-header with-border ui-fileupload">
+                <h:form>
+                    <p:fileUpload  style="padding: 10px" label="Fichier" uploadLabel="Convertir" cancelLabel= "Annuler" mode="advanced"
+                                   dragDropSupport="true"  auto="false" onstart="showBar()" oncomplete="hideBar()" class="no-border" fileUploadListener="#{manifestBean.convertirManifeste}"
+                                   multiple="false" update="@form" sizeLimit="1000000000" fileLimit="3" 
+                                   allowTypes="/(\.|\/)(xml)$/" invalidFileMessage="Fichier incorrect" />
+                    
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
