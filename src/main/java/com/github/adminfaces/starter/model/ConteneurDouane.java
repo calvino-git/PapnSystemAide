@@ -8,6 +8,7 @@ package com.github.adminfaces.starter.model;
 import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class ConteneurDouane extends BaseEntity implements Serializable {
     private Integer id;
     @Size(max = 10)
     @Column(name = "DAT")
-    private String date;
+    private Date date;
     @Size(max = 6)
     @Column(name = "MOIS")
     private String mois;
@@ -92,11 +93,11 @@ public class ConteneurDouane extends BaseEntity implements Serializable {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -186,7 +187,7 @@ public class ConteneurDouane extends BaseEntity implements Serializable {
     public boolean hasTrafic() {
        return trafic != null && !"".equals(trafic.trim());    }
     public boolean hasDate() {
-       return date != null && !"".equals(date.trim());    }
+       return date != null ;    }
     
     
 }

@@ -16,6 +16,7 @@ import com.github.adminfaces.starter.service.ConteneurCongoTerminalService;
 import com.github.adminfaces.starter.service.ConteneurDouaneService;
 import com.github.adminfaces.template.exception.BusinessException;
 import static com.github.adminfaces.template.util.Assert.has;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,16 +65,55 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
         this.model.addColumn(mainColumn);
     }
 
+    public void find() {
+        if (has(filter.getEntity().getNumero()) || has(filter.getEntity().getNavire()) || has(filter.getEntity().getMois())) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            final ELContext elContext = facesContext.getELContext();
+            final Application application = facesContext.getApplication();
+            ExpressionFactory expressionFactory = application.getExpressionFactory();
+            ValueExpression exp = expressionFactory.createValueExpression(elContext, "#{conteneurCongoTerminalBean}", Object.class);
+            ConteneurCongoTerminalBean result = (ConteneurCongoTerminalBean) exp.getValue(elContext);
+            if (has(filter.getEntity().getNumero())) {
+                result.getFilter().getEntity().setNumCtn(filter.getEntity().getNumero());
+            }
+            if (has(filter.getEntity().getNavire())) {
+                result.getFilter().getEntity().setEscale(filter.getEntity().getNavire());
+            }
+            if (has(filter.getEntity().getMois())) {
+                result.getFilter().getEntity().setMois(BigInteger.valueOf(Long.valueOf(filter.getEntity().getMois())));
+            }
+        }
+    }
+
     public void findNumero() {
+        if(has(filter.getEntity().getNumero())){
         FacesContext facesContext = FacesContext.getCurrentInstance();
         final ELContext elContext = facesContext.getELContext();
         final Application application = facesContext.getApplication();
         ExpressionFactory expressionFactory = application.getExpressionFactory();
         ValueExpression exp = expressionFactory.createValueExpression(elContext, "#{conteneurCongoTerminalBean}", Object.class);
         ConteneurCongoTerminalBean result = (ConteneurCongoTerminalBean) exp.getValue(elContext);
-        result.setNumCtn(numero);
-        result.findCTNByNumCtn();
-        filter.getEntity().setNumero(numero);
+
+        result.getFilter().getEntity().setNumCtn(filter.getEntity().getNumero());
+        }
+    }
+
+    public void findByTrafic() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        final ELContext elContext = facesContext.getELContext();
+        final Application application = facesContext.getApplication();
+        ExpressionFactory expressionFactory = application.getExpressionFactory();
+        ValueExpression exp = expressionFactory.createValueExpression(elContext, "#{conteneurCongoTerminalBean}", Object.class);
+        ConteneurCongoTerminalBean result = (ConteneurCongoTerminalBean) exp.getValue(elContext);
+        String trafic = filter.getEntity().getTrafic() != null ? filter.getEntity().getTrafic() : "";
+        result.getFilter().getEntity().setTrafic(trafic);
+        if (trafic.equalsIgnoreCase("I")) {
+            filter.getEntity().setTrafic("IMP");
+        } else if (trafic.equalsIgnoreCase("E")) {
+            filter.getEntity().setTrafic("EXP");
+        } else if (trafic.equalsIgnoreCase("T")) {
+            filter.getEntity().setTrafic("TRB");
+        }
     }
 
     public void onRowSelect(SelectEvent event) {

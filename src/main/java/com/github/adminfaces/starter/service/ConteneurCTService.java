@@ -28,7 +28,7 @@ public class ConteneurCTService extends CrudService<ConteneurCT, Integer> implem
     @Inject
     protected ConteneurCTRepository conteneurCTRepository;//you can create repositories to extract complex queries from your service
 
-
+    
     @Override
     protected Criteria<ConteneurCT, ConteneurCT> configRestrictions(Filter<ConteneurCT> filter) {
 
@@ -54,8 +54,11 @@ public class ConteneurCTService extends CrudService<ConteneurCT, Integer> implem
                 criteria.likeIgnoreCase(ConteneurCT_.trafic, "%" + filterEntity.getTrafic());
             }
 
-            if (has(filterEntity.getDate())) {
-                criteria.eq(ConteneurCT_.date, filterEntity.getDate());
+            if (has(filterEntity.getMois())) {
+                criteria.eq(ConteneurCT_.mois, filterEntity.getMois());
+            }
+            if (has(filterEntity.getEscale())) {
+                criteria.likeIgnoreCase(ConteneurCT_.escale, "%" +filterEntity.getEscale() + "%");
             }
 
             if (has(filterEntity.getNumCtn())) {

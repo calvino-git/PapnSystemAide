@@ -51,11 +51,14 @@ public class ConteneurDouaneService extends CrudService<ConteneurDouane, Integer
         if (has(filter.getEntity())) {
             ConteneurDouane filterEntity = filter.getEntity();
             if (has(filterEntity.getTrafic())) {
-                criteria.likeIgnoreCase(ConteneurDouane_.trafic, "%" + filterEntity.getTrafic());
+                criteria.likeIgnoreCase(ConteneurDouane_.trafic, filterEntity.getTrafic()+"%");
             }
 
-            if (has(filterEntity.getDate())) {
-                criteria.eq(ConteneurDouane_.date, filterEntity.getDate());
+            if (has(filterEntity.getMois())) {
+                criteria.eq(ConteneurDouane_.mois, filterEntity.getMois());
+            }
+            if (has(filterEntity.getNavire())) {
+                criteria.likeIgnoreCase(ConteneurDouane_.navire,"%" + filterEntity.getNavire()+ "%");
             }
 
             if (has(filterEntity.getNumero())) {

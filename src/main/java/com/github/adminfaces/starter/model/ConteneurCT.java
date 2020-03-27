@@ -8,6 +8,7 @@ package com.github.adminfaces.starter.model;
 import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ import org.hibernate.annotations.Subselect;
  * @author Calvin ILOKI
  */
 @Entity
-@Table(name = "CONGO_TERMINAL", catalog = "", schema = "PPNCARGO")
+@Table(name = "VUE_CONTENEUR_CONGOTERMINAL", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
 @Immutable
 @NamedQueries({
@@ -69,7 +70,7 @@ public class ConteneurCT  extends BaseEntity implements Serializable {
     private String numCtn;
     @Size(max = 50)
     @Column(name = "DAT", length = 50)
-    private String date;
+    private Date date;
     @Size(max = 50)
     @Column(name = "MOUVEMENT", length = 50)
     private String mouvement;
@@ -149,11 +150,11 @@ public class ConteneurCT  extends BaseEntity implements Serializable {
         this.numCtn = numCtn;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

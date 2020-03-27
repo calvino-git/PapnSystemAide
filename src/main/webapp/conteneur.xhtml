@@ -10,7 +10,8 @@
 
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
-                text-align: right !important;
+                text-align: left !important;
+                font-size: 18px !important;
                 border-left-style: solid !important;
                 border-left-width: 5px !important;
             }
@@ -34,6 +35,13 @@
                 border: none;
             }
 
+
+            .blue-button.ui-button.ui-state-default:enabled:hover, 
+            .blue-button.ui-button.ui-state-default:focus {
+                background-color: #3c8dbc;
+                border-color: #222222;
+            }
+
         </style>
     </ui:define>
 
@@ -47,153 +55,137 @@
             <p:focus context="@form"/>  
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"> RECHERCHER PAR NUMERO : 
-                            <p:inputText id="inptId" value="#{conteneurBean.numero}" placeholder="exp:TGBU6792256" />
-                            <p:spacer height="5"/>
-                            <p:commandButton id="brFind" icon="fa fa-search"
-                                             action="#{conteneurBean.findNumero}"
-                                             process="@form"
-                                             update="@form"
-                                             styleClass="btn-info btn-flat"
-                                             partialSubmit="true"/>
-                    </h3>
-                    <p:dashboard id="board" model="#{conteneurBean.model}" >
-                        <p:panel id="ct" header="CONGO-TERMINAL" >
+                    <div class="ui-g ui-fluid ">
+                        <div  class="ui-g-12 " style="text-align: right">
+                            <div class="ui-inputgroup">
+                                <p:commandButton  style="width:10%" icon="fa fa-refresh" action="#{conteneurBean.clear()}" actionListener="#{conteneurCongoTerminalBean.clear()}"  process="@this" update="@form" resetValues="true" /> 
+                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 5%;background-color: #ccc" ><b>MOIS</b></span>
+                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 5%;background-color: #ccc"><i class="fa fa-calendar"/></span>
+                                <p:datePicker id="mois" view="month" pattern="MM/yyyy" yearRange="2000:2030" style="width: 20%" value="#{conteneurBean.filter.entity.mois}" dir="rtl" placeholder="exp:02/2019"/>
+                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 10%;background-color: #ccc" ><b>NAVIRE</b></span>
+                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 10%;background-color: #ccc"><i class="fa fa-ship"/></span>
+                                <p:inputText id="nav" style="width: 30%" value="#{conteneurBean.filter.entity.navire}" dir="rtl" placeholder="exp:CMA CGM PLATON" size="20" />
+                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 15%;background-color: #ccc" ><b>CONTENEUR</b></span>
+                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 10%;background-color: #ccc"><i class="fa fa-cubes"/></span>
+                                <p:inputText id="num" style="width: 15%" value="#{conteneurBean.filter.entity.numero}" dir="rtl" placeholder="exp:TGBU6792256" maxlength="11"  />
+                                <p:commandButton class="btn-primary blue-button hidden-sm hidden-xs" style="width: 10%" icon="fa fa-search" value="Rechercher" action="#{conteneurBean.find}" process="nav num @this" update="@form" partialSubmit="true" />  
+                                <p:commandButton class="btn-primary blue-button hidden-md hidden-lg" style="width: 10%" icon="fa fa-search"  action="#{conteneurBean.find}" process="nav num @this" update="@form" partialSubmit="true" /> 
+
+                            </div>
+                            <div class="ui-inputgroup">
+                                <p:selectOneButton id="traf" value="#{conteneurBean.filter.entity.trafic}">
+                                    <f:selectItem itemLabel="EXP" itemValue="E" class="ui-inputgroup-addon"/>
+                                    <f:selectItem itemLabel="IMP" itemValue="I" class="ui-inputgroup-addon"/>
+                                    <f:selectItem itemLabel="TRB" itemValue="T" class="ui-inputgroup-addon"/>
+                                    <p:ajax listener="#{conteneurBean.findByTrafic}" process="@this" update="@none" oncomplete="PF('ctnTable').filter(),PF('douaneTable').filter()" />
+                                </p:selectOneButton>
+                            </div>
+                        </div>
+                        <div class="ui-g-12">
                             <p:dataTable widgetVar="ctnTable" var="c" value="#{conteneurCongoTerminalBean.list}" rows="5" rowKey="#{c.id}" lazy="true" 
-                                         paginator="true" sortMode="single" sortBy="#{c.mois}" sortOrder="descending" tableStyleClass="align-center"
-                                         paginatorPosition="bottom"  
-                                         filteredValue="#{conteneurCongoTerminalBean.filteredValue}" rowsPerPageTemplate="5,10" rowIndexVar="x" 
+                                         paginator="true" tableStyleClass="align-center" sortMode="multiple" sortField="#{c.date}" sortOrder="descending"
+                                         paginatorPosition="bottom" style="width: 100%" filteredValue="#{conteneurCongoTerminalBean.filteredValue}" rowsPerPageTemplate="5,10"
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         currentPageReportTemplate="[{startRecord} à {endRecord} de {totalRecords}]">
+                                         currentPageReportTemplate="[{startRecord} à {endRecord} de {totalRecords}]"  rowIndexVar="x">
 
                                 <p:ajax event="rowSelect" listener="#{conteneurCongoTerminalBean.onRowSelect}"/>
 
                                 <f:facet name="header">
-
+                                    <h:outputText value="CONGO-TERMINAL"/>
                                 </f:facet>
-                                <p:column headerText="#" sortBy="#{c.id}" width="2%" styleClass="with-border">
+
+                                <p:column headerText="#" style="width: 10px" styleClass="with-border">
                                     #{x+1}
                                 </p:column>
-                                <p:column headerText="Date" sortBy="#{(c.date).split('/')[2](c.date).split('/')[1](c.date).split('/')[0]}" width="8%">
-                                    #{c.date}
+                                <p:column headerText="Date" sortBy="#{c.date}" style="width: 80px">
+                                    <h:outputText value="#{c.date}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
                                 </p:column>
-                                <p:column headerText="Mois" sortBy="#{c.mois}" width="6%">
+                                <p:column headerText="Mois" sortBy="#{c.mois}" style="width: 55px">
                                     #{c.mois}
                                 </p:column>
-                                <p:column headerText="N° CTN" sortBy="#{c.numCtn}" filterBy="#{c.numCtn}" width="10%">
-                                    <f:facet name="filter">
-                                        <p:inputText value="#{conteneurCongoTerminalBean.filter.entity.numCtn}">
-                                            <p:ajax process="@this" update="@form" oncomplete="PF('ctnTable').filter()"/>
-                                        </p:inputText>
-                                    </f:facet>
+                                <p:column headerText="N° CTN" sortBy="#{c.numCtn}" style="width: 100px">
                                     #{c.numCtn}
                                 </p:column>
-                                <p:column headerText="Type" sortBy="#{c.tare}" width="6%">
+                                <p:column headerText="Type" sortBy="#{c.tare}"  style="width: 50px">
                                     #{c.tare}
                                 </p:column>
-                                <p:column headerText="Poids" sortBy="#{c.poidsBrut}" width="6%">
+                                <p:column headerText="Poids" sortBy="#{c.poidsBrut}"  style="width: 70px">
                                     #{c.poidsBrut}
                                 </p:column>
-                                <p:column headerText="P/V" sortBy="#{c.videPlein}" width="5%">
+                                <p:column headerText="P/V" sortBy="#{c.videPlein}" style="width: 50px">
                                     #{c.videPlein}
                                 </p:column>
-                                <p:column headerText="MVMT" sortBy="#{c.mouvement}" width="6%">
-                                    #{c.mouvement}
+                                <p:column headerText="Trafic" sortBy="#{c.trafic}" style="width: 60px">
+                                    
+                                    #{c.trafic == 'E' ? 'EXP': c.trafic == 'I' ?'IMP' : c.trafic == 'T' and c.mouvement == 'DEBA'?'TRBI' :c.trafic == 'T' and c.mouvement == 'EMBA'?'TRBE' : ''}
                                 </p:column>
-                                <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}"
-                                          filterMatchMode="equals" priority="3" width="13%">
-                                    <f:facet name="filter">
-                                        <p:selectOneButton value="#{conteneurCongoTerminalBean.filter.entity.trafic}">
-                                            <f:selectItem itemLabel="EXP" itemValue="E"/>
-                                            <f:selectItem itemLabel="IMP" itemValue="I"/>
-                                            <f:selectItem itemLabel="TRB" itemValue="T"/>
-                                            <p:ajax process="@this" update="@none" oncomplete="PF('ctnTable').filter()"/>
-                                        </p:selectOneButton>
-                                    </f:facet>
-                                    <h:outputText value="#{c.trafic == 'E' ? 'EXPORT': c.trafic == 'I' ?'IMPORT' : 'TRANSBO'}"/>
-                                </p:column>
-                                <p:column headerText="Escale" sortBy="#{c.escale}" width="15%">
+                                <p:column headerText="Navire" sortBy="#{c.escale}" style="width: 120px">
                                     #{c.escale}
                                 </p:column>
-                                <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" width="10%">
+                                <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" style="width: 80px">
                                     #{c.voyage}
                                 </p:column>
-                                <p:column headerText="POL" sortBy="#{c.pol}" width="5%">
+                                <p:column headerText="POL" sortBy="#{c.pol}" style="width: 100px">
                                     #{c.pol}
                                 </p:column>
-                                <p:column headerText="POD" sortBy="#{c.pod}" width="5%">
+                                <p:column headerText="POD" sortBy="#{c.pod}" style="width: 100px">
                                     #{c.pod}
                                 </p:column>
 
                             </p:dataTable>
-                        </p:panel>
-                        <p:panel id="douane" header="DOUANE">
                             <p:dataTable widgetVar="douaneTable" var="c" value="#{conteneurBean.list}" rows="5" rowKey="#{c.id}" lazy="true" 
-                                         paginator="true" sortMode="single" sortBy="#{c.mois}" sortOrder="descending" tableStyleClass="align-center"
-                                         paginatorPosition="bottom" 
-                                         filteredValue="#{conteneurBean.filteredValue}" rowsPerPageTemplate="5,10" rowIndexVar="x" 
+                                         paginator="true" tableStyleClass="align-center" sortMode="multiple" sortField="#{c.date}" sortOrder="descending"
+                                         paginatorPosition="bottom" style="width: 100%" filteredValue="#{conteneurBean.filteredValue}" rowsPerPageTemplate="5,10" rowIndexVar="x" 
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          currentPageReportTemplate="[{startRecord} à {endRecord} de {totalRecords}]">
 
-                                <p:ajax event="rowSelect" listener="#{conteneurBean.onRowSelect}"/>
-
-                                <p:column headerText="#" sortBy="#{c.id}" width="2%" styleClass="with-border">
+                                <f:facet name="header">
+                                    <h:outputText value="DOUANE"/>
+                                </f:facet>
+                                <p:column headerText="#" style="width: 10px" styleClass="with-border">
                                     #{x+1}
                                 </p:column>
-                                <p:column headerText="Date" sortBy="#{(c.date).split('/')[2](c.date).split('/')[1](c.date).split('/')[0]}" width="8%">
-                                    #{c.date}
+                                <p:column headerText="Date" sortBy="#{c.date}" style="width: 80px">
+                                    <h:outputText value="#{c.date}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
                                 </p:column>
-                                <p:column headerText="Mois" sortBy="#{c.mois}" width="6%">
+                                <p:column headerText="Mois" sortBy="#{c.mois}" style="width: 55px">
                                     #{c.mois}
                                 </p:column>
-                                <p:column headerText="N° CTN" sortBy="#{c.numero}" filterBy="#{c.numero}" width="10%">
-                                    <f:facet name="filter">
-                                        <p:inputText value="#{conteneurBean.filter.entity.numero}">
-                                            <p:ajax process="@this" update="@form" oncomplete="PF('douaneTable').filter()"/>
-                                        </p:inputText>
-                                    </f:facet>
+                                <p:column headerText="N° CTN" sortBy="#{c.numero}" style="width: 100px">
                                     #{c.numero}
                                 </p:column>
-                                <p:column headerText="Type" sortBy="#{c.type}" width="6%">
+                                <p:column headerText="Type" sortBy="#{c.type}" style="width: 50px">
                                     #{c.type}
                                 </p:column>
-                                <p:column headerText="Poids" sortBy="#{c.poids}" width="6%">
+                                <p:column headerText="Poids" sortBy="#{c.poids}" style="width: 70px">
                                     #{c.poids}
                                 </p:column>
-                                <p:column headerText="P/V" sortBy="#{c.pv}" width="5%">
+                                <p:column headerText="P/V" sortBy="#{c.pv}" style="width: 50px">
                                     #{c.pv}
                                 </p:column>
-                                <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}"
-                                          filterMatchMode="equals" priority="3" width="13%">
-                                    <f:facet name="filter">
-                                        <p:selectOneButton value="#{conteneurBean.filter.entity.trafic}">
-                                            <f:selectItem itemLabel="EXP" itemValue="E"/>
-                                            <f:selectItem itemLabel="IMP" itemValue="I"/>
-                                            <f:selectItem itemLabel="TRB" itemValue="T"/>
-                                            <p:ajax process="@this" update="@none" oncomplete="PF('douaneTable').filter()"/>
-                                        </p:selectOneButton>
-                                    </f:facet>
-                                    <h:outputText value="#{c.trafic}"/>
+                                <p:column headerText="Trafic" sortBy="#{c.trafic}" style="width: 60px">
+                                    #{c.trafic}
                                 </p:column>
-                                <p:column headerText="Escale" sortBy="#{c.navire}" width="15%">
+                                <p:column headerText="Navire" sortBy="#{c.navire}" style="width: 120px">
                                     #{c.navire}
                                 </p:column>
-                                <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" width="10%">
+                                <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" style="width: 80px">
                                     #{c.voyage}
                                 </p:column>
-                                <p:column headerText="POL" sortBy="#{c.pol}" width="5%">
+                                <p:column headerText="POL" sortBy="#{c.pol}" style="width: 100px">
                                     #{c.pol}
                                 </p:column>
-                                <p:column headerText="POD" sortBy="#{c.pod}" width="5%">
+                                <p:column headerText="POD" sortBy="#{c.pod}" style="width: 100px">
                                     #{c.pod}
                                 </p:column>
 
                             </p:dataTable>
-                        </p:panel>
-                        <p:panel id="cargo" header="DANS CARGO">
-                        </p:panel>
-                    </p:dashboard>
-
+                        </div>
+                    </div>
                 </div>
             </div>
         </h:form>
