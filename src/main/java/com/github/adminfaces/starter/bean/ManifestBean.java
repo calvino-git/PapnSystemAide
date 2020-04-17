@@ -39,8 +39,7 @@ public class ManifestBean implements Serializable {
     private String trafic;
     private List<RefManResult> refManList;
     private UploadedFile xmlManifeste;
-    
-    
+
     @Inject
     ManifesteService manifesteService;
 
@@ -50,14 +49,20 @@ public class ManifestBean implements Serializable {
     }
 
     public void rechercherRefMan() {
-        refManList = manifesteService.rechercherRefMan(debut, fin, trafic);
+        if (trafic.equals("T")) {
+            refManList = manifesteService.rechercherRefMan(debut, fin, "IMP");
+            refManList.addAll(manifesteService.rechercherRefMan(debut, fin, "EXP"));
+        } else {
+            refManList = manifesteService.rechercherRefMan(debut, fin, trafic);
+        }
+
     }
 
     public void downloadManifeste(RefManResult ref) throws IOException {
         manifesteService.telechargerManifesteFromDouane(ref);
     }
-    
-    public void convertirManifeste(FileUploadEvent event) throws IOException, JAXBException{
+
+    public void convertirManifeste(FileUploadEvent event) throws IOException, JAXBException {
         xmlManifeste = event.getFile();
         Awmds awmds = manifesteService.convertirManifeste(xmlManifeste.getInputstream());
         JAXBContext jaxbContext = JAXBContext.newInstance(Awmds.class);

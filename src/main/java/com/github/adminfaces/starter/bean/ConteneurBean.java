@@ -2,26 +2,15 @@ package com.github.adminfaces.starter.bean;
 
 import com.github.adminfaces.persistence.bean.BeanService;
 import java.io.Serializable;
-import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.omnifaces.cdi.ViewScoped;
 import com.github.adminfaces.persistence.bean.CrudMB;
-import com.github.adminfaces.persistence.service.CrudService;
-import com.github.adminfaces.persistence.service.Service;
-import static com.github.adminfaces.persistence.util.Messages.getMessage;
-import com.github.adminfaces.starter.model.Car;
 import com.github.adminfaces.starter.model.ConteneurDouane;
-import com.github.adminfaces.starter.service.ConteneurCongoTerminalService;
 import com.github.adminfaces.starter.service.ConteneurDouaneService;
-import com.github.adminfaces.template.exception.BusinessException;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -55,10 +44,10 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
 
     @PostConstruct
     public void initBean() {
-        format = new SimpleDateFormat("dd/MM/yyyy");
+        format = new SimpleDateFormat("yyyyMM");
         this.model = new DefaultDashboardModel();
         DashboardColumn mainColumn = new DefaultDashboardColumn();
-
+        date = new Date();
         mainColumn.addWidget("ct");
         mainColumn.addWidget("douane");
 
@@ -66,6 +55,7 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
     }
 
     public void find() {
+        filter.getEntity().setMois(format.format(date));
         if (has(filter.getEntity().getNumero()) || has(filter.getEntity().getNavire()) || has(filter.getEntity().getMois())) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             final ELContext elContext = facesContext.getELContext();
@@ -79,6 +69,7 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
             if (has(filter.getEntity().getNavire())) {
                 result.getFilter().getEntity().setEscale(filter.getEntity().getNavire());
             }
+            
             if (has(filter.getEntity().getMois())) {
                 result.getFilter().getEntity().setMois(BigInteger.valueOf(Long.valueOf(filter.getEntity().getMois())));
             }

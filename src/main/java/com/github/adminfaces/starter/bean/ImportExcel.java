@@ -95,10 +95,10 @@ public class ImportExcel {
                 stmt.setString(11, row.getCell(15) == null ? "" : row.getCell(15).toString()); //VOYAGE
                 stmt.setString(12, row.getCell(21) == null ? "" : row.getCell(21).toString());//POL
                 stmt.setString(13, row.getCell(22) == null ? "" : row.getCell(22).toString());//POD
-                stmt.setString(14, row.getCell(8) == null ? "" :row.getCell(7).toString());//ARMATEUR
+                stmt.setString(14, row.getCell(8) == null ? "" :row.getCell(8).toString());//ARMATEUR
                 stmt.setString(15, row.getCell(2) == null ? "" :row.getCell(2).toString());//POIDS
-                stmt.setString(16, row.getCell(29) == null ? "" :row.getCell(29).toString());//DATE IN
-                stmt.setString(17, row.getCell(11) == null ? "" :row.getCell(11).toString());//DATE MOVE
+                stmt.setString(16, row.getCell(28) == null ? "" :row.getCell(28).toString());//DATE IN
+                stmt.setString(17, row.getCell(29) == null ? "" :row.getCell(29).toString());//DATE MOVE
                 stmt.setString(18, row.getCell(4) == null ? "" :row.getCell(4).toString()); //TYPE
                 stmt.setString(19, row.getCell(5) == null ? "" :row.getCell(5).toString()); //EVP
                 stmt.setString(20, row.getCell(12) == null ? "" :row.getCell(12).toString()); //PARC
@@ -112,8 +112,8 @@ public class ImportExcel {
                 stmt.setString(28, row.getCell(24) == null ? "" :row.getCell(24).toString());//PRESENCE
                 stmt.setString(29, row.getCell(25) == null ? "" :row.getCell(25).toString());//TRUCK VESSEL IN
                 stmt.setString(30, row.getCell(26) == null ? "" :row.getCell(26).toString());//NAVIRE IN
-                stmt.setString(31, row.getCell(27) == null ? "" :row.getCell(27).toString());//VOYAGE IN
-                stmt.setString(32, row.getCell(28) == null ? "" :row.getCell(28).toString());//TYPE IN
+                stmt.setString(31, row.getCell(15) == null ? "" :row.getCell(15).toString());//VOYAGE IN
+                stmt.setString(32, row.getCell(16) == null ? "" :row.getCell(16).toString());//TYPE IN
                     if (i%1000 == 0) {
                         System.out.print("=");
                     }

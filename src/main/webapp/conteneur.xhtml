@@ -61,7 +61,8 @@
                                 <p:commandButton  style="width:10%" icon="fa fa-refresh" action="#{conteneurBean.clear()}" actionListener="#{conteneurCongoTerminalBean.clear()}"  process="@this" update="@form" resetValues="true" /> 
                                 <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 5%;background-color: #ccc" ><b>MOIS</b></span>
                                 <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 5%;background-color: #ccc"><i class="fa fa-calendar"/></span>
-                                <p:datePicker id="mois" view="month" pattern="MM/yyyy" yearRange="2000:2030" style="width: 20%" value="#{conteneurBean.filter.entity.mois}" dir="rtl" placeholder="exp:02/2019"/>
+                                <p:datePicker id="mois" view="month" pattern="yyyyMM"  yearRange="2000:2030" style="width: 20%" value="#{conteneurBean.date}" dir="rtl" placeholder="exp:02/2019"/>
+                                
                                 <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 10%;background-color: #ccc" ><b>NAVIRE</b></span>
                                 <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 10%;background-color: #ccc"><i class="fa fa-ship"/></span>
                                 <p:inputText id="nav" style="width: 30%" value="#{conteneurBean.filter.entity.navire}" dir="rtl" placeholder="exp:CMA CGM PLATON" size="20" />

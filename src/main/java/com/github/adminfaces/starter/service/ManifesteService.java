@@ -52,8 +52,9 @@ public class ManifesteService implements Serializable {
 
     @PostConstruct
     public void init() {
-//        ws = new AWPAPNWebService_Service();
-//        awService = ws.getAWPAPNWebServicePort();
+        ws = new AWPAPNWebService_Service();
+        awService = ws.getAWPAPNWebServicePort();
+        factory = new ObjectFactory();
     }
 
     public List<RefManResult> rechercherRefMan(Date debut, Date fin, String trafic) {

@@ -161,27 +161,72 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-3 col-sm-12">
-                    <div class="box box-primary ">
-                        <div class="box-header with-border">
-                            <p:growl id="growl1" showDetail="true" />
-                            <div class="position-relative mb-4">
-                                <canvas id="salesChart" height="250"></canvas>
+                <div class="col-lg-6 col-md-12">
+                    <div class=" col-md-6 col-sm-12">
+                        <div class="box box-primary ">
+                            <div class="box-header with-border">
+                                <p:growl id="growl1" showDetail="true" />
+                                <div class="position-relative mb-4">
+                                    <canvas id="salesChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="box box-title">
+                            <div class="box-header with-border">
+                                <p:growl id="growl2" showDetail="true" />
+                                <div class="position-relative mb-4">
+                                    <canvas id="caChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="box box-title">
+                            <div class="box-header with-border">
+                                <p:growl id="growl4" showDetail="true" />
+                                <h:form id="form">
+                                    <p:treeTable value="#{root}" var="document" styleClass="no-border" style="table-layout: fixed">
+                                        <f:facet name="header">
+                                            <h:outputText class="col-md-11 align-left" value="TRAFIC MARCHANDISE EN 2019" />
+                                            <p:commandLink update="@form" class="align-right" action="#{totalBean.updateRoot()}" >
+                                                <i class="fa fa-refresh"></i>
+                                            </p:commandLink>
+                                        </f:facet>
+                                        <p:column colspan="2" style="text-align: left" headerText="Conditionnement">
+                                            <h:outputText  value="#{document.condition}" />
+                                        </p:column>
+                                        <p:column colspan="1" style="text-align: right;font-weight: bold" headerText="Tonnage">
+                                            <h:outputText value="#{document.tonnage} T" />
+                                        </p:column>
+                                        <p:column  colspan="1" style="text-align: right;font-weight: bold" headerText="Montant">
+                                            <h:outputText  value="#{document.montant} F" />
+                                        </p:column>
+                                        <p:column style="width:24px">
+                                            <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="fa fa-search">
+                                                <f:setPropertyActionListener value="#{document}" target="#{selectedDocument}" />
+                                            </p:commandLink>
+                                        </p:column>
+                                    </p:treeTable>
+
+                                    <p:dialog id="dialog"  showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false" style="width: 200px">
+                                        <p:outputPanel id="documentPanel" style="width: 200px">
+                                            <p:panelGrid  columns="1" rendered="#{not empty selectedDocument}" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12 align-left">
+                                                <f:facet  name="header">
+                                                    #{selectedDocument.condition}
+                                                </f:facet>
+                                                <h:outputText id="size" value="Tonnage : #{selectedDocument.tonnage}" style="font-weight:bold" />
+                                                <h:outputText id="type" value="Montant : #{selectedDocument.montant}" style="font-weight:bold" />
+                                            </p:panelGrid>
+                                        </p:outputPanel>
+                                    </p:dialog>
+                                </h:form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-5 col-sm-12">
-                    <div class="box box-title">
-                        <div class="box-header with-border">
-                            <p:growl id="growl3" showDetail="true" />
-                            <div class="position-relative mb-4">
-                                <canvas id="caChart" height="250"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 col-md-4 col-sm-12">
+                <div class="col-lg-6 col-md-12">
                     <div class="box box-title">
                         <div class="box-header with-border">
                             <p:growl id="growl3" showDetail="true" />
@@ -189,51 +234,6 @@
                                 <iframe name="marinetraffic" id="marinetraffic" width="100%" height="500" scrolling="no" frameborder="1" title="PORT AUTONOME DE POINTE-NOIRE"
                                         src="https://www.marinetraffic.com/fr/ais/embed/zoom:16/centery:-4.7800/centerx:11.83/maptype:4/shownames:true/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"/>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div >
-            <div class="row">
-                <div class="col-lg-4 col-md-5 col-sm-12">
-                    <div class="box box-title">
-                        <div class="box-header with-border">
-                            <p:growl id="growl4" showDetail="true" />
-                            <h:form id="form">
-                                <p:treeTable value="#{root}" var="document" styleClass="no-border" style="table-layout: fixed">
-                                    <f:facet name="header">
-                                        <h:outputText class="col-md-11 align-left" value="TRAFIC MARCHANDISE EN 2019" />
-                                        <p:commandLink update="@form" class="align-right" action="#{totalBean.updateRoot()}" >
-                                            <i class="fa fa-refresh"></i>
-                                        </p:commandLink>
-                                    </f:facet>
-                                    <p:column colspan="2" style="text-align: left" headerText="Conditionnement">
-                                        <h:outputText  value="#{document.condition}" />
-                                    </p:column>
-                                    <p:column colspan="1" style="text-align: right;font-weight: bold" headerText="Tonnage">
-                                        <h:outputText value="#{document.tonnage} T" />
-                                    </p:column>
-                                    <p:column  colspan="1" style="text-align: right;font-weight: bold" headerText="Montant">
-                                        <h:outputText  value="#{document.montant} F" />
-                                    </p:column>
-                                    <p:column style="width:24px">
-                                        <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="fa fa-search">
-                                            <f:setPropertyActionListener value="#{document}" target="#{selectedDocument}" />
-                                        </p:commandLink>
-                                    </p:column>
-                                </p:treeTable>
-
-                                <p:dialog id="dialog"  showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false" style="width: 200px">
-                                    <p:outputPanel id="documentPanel" style="width: 200px">
-                                        <p:panelGrid  columns="1" rendered="#{not empty selectedDocument}" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12 align-left">
-                                            <f:facet  name="header">
-                                                #{selectedDocument.condition}
-                                            </f:facet>
-                                            <h:outputText id="size" value="Tonnage : #{selectedDocument.tonnage}" style="font-weight:bold" />
-                                            <h:outputText id="type" value="Montant : #{selectedDocument.montant}" style="font-weight:bold" />
-                                        </p:panelGrid>
-                                    </p:outputPanel>
-                                </p:dialog>
-                            </h:form>
                         </div>
                     </div>
                 </div>

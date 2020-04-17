@@ -32,20 +32,21 @@
                                       required="true" placeholder="01/01/2019" label="Debut" style="width:200px;text-align: right" locale="fr"/>
                         <p:datePicker id="fin" value="#{manifestBean.fin}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de fin obligatoire"
                                       required="true" placeholder="31/12/2019" label="Fin" style="width:200px;text-align: right" locale="fr"/>
-                        <p:selectOneMenu id="trafic" value="#{manifestBean.trafic}" required="true" style="width:200px;text-align: right">
+                        <p:selectOneMenu id="trafic" value="#{manifestBean.trafic}" required="false" style="width:200px;text-align: right">
+                            <f:selectItem itemLabel="TOUT" itemValue="T"/>
                             <f:selectItem itemLabel="IMPORT" itemValue="IMP"/>
                             <f:selectItem itemLabel="EXPORT" itemValue="EXP"/>
                         </p:selectOneMenu>
                         <p:commandButton value="Lancer la recherche" 
                                          icon="fa fa-fw fa-search"
-                                         action="#{manifestBean.searchRefMan}" 
+                                         action="#{manifestBean.rechercherRefMan}" 
                                          update="@form" 
                                          styleClass="btn-primary" 
                                          style="width: auto"/>
                     </p:panelGrid>
 
                     <p:dataTable id="refman" widgetVar="refTable" var="refman" value="#{manifestBean.refManList}" paginator="true" 
-                                 rowsPerPageTemplate="10,15,20,30" rows="10" rendered="#{not empty manifestBean.refManList}">
+                                 rowsPerPageTemplate="10,15,20,30" rows="10" rendered="#{not empty manifestBean.refManList}" rowIndexVar="x">
                         <f:facet name="header">
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"  layout="grid" styleClass="ui-fluid">
                                 <p:outputPanel style="text-align: left">
@@ -59,33 +60,40 @@
                                 </p:outputPanel>
                             </p:panelGrid>
                         </f:facet>
-                        <p:column headerText="Bureau" filterBy="#{refman.bureauDouane}" sortBy="#{refman.bureauDouane}">
+                        <p:column headerText="#" style="width: 10px">
+                            <h:outputText value="#{x+1}" />
+                        </p:column>
+                        <p:column headerText="Bureau" filterBy="#{refman.bureauDouane}" sortBy="#{refman.bureauDouane}" style="width: 25px">
                             <h:outputText value="#{refman.bureauDouane}" />
                         </p:column>
-                        <p:column headerText="Numero" filterBy="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" sortBy="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}">
+                        <p:column headerText="Numero" style="width: 25px" filterBy="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" sortBy="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}">
                             <h:outputText value="#{refman.anneeEnregistrement}-#{refman.numeroEnregistrement}" />
                         </p:column>
 
-                        <p:column headerText="Navire" filterBy="#{refman.navire}" sortBy="#{refman.navire}">
+                        <p:column headerText="Navire" style="width: 30px" filterBy="#{refman.navire}" sortBy="#{refman.navire}">
                             <h:outputText value="#{refman.navire}" />
                         </p:column>
 
-                        <p:column headerText="Voyage" filterBy="#{refman.numeroVoyage}" sortBy="#{refman.numeroVoyage}">
+                        <p:column headerText="Voyage" style="width: 25px" filterBy="#{refman.numeroVoyage}" sortBy="#{refman.numeroVoyage}">
                             <h:outputText value="#{refman.numeroVoyage}" />
                         </p:column>
 
-                        <p:column headerText="Date Depart" filterBy="#{refman.dateDepart}" sortBy="#{refman.dateDepart}">
+                        <p:column headerText="Date Depart" style="width: 25px" filterBy="#{refman.dateDepart}" sortBy="#{refman.dateDepart}">
                             <h:outputText value="#{refman.dateDepart}" />
                         </p:column>
 
-                        <p:column headerText="Date Arrivée" filterBy="#{refman.dateArrivee}" sortBy="#{refman.dateArrivee}">
+                        <p:column headerText="Date Arrivée" style="width: 25px" filterBy="#{refman.dateArrivee}" sortBy="#{refman.dateArrivee}">
                             <h:outputText value="#{refman.dateArrivee}" />
                         </p:column>
 
-                        <p:column headerText="Consignataire " filterBy="#{refman.nomTransporteur}" sortBy="#{refman.nomTransporteur}">
+                        <p:column headerText="Consignataire" style="width: 30px" filterBy="#{refman.nomTransporteur}" sortBy="#{refman.nomTransporteur}">
                             <h:outputText value="#{refman.codeTransporteur} : #{refman.nomTransporteur}" />
                         </p:column>
-                        <p:column headerText="Action">
+                        <p:column headerText="Date d'enregistrement" style="width: 30px" filterBy="#{refman.numeroEnregistrement}" sortBy="#{refman.dateEnregistrement}">
+                            <h:outputText value="#{refman.dateEnregistrement}" />
+                        </p:column>
+                        
+                        <p:column headerText="Action" style="width: 30px">
                             <p:commandButton icon="fa fa-download" action="#{manifestBean.downloadManifeste(refman)}" ajax="false">
                             </p:commandButton>
                         </p:column>
