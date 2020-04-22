@@ -47,7 +47,6 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
         format = new SimpleDateFormat("yyyyMM");
         this.model = new DefaultDashboardModel();
         DashboardColumn mainColumn = new DefaultDashboardColumn();
-        date = new Date();
         mainColumn.addWidget("ct");
         mainColumn.addWidget("douane");
 
@@ -55,7 +54,11 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
     }
 
     public void find() {
-        filter.getEntity().setMois(format.format(date));
+        if (date != null) {
+            filter.getEntity().setMois(format.format(date));
+        }else{
+            filter.getEntity().setMois(null);
+        }
         if (has(filter.getEntity().getNumero()) || has(filter.getEntity().getNavire()) || has(filter.getEntity().getMois())) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             final ELContext elContext = facesContext.getELContext();
@@ -69,7 +72,7 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
             if (has(filter.getEntity().getNavire())) {
                 result.getFilter().getEntity().setEscale(filter.getEntity().getNavire());
             }
-            
+
             if (has(filter.getEntity().getMois())) {
                 result.getFilter().getEntity().setMois(BigInteger.valueOf(Long.valueOf(filter.getEntity().getMois())));
             }
@@ -77,15 +80,15 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
     }
 
     public void findNumero() {
-        if(has(filter.getEntity().getNumero())){
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        final ELContext elContext = facesContext.getELContext();
-        final Application application = facesContext.getApplication();
-        ExpressionFactory expressionFactory = application.getExpressionFactory();
-        ValueExpression exp = expressionFactory.createValueExpression(elContext, "#{conteneurCongoTerminalBean}", Object.class);
-        ConteneurCongoTerminalBean result = (ConteneurCongoTerminalBean) exp.getValue(elContext);
+        if (has(filter.getEntity().getNumero())) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            final ELContext elContext = facesContext.getELContext();
+            final Application application = facesContext.getApplication();
+            ExpressionFactory expressionFactory = application.getExpressionFactory();
+            ValueExpression exp = expressionFactory.createValueExpression(elContext, "#{conteneurCongoTerminalBean}", Object.class);
+            ConteneurCongoTerminalBean result = (ConteneurCongoTerminalBean) exp.getValue(elContext);
 
-        result.getFilter().getEntity().setNumCtn(filter.getEntity().getNumero());
+            result.getFilter().getEntity().setNumCtn(filter.getEntity().getNumero());
         }
     }
 

@@ -70,8 +70,10 @@
                         <p:column headerText="#" width="2%" styleClass="with-border">
                             #{x+1}
                         </p:column>
-                        <p:column headerText="Date" sortBy="#{(c.date).split('/')[2](c.date).split('/')[1](c.date).split('/')[0]}" width="8%">
-                            #{c.date}
+                        <p:column headerText="Date" sortBy="#{c.date}" width="8%">
+                            <h:outputText value="#{c.date}">
+                                <f:convertDateTime pattern="dd/MM/yy"/>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="Mois" sortBy="#{c.mois}" width="6%">
                             #{c.mois}
@@ -97,7 +99,7 @@
                             #{c.mouvement}
                         </p:column>
                         <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}"
-                                  filterMatchMode="equals" priority="3" width="13%">
+                                  filterMatchMode="equals" priority="3" width="5%">
                             <f:facet name="filter">
                                 <p:selectOneButton value="#{conteneurCongoTerminalBean.filter.entity.trafic}">
                                     <f:selectItem itemLabel="EXP" itemValue="E"/>
@@ -114,10 +116,10 @@
                         <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" width="10%">
                             #{c.voyage}
                         </p:column>
-                        <p:column headerText="POL" sortBy="#{c.pol}" width="5%">
+                        <p:column headerText="POL" sortBy="#{c.pol}" width="10%">
                             #{c.pol}
                         </p:column>
-                        <p:column headerText="POD" sortBy="#{c.pod}" width="5%">
+                        <p:column headerText="POD" sortBy="#{c.pod}" width="10%">
                             #{c.pod}
                         </p:column>
 

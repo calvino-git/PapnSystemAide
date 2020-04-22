@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -291,7 +292,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Escale.findByDateEscaleInitiale", query = "SELECT e FROM Escale e WHERE e.dateEscaleInitiale = :dateEscaleInitiale"),
     @NamedQuery(name = "Escale.findByNbreCochargeur", query = "SELECT e FROM Escale e WHERE e.nbreCochargeur = :nbreCochargeur"),
     @NamedQuery(name = "Escale.findByVoyageSortie", query = "SELECT e FROM Escale e WHERE e.voyageSortie = :voyageSortie")})
-public class Escale implements Serializable {
+public class Escale extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -299,7 +300,7 @@ public class Escale implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ESCLEUNIK")
-    private BigDecimal escleunik;
+    private BigInteger id;
     @Size(max = 12)
     @Column(name = "NUMERO")
     private String numero;
@@ -979,16 +980,17 @@ public class Escale implements Serializable {
     public Escale() {
     }
 
-    public Escale(BigDecimal escleunik) {
-        this.escleunik = escleunik;
+    public Escale(BigInteger id) {
+        this.id = id;
     }
 
-    public BigDecimal getEscleunik() {
-        return escleunik;
+    @Override
+    public BigInteger getId() {
+        return id; 
     }
 
-    public void setEscleunik(BigDecimal escleunik) {
-        this.escleunik = escleunik;
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 
     public String getNumero() {
@@ -3027,7 +3029,7 @@ public class Escale implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (escleunik != null ? escleunik.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -3038,7 +3040,7 @@ public class Escale implements Serializable {
             return false;
         }
         Escale other = (Escale) object;
-        if ((this.escleunik == null && other.escleunik != null) || (this.escleunik != null && !this.escleunik.equals(other.escleunik))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -3046,6 +3048,7 @@ public class Escale implements Serializable {
 
     @Override
     public String toString() {
-        return "com.github.adminfaces.starter.model.Escale[ escleunik=" + escleunik + " ]";
+        return "com.github.adminfaces.starter.model.Escale[ escleunik=" + id + " ]";
     }
+
 }

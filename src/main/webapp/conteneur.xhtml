@@ -43,6 +43,28 @@
             }
 
         </style>
+        
+    </ui:define>
+
+    <ui:define name="head-end">
+        <h:outputStylesheet library="css" name="monthpicker.min.css"/>
+        <h:outputStylesheet library="css" name="starter.css"/>
+        <h:outputScript library="js" name="jquery-ui.min.js"/>
+        <h:outputScript library="js" name="monthpicker.min.js"/>
+        <h:outputScript library="js" name="maskedinput.min.js"/>
+        <h:outputScript library="js" name="jquery-migrate-3.0.0.min.js"/>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#mois').MonthPicker({
+                    ShowOn: 'click',
+                    ShowIcon: false,
+                    Button: false,
+                    ShowAnim: 'slideDown',
+                    StartYear: 2015
+                });
+            });
+        </script>
     </ui:define>
 
     <ui:define name="description">
@@ -59,18 +81,18 @@
                         <div  class="ui-g-12 " style="text-align: right">
                             <div class="ui-inputgroup">
                                 <p:commandButton  style="width:10%" icon="fa fa-refresh" action="#{conteneurBean.clear()}" actionListener="#{conteneurCongoTerminalBean.clear()}"  process="@this" update="@form" resetValues="true" /> 
-                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 5%;background-color: #ccc" ><b>MOIS</b></span>
-                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 5%;background-color: #ccc"><i class="fa fa-calendar"/></span>
-                                <p:datePicker id="mois" view="month" pattern="yyyyMM"  yearRange="2000:2030" style="width: 20%" value="#{conteneurBean.date}" dir="rtl" placeholder="exp:02/2019"/>
-                                
-                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 10%;background-color: #ccc" ><b>NAVIRE</b></span>
-                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 10%;background-color: #ccc"><i class="fa fa-ship"/></span>
-                                <p:inputText id="nav" style="width: 30%" value="#{conteneurBean.filter.entity.navire}" dir="rtl" placeholder="exp:CMA CGM PLATON" size="20" />
                                 <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 15%;background-color: #ccc" ><b>CONTENEUR</b></span>
                                 <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 10%;background-color: #ccc"><i class="fa fa-cubes"/></span>
                                 <p:inputText id="num" style="width: 15%" value="#{conteneurBean.filter.entity.numero}" dir="rtl" placeholder="exp:TGBU6792256" maxlength="11"  />
-                                <p:commandButton class="btn-primary blue-button hidden-sm hidden-xs" style="width: 10%" icon="fa fa-search" value="Rechercher" action="#{conteneurBean.find}" process="nav num @this" update="@form" partialSubmit="true" />  
-                                <p:commandButton class="btn-primary blue-button hidden-md hidden-lg" style="width: 10%" icon="fa fa-search"  action="#{conteneurBean.find}" process="nav num @this" update="@form" partialSubmit="true" /> 
+                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 5%;background-color: #ccc" ><b>MOIS</b></span>
+                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 5%;background-color: #ccc"><i class="fa fa-calendar"/></span>
+                                <p:datePicker id="mois" view="month" pattern="yyyyMM"  yearRange="2000:2030" style="width: 20%" value="#{conteneurBean.date}" dir="rtl" placeholder="exp:02/2019"/>
+                                <!--p:inputText id="mois" style="width: 20%;cursor: pointer" readonly="true" dir="rtl" placeholder="exp:02/2019" value="#{conteneurBean.filter.entity.mois}"/-->
+                                <span class="ui-inputgroup-addon hidden-sm hidden-xs" style="width: 10%;background-color: #ccc" ><b>NAVIRE</b></span>
+                                <span class="ui-inputgroup-addon hidden-md hidden-lg" style="width: 10%;background-color: #ccc"><i class="fa fa-ship"/></span>
+                                <p:inputText id="nav" style="width: 30%" value="#{conteneurBean.filter.entity.navire}" dir="rtl" placeholder="exp:CMA CGM PLATON" size="20" />
+                                <p:commandButton class="btn-primary blue-button hidden-sm hidden-xs" style="width: 10%" icon="fa fa-search" value="Rechercher" action="#{conteneurBean.find}" process="mois nav num @this" update="@form" partialSubmit="true" />  
+                                <p:commandButton class="btn-primary blue-button hidden-md hidden-lg" style="width: 10%" icon="fa fa-search"  action="#{conteneurBean.find}" process="mois nav num @this" update="@form" partialSubmit="true" /> 
 
                             </div>
                             <div class="ui-inputgroup">
@@ -119,7 +141,7 @@
                                     #{c.videPlein}
                                 </p:column>
                                 <p:column headerText="Trafic" sortBy="#{c.trafic}" style="width: 60px">
-                                    
+
                                     #{c.trafic == 'E' ? 'EXP': c.trafic == 'I' ?'IMP' : c.trafic == 'T' and c.mouvement == 'DEBA'?'TRBI' :c.trafic == 'T' and c.mouvement == 'EMBA'?'TRBE' : ''}
                                 </p:column>
                                 <p:column headerText="Navire" sortBy="#{c.escale}" style="width: 120px">
@@ -192,5 +214,22 @@
         </h:form>
 
     </ui:define>
+    <ui:define name="content-end">
+        <h:outputScript library="js" name="jquery-ui.min.js"/>
+        <h:outputScript library="js" name="monthpicker.min.js"/>
+        <h:outputScript library="js" name="maskedinput.min.js"/>
+        <h:outputScript library="js" name="jquery-migrate-3.0.0.min.js"/>
 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#mois').MonthPicker({
+                    ShowOn: 'click',
+                    ShowIcon: false,
+                    Button: false,
+                    ShowAnim: 'slideDown',
+                    StartYear: 2015
+                });
+            });
+        </script>
+    </ui:define>
 </ui:composition>

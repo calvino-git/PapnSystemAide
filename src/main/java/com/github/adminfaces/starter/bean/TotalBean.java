@@ -98,7 +98,7 @@ public class TotalBean implements Serializable {
         DocumentEVP docEVP = new DocumentEVP();
         Field[] fields = docEVP.getClass().getDeclaredFields();
         int t = fields.length;
-        for (int i = 1; i < t; i++) {
+        for (int i = 0; i < t; i++) {
             String field = DocumentEVP.class.getDeclaredFields()[i].getName();
             columnHeaders.add(field);
         }
