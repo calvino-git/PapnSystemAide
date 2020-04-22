@@ -92,6 +92,19 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
 //        }
         return criteria;
     }
+    
+    public List<Escale> listParNavire(String navire) {
+        return criteria()
+                .likeIgnoreCase(Escale_.navire, navire)
+                .getResultList();
+    }
+
+    public List<String> listNavires(String query) {
+        return criteria()
+                .select(String.class, attribute(Escale_.navire))
+                .likeIgnoreCase(Escale_.navire, "%" + query + "%")
+                .getResultList();
+    }
 
     public Long getNbrPetitEscaleByAn(String an) {
         return getNombrePetitEscaleByAnnee("PARTI", an);
