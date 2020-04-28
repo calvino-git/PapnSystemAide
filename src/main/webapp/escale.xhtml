@@ -94,13 +94,13 @@
                                     <p:datePicker id="periode" selectionMode="range" size="25" style="font-size: large" showIcon="true"  locale="fr"
                                                   value="#{escaleBean.range}" placeholder="Période de recherche">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        <p:ajax update="@form" />
+                                        <p:ajax process="@form" update="@form" />
                                     </p:datePicker>
                                 </div>
                                 <div class="ui-g-3 align-right">
                                     PETIT
                                     <p:inputSwitch value="#{escaleBean.catNavire}" onLabel="GRAND" offLabel="PETIT">
-                                        <p:ajax listener="#{escaleBean.changeCategorieNavire}" update="@form" />
+                                        <p:ajax listener="#{escaleBean.changeCategorieNavire}" process="@form" update="@form" />
                                     </p:inputSwitch>
                                     GRAND
                                 </div>
