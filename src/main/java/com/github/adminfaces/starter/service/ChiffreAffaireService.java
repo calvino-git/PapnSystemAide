@@ -46,7 +46,7 @@ public class ChiffreAffaireService implements Serializable {
     @PostConstruct
     public void init() {
         anneeFin = LocalDateTime.now().getYear();
-        anneeDebut = anneeFin;
+        anneeDebut = anneeFin-1;
         update();
         listStatic = list;
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService est initialisé...");

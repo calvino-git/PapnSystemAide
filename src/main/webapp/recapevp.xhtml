@@ -126,17 +126,9 @@
                                 <p:columnToggler  datasource="evpTable" trigger="toggler" />
                             </p:panelGrid>
                         </f:facet>
-                        <p:columns headerText="#{column.header}" value="#{totalBean.columns}" var="column" width="150" columnIndexVar="colIndex" sortBy="#{document[column.property]}" filterBy="#{document[column.property]}">
-                            <f:facet name="filter">
-                                <p:autoComplete value="#{carListMB.filter.entity.model}" forceSelection="true"
-                                                minQueryLength="2" queryDelay="500" dropdown="true"
-                                                completeMethod="#{carListMB.completeModel}" maxResults="10">
-                                    <p:ajax event="itemSelect" process="@this" update="@none"
-                                            oncomplete="PF('carsTable').filter()"/>
-                                </p:autoComplete>
-                            </f:facet>
-                            
-                            <h:outputText value="#{document[column.property]}" />
+                        <p:columns headerText="#{column.header}" value="#{totalBean.columns}" var="column" width="150" 
+                                   columnIndexVar="colIndex" sortBy="#{document[column.property]}" filterBy="#{document[column.property]}">
+                           <h:outputText value="#{document[column.property]}" />
                         </p:columns>
                         <p:column style="width:24px">
                             <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="fa fa-search">

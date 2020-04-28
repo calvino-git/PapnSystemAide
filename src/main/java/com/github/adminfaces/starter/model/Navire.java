@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -13,6 +14,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,95 +33,94 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(catalog = "", schema = "PPNCARGO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Navire.findAll", query = "SELECT n FROM Navire n")
-    , @NamedQuery(name = "Navire.findByNacleunik", query = "SELECT n FROM Navire n WHERE n.nacleunik = :nacleunik")
-    , @NamedQuery(name = "Navire.findByNumero", query = "SELECT n FROM Navire n WHERE n.numero = :numero")
-    , @NamedQuery(name = "Navire.findByRadio", query = "SELECT n FROM Navire n WHERE n.radio = :radio")
-    , @NamedQuery(name = "Navire.findByNom", query = "SELECT n FROM Navire n WHERE n.nom = :nom")
-    , @NamedQuery(name = "Navire.findByLibelle", query = "SELECT n FROM Navire n WHERE n.libelle = :libelle")
-    , @NamedQuery(name = "Navire.findByPavillon", query = "SELECT n FROM Navire n WHERE n.pavillon = :pavillon")
-    , @NamedQuery(name = "Navire.findByArmateur", query = "SELECT n FROM Navire n WHERE n.armateur = :armateur")
-    , @NamedQuery(name = "Navire.findByAffreteur", query = "SELECT n FROM Navire n WHERE n.affreteur = :affreteur")
-    , @NamedQuery(name = "Navire.findByCapitaine", query = "SELECT n FROM Navire n WHERE n.capitaine = :capitaine")
-    , @NamedQuery(name = "Navire.findByConstruc", query = "SELECT n FROM Navire n WHERE n.construc = :construc")
-    , @NamedQuery(name = "Navire.findByType", query = "SELECT n FROM Navire n WHERE n.type = :type")
-    , @NamedQuery(name = "Navire.findByNature", query = "SELECT n FROM Navire n WHERE n.nature = :nature")
-    , @NamedQuery(name = "Navire.findByVolume", query = "SELECT n FROM Navire n WHERE n.volume = :volume")
-    , @NamedQuery(name = "Navire.findByCapacite", query = "SELECT n FROM Navire n WHERE n.capacite = :capacite")
-    , @NamedQuery(name = "Navire.findByChargB", query = "SELECT n FROM Navire n WHERE n.chargB = :chargB")
-    , @NamedQuery(name = "Navire.findByChargN", query = "SELECT n FROM Navire n WHERE n.chargN = :chargN")
-    , @NamedQuery(name = "Navire.findByTare", query = "SELECT n FROM Navire n WHERE n.tare = :tare")
-    , @NamedQuery(name = "Navire.findByConten", query = "SELECT n FROM Navire n WHERE n.conten = :conten")
-    , @NamedQuery(name = "Navire.findByLongu", query = "SELECT n FROM Navire n WHERE n.longu = :longu")
-    , @NamedQuery(name = "Navire.findByLargeur", query = "SELECT n FROM Navire n WHERE n.largeur = :largeur")
-    , @NamedQuery(name = "Navire.findByHauteur", query = "SELECT n FROM Navire n WHERE n.hauteur = :hauteur")
-    , @NamedQuery(name = "Navire.findByNombre", query = "SELECT n FROM Navire n WHERE n.nombre = :nombre")
-    , @NamedQuery(name = "Navire.findByPortAttac", query = "SELECT n FROM Navire n WHERE n.portAttac = :portAttac")
-    , @NamedQuery(name = "Navire.findByPerson", query = "SELECT n FROM Navire n WHERE n.person = :person")
-    , @NamedQuery(name = "Navire.findByPropAv", query = "SELECT n FROM Navire n WHERE n.propAv = :propAv")
-    , @NamedQuery(name = "Navire.findByPropAr", query = "SELECT n FROM Navire n WHERE n.propAr = :propAr")
-    , @NamedQuery(name = "Navire.findByUnite", query = "SELECT n FROM Navire n WHERE n.unite = :unite")
-    , @NamedQuery(name = "Navire.findByPassag", query = "SELECT n FROM Navire n WHERE n.passag = :passag")
-    , @NamedQuery(name = "Navire.findByQuantite", query = "SELECT n FROM Navire n WHERE n.quantite = :quantite")
-    , @NamedQuery(name = "Navire.findByTexte", query = "SELECT n FROM Navire n WHERE n.texte = :texte")
-    , @NamedQuery(name = "Navire.findByLDeb", query = "SELECT n FROM Navire n WHERE n.lDeb = :lDeb")
-    , @NamedQuery(name = "Navire.findByDesserte", query = "SELECT n FROM Navire n WHERE n.desserte = :desserte")
-    , @NamedQuery(name = "Navire.findByNbMot", query = "SELECT n FROM Navire n WHERE n.nbMot = :nbMot")
-    , @NamedQuery(name = "Navire.findByNbRem", query = "SELECT n FROM Navire n WHERE n.nbRem = :nbRem")
-    , @NamedQuery(name = "Navire.findByLigne", query = "SELECT n FROM Navire n WHERE n.ligne = :ligne")
-    , @NamedQuery(name = "Navire.findByTraitSht", query = "SELECT n FROM Navire n WHERE n.traitSht = :traitSht")
-    , @NamedQuery(name = "Navire.findByEmplac", query = "SELECT n FROM Navire n WHERE n.emplac = :emplac")
-    , @NamedQuery(name = "Navire.findByAffret", query = "SELECT n FROM Navire n WHERE n.affret = :affret")
-    , @NamedQuery(name = "Navire.findByCapGrain", query = "SELECT n FROM Navire n WHERE n.capGrain = :capGrain")
-    , @NamedQuery(name = "Navire.findByCapBalle", query = "SELECT n FROM Navire n WHERE n.capBalle = :capBalle")
-    , @NamedQuery(name = "Navire.findByGrueBab", query = "SELECT n FROM Navire n WHERE n.grueBab = :grueBab")
-    , @NamedQuery(name = "Navire.findByGrueTri", query = "SELECT n FROM Navire n WHERE n.grueTri = :grueTri")
-    , @NamedQuery(name = "Navire.findByCategorie", query = "SELECT n FROM Navire n WHERE n.categorie = :categorie")
-    , @NamedQuery(name = "Navire.findByTLong", query = "SELECT n FROM Navire n WHERE n.tLong = :tLong")
-    , @NamedQuery(name = "Navire.findByTLargeur", query = "SELECT n FROM Navire n WHERE n.tLargeur = :tLargeur")
-    , @NamedQuery(name = "Navire.findByChateau", query = "SELECT n FROM Navire n WHERE n.chateau = :chateau")
-    , @NamedQuery(name = "Navire.findByCellularise", query = "SELECT n FROM Navire n WHERE n.cellularise = :cellularise")
-    , @NamedQuery(name = "Navire.findByRampe", query = "SELECT n FROM Navire n WHERE n.rampe = :rampe")
-    , @NamedQuery(name = "Navire.findByGestion", query = "SELECT n FROM Navire n WHERE n.gestion = :gestion")
-    , @NamedQuery(name = "Navire.findByStatut", query = "SELECT n FROM Navire n WHERE n.statut = :statut")
-    , @NamedQuery(name = "Navire.findByCreateur", query = "SELECT n FROM Navire n WHERE n.createur = :createur")
-    , @NamedQuery(name = "Navire.findByDCreat", query = "SELECT n FROM Navire n WHERE n.dCreat = :dCreat")
-    , @NamedQuery(name = "Navire.findByHCreat", query = "SELECT n FROM Navire n WHERE n.hCreat = :hCreat")
-    , @NamedQuery(name = "Navire.findByUtilisat", query = "SELECT n FROM Navire n WHERE n.utilisat = :utilisat")
-    , @NamedQuery(name = "Navire.findByDModif", query = "SELECT n FROM Navire n WHERE n.dModif = :dModif")
-    , @NamedQuery(name = "Navire.findByHModif", query = "SELECT n FROM Navire n WHERE n.hModif = :hModif")
-    , @NamedQuery(name = "Navire.findByPorts", query = "SELECT n FROM Navire n WHERE n.ports = :ports")
-    , @NamedQuery(name = "Navire.findByManifold", query = "SELECT n FROM Navire n WHERE n.manifold = :manifold")
-    , @NamedQuery(name = "Navire.findByJaugeUms", query = "SELECT n FROM Navire n WHERE n.jaugeUms = :jaugeUms")
-    , @NamedQuery(name = "Navire.findByConsignes", query = "SELECT n FROM Navire n WHERE n.consignes = :consignes")
-    , @NamedQuery(name = "Navire.findByDateConsignes", query = "SELECT n FROM Navire n WHERE n.dateConsignes = :dateConsignes")
-    , @NamedQuery(name = "Navire.findByPuisPropAv", query = "SELECT n FROM Navire n WHERE n.puisPropAv = :puisPropAv")
-    , @NamedQuery(name = "Navire.findByPuisPropAr", query = "SELECT n FROM Navire n WHERE n.puisPropAr = :puisPropAr")
-    , @NamedQuery(name = "Navire.findByNomCourt", query = "SELECT n FROM Navire n WHERE n.nomCourt = :nomCourt")
-    , @NamedQuery(name = "Navire.findByAgent", query = "SELECT n FROM Navire n WHERE n.agent = :agent")
-    , @NamedQuery(name = "Navire.findByLongueurPorte", query = "SELECT n FROM Navire n WHERE n.longueurPorte = :longueurPorte")
-    , @NamedQuery(name = "Navire.findByNumeroOmi", query = "SELECT n FROM Navire n WHERE n.numeroOmi = :numeroOmi")
-    , @NamedQuery(name = "Navire.findByNumeroCertificat", query = "SELECT n FROM Navire n WHERE n.numeroCertificat = :numeroCertificat")
-    , @NamedQuery(name = "Navire.findByDateCertificat", query = "SELECT n FROM Navire n WHERE n.dateCertificat = :dateCertificat")
-    , @NamedQuery(name = "Navire.findByDatePeremption", query = "SELECT n FROM Navire n WHERE n.datePeremption = :datePeremption")
-    , @NamedQuery(name = "Navire.findByNiveauSurete", query = "SELECT n FROM Navire n WHERE n.niveauSurete = :niveauSurete")
-    , @NamedQuery(name = "Navire.findByOrganismeCertification", query = "SELECT n FROM Navire n WHERE n.organismeCertification = :organismeCertification")
-    , @NamedQuery(name = "Navire.findByPaysCertificat", query = "SELECT n FROM Navire n WHERE n.paysCertificat = :paysCertificat")
-    , @NamedQuery(name = "Navire.findByEspaceOuvert", query = "SELECT n FROM Navire n WHERE n.espaceOuvert = :espaceOuvert")
-    , @NamedQuery(name = "Navire.findByNombreCale", query = "SELECT n FROM Navire n WHERE n.nombreCale = :nombreCale")
-    , @NamedQuery(name = "Navire.findByTonnageDeb", query = "SELECT n FROM Navire n WHERE n.tonnageDeb = :tonnageDeb")
-    , @NamedQuery(name = "Navire.findByTonnageEmb", query = "SELECT n FROM Navire n WHERE n.tonnageEmb = :tonnageEmb")
-    , @NamedQuery(name = "Navire.findByValideCapitainerie", query = "SELECT n FROM Navire n WHERE n.valideCapitainerie = :valideCapitainerie")
-    , @NamedQuery(name = "Navire.findByOkCapitaine", query = "SELECT n FROM Navire n WHERE n.okCapitaine = :okCapitaine")
-    , @NamedQuery(name = "Navire.findByDateCapitaine", query = "SELECT n FROM Navire n WHERE n.dateCapitaine = :dateCapitaine")
-    , @NamedQuery(name = "Navire.findByHeureCapitaine", query = "SELECT n FROM Navire n WHERE n.heureCapitaine = :heureCapitaine")
-    , @NamedQuery(name = "Navire.findByNavirePression", query = "SELECT n FROM Navire n WHERE n.navirePression = :navirePression")
+    @NamedQuery(name = "Navire.findAll", query = "SELECT n FROM Navire n"),
+    @NamedQuery(name = "Navire.findByNacleunik", query = "SELECT n FROM Navire n WHERE n.nacleunik = :nacleunik"),
+    @NamedQuery(name = "Navire.findByNumero", query = "SELECT n FROM Navire n WHERE n.numero = :numero"),
+    @NamedQuery(name = "Navire.findByRadio", query = "SELECT n FROM Navire n WHERE n.radio = :radio"),
+    @NamedQuery(name = "Navire.findByNom", query = "SELECT n FROM Navire n WHERE n.nom = :nom"),
+    @NamedQuery(name = "Navire.findByLibelle", query = "SELECT n FROM Navire n WHERE n.libelle = :libelle"),
+    @NamedQuery(name = "Navire.findByPavillon", query = "SELECT n FROM Navire n WHERE n.pavillon = :pavillon"),
+    @NamedQuery(name = "Navire.findByArmateur", query = "SELECT n FROM Navire n WHERE n.armateur = :armateur"),
+    @NamedQuery(name = "Navire.findByAffreteur", query = "SELECT n FROM Navire n WHERE n.affreteur = :affreteur"),
+    @NamedQuery(name = "Navire.findByCapitaine", query = "SELECT n FROM Navire n WHERE n.capitaine = :capitaine"),
+    @NamedQuery(name = "Navire.findByConstruc", query = "SELECT n FROM Navire n WHERE n.construc = :construc"),
+    @NamedQuery(name = "Navire.findByType", query = "SELECT n FROM Navire n WHERE n.type = :type"),
+    @NamedQuery(name = "Navire.findByNature", query = "SELECT n FROM Navire n WHERE n.nature = :nature"),
+    @NamedQuery(name = "Navire.findByVolume", query = "SELECT n FROM Navire n WHERE n.volume = :volume"),
+    @NamedQuery(name = "Navire.findByCapacite", query = "SELECT n FROM Navire n WHERE n.capacite = :capacite"),
+    @NamedQuery(name = "Navire.findByChargB", query = "SELECT n FROM Navire n WHERE n.chargB = :chargB"),
+    @NamedQuery(name = "Navire.findByChargN", query = "SELECT n FROM Navire n WHERE n.chargN = :chargN"),
+    @NamedQuery(name = "Navire.findByTare", query = "SELECT n FROM Navire n WHERE n.tare = :tare"),
+    @NamedQuery(name = "Navire.findByConten", query = "SELECT n FROM Navire n WHERE n.conten = :conten"),
+    @NamedQuery(name = "Navire.findByLongu", query = "SELECT n FROM Navire n WHERE n.longu = :longu"),
+    @NamedQuery(name = "Navire.findByLargeur", query = "SELECT n FROM Navire n WHERE n.largeur = :largeur"),
+    @NamedQuery(name = "Navire.findByHauteur", query = "SELECT n FROM Navire n WHERE n.hauteur = :hauteur"),
+    @NamedQuery(name = "Navire.findByNombre", query = "SELECT n FROM Navire n WHERE n.nombre = :nombre"),
+    @NamedQuery(name = "Navire.findByPortAttac", query = "SELECT n FROM Navire n WHERE n.portAttac = :portAttac"),
+    @NamedQuery(name = "Navire.findByPerson", query = "SELECT n FROM Navire n WHERE n.person = :person"),
+    @NamedQuery(name = "Navire.findByPropAv", query = "SELECT n FROM Navire n WHERE n.propAv = :propAv"),
+    @NamedQuery(name = "Navire.findByPropAr", query = "SELECT n FROM Navire n WHERE n.propAr = :propAr"),
+    @NamedQuery(name = "Navire.findByUnite", query = "SELECT n FROM Navire n WHERE n.unite = :unite"),
+    @NamedQuery(name = "Navire.findByPassag", query = "SELECT n FROM Navire n WHERE n.passag = :passag"),
+    @NamedQuery(name = "Navire.findByQuantite", query = "SELECT n FROM Navire n WHERE n.quantite = :quantite"),
+    @NamedQuery(name = "Navire.findByTexte", query = "SELECT n FROM Navire n WHERE n.texte = :texte"),
+    @NamedQuery(name = "Navire.findByLDeb", query = "SELECT n FROM Navire n WHERE n.lDeb = :lDeb"),
+    @NamedQuery(name = "Navire.findByDesserte", query = "SELECT n FROM Navire n WHERE n.desserte = :desserte"),
+    @NamedQuery(name = "Navire.findByNbMot", query = "SELECT n FROM Navire n WHERE n.nbMot = :nbMot"),
+    @NamedQuery(name = "Navire.findByNbRem", query = "SELECT n FROM Navire n WHERE n.nbRem = :nbRem"),
+    @NamedQuery(name = "Navire.findByLigne", query = "SELECT n FROM Navire n WHERE n.ligne = :ligne"),
+    @NamedQuery(name = "Navire.findByTraitSht", query = "SELECT n FROM Navire n WHERE n.traitSht = :traitSht"),
+    @NamedQuery(name = "Navire.findByEmplac", query = "SELECT n FROM Navire n WHERE n.emplac = :emplac"),
+    @NamedQuery(name = "Navire.findByAffret", query = "SELECT n FROM Navire n WHERE n.affret = :affret"),
+    @NamedQuery(name = "Navire.findByCapGrain", query = "SELECT n FROM Navire n WHERE n.capGrain = :capGrain"),
+    @NamedQuery(name = "Navire.findByCapBalle", query = "SELECT n FROM Navire n WHERE n.capBalle = :capBalle"),
+    @NamedQuery(name = "Navire.findByGrueBab", query = "SELECT n FROM Navire n WHERE n.grueBab = :grueBab"),
+    @NamedQuery(name = "Navire.findByGrueTri", query = "SELECT n FROM Navire n WHERE n.grueTri = :grueTri"),
+    @NamedQuery(name = "Navire.findByCategorie", query = "SELECT n FROM Navire n WHERE n.categorie = :categorie"),
+    @NamedQuery(name = "Navire.findByTLong", query = "SELECT n FROM Navire n WHERE n.tLong = :tLong"),
+    @NamedQuery(name = "Navire.findByTLargeur", query = "SELECT n FROM Navire n WHERE n.tLargeur = :tLargeur"),
+    @NamedQuery(name = "Navire.findByChateau", query = "SELECT n FROM Navire n WHERE n.chateau = :chateau"),
+    @NamedQuery(name = "Navire.findByCellularise", query = "SELECT n FROM Navire n WHERE n.cellularise = :cellularise"),
+    @NamedQuery(name = "Navire.findByRampe", query = "SELECT n FROM Navire n WHERE n.rampe = :rampe"),
+    @NamedQuery(name = "Navire.findByGestion", query = "SELECT n FROM Navire n WHERE n.gestion = :gestion"),
+    @NamedQuery(name = "Navire.findByStatut", query = "SELECT n FROM Navire n WHERE n.statut = :statut"),
+    @NamedQuery(name = "Navire.findByCreateur", query = "SELECT n FROM Navire n WHERE n.createur = :createur"),
+    @NamedQuery(name = "Navire.findByDCreat", query = "SELECT n FROM Navire n WHERE n.dCreat = :dCreat"),
+    @NamedQuery(name = "Navire.findByHCreat", query = "SELECT n FROM Navire n WHERE n.hCreat = :hCreat"),
+    @NamedQuery(name = "Navire.findByUtilisat", query = "SELECT n FROM Navire n WHERE n.utilisat = :utilisat"),
+    @NamedQuery(name = "Navire.findByDModif", query = "SELECT n FROM Navire n WHERE n.dModif = :dModif"),
+    @NamedQuery(name = "Navire.findByHModif", query = "SELECT n FROM Navire n WHERE n.hModif = :hModif"),
+    @NamedQuery(name = "Navire.findByPorts", query = "SELECT n FROM Navire n WHERE n.ports = :ports"),
+    @NamedQuery(name = "Navire.findByManifold", query = "SELECT n FROM Navire n WHERE n.manifold = :manifold"),
+    @NamedQuery(name = "Navire.findByJaugeUms", query = "SELECT n FROM Navire n WHERE n.jaugeUms = :jaugeUms"),
+    @NamedQuery(name = "Navire.findByConsignes", query = "SELECT n FROM Navire n WHERE n.consignes = :consignes"),
+    @NamedQuery(name = "Navire.findByDateConsignes", query = "SELECT n FROM Navire n WHERE n.dateConsignes = :dateConsignes"),
+    @NamedQuery(name = "Navire.findByPuisPropAv", query = "SELECT n FROM Navire n WHERE n.puisPropAv = :puisPropAv"),
+    @NamedQuery(name = "Navire.findByPuisPropAr", query = "SELECT n FROM Navire n WHERE n.puisPropAr = :puisPropAr"),
+    @NamedQuery(name = "Navire.findByNomCourt", query = "SELECT n FROM Navire n WHERE n.nomCourt = :nomCourt"),
+    @NamedQuery(name = "Navire.findByAgent", query = "SELECT n FROM Navire n WHERE n.agent = :agent"),
+    @NamedQuery(name = "Navire.findByLongueurPorte", query = "SELECT n FROM Navire n WHERE n.longueurPorte = :longueurPorte"),
+    @NamedQuery(name = "Navire.findByNumeroOmi", query = "SELECT n FROM Navire n WHERE n.numeroOmi = :numeroOmi"),
+    @NamedQuery(name = "Navire.findByNumeroCertificat", query = "SELECT n FROM Navire n WHERE n.numeroCertificat = :numeroCertificat"),
+    @NamedQuery(name = "Navire.findByDateCertificat", query = "SELECT n FROM Navire n WHERE n.dateCertificat = :dateCertificat"),
+    @NamedQuery(name = "Navire.findByDatePeremption", query = "SELECT n FROM Navire n WHERE n.datePeremption = :datePeremption"),
+    @NamedQuery(name = "Navire.findByNiveauSurete", query = "SELECT n FROM Navire n WHERE n.niveauSurete = :niveauSurete"),
+    @NamedQuery(name = "Navire.findByOrganismeCertification", query = "SELECT n FROM Navire n WHERE n.organismeCertification = :organismeCertification"),
+    @NamedQuery(name = "Navire.findByPaysCertificat", query = "SELECT n FROM Navire n WHERE n.paysCertificat = :paysCertificat"),
+    @NamedQuery(name = "Navire.findByEspaceOuvert", query = "SELECT n FROM Navire n WHERE n.espaceOuvert = :espaceOuvert"),
+    @NamedQuery(name = "Navire.findByNombreCale", query = "SELECT n FROM Navire n WHERE n.nombreCale = :nombreCale"),
+    @NamedQuery(name = "Navire.findByTonnageDeb", query = "SELECT n FROM Navire n WHERE n.tonnageDeb = :tonnageDeb"),
+    @NamedQuery(name = "Navire.findByTonnageEmb", query = "SELECT n FROM Navire n WHERE n.tonnageEmb = :tonnageEmb"),
+    @NamedQuery(name = "Navire.findByValideCapitainerie", query = "SELECT n FROM Navire n WHERE n.valideCapitainerie = :valideCapitainerie"),
+    @NamedQuery(name = "Navire.findByOkCapitaine", query = "SELECT n FROM Navire n WHERE n.okCapitaine = :okCapitaine"),
+    @NamedQuery(name = "Navire.findByDateCapitaine", query = "SELECT n FROM Navire n WHERE n.dateCapitaine = :dateCapitaine"),
+    @NamedQuery(name = "Navire.findByHeureCapitaine", query = "SELECT n FROM Navire n WHERE n.heureCapitaine = :heureCapitaine"),
+    @NamedQuery(name = "Navire.findByNavirePression", query = "SELECT n FROM Navire n WHERE n.navirePression = :navirePression")
 //    , @NamedQuery(name = "Navire.findByDateDebutRelache", query = "SELECT n FROM Navire n WHERE n.dateDebutRelache = :dateDebutRelache")
-        
-        
+
 //    , @NamedQuery(name = "Navire.findByDateFinRelache", query = "SELECT n FROM Navire n WHERE n.dateFinRelache = :dateFinRelache")
 })
-public class Navire implements Serializable {
+public class Navire extends BaseEntity implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -153,8 +155,9 @@ public class Navire implements Serializable {
     @Column(name = "CONSTRUC")
     private Integer construc;
     @Size(max = 8)
-    @Column(name = "TYPE")
-    private String type;
+    @JoinColumn(name = "TYPE", referencedColumnName = "code")
+    @ManyToOne
+    private TypeNavire type;
     @Size(max = 8)
     @Column(name = "NATURE")
     private String nature;
@@ -355,6 +358,10 @@ public class Navire implements Serializable {
         this.nacleunik = nacleunik;
     }
 
+    public BigDecimal getId() {
+        return nacleunik;
+    }
+
     public BigDecimal getNacleunik() {
         return nacleunik;
     }
@@ -435,11 +442,11 @@ public class Navire implements Serializable {
         this.construc = construc;
     }
 
-    public String getType() {
+    public TypeNavire getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeNavire type) {
         this.type = type;
     }
 
@@ -1026,7 +1033,6 @@ public class Navire implements Serializable {
 //    public void setDateFinRelache(String dateFinRelache) {
 //        this.dateFinRelache = dateFinRelache;
 //    }
-
     @XmlTransient
     public Collection<Escale> getEscaleCollection() {
         return escaleCollection;

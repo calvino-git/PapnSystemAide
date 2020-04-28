@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Escale.findAll", query = "SELECT e FROM Escale e"),
-    @NamedQuery(name = "Escale.findByEscleunik", query = "SELECT e FROM Escale e WHERE e.escleunik = :escleunik"),
+    @NamedQuery(name = "Escale.findById", query = "SELECT e FROM Escale e WHERE e.id = :id"),
     @NamedQuery(name = "Escale.findByNumero", query = "SELECT e FROM Escale e WHERE e.numero = :numero"),
     @NamedQuery(name = "Escale.findByAgent", query = "SELECT e FROM Escale e WHERE e.agent = :agent"),
     @NamedQuery(name = "Escale.findByManuten", query = "SELECT e FROM Escale e WHERE e.manuten = :manuten"),
@@ -148,7 +148,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Escale.findByGestion", query = "SELECT e FROM Escale e WHERE e.gestion = :gestion"),
     @NamedQuery(name = "Escale.findByStatut", query = "SELECT e FROM Escale e WHERE e.statut = :statut"),
     @NamedQuery(name = "Escale.findByCreateur", query = "SELECT e FROM Escale e WHERE e.createur = :createur"),
-    @NamedQuery(name = "Escale.findByDCreat", query = "SELECT e FROM Escale e WHERE e.dCreat = :dCreat"),
+    @NamedQuery(name = "Escale.findByDateCreat", query = "SELECT e FROM Escale e WHERE e.dateCreat = :dateCreat"),
     @NamedQuery(name = "Escale.findByHCreat", query = "SELECT e FROM Escale e WHERE e.hCreat = :hCreat"),
     @NamedQuery(name = "Escale.findByUtilisat", query = "SELECT e FROM Escale e WHERE e.utilisat = :utilisat"),
     @NamedQuery(name = "Escale.findByDModif", query = "SELECT e FROM Escale e WHERE e.dModif = :dModif"),
@@ -300,19 +300,19 @@ public class Escale extends BaseEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ESCLEUNIK")
-    private BigInteger id;
+    private Integer id;
     @Size(max = 12)
     @Column(name = "NUMERO")
     private String numero;
-    @Size(max = 8)
-    @Column(name = "AGENT")
-    private String agent;
+//    @Size(max = 8)
+//    @Column(name = "AGENT")
+//    private String agent;
     @Size(max = 8)
     @Column(name = "MANUTEN")
     private String manuten;
-    @Size(max = 8)
-    @Column(name = "FILIERE")
-    private String filiere;
+    @JoinColumn(name = "filiere", referencedColumnName = "code")
+    @ManyToOne
+    private Filiere filiere;
     @Size(max = 12)
     @Column(name = "RADIO")
     private String radio;
@@ -584,7 +584,7 @@ public class Escale extends BaseEntity implements Serializable {
     private String createur;
     @Size(max = 8)
     @Column(name = "D_CREAT")
-    private String dCreat;
+    private String dateCreat;
     @Size(max = 4)
     @Column(name = "H_CREAT")
     private String hCreat;
@@ -976,20 +976,24 @@ public class Escale extends BaseEntity implements Serializable {
     @JoinColumn(name = "nacleunik", referencedColumnName = "nacleunik")
     @ManyToOne
     private Navire nacleunik;
+    
+    @JoinColumn(name = "agent", referencedColumnName = "code")
+    @ManyToOne
+    private Agent agent;
 
     public Escale() {
     }
 
-    public Escale(BigInteger id) {
+    public Escale(Integer id) {
         this.id = id;
     }
 
     @Override
-    public BigInteger getId() {
+    public Integer getId() {
         return id; 
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -1001,11 +1005,11 @@ public class Escale extends BaseEntity implements Serializable {
         this.numero = numero;
     }
 
-    public String getAgent() {
+    public Agent getAgent() {
         return agent;
     }
 
-    public void setAgent(String agent) {
+    public void setAgent(Agent agent) {
         this.agent = agent;
     }
 
@@ -1017,11 +1021,11 @@ public class Escale extends BaseEntity implements Serializable {
         this.manuten = manuten;
     }
 
-    public String getFiliere() {
+    public Filiere getFiliere() {
         return filiere;
     }
 
-    public void setFiliere(String filiere) {
+    public void setFiliere(Filiere filiere) {
         this.filiere = filiere;
     }
 
@@ -1865,12 +1869,12 @@ public class Escale extends BaseEntity implements Serializable {
         this.createur = createur;
     }
 
-    public String getDCreat() {
-        return dCreat;
+    public String getDateCreat() {
+        return dateCreat;
     }
 
-    public void setDCreat(String dCreat) {
-        this.dCreat = dCreat;
+    public void setDateCreat(String dateCreat) {
+        this.dateCreat = dateCreat;
     }
 
     public String getHCreat() {

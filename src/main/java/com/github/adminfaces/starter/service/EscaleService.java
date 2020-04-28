@@ -8,11 +8,17 @@ package com.github.adminfaces.starter.service;
 import com.github.adminfaces.persistence.model.Filter;
 import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.persistence.service.CrudService;
+import com.github.adminfaces.starter.bean.TypeNavireConverter;
 import com.github.adminfaces.starter.model.ConteneurCT;
 import com.github.adminfaces.starter.model.ConteneurCT_;
 import com.github.adminfaces.starter.model.Escale;
 import com.github.adminfaces.starter.model.Escale_;
+import com.github.adminfaces.starter.model.Navire;
+import com.github.adminfaces.starter.model.Navire_;
+import com.github.adminfaces.starter.model.TypeNavire;
+import com.github.adminfaces.starter.model.TypeNavire_;
 import com.github.adminfaces.starter.repos.EscaleRepository;
+import com.github.adminfaces.starter.repos.TypeNavireRepository;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,34 +29,43 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.apache.deltaspike.data.api.criteria.Criteria;
 
 /**
  *
  * @author Calvin ILOKI
  */
-@Singleton
-//@Startup
+@Stateless
+@Startup
 public class EscaleService extends CrudService<Escale, Integer> implements Serializable {
 
     @Inject
     protected EscaleRepository escaleRepo;
+    @Inject
+    TypeNavireRepository typeNavireRepo;
+    @Inject
+    protected NavireService navireService;
 
     private String annee;
     private List<Escale> list;
     private Long nombreEscaleByAn;
     private Long nombrePetitEscaleByAn;
     private Long nombreGrandEscaleByAn;
+    private TypeNavire typeNavireFiltre;
+    private boolean catNavire;
 
     @PostConstruct
     public void init() {
         annee = String.valueOf(LocalDateTime.now().getYear());
-        list = escaleRepo.listEscaleGrandNav2020();
+//        list = escaleRepo.listEscaleGrandNav2020();
         update();
         System.out.println("[" + LocalDateTime.now() + "] EscaleService initialisé...");
     }
-
+    
     @Schedule(minute = "*/10", hour = "*", persistent = false)
     public void update() {
         System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
@@ -58,41 +73,13 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", annee);
         this.nombreEscaleByAn = this.nombrePetitEscaleByAn + this.nombreGrandEscaleByAn;
     }
-
-    @Override
-    protected Criteria<Escale, Escale> configRestrictions(Filter<Escale> filter) {
-        Criteria<Escale, Escale> criteria = criteria();
-//
-        //create restrictions based on parameters map
-        if (filter.hasParam("deb") && filter.hasParam("fin")) {
-            criteria.between(Escale_.arrivee, filter.getStringParam("debut"), filter.getStringParam("fin"));
-        } else if (filter.hasParam("debut")) {
-            criteria.gtOrEq(Escale_.arrivee, filter.getStringParam("deb"));
-        } else if (filter.hasParam("fin")) {
-            criteria.ltOrEq(Escale_.arrivee, filter.getStringParam("fin"));
-        }
-
-        //create restrictions based on filter entity
-//        if (has(filter.getEntity())) {
-//            Escale filterEntity = filter.getEntity();
-//            if (has(filterEntity.getTrafic())) {
-//                criteria.likeIgnoreCase(Escale_.trafic, "%" + filterEntity.getTrafic());
-//            }
-//
-//            if (has(filterEntity.getMois())) {
-//                criteria.eq(Escale_.mois, filterEntity.getMois());
-//            }
-//            if (has(filterEntity.getEscale())) {
-//                criteria.likeIgnoreCase(Escale_.escale, "%" + filterEntity.getEscale() + "%");
-//            }
-//
-//            if (has(filterEntity.getNumCtn())) {
-//                criteria.likeIgnoreCase(Escale_.numCtn, "%" + filterEntity.getNumCtn() + "%");
-//            }
-//        }
-        return criteria;
-    }
     
+    public Escale findEscaleParNumero(String numeroEscale){
+        return criteria()
+                .eq(Escale_.numero, numeroEscale)
+                .getOptionalResult();
+    }
+
     public List<Escale> listParNavire(String navire) {
         return criteria()
                 .likeIgnoreCase(Escale_.navire, navire)
@@ -103,7 +90,69 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         return criteria()
                 .select(String.class, attribute(Escale_.navire))
                 .likeIgnoreCase(Escale_.navire, "%" + query + "%")
+                .distinct()
                 .getResultList();
+    }
+    public List<TypeNavire> listeTypeNavireParCode(String query) {
+        return typeNavireRepo.listeTypeNavireParCode(query);
+    }
+    @Override
+    protected Criteria<Escale, Escale> configRestrictions(Filter<Escale> filter) {
+        Criteria<Escale, Escale> escaleCriteria = criteria();
+        Criteria<Navire, Navire> navireCriteria = navireService.criteria();
+        List<TypeNavire> listePetitNavire = typeNavireRepo.listeTypePetitNavire();
+        final TypeNavire array1[] = new TypeNavire[listePetitNavire.size()];
+        listePetitNavire.forEach(t->{
+            array1[listePetitNavire.indexOf(t)]=t;
+        });
+        List<TypeNavire> listeGrandNavire = typeNavireRepo.listeTypeGrandNavire();
+        final TypeNavire array2[] = new TypeNavire[listeGrandNavire.size()];
+        listeGrandNavire.forEach(t->{
+            array2[listeGrandNavire.indexOf(t)]=t;
+        });
+
+        if(isCatNavire()){
+            navireCriteria.in(Navire_.type, array2);
+        }else{
+            navireCriteria.in(Navire_.type, array1);
+        }
+        //create restrictions based on parameters map
+        if (filter.hasParam("numero")) {
+            escaleCriteria.eq(Escale_.numero, filter.getStringParam("numero"));
+        }
+//        if (filter.hasParam("deb") && filter.hasParam("fin")) {
+//            escaleCriteria.between(Escale_.arrivee, filter.getStringParam("debut"), filter.getStringParam("fin"));
+//        } else if (filter.hasParam("debut")) {
+//            escaleCriteria.gtOrEq(Escale_.arrivee, filter.getStringParam("deb"));
+//        } else if (filter.hasParam("fin")) {
+//            escaleCriteria.ltOrEq(Escale_.arrivee, filter.getStringParam("fin"));
+//        }
+
+        //create restrictions based on filter entity
+        if (has(filter.getEntity())) {
+            Escale filterEntity = filter.getEntity();
+            escaleCriteria.notEq(Escale_.id, 0);
+            if (has(filterEntity.getNavire())) {
+                escaleCriteria.likeIgnoreCase(Escale_.navire, filterEntity.getNavire());
+            }
+
+            if (has(filterEntity.getNumero())) {
+                escaleCriteria.eq(Escale_.numero, filterEntity.getNumero());
+            }
+            if (has(filterEntity.getSituat())) {
+                escaleCriteria.likeIgnoreCase(Escale_.situat, filterEntity.getSituat());
+            }
+
+            if (has(filterEntity.getArrivee())) {
+                escaleCriteria.likeIgnoreCase(Escale_.arrivee, filterEntity.getArrivee() + "%");
+            }
+            if (has(filterEntity.getFiliere())) {
+                escaleCriteria.eq(Escale_.filiere, filterEntity.getFiliere());
+            }
+            navireCriteria.eq(Navire_.type, typeNavireFiltre);
+            escaleCriteria.join(Escale_.nacleunik, navireCriteria);
+        }
+        return escaleCriteria;
     }
 
     public Long getNbrPetitEscaleByAn(String an) {
@@ -168,6 +217,22 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
 
     public Long getNombreGrandEscaleByAnnee(String situat, String annee) {
         return escaleRepo.getNombreGrandEscaleByAnnee(situat, annee);
+    }
+
+    public TypeNavire getTypeNavireFiltre() {
+        return typeNavireFiltre;
+    }
+
+    public void setTypeNavireFiltre(TypeNavire typeNavireFiltre) {
+        this.typeNavireFiltre = typeNavireFiltre;
+    }
+
+    public boolean isCatNavire() {
+        return catNavire;
+    }
+
+    public void setCatNavire(boolean catNavire) {
+        this.catNavire = catNavire;
     }
 
 }
