@@ -43,6 +43,12 @@
                 padding-left: 1.5em !important;
                 margin-bottom: -5px !important;
             }
+            .ui-button-text-only .ui-button-text {
+                padding: .5em .2em !important;
+            }
+            .ui-panelgrid .ui-panelgrid-cell {
+                padding: 0px 10px !important;
+            }
 
         </style>
     </ui:define>
@@ -84,18 +90,18 @@
                             <div class="ui-g ui-fluid">
                                 <div class="ui-g-3 align-left">
                                     <div class="ui-inputgroup">
-                                        <p:commandButton id="brFind" value="Rechercher"
+                                        <p:commandButton id="brFind"
                                                          process="@form"
                                                          update="@form"
                                                          icon="fa fa-search"
                                                          styleClass="btn-primary"
                                                          partialSubmit="true"/>
-                                        <p:inputText id="inptId" size="20" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
+                                        <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
                                     </div>
                                 </div>
                                 <div class="ui-g-4 align-left">
-                                    <p:panelGrid columns="2" columnClasses="ui-g-2 ui-md-4 align-right,ui-g-10 ui-md-8 align-left"
-                                         layout="grid" styleClass="showcase-text-align-center ui-fluid" >
+                                    <p:panelGrid columns="2" columnClasses="ui-g-1 ui-md-2 align-right,ui-g-11 ui-md-10 align-left"
+                                                 layout="grid" styleClass="showcase-text-align-center ui-fluid" >
                                         <p:outputLabel for="date1" value="De:"/>
                                         <p:datePicker id="date1" style="font-size: large" showIcon="true" pattern="yyyyMMdd"
                                                       value="#{escaleBean.filter.params.debutETA}" placeholder="1ere borne"/>
@@ -105,16 +111,16 @@
                                                       value="#{escaleBean.filter.params.finETA}" placeholder="2eme borne"/>
                                     </p:panelGrid>
                                 </div>
-                                <div class="ui-g-2 align-right">
+                                <div class="ui-g-3">
                                     <p:selectOneButton value="#{escaleBean.filter.params.typenavire}">
-                                        <f:selectItem itemLabel="TOUT NAVIRE" />
-                                        <f:selectItem itemLabel="PETIT NAVIRE" itemValue="PETIT" />
-                                        <f:selectItem itemLabel="GRAND NAVIRE" itemValue="GRAND" />
+                                        <f:selectItem itemLabel="TOUT" />
+                                        <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
+                                        <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
                                         <p:ajax process="@form" update="@form" />
                                     </p:selectOneButton>
                                 </div>
-                                <div class="ui-g-2 align-right">
-                                    <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="width: auto" icon="fa fa-list" />
+                                <div class="ui-g-2">
+                                    <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" icon="fa fa-list" />
                                     <p:columnToggler  datasource="escale" trigger="toggler" />
                                 </div>
                             </div>
