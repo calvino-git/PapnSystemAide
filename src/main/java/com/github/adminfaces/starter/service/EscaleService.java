@@ -21,9 +21,11 @@ import com.github.adminfaces.starter.repos.EscaleRepository;
 import com.github.adminfaces.starter.repos.TypeNavireRepository;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
@@ -120,13 +122,14 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         if (filter.hasParam("numero")) {
             escaleCriteria.eq(Escale_.numero, filter.getStringParam("numero"));
         }
-//        if (filter.hasParam("deb") && filter.hasParam("fin")) {
-//            escaleCriteria.between(Escale_.arrivee, filter.getStringParam("debut"), filter.getStringParam("fin"));
-//        } else if (filter.hasParam("debut")) {
-//            escaleCriteria.gtOrEq(Escale_.arrivee, filter.getStringParam("deb"));
-//        } else if (filter.hasParam("fin")) {
-//            escaleCriteria.ltOrEq(Escale_.arrivee, filter.getStringParam("fin"));
-//        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        if (filter.hasParam("debutETA") && filter.hasParam("finETA")) {
+            escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA",Date.class)), dateFormat.format(filter.getParam("finETA",Date.class)));
+        } else if (filter.hasParam("debutETA")) {
+            escaleCriteria.gtOrEq(Escale_.arrivee, filter.getStringParam("debutETA"));
+        } else if (filter.hasParam("finETA")) {
+            escaleCriteria.ltOrEq(Escale_.arrivee, filter.getStringParam("finETA"));
+        }
 
         //create restrictions based on filter entity
         if (has(filter.getEntity())) {

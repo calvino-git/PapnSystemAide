@@ -81,23 +81,28 @@
                                 <div class="ui-g-4 align-left">
                                     <div class="ui-inputgroup">
                                         <p:commandButton id="brFind" value="Rechercher"
-                                                         action="#{escaleBean.findEscaleByNumero(escaleBean.numeroEscale)}"
                                                          process="@form"
                                                          update="@form"
                                                          icon="fa fa-search"
                                                          styleClass="btn-primary"
                                                          partialSubmit="true"/>
-                                        <p:inputText id="inptId" size="20" style="font-size: large" value="#{escaleBean.numeroEscale}" placeholder="N° d'escale"/>
+                                        <p:inputText id="inptId" size="20" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
                                     </div>
                                 </div>
-                                <div class="ui-g-3 align-right">
-                                    <p:datePicker id="periode" selectionMode="range" size="25" style="font-size: large" showIcon="true"  locale="fr"
-                                                  value="#{escaleBean.range}" placeholder="Période de recherche">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        <p:ajax update="@form" />
+                                <div class="ui-g-4 align-center">
+                                    <p:outputLabel for="date1" value="De"/> 
+                                    <p:spacer width="5"/>
+                                    <p:datePicker id="date1" size="15" style="font-size: large" showIcon="true" pattern="yyyyMMdd"
+                                                  value="#{escaleBean.filter.params.debutETA}" placeholder="1ere borne">
+                                    </p:datePicker>
+                                    <p:spacer width="5"/>
+                                    <p:outputLabel for="date2" value="au"/> 
+                                    <p:spacer width="5"/>
+                                    <p:datePicker id="date2" size="15" style="font-size: large" showIcon="true"  pattern="yyyyMMdd"
+                                                  value="#{escaleBean.filter.params.finETA}" placeholder="2eme borne">
                                     </p:datePicker>
                                 </div>
-                                <div class="ui-g-3 align-right">
+                                <div class="ui-g-2 align-right">
                                     PETIT
                                     <p:inputSwitch value="#{escaleBean.catNavire}" onLabel="GRAND" offLabel="PETIT">
                                         <p:ajax listener="#{escaleBean.changeCategorieNavire}" update="@form" />
