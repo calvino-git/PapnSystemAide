@@ -25,7 +25,7 @@ import org.hibernate.annotations.Subselect;
  * @author 60610H
  */
 @Entity
-@Table(name = "VUE_CONTENEUR_DOUANE")
+@Table(name = "VUE_CTN_DOUANE")
 @Immutable
 @XmlRootElement
 @NamedQueries({

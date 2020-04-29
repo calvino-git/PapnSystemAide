@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +40,7 @@ import org.omnifaces.util.Faces;
  *
  * @author Calvin ILOKI
  */
-@Singleton
+@Stateless
 public class ManifesteService implements Serializable {
 
     private AWPAPNWebService awService;

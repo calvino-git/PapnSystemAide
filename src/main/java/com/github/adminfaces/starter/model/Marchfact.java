@@ -23,7 +23,7 @@ import org.hibernate.annotations.Immutable;
  * @author Calvin ILOKI
  */
 @Entity
-@Table(name = "VUE_MARCHFACT", catalog = "", schema = "PPNCARGO")
+@Table(name = "VUE_FACT_MARCH", catalog = "", schema = "PPNCARGO")
 @Immutable
 @XmlRootElement
 @NamedQueries({

@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * @author Calvin ILOKI
  */
 @Singleton
-//@Startup
+@Startup
 public class ConteneurCongoTerminalService implements Serializable {
     
     @Inject

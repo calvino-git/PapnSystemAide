@@ -18,11 +18,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import static com.github.adminfaces.template.util.Assert.has;
+import javax.ejb.Startup;
 
 /**
  * @author rmpestano
  */
 @Stateless
+@Startup
 public class ConteneurDouaneService extends CrudService<ConteneurDouane, Integer> implements Serializable {
 
     @Inject

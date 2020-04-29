@@ -24,7 +24,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 @Singleton
-//@Startup
+@Startup
 public class DocumentEVPService implements Serializable {
 
     @Inject

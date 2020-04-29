@@ -40,7 +40,6 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private List<Date> range;
     private SimpleDateFormat dateFormat;
     private TypeNavire typeNav;
-    private boolean catNavire;
 
     @PostConstruct
     public void initBean() {
@@ -143,10 +142,6 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         return range;
     }
 
-    public void changeCategorieNavire() {
-        escaleService.setCatNavire(catNavire);
-    }
-
     public void setRange(List<Date> range) {
         if (has(range)) {
             getFilter().addParam("debutETA", dateFormat.format(range.get(0)));
@@ -175,13 +170,4 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         escaleService.setTypeNavireFiltre(typeNav);
         this.typeNav = typeNav;
     }
-
-    public boolean isCatNavire() {
-        return catNavire;
-    }
-
-    public void setCatNavire(boolean catNavire) {
-        this.catNavire = catNavire;
-    }
-
 }

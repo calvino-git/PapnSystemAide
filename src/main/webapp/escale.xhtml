@@ -7,7 +7,11 @@
 
     <ui:define name="metadata">
         <ui:param name="title" value="Escale"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
-
+        <f:metadata>
+            <f:viewParam name="an" value="#{escaleBean.filter.params.an}" converter="javax.faces.Integer"/>
+            <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{carFormMB.init()}"/>-->
+            <f:event type="preRenderView" listener="#{escaleBean.init}"/>
+        </f:metadata>
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
                 text-align: right !important;
@@ -78,7 +82,7 @@
 
                         <f:facet name="header">
                             <div class="ui-g ui-fluid">
-                                <div class="ui-g-4 align-left">
+                                <div class="ui-g-3 align-left">
                                     <div class="ui-inputgroup">
                                         <p:commandButton id="brFind" value="Rechercher"
                                                          process="@form"
@@ -89,25 +93,25 @@
                                         <p:inputText id="inptId" size="20" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
                                     </div>
                                 </div>
-                                <div class="ui-g-4 align-center">
-                                    <p:outputLabel for="date1" value="De"/> 
-                                    <p:spacer width="5"/>
-                                    <p:datePicker id="date1" size="15" style="font-size: large" showIcon="true" pattern="yyyyMMdd"
-                                                  value="#{escaleBean.filter.params.debutETA}" placeholder="1ere borne">
-                                    </p:datePicker>
-                                    <p:spacer width="5"/>
-                                    <p:outputLabel for="date2" value="au"/> 
-                                    <p:spacer width="5"/>
-                                    <p:datePicker id="date2" size="15" style="font-size: large" showIcon="true"  pattern="yyyyMMdd"
-                                                  value="#{escaleBean.filter.params.finETA}" placeholder="2eme borne">
-                                    </p:datePicker>
+                                <div class="ui-g-4 align-left">
+                                    <p:panelGrid columns="2" columnClasses="ui-g-2 ui-md-4 align-right,ui-g-10 ui-md-8 align-left"
+                                         layout="grid" styleClass="showcase-text-align-center ui-fluid" >
+                                        <p:outputLabel for="date1" value="De:"/>
+                                        <p:datePicker id="date1" style="font-size: large" showIcon="true" pattern="yyyyMMdd"
+                                                      value="#{escaleBean.filter.params.debutETA}" placeholder="1ere borne"/>
+
+                                        <p:outputLabel for="date2" value="au:"/>
+                                        <p:datePicker id="date2" style="font-size: large" showIcon="true"  pattern="yyyyMMdd"
+                                                      value="#{escaleBean.filter.params.finETA}" placeholder="2eme borne"/>
+                                    </p:panelGrid>
                                 </div>
                                 <div class="ui-g-2 align-right">
-                                    PETIT
-                                    <p:inputSwitch value="#{escaleBean.catNavire}" onLabel="GRAND" offLabel="PETIT">
-                                        <p:ajax listener="#{escaleBean.changeCategorieNavire}" process="@form" update="@form" />
-                                    </p:inputSwitch>
-                                    GRAND
+                                    <p:selectOneButton value="#{escaleBean.filter.params.typenavire}">
+                                        <f:selectItem itemLabel="TOUT NAVIRE" />
+                                        <f:selectItem itemLabel="PETIT NAVIRE" itemValue="PETIT" />
+                                        <f:selectItem itemLabel="GRAND NAVIRE" itemValue="GRAND" />
+                                        <p:ajax process="@form" update="@form" />
+                                    </p:selectOneButton>
                                 </div>
                                 <div class="ui-g-2 align-right">
                                     <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" style="width: auto" icon="fa fa-list" />
@@ -120,12 +124,12 @@
                         </p:column>
 
                         <p:column headerText="ETA" width="100" sortBy="#{e.arrivee}" filterBy="#{e.arrivee}" class="align-center">
-                            <h:outputText value="#{escaleBean.dateFormat.parse(e.arrivee)}" >
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.arrivee)}" style="font-weight: bold">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                             #{e.arrH}
                         </p:column>
-                        <p:column headerText="Navire" width="200" filterBy="#{e.navire}" sortBy="#{e.navire}"
+                        <p:column headerText="NAVIRE" width="200" filterBy="#{e.navire}" sortBy="#{e.navire}"
                                   filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.filter.entity.navire}" forceSelection="true"
@@ -137,7 +141,7 @@
                             </f:facet>
                             #{e.navire}
                         </p:column>
-                        <p:column headerText="TYPE" width="100" class="align-center">
+                        <p:column headerText="TYPE NAVIRE" width="150" class="align-center">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.typeNav}" forceSelection="true" converter="#{typeNavireConverter}"
                                                 minQueryLength="2" queryDelay="500" dropdown="true"
@@ -146,9 +150,12 @@
                                             oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
+
                             <h:outputText converter="#{typeNavireConverter}" value="#{e.nacleunik.type}"/>
+                            <br/>
+                            <b>#{e.nacleunik.type.code}</b>
                         </p:column>
-                        <p:column headerText="Numero" width="100" sortBy="#{e.numero}" filterBy="#{e.numero}" class="align-center">
+                        <p:column headerText="NUMERO" width="100" sortBy="#{e.numero}" filterBy="#{e.numero}" class="align-center">
                             <f:facet name="filter">
                                 <p:inputText value="#{escaleBean.filter.entity.numero}">
                                     <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
@@ -229,7 +236,7 @@
                         <p:column headerText="TIRANT" width="100" visible="false">
                             #{e.nacleunik.hauteur}
                         </p:column>
-                        <p:column headerText="CREATION" width="100" sortBy="#{e.dateCreat}" filterBy="#{e.dateCreat}">
+                        <p:column headerText="CREATION" width="100" sortBy="#{e.dateCreat}" filterBy="#{e.dateCreat}" class="align-center">
                             <h:outputText value="#{escaleBean.dateFormat.parse(e.dateCreat)}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>

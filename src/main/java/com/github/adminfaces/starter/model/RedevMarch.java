@@ -10,7 +10,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Immutable;
 
 @Entity
-@Table(name = "VUE_REDEVMARCH")
+@Table(name = "VUE_REDEV_MARCH")
 @Immutable
 public class RedevMarch  extends BaseEntity implements Serializable{
     @Id

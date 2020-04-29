@@ -27,7 +27,7 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
  * @author Calvin ILOKI
  */
 @Singleton
-//@Startup
+@Startup
 public class ChiffreAffaireService implements Serializable {
 
     private List<PrestationChiffreAffaire> list;

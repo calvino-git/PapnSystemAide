@@ -58,7 +58,6 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     private Long nombrePetitEscaleByAn;
     private Long nombreGrandEscaleByAn;
     private TypeNavire typeNavireFiltre;
-    private boolean catNavire;
 
     @PostConstruct
     public void init() {
@@ -67,7 +66,7 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         update();
         System.out.println("[" + LocalDateTime.now() + "] EscaleService initialisé...");
     }
-    
+
     @Schedule(minute = "*/10", hour = "*", persistent = false)
     public void update() {
         System.out.println("[" + LocalDateTime.now() + "] Le nombre d'escale mis à jour ...");
@@ -75,8 +74,8 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         this.nombreGrandEscaleByAn = getNombreGrandEscaleByAnnee("PARTI", annee);
         this.nombreEscaleByAn = this.nombrePetitEscaleByAn + this.nombreGrandEscaleByAn;
     }
-    
-    public Escale findEscaleParNumero(String numeroEscale){
+
+    public Escale findEscaleParNumero(String numeroEscale) {
         return criteria()
                 .eq(Escale_.numero, numeroEscale)
                 .getOptionalResult();
@@ -95,36 +94,50 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
                 .distinct()
                 .getResultList();
     }
+
     public List<TypeNavire> listeTypeNavireParCode(String query) {
         return typeNavireRepo.listeTypeNavireParCode(query);
     }
+
     @Override
     protected Criteria<Escale, Escale> configRestrictions(Filter<Escale> filter) {
         Criteria<Escale, Escale> escaleCriteria = criteria();
         Criteria<Navire, Navire> navireCriteria = navireService.criteria();
         List<TypeNavire> listePetitNavire = typeNavireRepo.listeTypePetitNavire();
         final TypeNavire array1[] = new TypeNavire[listePetitNavire.size()];
-        listePetitNavire.forEach(t->{
-            array1[listePetitNavire.indexOf(t)]=t;
+        listePetitNavire.forEach(t -> {
+            array1[listePetitNavire.indexOf(t)] = t;
         });
         List<TypeNavire> listeGrandNavire = typeNavireRepo.listeTypeGrandNavire();
         final TypeNavire array2[] = new TypeNavire[listeGrandNavire.size()];
-        listeGrandNavire.forEach(t->{
-            array2[listeGrandNavire.indexOf(t)]=t;
+        listeGrandNavire.forEach(t -> {
+            array2[listeGrandNavire.indexOf(t)] = t;
         });
 
-        if(isCatNavire()){
-            navireCriteria.in(Navire_.type, array2);
-        }else{
-            navireCriteria.in(Navire_.type, array1);
+//        if (isCatNavire()) {
+//            navireCriteria.in(Navire_.type, array2);
+//        } else {
+//            navireCriteria.in(Navire_.type, array1);
+//        }
+        if (filter.hasParam("typenavire")) {
+            if (filter.getStringParam("typenavire").equalsIgnoreCase("GRAND")) {
+                navireCriteria.in(Navire_.type, array2);
+            } else if(filter.getStringParam("typenavire").equalsIgnoreCase("PETIT")){
+                navireCriteria.in(Navire_.type, array1);
+            }
+//            navireCriteria.eq(Navire_.type, typeNavireFiltre);
+            escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
         //create restrictions based on parameters map
         if (filter.hasParam("numero")) {
             escaleCriteria.eq(Escale_.numero, filter.getStringParam("numero"));
         }
+        if (filter.hasParam("an")) {
+            escaleCriteria.like(Escale_.arrivee, filter.getIntParam("an") + "%");
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         if (filter.hasParam("debutETA") && filter.hasParam("finETA")) {
-            escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA",Date.class)), dateFormat.format(filter.getParam("finETA",Date.class)));
+            escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)), dateFormat.format(filter.getParam("finETA", Date.class)));
         } else if (filter.hasParam("debutETA")) {
             escaleCriteria.gtOrEq(Escale_.arrivee, filter.getStringParam("debutETA"));
         } else if (filter.hasParam("finETA")) {
@@ -152,8 +165,6 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             if (has(filterEntity.getFiliere())) {
                 escaleCriteria.eq(Escale_.filiere, filterEntity.getFiliere());
             }
-            navireCriteria.eq(Navire_.type, typeNavireFiltre);
-            escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
         return escaleCriteria;
     }
@@ -229,13 +240,4 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     public void setTypeNavireFiltre(TypeNavire typeNavireFiltre) {
         this.typeNavireFiltre = typeNavireFiltre;
     }
-
-    public boolean isCatNavire() {
-        return catNavire;
-    }
-
-    public void setCatNavire(boolean catNavire) {
-        this.catNavire = catNavire;
-    }
-
 }

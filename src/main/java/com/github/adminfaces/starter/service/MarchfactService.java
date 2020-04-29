@@ -28,7 +28,7 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
  * @author Calvin ILOKI
  */
 @Singleton
-//@Startup
+@Startup
 public class MarchfactService implements Serializable {
 
     private List<Marchfact> list;

@@ -21,7 +21,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 @Singleton
-//@Startup
+@Startup
 public class DocumentService implements Serializable {
 
     @Inject
