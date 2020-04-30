@@ -119,12 +119,17 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
 //        } else {
 //            navireCriteria.in(Navire_.type, array1);
 //        }
-        if (filter.hasParam("typenavire")) {
-            if (filter.getStringParam("typenavire").equalsIgnoreCase("GRAND")) {
+        if (filter.hasParam("catnavire")) {
+            if (filter.getStringParam("catnavire").equalsIgnoreCase("GRAND")) {
                 navireCriteria.in(Navire_.type, array2);
-            } else if(filter.getStringParam("typenavire").equalsIgnoreCase("PETIT")){
+            } else if(filter.getStringParam("catnavire").equalsIgnoreCase("PETIT")){
                 navireCriteria.in(Navire_.type, array1);
             }
+//            navireCriteria.eq(Navire_.type, typeNavireFiltre);
+            escaleCriteria.join(Escale_.nacleunik, navireCriteria);
+        }
+        if (filter.hasParam("typenavire")) {
+                navireCriteria.in(Navire_.type, filter.getParam("typenavire", TypeNavire.class));
 //            navireCriteria.eq(Navire_.type, typeNavireFiltre);
             escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
