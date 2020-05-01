@@ -49,6 +49,9 @@
             .ui-panelgrid .ui-panelgrid-cell {
                 padding: 0px 10px !important;
             }
+            .ui-fluid .ui-inputfield {
+                height: 36px !important;
+            }
 
         </style>
     </ui:define>
@@ -88,31 +91,27 @@
 
                         <f:facet name="header">
                             <div class="ui-g ui-fluid">
-                                <div class="ui-g-3 align-left">
-                                    <div class="ui-inputgroup">
-                                        <p:commandButton id="brFind"
-                                                         process="@form"
-                                                         update="@form"
-                                                         icon="fa fa-search"
-                                                         styleClass="btn-primary"
-                                                         partialSubmit="true"/>
-                                        <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
-                                    </div>
+                                <div class="ui-g-1">
+                                    <p:commandButton id="brFind" value="Rechercher"
+                                                     process="@form"
+                                                     update="@form"
+                                                     icon="fa fa-search"
+                                                     styleClass="btn-primary"
+                                                     partialSubmit="true"/>
                                 </div>
-                                <div class="ui-g-4 align-left">
-                                    <p:panelGrid columns="2" columnClasses="ui-g-1 ui-md-2 align-right,ui-g-11 ui-md-10 align-left"
-                                                 layout="grid" styleClass="showcase-text-align-center ui-fluid" >
-                                        <p:outputLabel for="date1" value="De:"/>
-                                        <p:datePicker id="date1" style="font-size: large" showIcon="true" pattern="yyyyMMdd"
-                                                      value="#{escaleBean.filter.params.debutETA}" placeholder="1ere borne"/>
-
-                                        <p:outputLabel for="date2" value="au:"/>
-                                        <p:datePicker id="date2" style="font-size: large" showIcon="true"  pattern="yyyyMMdd"
-                                                      value="#{escaleBean.filter.params.finETA}" placeholder="2eme borne"/>
-                                    </p:panelGrid>
+                                <div class="ui-g-2">
+                                    <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:datePicker id="date1" showIcon="true" pattern="yyyyMMdd"
+                                                  value="#{escaleBean.filter.params.debutETA}" placeholder="Date début"/> 
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:datePicker id="date2" showIcon="true"  pattern="yyyyMMdd"
+                                                  value="#{escaleBean.filter.params.finETA}" placeholder="Date fin"/>
                                 </div>
                                 <div class="ui-g-3">
-                                    <p:selectOneButton value="#{escaleBean.filter.params.typenavire}">
+                                    <p:selectOneButton value="#{escaleBean.filter.params.catnavire}">
                                         <f:selectItem itemLabel="TOUT" />
                                         <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
                                         <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
@@ -147,9 +146,9 @@
                             </f:facet>
                             #{e.navire}
                         </p:column>
-                        <p:column headerText="TYPE NAVIRE" width="150" class="align-center">
+                        <p:column headerText="TYPE NAVIRE" width="150" class="align-center" filterBy="#{e.nacleunik.type}">
                             <f:facet name="filter">
-                                <p:autoComplete value="#{escaleBean.typeNav}" forceSelection="true" converter="#{typeNavireConverter}"
+                                <p:autoComplete value="#{escaleBean.filter.params.typenavire}" forceSelection="true" converter="#{typeNavireConverter}"
                                                 minQueryLength="2" queryDelay="500" dropdown="true"
                                                 completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10">
                                     <p:ajax event="itemSelect" process="@this" update="@none" listener="#{escaleBean.configTypeNavire}"
