@@ -9,7 +9,6 @@
         <ui:param name="title" value="Escale"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
         <f:metadata>
             <f:viewParam name="an" value="#{escaleBean.filter.params.an}" converter="javax.faces.Integer"/>
-            <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{carFormMB.init()}"/>-->
             <f:event type="preRenderView" listener="#{escaleBean.init}"/>
         </f:metadata>
         <style type="text/css">
@@ -63,7 +62,6 @@
     <ui:define name="body">
 
         <h:form>
-            <p:focus context="@form"/>  
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons">
@@ -76,8 +74,8 @@
                                          action="#{escaleBean.clear}"
                                          icon="fa fa-refresh"/>
                     </div>
-
-                    <p:separator/>
+                </div>
+                <div class="box-body with-border">
                     <p:dataTable id="escale" widgetVar="escale" var="e" value="#{escaleBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{e.id}"
                                  filteredValue="#{escaleBean.filteredValue}" sortBy="#{e.arrivee}" sortOrder="descending" rowIndexVar="x"
                                  paginatorPosition="bottom" selection="#{escaleBean.selection}"  selectionMode="single" sortMode="single"
@@ -103,7 +101,7 @@
                                     <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
                                 </div>
                                 <div class="ui-g-2">
-                                    <p:datePicker id="date1" showIcon="true" pattern="yyyyMMdd"
+                                    <p:datePicker id="date1" showIcon="true" pattern="yyyyMMdd" locale="fr"
                                                   value="#{escaleBean.filter.params.debutETA}" placeholder="Date début"/> 
                                 </div>
                                 <div class="ui-g-2">
@@ -146,12 +144,12 @@
                             </f:facet>
                             #{e.navire}
                         </p:column>
-                        <p:column headerText="TYPE NAVIRE" width="150" class="align-center" filterBy="#{e.nacleunik.type}">
+                        <p:column headerText="TYPE NAVIRE" width="150" class="align-center" filterBy="#{e.typenavire}">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.filter.params.typenavire}" forceSelection="true" converter="#{typeNavireConverter}"
-                                                minQueryLength="2" queryDelay="500" dropdown="true"
+                                                minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
                                                 completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10">
-                                    <p:ajax event="itemSelect" process="@this" update="@none" listener="#{escaleBean.configTypeNavire}"
+                                    <p:ajax event="itemSelect" process="@this" update="@none"
                                             oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
@@ -166,7 +164,9 @@
                                     <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
                                 </p:inputText>
                             </f:facet>
-                            #{e.numero}
+                            <p:link value="#{e.numero}" outcome="/escale/detail">
+                                <f:param name="id" value="#{e.id}"/>
+                            </p:link>
                         </p:column>
                         <p:column headerText="AGENT" width="200" sortBy="#{e.agent}" filterBy="#{e.agent}">
                             #{e.agent.libelle}
@@ -186,7 +186,7 @@
                                     <f:selectItem itemLabel="TOUT" />
                                     <f:selectItem itemLabel="ATTENDU" itemValue="ATTENDU"/>
                                     <f:selectItem itemLabel="ANNULE" itemValue="ANNULE"/>
-                                    <f:selectItem itemLabel="RADE EXT." itemValue="RADE EXT."/>
+                                    <f:selectItem itemLabel="RADE EXT." itemValue="RADE EXT"/>
                                     <f:selectItem itemLabel="A QUAI" itemValue="A QUAI"/>
                                     <f:selectItem itemLabel="PARTI" itemValue="PARTI"/>
                                     <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>

@@ -15,11 +15,12 @@ public interface TypeNavireRepository extends EntityRepository<TypeNavire,Intege
     @Query("SELECT t FROM TypeNavire t WHERE upper(t.libelle) like :libelle")
     TypeNavire rechercherTypeNavireParLibelle(@QueryParam("libelle") String libelle);
     
-    @Query("SELECT DISTINCT t.libelle FROM TypeNavire t WHERE upper(t.code) like :code")
-    List<TypeNavire> listeTypeNavireParCode(@QueryParam("code") String code);
+    @Query("SELECT DISTINCT t FROM TypeNavire t WHERE t.code is not null and t.libelle is not null and (upper(t.code) like :expr or upper(t.libelle) like :expr ) ")
+    List<TypeNavire> listeTypeNavireContains(@QueryParam("expr") String expr);
     
     @Query("SELECT DISTINCT t FROM TypeNavire t WHERE upper(t.code) in ('BG','PM','NC','VD','SV','RM','VL')")
     List<TypeNavire> listeTypePetitNavire();
+    
     @Query("SELECT DISTINCT t FROM TypeNavire t WHERE upper(t.code) not in ('BG','PM','NC','VD','SV','RM','VL')")
     List<TypeNavire> listeTypeGrandNavire();
 

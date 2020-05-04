@@ -21,9 +21,11 @@ import com.github.adminfaces.starter.model.TypeNavire;
 import com.github.adminfaces.starter.service.EscaleService;
 import com.github.adminfaces.starter.service.ConteneurCTService;
 import com.github.adminfaces.template.exception.BusinessException;
+import com.sun.prism.impl.BaseMesh;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import org.omnifaces.util.Faces;
 
 /**
  * Created by rmpestano on 12/02/17.
@@ -39,10 +41,10 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private String numeroEscale;
     private List<Date> range;
     private SimpleDateFormat dateFormat;
-    private TypeNavire typeNav;
 
     @PostConstruct
     public void initBean() {
+        init();
         dateFormat = new SimpleDateFormat("yyyyMMdd");
     }
 
@@ -52,12 +54,8 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     }
 
     public List<TypeNavire> completeTypeNavire(String query) {
-
-        return escaleService.listeTypeNavireParCode("%" + query + "%");
-    }
-
-    public void configTypeNavire() {
-        escaleService.setTypeNavireFiltre(typeNav);
+        List<TypeNavire> list = escaleService.listeTypeNavireContains("%" + query + "%");
+        return list;
     }
 
     public void findEscaleByNumero(String numeroEscale) {
@@ -160,14 +158,5 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public SimpleDateFormat getDateFormat() {
         return dateFormat;
-    }
-
-    public TypeNavire getTypeNav() {
-        return typeNav;
-    }
-
-    public void setTypeNav(TypeNavire typeNav) {
-        escaleService.setTypeNavireFiltre(typeNav);
-        this.typeNav = typeNav;
     }
 }

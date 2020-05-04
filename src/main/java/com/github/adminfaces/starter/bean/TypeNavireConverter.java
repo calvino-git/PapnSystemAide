@@ -31,8 +31,8 @@ public class TypeNavireConverter implements Serializable,Converter {
         if (string == null || string.length() == 0) {
             return null;
         }
-        
-        return typeNavireRepo.rechercherTypeNavireParLibelle(string);
+        TypeNavire t = typeNavireRepo.rechercherTypeNavireParLibelle(string);
+        return t;
     }
 
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {

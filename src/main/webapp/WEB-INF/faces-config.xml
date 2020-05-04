@@ -12,9 +12,6 @@
             <var>msg</var>
         </resource-bundle>
     </application>
-    <application>
-        <el-resolver>com.github.adminfaces.starter.bean.util.JsfCrudELResolver</el-resolver>
-    </application>
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
@@ -22,88 +19,8 @@
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    <managed-bean>
-        <managed-bean-name>escale</managed-bean-name>
-        <managed-bean-class>com.github.adminfaces.starter.bean.EscaleController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>escaleJpa</managed-bean-name>
-        <managed-bean-class>com.github.adminfaces.starter.bean.EscaleFacade</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <converter>
-        <converter-for-class>com.github.adminfaces.starter.model.Escale</converter-for-class>
-        <converter-class>com.github.adminfaces.starter.bean.EscaleConverter</converter-class>
-    </converter>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>escale_create</from-outcome>
-            <to-view-id>/escale/New.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>escale_list</from-outcome>
-            <to-view-id>/escale/List.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>escale_edit</from-outcome>
-            <to-view-id>/escale/Edit.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>escale_detail</from-outcome>
-            <to-view-id>/escale/Detail.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <managed-bean>
-        <managed-bean-name>navire</managed-bean-name>
-        <managed-bean-class>com.github.adminfaces.starter.bean.NavireController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>navireJpa</managed-bean-name>
-        <managed-bean-class>com.github.adminfaces.starter.bean.NavireFacade</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
     <converter>
         <converter-for-class>com.github.adminfaces.starter.model.Navire</converter-for-class>
         <converter-class>com.github.adminfaces.starter.bean.NavireConverter</converter-class>
     </converter>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>navire_create</from-outcome>
-            <to-view-id>/navire/New.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>navire_list</from-outcome>
-            <to-view-id>/navire/List.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>navire_edit</from-outcome>
-            <to-view-id>/navire/Edit.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
-        <navigation-case>
-            <from-outcome>navire_detail</from-outcome>
-            <to-view-id>/navire/Detail.jsp</to-view-id>
-        </navigation-case>
-    </navigation-rule>
 </faces-config>

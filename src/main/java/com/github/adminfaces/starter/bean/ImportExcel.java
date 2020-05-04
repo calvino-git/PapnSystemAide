@@ -5,7 +5,6 @@
  */
 package com.github.adminfaces.starter.bean;
 
-import com.github.adminfaces.starter.infra.persistence.DbHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
