@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -79,7 +80,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Agent.findByOccursTarifaireASuivre7", query = "SELECT a FROM Agent a WHERE a.occursTarifaireASuivre7 = :occursTarifaireASuivre7"),
     @NamedQuery(name = "Agent.findByOccursTarifaireASuivre8", query = "SELECT a FROM Agent a WHERE a.occursTarifaireASuivre8 = :occursTarifaireASuivre8"),
     @NamedQuery(name = "Agent.findByEMail", query = "SELECT a FROM Agent a WHERE a.eMail = :eMail")})
-public class Agent implements Serializable {
+public class Agent extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -234,6 +235,9 @@ public class Agent implements Serializable {
         this.code = code;
     }
 
+    public String getId() {
+        return code;
+    }
     public String getCode() {
         return code;
     }
@@ -664,7 +668,7 @@ public class Agent implements Serializable {
 
     @Override
     public String toString() {
-        return "com.github.adminfaces.starter.model.Agent[ code=" + code + " ]";
+        return this.libelle;
     }
     
 }

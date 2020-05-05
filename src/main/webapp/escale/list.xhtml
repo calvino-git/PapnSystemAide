@@ -168,8 +168,16 @@
                                 <f:param name="id" value="#{e.id}"/>
                             </p:link>
                         </p:column>
-                        <p:column headerText="AGENT" width="200" sortBy="#{e.agent}" filterBy="#{e.agent}">
-                            #{e.agent.libelle}
+                        <p:column headerText="N°VOYAGE" width="100" sortBy="#{e.voyage}" filterBy="#{e.voyage}">
+                            #{e.voyage}
+                        </p:column>
+                        <p:column headerText="DEPART INITIALE" width="100" sortBy="#{e.dateEscaleInitiale}">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.dateEscaleInitiale)}" rendered="#{not empty e.dateEscaleInitiale}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="AGENT" width="200" sortBy="#{e.agent}" filterBy="#{e.agent}" filterMatchMode="contains">
+                            #{e.agent}
                         </p:column>
                         <p:column headerText="QUAI" width="50" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center">
                             #{e.quai}

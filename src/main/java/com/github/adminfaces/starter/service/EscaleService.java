@@ -9,6 +9,8 @@ import com.github.adminfaces.persistence.model.Filter;
 import com.github.adminfaces.persistence.model.PersistenceEntity;
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.starter.bean.TypeNavireConverter;
+import com.github.adminfaces.starter.model.Agent;
+import com.github.adminfaces.starter.model.Agent_;
 import com.github.adminfaces.starter.model.ConteneurCT;
 import com.github.adminfaces.starter.model.ConteneurCT_;
 import com.github.adminfaces.starter.model.Escale;
@@ -54,6 +56,8 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     TypeNavireRepository typeNavireRepo;
     @Inject
     protected NavireService navireService;
+    @Inject
+    protected AgentService agentService;
 
     private String annee;
     private List<Escale> list;
@@ -107,6 +111,7 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
 
         Criteria<Escale, Escale> escaleCriteria = criteria();
         Criteria<Navire, Navire> navireCriteria = navireService.criteria();
+        Criteria<Agent, Agent> agentCriteria = agentService.criteria();
 
         List<TypeNavire> listePetitNavire = typeNavireRepo.listeTypePetitNavire();
         List<TypeNavire> listeGrandNavire = typeNavireRepo.listeTypeGrandNavire();
@@ -120,24 +125,27 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         listeGrandNavire.forEach(t -> {
             array2[listeGrandNavire.indexOf(t)] = t;
         });
-
+        //create restrictions based on parameters map
         if (filter.hasParam("catnavire")) {
             if (filter.getStringParam("catnavire").equalsIgnoreCase("GRAND")) {
                 navireCriteria.in(Navire_.type, array2);
             } else if (filter.getStringParam("catnavire").equalsIgnoreCase("PETIT")) {
                 navireCriteria.in(Navire_.type, array1);
             }
-//            navireCriteria.eq(Navire_.type, typeNavireFiltre);
             escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
         if (filter.hasParam("typenavire")) {
             navireCriteria.in(Navire_.type, filter.getParam("typenavire", TypeNavire.class));
             escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
-        //create restrictions based on parameters map
+
         if (filter.hasParam("numero")) {
             escaleCriteria.like(Escale_.numero, filter.getStringParam("numero") + "%");
         }
+//        if (filter.hasParam("agent")) {
+//            agentCriteria.like(Agent_.libelle, filter.getStringParam("agent") + "%");
+//            escaleCriteria.join(Escale_.agent, agentCriteria);
+//        }
         if (filter.hasParam("an")) {
             try {
                 Date parseDebutETA = dateFormat.parse(filter.getIntParam("an") + "0101");
@@ -169,11 +177,11 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         if (has(filter.getEntity())) {
             Escale filterEntity = filter.getEntity();
             escaleCriteria.notEq(Escale_.id, 0);
-            
+
             if (has(filterEntity.getSituat())) {
                 escaleCriteria.eq(Escale_.situat, filterEntity.getSituat());
             }
-            
+
             if (has(filterEntity.getNavire())) {
                 escaleCriteria.likeIgnoreCase(Escale_.navire, filterEntity.getNavire());
             }
