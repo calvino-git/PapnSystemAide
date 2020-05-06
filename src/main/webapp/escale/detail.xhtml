@@ -3,7 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:adm="http://github.com/adminfaces"
                 template="#{layoutMB.template}"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="metadata">
         <f:metadata>
@@ -30,6 +31,7 @@
                 font-size: 12px;
                 color: #3c8dbc;
                 font-weight: 500;
+                border: 0;
             }
 
             .ui-datatable-footer {
@@ -81,6 +83,7 @@
                         </div-->
 
                         <h3 class="profile-username text-center">#{escaleBean.entity.navire}</h3>
+                        <h5 class="text-center">#{escaleBean.entity.nacleunik.type.libelle}</h5>
 
                         <p class="text-muted text-center">#{escaleBean.entity.agent.libelle}</p>
 
@@ -104,17 +107,37 @@
                     <!-- /.card -->
 
                     <!-- About Me Box -->
-                    <p:panel class="box box-primary box-solid" header="About Me">
+                    <p:panel class="box box-primary box-solid" header="Détails">
 
-                        <strong><i class="fa fa-book mr-1"></i> Education</strong>
+                        <strong><i class="fa fa-book mr-1"></i> Gestion du temps</strong>
 
                         <p class="text-muted">
-                            B.S. in Computer Science from the University of Tennessee at Knoxville
+                            <p:panelGrid columns="6" layout="grid" 
+                                         columnClasses="ui-g-2 text-center text-muted,ui-g-2 text-center ,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted" styleClass="ui-fluid">
+                                <p:outputLabel value="Rade" class="text-bold"/>
+                                <p:outputLabel value="Quai" class="text-bold"/>
+                                <p:outputLabel value="Départ" class="text-bold"/>
+                                <p:outputLabel value="Rade(jr)" class="text-bold"/>
+                                <p:outputLabel value="Quai(jr)" class="text-bold"/>
+                                <p:outputLabel value="Port(jr)" class="text-bold"/>
+                                <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.arriveeRade)}" >
+                                    <f:convertDateTime pattern="dd/MM/yy"/>
+                                </h:outputText>
+                                <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.datePasseEntree)}">
+                                    <f:convertDateTime pattern="dd/MM/yy"/>
+                                </h:outputText>
+                                <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.departEffectif)}">
+                                    <f:convertDateTime pattern="dd/MM/yy"/>
+                                </h:outputText>
+                                <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade}"/>
+                                <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree}"/>
+                                <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}"/>
+                            </p:panelGrid>
                         </p>
 
                         <hr/>
 
-                        <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
+                        <strong><i class="fa fa-ship mr-1"></i> Mesure du navire</strong>
 
                         <p class="text-muted">Malibu, California</p>
 

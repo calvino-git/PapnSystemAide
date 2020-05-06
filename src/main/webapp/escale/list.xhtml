@@ -164,7 +164,7 @@
                                     <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
                                 </p:inputText>
                             </f:facet>
-                            <p:link value="#{e.numero}" outcome="/escale/detail">
+                            <p:link value="#{e.numero}" style="font-weight: bold" outcome="/escale/detail">
                                 <f:param name="id" value="#{e.id}"/>
                             </p:link>
                         </p:column>
