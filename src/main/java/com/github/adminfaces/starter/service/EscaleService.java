@@ -142,10 +142,10 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         if (filter.hasParam("numero")) {
             escaleCriteria.like(Escale_.numero, filter.getStringParam("numero") + "%");
         }
-//        if (filter.hasParam("agent")) {
-//            agentCriteria.like(Agent_.libelle, filter.getStringParam("agent") + "%");
-//            escaleCriteria.join(Escale_.agent, agentCriteria);
-//        }
+        if (filter.hasParam("agent")) {
+            agentCriteria.like(Agent_.libelle, filter.getStringParam("agent") + "%");
+            escaleCriteria.join(Escale_.agent, agentCriteria);
+        }
         if (filter.hasParam("an")) {
             try {
                 Date parseDebutETA = dateFormat.parse(filter.getIntParam("an") + "0101");

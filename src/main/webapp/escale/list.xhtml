@@ -147,7 +147,7 @@
                         <p:column headerText="TYPE NAVIRE" width="150" class="align-center" filterBy="#{e.typenavire}">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.filter.params.typenavire}" forceSelection="true" converter="#{typeNavireConverter}"
-                                                minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
+                                                minQueryLength="2" queryDelay="500" dropdown="false" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
                                                 completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10">
                                     <p:ajax event="itemSelect" process="@this" update="@none"
                                             oncomplete="PF('escale').filter()"/>
