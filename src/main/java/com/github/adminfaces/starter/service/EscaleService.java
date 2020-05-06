@@ -143,7 +143,7 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             escaleCriteria.like(Escale_.numero, filter.getStringParam("numero") + "%");
         }
         if (filter.hasParam("agent")) {
-            agentCriteria.like(Agent_.libelle, filter.getStringParam("agent") + "%");
+            agentCriteria.like(Agent_.libelle, filter.getStringParam("agent").toUpperCase() + "%");
             escaleCriteria.join(Escale_.agent, agentCriteria);
         }
         if (filter.hasParam("an")) {
