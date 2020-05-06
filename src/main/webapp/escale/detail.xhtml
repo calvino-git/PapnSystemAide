@@ -55,6 +55,9 @@
                 height: 36px !important;
             }
             .float-right{float:right!important}
+            .ui-panelgrid .ui-panelgrid-cell {
+                padding: 0px 10px 0px 0px!important;
+            }
 
         </style>
     </ui:define>
@@ -83,19 +86,57 @@
                         </div-->
 
                         <h3 class="profile-username text-center">#{escaleBean.entity.navire}</h3>
-                        <h5 class="text-center">#{escaleBean.entity.nacleunik.type.libelle}</h5>
+                        <h4 class="text-center">#{escaleBean.entity.nacleunik.type.libelle}</h4>
 
                         <p class="text-muted text-center">#{escaleBean.entity.agent.libelle}</p>
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Followers</b> <a class="float-right">1,322</a>
+                                <b>Arrivée en rade</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.arriveeRade.concat(escaleBean.entity.arrHRade)) }" 
+                                                  rendered="#{not empty escaleBean.entity.arriveeRade}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                    </h:outputText>
+                                </a>
                             </li>
                             <li class="list-group-item">
-                                <b>Following</b> <a class="float-right">543</a>
+                                <b>Mis à quai</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.datePasseEntree.concat(escaleBean.entity.heurePasseEntree))}" rendered="#{not empty escaleBean.entity.datePasseEntree}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                    </h:outputText>
+                                </a>
                             </li>
                             <li class="list-group-item">
-                                <b>Friends</b> <a class="float-right">13,287</a>
+                                <b>Date de sortie</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.departEffectif.concat(escaleBean.entity.depHEffectif))}" rendered="#{not empty escaleBean.entity.departEffectif}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                    </h:outputText>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Sejour en rade</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade } 
+                                                  #{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"/>
+
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Sejour à quai</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree} 
+                                                  #{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree eq 1?'jr':'jrs'}"/>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Sejour au port</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}
+                                                  #{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"/>
+                                </a>
                             </li>
                         </ul>
 
@@ -108,57 +149,51 @@
 
                     <!-- About Me Box -->
                     <p:panel class="box box-primary box-solid" header="Détails">
-
-                        <strong><i class="fa fa-book mr-1"></i> Gestion du temps</strong>
-
-                        <p class="text-muted">
-                            <p:panelGrid columns="6" layout="grid" 
-                                         columnClasses="ui-g-2 text-center text-muted,ui-g-2 text-center ,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted" styleClass="ui-fluid">
-                                <p:outputLabel value="Rade" class="text-bold"/>
-                                <p:outputLabel value="Quai" class="text-bold"/>
-                                <p:outputLabel value="Départ" class="text-bold"/>
-                                <p:outputLabel value="Rade(jr)" class="text-bold"/>
-                                <p:outputLabel value="Quai(jr)" class="text-bold"/>
-                                <p:outputLabel value="Port(jr)" class="text-bold"/>
-                                <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.arriveeRade)}" >
-                                    <f:convertDateTime pattern="dd/MM/yy"/>
-                                </h:outputText>
-                                <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.datePasseEntree)}">
-                                    <f:convertDateTime pattern="dd/MM/yy"/>
-                                </h:outputText>
-                                <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.departEffectif)}">
-                                    <f:convertDateTime pattern="dd/MM/yy"/>
-                                </h:outputText>
-                                <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade}"/>
-                                <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree}"/>
-                                <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}"/>
-                            </p:panelGrid>
-                        </p>
-
-                        <hr/>
-
                         <strong><i class="fa fa-ship mr-1"></i> Mesure du navire</strong>
 
-                        <p class="text-muted">Malibu, California</p>
+                        <p:panelGrid columns="6" layout="grid"
+                                     columnClasses="ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted"
+                                     styleClass="ui-fluid">
+                            <p:outputLabel value="Long." class="text-bold"/>
+                            <p:outputLabel value="Larg." class="text-bold"/>
+                            <p:outputLabel value="Tirant" class="text-bold"/>
+                            <p:outputLabel value="Vol." class="text-bold"/>
+                            <p:outputLabel value="TJN" class="text-bold"/>
+                            <p:outputLabel value="TJB" class="text-bold"/>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.longu}" />
+                            <h:outputText value="#{escaleBean.entity.nacleunik.largeur}" />
+                            <h:outputText value="#{escaleBean.entity.nacleunik.hauteur}" />
+                            <h:outputText value="#{escaleBean.entity.nacleunik.volume}" />
+                            <h:outputText value="#{escaleBean.entity.nacleunik.chargN/1000}">
+                                <f:convertNumber minFractionDigits="1"/>
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.chargB/1000}">
+                                <f:convertNumber maxFractionDigits="1"/>
+                            </h:outputText>
+                        </p:panelGrid>
 
                         <hr/>
 
-                        <strong><i class="fa fa-pencil mr-1"></i> Skills</strong>
+                        <strong><i class="fa fa-book mr-1"></i> Gestion du temps</strong>
+                        <p:panelGrid columns="6" layout="grid" 
+                                     columnClasses="ui-g-2 text-left text-muted,ui-g-2 text-left text-muted,ui-g-2 text-left text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted" styleClass="ui-fluid">
+                            <p:outputLabel value="Rade" class="text-bold"/>
+                            <p:outputLabel value="Quai" class="text-bold"/>
+                            <p:outputLabel value="Départ" class="text-bold"/>
+                            <p:outputLabel value="Rade(jr)" class="text-bold"/>
+                            <p:outputLabel value="Quai(jr)" class="text-bold"/>
+                            <p:outputLabel value="Port(jr)" class="text-bold"/>
+                            <h:outputText value="#{escaleBean.entity.arriveeRade}" >
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.datePasseEntree}">
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.departEffectif}">
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade}"/>
+                            <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree}"/>
+                            <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}"/>
+                        </p:panelGrid>
 
-                        <p class="text-muted">
-                            <span class="tag tag-danger">UI Design</span>
-                            <span class="tag tag-success">Coding</span>
-                            <span class="tag tag-info">Javascript</span>
-                            <span class="tag tag-warning">PHP</span>
-                            <span class="tag tag-primary">Node.js</span>
-                        </p>
-
-                        <hr/>
-
-                        <strong><i class="fa fa-file mr-1"></i> Notes</strong>
-
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim
-                            neque.</p>
                     </p:panel>
                     <!-- /.card -->
                 </div>

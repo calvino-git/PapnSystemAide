@@ -44,7 +44,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     @PostConstruct
     public void initBean() {
         init();
-        dateFormat = new SimpleDateFormat("yyyyMMdd");
+        dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
     }
 
     public List<String> completeNavire(String query) {
