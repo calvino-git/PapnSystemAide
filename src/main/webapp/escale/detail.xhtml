@@ -94,6 +94,12 @@
                         <h4 class="text-center">#{escaleBean.entity.nacleunik.type.libelle}</h4>
 
                         <p class="text-muted text-center">#{escaleBean.entity.agent.libelle}</p>
+                        <h4 style="color: #{e.situat eq 'ATTENDU' ? 'yellow'
+                                                             :escaleBean.entity.situat eq 'ANNULE' ?'red'
+                                                             :escaleBean.entity.situat eq 'RADE EXT' ? 'blue'
+                                                             :escaleBean.entity.situat eq 'A QUAI' ? 'green'
+                                                             :escaleBean.entity.situat eq 'PARTI' ? 'black'
+                                                             :'darkblue'}">#{escaleBean.entity.situat}</h4>
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
@@ -146,7 +152,7 @@
                             <li class="list-group-item">
                                 <b>Quai</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.entity.quai.libelle}(#{escaleBean.entity.quai.code})"/>
+                                    <h:outputText value="#{escaleBean.entity.quai.libelle} (#{escaleBean.entity.quai.code})"/>
                                 </a>
                             </li>
                         </ul>
