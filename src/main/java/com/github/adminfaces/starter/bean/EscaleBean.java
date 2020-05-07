@@ -41,6 +41,9 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private List<Date> range;
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat format;
+    private int nombreBLs;
+    private int nombreManifestes;
+    private int nombreCTNs;
 
     @PostConstruct
     public void initBean() {
@@ -167,6 +170,27 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public void setFormat(SimpleDateFormat format) {
         this.format = format;
+    }
+
+    public int getNombreCTNs() {
+        nombreCTNs = 0;
+        this.entity.getGeneralInfoCollection().forEach(manifeste->{
+            nombreCTNs += manifeste.getTotalNumberOfContainers();
+        });
+        return nombreCTNs;
+    }
+
+    public int getNombreBLs() {
+        nombreBLs = 0;
+        this.entity.getGeneralInfoCollection().forEach(manifeste->{
+            nombreBLs += manifeste.getTotalNumberOfBols();
+        });
+        return nombreBLs;
+    }
+
+    public int getNombreManifestes() {
+        nombreManifestes = entity.getGeneralInfoCollection().size();
+        return nombreManifestes;
     }
     
 }

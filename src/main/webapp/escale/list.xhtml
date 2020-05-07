@@ -93,6 +93,7 @@
                                     <p:commandButton id="brFind" value="Rechercher"
                                                      process="@form"
                                                      update="@form"
+                                                     oncomplete="PF('escale').filter()"
                                                      icon="fa fa-search"
                                                      styleClass="btn-primary"
                                                      partialSubmit="true"/>
@@ -205,7 +206,7 @@
                                     <f:selectItem itemLabel="RADE EXT." itemValue="RADE EXT"/>
                                     <f:selectItem itemLabel="A QUAI" itemValue="A QUAI"/>
                                     <f:selectItem itemLabel="PARTI" itemValue="PARTI"/>
-                                    <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                    <p:ajax process="@form" update="@form" oncomplete="PF('escale').filter()"/>
                                 </p:selectOneMenu>
                             </f:facet>
                             #{e.situat}

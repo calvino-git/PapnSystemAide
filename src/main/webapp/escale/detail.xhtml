@@ -59,6 +59,15 @@
                 padding: 0px 10px 0px 0px!important;
                 text-align:center!important;
             }
+            .active{
+                display:block;
+            }
+            .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header {
+                border-bottom: 1px solid #eee!important;
+                background-color: #1976d2!important;
+                border-radius: 3px 3px 0 0!important;
+                padding: 3px 3px 0 !important;
+            }
         </style>
     </ui:define>
 
@@ -94,14 +103,29 @@
                         <h4 class="text-center">#{escaleBean.entity.nacleunik.type.libelle}</h4>
 
                         <p class="text-muted text-center">#{escaleBean.entity.agent.libelle}</p>
-                        <h4 style="color: #{e.situat eq 'ATTENDU' ? 'yellow'
-                                                             :escaleBean.entity.situat eq 'ANNULE' ?'red'
-                                                             :escaleBean.entity.situat eq 'RADE EXT' ? 'blue'
-                                                             :escaleBean.entity.situat eq 'A QUAI' ? 'green'
-                                                             :escaleBean.entity.situat eq 'PARTI' ? 'black'
-                                                             :'darkblue'}">#{escaleBean.entity.situat}</h4>
+                        <h4 class="text-center" style="font-family: 'Impact';color: #{e.situat eq 'ATTENDU' ? 'yellow'
+                                                                                      :escaleBean.entity.situat eq 'ANNULE' ?'red'
+                                                                                      :escaleBean.entity.situat eq 'RADE EXT' ? 'blue'
+                                                                                      :escaleBean.entity.situat eq 'A QUAI' ? 'green'
+                                                                                      :escaleBean.entity.situat eq 'PARTI' ? 'black'
+                                                                                      :'darkblue'}">#{escaleBean.entity.situat}</h4>
 
                         <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b>ETA</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.format.parse(escaleBean.entity.arrivee.concat(escaleBean.entity.arrH)) }" 
+                                                  rendered="#{not empty escaleBean.entity.arrivee}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                    </h:outputText>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>N° voyage</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.entity.voyage}"/>
+                                </a>
+                            </li>
                             <li class="list-group-item">
                                 <b>Arrivée en rade</b>
                                 <a class="float-right">
@@ -131,7 +155,8 @@
                                 <b>Sejour en rade</b>
                                 <a class="float-right">
                                     <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade } 
-                                                  #{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"/>
+                                                  #{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"
+                                                  rendered="#{not empty escaleBean.entity.datePasseEntree and not empty escaleBean.entity.arriveeRade}"/>
 
                                 </a>
                             </li>
@@ -139,14 +164,16 @@
                                 <b>Sejour à quai</b>
                                 <a class="float-right">
                                     <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree} 
-                                                  #{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree eq 1?'jr':'jrs'}"/>
+                                                  #{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree eq 1?'jr':'jrs'}"
+                                                  rendered="#{not empty escaleBean.entity.datePasseEntree and not empty escaleBean.entity.departEffectif}"/>
                                 </a>
                             </li>
                             <li class="list-group-item">
                                 <b>Sejour au port</b>
                                 <a class="float-right">
                                     <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}
-                                                  #{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"/>
+                                                  #{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"
+                                                  rendered="#{not empty escaleBean.entity.arriveeRade and not empty escaleBean.entity.departEffectif}"/>
                                 </a>
                             </li>
                             <li class="list-group-item">
@@ -204,278 +231,189 @@
                 <!-- /.col -->
                 <div class="col-md-9">
                     <p:panel class="box box-primary">
-                        <f:facet name="header">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Manifeste</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Facture</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Autres</a></li>
-                            </ul>
-                        </f:facet>
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                <!-- Post -->
-                                <div class="post">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg"
-                                             alt="user image"/>
-                                        <span class="username">
-                                            <a href="#">Jonathan Burke Jr.</a>
-                                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                        </span>
-                                        <span class="description">Shared publicly - 7:30 PM today</span>
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p>
-                                        Lorem ipsum represents a long-held tradition for designers,
-                                        typographers and the like. Some people hate it and argue for
-                                        its demise, but others ignore the hate as they create awesome
-                                        tools to help create filler text for everyone from bacon lovers
-                                        to Charlie Sheen fans.
-                                    </p>
-
-                                    <p>
-                                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                        <span class="float-right">
-                                            <a href="#" class="link-black text-sm">
-                                                <i class="far fa-comments mr-1"></i> Comments (5)
-                                            </a>
-                                        </span>
-                                    </p>
-
-                                    <input class="form-control form-control-sm" type="text" placeholder="Type a comment"/>
-                                </div>
-                                <!-- /.post -->
-
-                                <!-- Post -->
-                                <div class="post clearfix">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm" src="../resources/images/logo-papn.png"
-                                             alt="User Image"/>
-                                        <span class="username">
-                                            <a href="#">Sarah Ross</a>
-                                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                        </span>
-                                        <span class="description">Sent you a message - 3 days ago</span>
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p>
-                                        Lorem ipsum represents a long-held tradition for designers,
-                                        typographers and the like. Some people hate it and argue for
-                                        its demise, but others ignore the hate as they create awesome
-                                        tools to help create filler text for everyone from bacon lovers
-                                        to Charlie Sheen fans.
-                                    </p>
-
-                                    <form class="form-horizontal">
-                                        <div class="input-group input-group-sm mb-0">
-                                            <input class="form-control form-control-sm" placeholder="Response"/>
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-danger">Send</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- /.post -->
-
-                                <!-- Post -->
-                                <div class="post">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm" src="../resources/images/logo-papn.png"
-                                             alt="User Image"/>
-                                        <span class="username">
-                                            <a href="#">Adam Jones</a>
-                                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                        </span>
-                                        <span class="description">Posted 5 photos - 5 days ago</span>
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <div class="row mb-3">
-                                        <div class="col-sm-6">
-                                            <img class="img-fluid" src="../resources/images/logo-papn.png" alt="Photo"/>
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <img class="img-fluid mb-3" src="../resources/images/logo-papn.png" alt="Photo"/>
-                                                    <img class="img-fluid" src="../resources/images/logo-papn.png" alt="Photo"/>
-                                                </div>
-                                                <!-- /.col -->
-                                                <div class="col-sm-6">
-                                                    <img class="img-fluid mb-3" src="../resources/images/logo-papn.png" alt="Photo"/>
-                                                    <img class="img-fluid" src="../resources/images/logo-papn.png" alt="Photo"/>
-                                                </div>
-                                                <!-- /.col -->
-                                            </div>
-                                            <!-- /.row -->
-                                        </div>
-                                        <!-- /.col -->
-                                    </div>
-                                    <!-- /.row -->
-
-                                    <p>
-                                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                        <span class="float-right">
-                                            <a href="#" class="link-black text-sm">
-                                                <i class="far fa-comments mr-1"></i> Comments (5)
-                                            </a>
-                                        </span>
-                                    </p>
-
-                                    <input class="form-control form-control-sm" type="text" placeholder="Type a comment"/>
-                                </div>
-                                <!-- /.post -->
-                            </div>
-                            <!-- /.tab-pane -->
-                            <div class="tab-pane" id="timeline">
-                                <!-- The timeline -->
-                                <div class="timeline timeline-inverse">
-                                    <!-- timeline time label -->
-                                    <div class="time-label">
-                                        <span class="bg-danger">
-                                            10 Feb. 2014
-                                        </span>
-                                    </div>
-                                    <!-- /.timeline-label -->
-                                    <!-- timeline item -->
-                                    <div>
-                                        <i class="fas fa-envelope bg-primary"></i>
-
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                                            <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                                            <div class="timeline-body">
-                                                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                                weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                                jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                                quora plaxo ideeli hulu weebly balihoo...
-                                            </div>
-                                            <div class="timeline-footer">
-                                                <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END timeline item -->
-                                    <!-- timeline item -->
-                                    <div>
-                                        <i class="fas fa-user bg-info"></i>
-
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                                            <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend
-                                                request
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <!-- END timeline item -->
-                                    <!-- timeline item -->
-                                    <div>
-                                        <i class="fas fa-comments bg-warning"></i>
-
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                                            <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                                            <div class="timeline-body">
-                                                Take me to your leader!
-                                                Switzerland is small and neutral!
-                                                We are more like Germany, ambitious and misunderstood!
-                                            </div>
-                                            <div class="timeline-footer">
-                                                <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END timeline item -->
-                                    <!-- timeline time label -->
-                                    <div class="time-label">
-                                        <span class="bg-success">
-                                            3 Jan. 2014
-                                        </span>
-                                    </div>
-                                    <!-- /.timeline-label -->
-                                    <!-- timeline item -->
-                                    <div>
-                                        <i class="fas fa-camera bg-purple"></i>
-
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                                            <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                                            <div class="timeline-body">
-                                                <img src="http://placehold.it/150x100" alt="..."/>
-                                                <img src="http://placehold.it/150x100" alt="..."/>
-                                                <img src="http://placehold.it/150x100" alt="..."/>
-                                                <img src="http://placehold.it/150x100" alt="..."/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END timeline item -->
-                                    <div>
-                                        <i class="far fa-clock bg-gray"></i>
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Estimated budget</span>
+                                        <span class="info-box-number text-center text-muted mb-0">2300</span>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.tab-pane -->
-
-                            <div class="tab-pane" id="settings">
-                                <form class="form-horizontal">
-                                    <div class="form-group row">
-                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputName" placeholder="Name"/>
-                                        </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Total amount spent</span>
+                                        <span class="info-box-number text-center text-muted mb-0">2000</span>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputName2" placeholder="Name"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="offset-sm-2 col-sm-10">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"/> I agree to the <a href="#">terms and conditions</a>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="offset-sm-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
-                            <!-- /.tab-pane -->
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Estimated project duration</span>
+                                        <span class="info-box-number text-center text-muted mb-0">20 </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <p:tabView dynamic="true" cache="true" effect="fold" >
+                            <p:tab title="Manifeste" titleStyleClass="box-solid">
+                                <h:panelGrid  columns="2" cellpadding="5">
+                                    <f:facet name="header">
+                                        <h3 class="profile-username text-center">IMPORT</h3>
+                                    </f:facet>
+                                    <h:outputText value="Manifestes reçus:" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreManifestes}" />
+
+                                    <h:outputText value="B/Ls:" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreBLs}" />
+
+                                    <h:outputText value="40':" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
+
+                                    <h:outputText value="20':" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
+                                </h:panelGrid>
+                                <h:panelGrid  columns="2" cellpadding="5">
+                                    <f:facet name="header">
+                                        <h3 class="profile-username text-center">EXPORT</h3>
+                                    </f:facet>
+                                    <h:outputText value="Manifestes reçus:" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreManifestes}" />
+
+                                    <h:outputText value="B/Ls:" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreBLs}" />
+
+                                    <h:outputText value="40':" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
+
+                                    <h:outputText value="20':" style="font-weight: bold"/>
+                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
+                                </h:panelGrid>
+
+                            </p:tab>
+                            <p:tab title="Facture" titleStyleClass="box-solid">
+                                <p:panelGrid style="margin-top:20px">
+                                    <f:facet name="header">
+                                        <p:row>
+                                            <p:column colspan="7">1995-96 NBA Playoffs</p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column colspan="2">Conf. Semifinals</p:column>
+                                            <p:column colspan="2">Conf. Finals</p:column>
+                                            <p:column colspan="2">NBA Finals</p:column>
+                                            <p:column>Champion</p:column>
+                                        </p:row>
+
+                                    </f:facet>
+
+                                    <p:row>
+                                        <p:column style="font-weight: bold;">Seattle</p:column>
+                                        <p:column style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="2" style="font-weight: bold;">Seattle</p:column>
+                                        <p:column rowspan="2" style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="5">Seattle</p:column>
+                                        <p:column rowspan="5">2</p:column>
+
+                                        <p:column rowspan="11" style="font-weight: bold;">Chicago</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column>Houston</p:column>
+                                        <p:column >0</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="4" styleClass="ui-widget-header">
+                                            <p:spacer height="0"/>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column style="font-weight: bold;">Utah</p:column>
+                                        <p:column style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="2">Utah</p:column>
+                                        <p:column rowspan="2">3</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column>San Antonio</p:column>
+                                        <p:column >2</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="6" styleClass="ui-widget-header">
+                                            <p:spacer height="0"/>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column style="font-weight: bold;">Chicago</p:column>
+                                        <p:column style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="2" style="font-weight: bold;">Chicago</p:column>
+                                        <p:column rowspan="2" style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="5" style="font-weight: bold;">Chicago</p:column>
+                                        <p:column rowspan="5" style="font-weight: bold;">4</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column>New York</p:column>
+                                        <p:column >1</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="4" styleClass="ui-widget-header">
+                                            <p:spacer height="0"/>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column>Atlanta</p:column>
+                                        <p:column >1</p:column>
+
+                                        <p:column rowspan="2">Orlando</p:column>
+                                        <p:column rowspan="2">0</p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column style="font-weight: bold;">Orlando</p:column>
+                                        <p:column style="font-weight: bold;">4</p:column>
+                                    </p:row>
+
+
+                                    <f:facet name="footer">
+                                        <p:row>
+                                            <p:column  colspan="4" style="text-align: right">
+                                                Finals MVP
+                                            </p:column>
+                                            <p:column  colspan="3" rowspan="3">
+                                                Michael Jordan (Chicago)
+                                            </p:column>
+                                        </p:row>
+
+                                        <p:row>
+                                            <p:column  colspan="4" style="text-align: right">
+                                                Season MVP
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column  colspan="4" style="text-align: right">
+                                                Top Scorer
+                                            </p:column>
+                                        </p:row>
+                                    </f:facet>
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Autres" titleStyleClass="box-solid">
+
+                            </p:tab>
+                        </p:tabView>
                     </p:panel>            
                 </div>
                 <!-- /.col -->
