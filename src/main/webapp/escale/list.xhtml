@@ -179,8 +179,16 @@
                         <p:column headerText="AGENT" width="200" sortBy="#{e.agent}" filterBy="#{e.agent}" filterMatchMode="contains">
                             #{e.agent}
                         </p:column>
-                        <p:column headerText="QUAI" width="50" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center">
-                            #{e.quai}
+                        <p:column headerText="QUAI" width="50" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center" >
+                            <div id="quai#{x+1}">
+                                <h:outputText class="text-bold" value="#{e.quai}"/>
+                            </div>
+                            <p:outputPanel>
+                                <p:autoUpdate/>
+                                <p:tooltip for="@(div[id$=quai#{x+1}])" escape="false" position="top"
+                                           showEvent="mouseover" hideEvent="mouseleave"
+                                           value="#{e.quai.libelle}"/>
+                            </p:outputPanel>
                         </p:column>
                         <p:column headerText="SITUATION" width="100" sortBy="#{e.situat}" filterBy="#{e.situat}"
                                   style="background-color: #{e.situat eq 'ATTENDU' ? '#ff0'
@@ -345,6 +353,7 @@
                        showEvent="mouseover" hideEvent="mouseleave"
                        value="#{escaleBean.searchCriteria}"/>
         </p:outputPanel>
+
 
     </ui:define>
 

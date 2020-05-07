@@ -40,11 +40,13 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private String numeroEscale;
     private List<Date> range;
     private SimpleDateFormat dateFormat;
+    private SimpleDateFormat format;
 
     @PostConstruct
     public void initBean() {
         init();
-        dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+        dateFormat = new SimpleDateFormat("yyyyMMdd");
+        format = new SimpleDateFormat("yyyyMMddhhmm");
     }
 
     public List<String> completeNavire(String query) {
@@ -158,4 +160,13 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     public SimpleDateFormat getDateFormat() {
         return dateFormat;
     }
+
+    public SimpleDateFormat getFormat() {
+        return format;
+    }
+
+    public void setFormat(SimpleDateFormat format) {
+        this.format = format;
+    }
+    
 }

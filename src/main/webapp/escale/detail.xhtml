@@ -65,8 +65,8 @@
     <ui:define name="title">
         Escale N° <b>#{escaleBean.entity.numero}</b> du navire <b>#{escaleBean.entity.navire}</b> 
         prévu le <b>
-            <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.arrivee.concat(escaleBean.entity.arrH))}">
-                <f:convertDateTime pattern="dd MMM yyyy hh:mm"/>
+            <h:outputText value="#{escaleBean.format.parse(escaleBean.entity.arrivee.concat(escaleBean.entity.arrH))}">
+                <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
             </h:outputText>
         </b>
     </ui:define>
@@ -99,7 +99,7 @@
                             <li class="list-group-item">
                                 <b>Arrivée en rade</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.arriveeRade.concat(escaleBean.entity.arrHRade)) }" 
+                                    <h:outputText value="#{escaleBean.format.parse(escaleBean.entity.arriveeRade.concat(escaleBean.entity.arrHRade)) }" 
                                                   rendered="#{not empty escaleBean.entity.arriveeRade}">
                                         <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
                                     </h:outputText>
@@ -108,7 +108,7 @@
                             <li class="list-group-item">
                                 <b>Mis à quai</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.datePasseEntree.concat(escaleBean.entity.heurePasseEntree))}" rendered="#{not empty escaleBean.entity.datePasseEntree}" >
+                                    <h:outputText value="#{escaleBean.format.parse(escaleBean.entity.datePasseEntree.concat(escaleBean.entity.heurePasseEntree))}" rendered="#{not empty escaleBean.entity.datePasseEntree}" >
                                         <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
                                     </h:outputText>
                                 </a>
@@ -116,7 +116,7 @@
                             <li class="list-group-item">
                                 <b>Date de sortie</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.departEffectif.concat(escaleBean.entity.depHEffectif))}" rendered="#{not empty escaleBean.entity.departEffectif}">
+                                    <h:outputText value="#{escaleBean.format.parse(escaleBean.entity.departEffectif.concat(escaleBean.entity.depHEffectif))}" rendered="#{not empty escaleBean.entity.departEffectif}">
                                         <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
                                     </h:outputText>
                                 </a>
@@ -141,6 +141,12 @@
                                 <a class="float-right">
                                     <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}
                                                   #{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"/>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Quai</b>
+                                <a class="float-right">
+                                    <h:outputText value="#{escaleBean.entity.quai.libelle}(#{escaleBean.entity.quai.code})"/>
                                 </a>
                             </li>
                         </ul>
@@ -175,13 +181,13 @@
                                 <f:convertNumber pattern="#0.0" locale="fr"/>
                             </h:outputText>
                             <h:outputText value="#{escaleBean.entity.nacleunik.volume}" >
-                                <f:convertNumber pattern="#0,000.0" locale="fr"/>
+                                <f:convertNumber pattern="#0,000" locale="fr"/>
                             </h:outputText>
                             <h:outputText value="#{escaleBean.entity.nacleunik.chargN}">
-                                <f:convertNumber pattern="#0,000.0" locale="fr"/>
+                                <f:convertNumber pattern="#0,000" locale="fr"/>
                             </h:outputText>
                             <h:outputText value="#{escaleBean.entity.nacleunik.chargB}">
-                                <f:convertNumber pattern="#0,000.0" locale="fr"/>
+                                <f:convertNumber pattern="#0,000" locale="fr"/>
                             </h:outputText>
                         </p:panelGrid>
 
