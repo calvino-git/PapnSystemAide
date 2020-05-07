@@ -446,8 +446,8 @@ public class Escale extends BaseEntity implements Serializable {
     @Column(name = "TRAITE")
     private BigInteger traite;
     @Size(max = 8)
-    @Column(name = "QUAI")
-    private String quai;
+    @JoinColumn(name = "quai", referencedColumnName = "code")
+    private Quais quai;
     @Column(name = "TONNAGE")
     private BigDecimal tonnage;
     @Size(max = 8)
@@ -1429,11 +1429,11 @@ public class Escale extends BaseEntity implements Serializable {
         this.traite = traite;
     }
 
-    public String getQuai() {
+    public Quais getQuai() {
         return quai;
     }
 
-    public void setQuai(String quai) {
+    public void setQuai(Quais quai) {
         this.quai = quai;
     }
 
