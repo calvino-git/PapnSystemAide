@@ -57,17 +57,23 @@
             .float-right{float:right!important}
             .ui-panelgrid .ui-panelgrid-cell {
                 padding: 0px 10px 0px 0px!important;
+                text-align:center!important;
             }
 
         </style>
     </ui:define>
 
     <ui:define name="title">
-        Escale N° <b>#{escaleBean.entity.numero}</b> du navire <b>#{escaleBean.entity.navire} </b>
+        Escale N° <b>#{escaleBean.entity.numero}</b> du navire <b>#{escaleBean.entity.navire}</b> 
+        prévu le <b>
+            <h:outputText value="#{escaleBean.dateFormat.parse(escaleBean.entity.arrivee.concat(escaleBean.entity.arrH))}">
+                <f:convertDateTime pattern="dd MMM yyyy hh:mm"/>
+            </h:outputText>
+        </b>
     </ui:define>
 
     <ui:define name="body">
-        <adm:breadcrumb title="#{'Escale '.concat(escaleBean.entity.numero)}" link="escale/detail.xhtml?id=#{escaleBean.id}"/>
+        <adm:breadcrumb title="#{'Escale '.concat(escaleBean.entity.numero.substring(6))}" link="escale/detail.xhtml?id=#{escaleBean.id}"/>
 
         <div class="container-fluid">
             <div class="row">
@@ -160,40 +166,27 @@
                             <p:outputLabel value="Vol." class="text-bold"/>
                             <p:outputLabel value="TJN" class="text-bold"/>
                             <p:outputLabel value="TJB" class="text-bold"/>
-                            <h:outputText value="#{escaleBean.entity.nacleunik.longu}" />
-                            <h:outputText value="#{escaleBean.entity.nacleunik.largeur}" />
-                            <h:outputText value="#{escaleBean.entity.nacleunik.hauteur}" />
-                            <h:outputText value="#{escaleBean.entity.nacleunik.volume}" />
-                            <h:outputText value="#{escaleBean.entity.nacleunik.chargN/1000}">
-                                <f:convertNumber minFractionDigits="1"/>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.longu}" >
+                                <f:convertNumber pattern="#0.0" locale="fr"/>
                             </h:outputText>
-                            <h:outputText value="#{escaleBean.entity.nacleunik.chargB/1000}">
-                                <f:convertNumber maxFractionDigits="1"/>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.largeur}" >
+                                <f:convertNumber pattern="#0.0" locale="fr"/>
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.hauteur}" >
+                                <f:convertNumber pattern="#0.0" locale="fr"/>
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.volume}" >
+                                <f:convertNumber pattern="#0,000.0" locale="fr"/>
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.chargN}">
+                                <f:convertNumber pattern="#0,000.0" locale="fr"/>
+                            </h:outputText>
+                            <h:outputText value="#{escaleBean.entity.nacleunik.chargB}">
+                                <f:convertNumber pattern="#0,000.0" locale="fr"/>
                             </h:outputText>
                         </p:panelGrid>
 
                         <hr/>
-
-                        <strong><i class="fa fa-book mr-1"></i> Gestion du temps</strong>
-                        <p:panelGrid columns="6" layout="grid" 
-                                     columnClasses="ui-g-2 text-left text-muted,ui-g-2 text-left text-muted,ui-g-2 text-left text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted,ui-g-2 text-center text-muted" styleClass="ui-fluid">
-                            <p:outputLabel value="Rade" class="text-bold"/>
-                            <p:outputLabel value="Quai" class="text-bold"/>
-                            <p:outputLabel value="Départ" class="text-bold"/>
-                            <p:outputLabel value="Rade(jr)" class="text-bold"/>
-                            <p:outputLabel value="Quai(jr)" class="text-bold"/>
-                            <p:outputLabel value="Port(jr)" class="text-bold"/>
-                            <h:outputText value="#{escaleBean.entity.arriveeRade}" >
-                            </h:outputText>
-                            <h:outputText value="#{escaleBean.entity.datePasseEntree}">
-                            </h:outputText>
-                            <h:outputText value="#{escaleBean.entity.departEffectif}">
-                            </h:outputText>
-                            <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade}"/>
-                            <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree}"/>
-                            <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}"/>
-                        </p:panelGrid>
-
                     </p:panel>
                     <!-- /.card -->
                 </div>

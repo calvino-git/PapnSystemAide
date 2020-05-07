@@ -9,7 +9,35 @@
   </security-configurations>
   <managed-job-config></managed-job-config>
   <system-applications></system-applications>
-  <applications></applications>
+  <applications>
+    <application deployment-time="10964" context-root="/" object-type="user" name="SysAide" directory-deployed="true" location="file:/C:/Users/60610H/Documents/NetBeansProjects/SysAide/target/SysAide/" time-deployed="1588844632554" availability-enabled="true">
+      <property name="archiveType" value="war"></property>
+      <property name="cdiDevModeEnabled" value="false"></property>
+      <property name="appLocation" value="file:/C:/Users/60610H/Documents/NetBeansProjects/SysAide/target/SysAide/"></property>
+      <property name="org.glassfish.ejb.container.application_unique_id" value="104126519522230272"></property>
+      <property name="defaultAppName" value="SysAide"></property>
+      <module name="SysAide">
+        <engine sniffer="cdi"></engine>
+        <engine sniffer="ejb"></engine>
+        <engine sniffer="security"></engine>
+        <engine sniffer="jpa"></engine>
+        <engine sniffer="resources"></engine>
+        <engine sniffer="web"></engine>
+      </module>
+      <resources>
+        <jdbc-connection-pool datasource-classname="oracle.jdbc.pool.OracleDataSource" name="java:app/oracle-thin_VIRTRE_ppncargoPool" wrap-jdbc-objects="false" sql-trace-listeners="" connection-validation-method="auto-commit" res-type="javax.sql.DataSource">
+          <property name="URL" value="jdbc:oracle:thin:@10.0.55.203:1521:VIRTRE"></property>
+          <property name="driverClass" value="oracle.jdbc.OracleDriver"></property>
+          <property name="Password" value="ppncargo"></property>
+          <property name="portNumber" value="1521"></property>
+          <property name="databaseName" value="VIRTRE"></property>
+          <property name="User" value="ppncargo"></property>
+          <property name="serverName" value="10.0.55.203"></property>
+        </jdbc-connection-pool>
+        <jdbc-resource pool-name="java:app/oracle-thin_VIRTRE_ppncargoPool" jndi-name="java:app/jdbc/cargo"></jdbc-resource>
+      </resources>
+    </application>
+  </applications>
   <resources>
     <jdbc-resource pool-name="H2Pool" object-type="system-all" jndi-name="jdbc/__default"></jdbc-resource>
     <jdbc-connection-pool is-isolation-level-guaranteed="false" datasource-classname="org.h2.jdbcx.JdbcDataSource" name="H2Pool" res-type="javax.sql.DataSource">
@@ -22,6 +50,7 @@
   </resources>
   <servers>
     <server config-ref="server-config" name="server">
+      <application-ref ref="SysAide" virtual-servers="server"></application-ref>
       <resource-ref ref="jdbc/__default"></resource-ref>
       <resource-ref ref="concurrent/__defaultContextService"></resource-ref>
       <resource-ref ref="concurrent/__defaultManagedExecutorService"></resource-ref>
