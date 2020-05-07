@@ -172,13 +172,13 @@
                             <p:outputLabel value="TJN" class="text-bold"/>
                             <p:outputLabel value="TJB" class="text-bold"/>
                             <h:outputText value="#{escaleBean.entity.nacleunik.longu}" >
-                                <f:convertNumber pattern="#0.0" locale="fr"/>
+                                <f:convertNumber maxFractionDigits="2" locale="fr"/>
                             </h:outputText>
                             <h:outputText value="#{escaleBean.entity.nacleunik.largeur}" >
-                                <f:convertNumber pattern="#0.0" locale="fr"/>
+                                <f:convertNumber maxFractionDigits="2" locale="fr"/>
                             </h:outputText>
                             <h:outputText value="#{escaleBean.entity.nacleunik.hauteur}" >
-                                <f:convertNumber pattern="#0.0" locale="fr"/>
+                                <f:convertNumber maxFractionDigits="2" locale="fr"/>
                             </h:outputText>
                             <h:outputText value="#{escaleBean.entity.nacleunik.volume}" >
                                 <f:convertNumber pattern="#0,000" locale="fr"/>
