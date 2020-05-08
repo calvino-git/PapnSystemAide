@@ -23,7 +23,7 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <SAUCE_KEY></SAUCE_KEY>
         <version.payara>5.192</version.payara>
-        <rootdir.payara>payara</rootdir.payara>
+        <rootdir.payara>../payara</rootdir.payara>
     </properties>
 
     <dependencies>
