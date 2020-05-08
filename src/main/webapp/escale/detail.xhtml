@@ -59,6 +59,58 @@
                 padding: 0px 10px 0px 0px!important;
                 text-align:center!important;
             }
+            body .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active.box-solid {
+
+                background: #fff!important;;
+                border-color: #f6f7f9!important;;
+                /* border-radius: 3px; */
+                -moz-border-radius: 3px!important;;
+                /* -webkit-border-radius: 3px; */
+            }
+            body .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active {
+                border-top: 3px solid #f6f7f9!important;;
+            }
+            .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {
+                border-radius: 4px 4px 0 0!important;;
+            }
+            body .ui-tabs .ui-tabs-nav>li.ui-state-default {
+                background: #3c8dbc!important;;
+            }
+            body .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active.box-solid a {
+                color: #555!important;;
+            }
+            .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+                color: #fff!important;;
+                text-decoration: none!important;
+            }
+            .ui-tabs:not(.ui-ribbon) .ui-tabs-nav {
+                background: #3c8dbc!important;
+            }
+            body .ui-tabs li:hover{
+                background:#3c8dba!important;
+            }
+            body .ui-widget-content .ui-state-default, body .ui-widget-header .ui-state-default {
+                border-color: #3c8dba!important;
+            }
+            .info-box {
+                box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2)!important;
+                border-radius: .25rem!important;
+                background: #fff!important;
+                display: -ms-flexbox!important;
+                display: flex!important;
+                margin-bottom: 1rem!important;
+                min-height: 80px!important;
+                padding: .5rem!important;
+                position: relative!important;
+            }
+            .info-box .info-box-content {
+                -ms-flex: 1!important;
+                flex: 1!important;
+                padding: 5px 10px!important;
+            }
+            .bg-light {
+                background-color: #f8f9fa!important;
+            }
         </style>
     </ui:define>
 
@@ -184,7 +236,7 @@
 
                     <!-- About Me Box -->
                     <p:panel class="box box-primary box-solid" header="Détails">
-                        <strong><i class="fa fa-ship mr-1"></i> Mesure du navire</strong>
+                        <strong><ion-icon name="heart" class="mr-1"></ion-icon> <i class="fa fa-ship mr-1"> </i> Mesure du navire</strong>
 
                         <p:panelGrid columns="6" layout="grid"
                                      columnClasses="ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted,ui-g-2 text-muted"
