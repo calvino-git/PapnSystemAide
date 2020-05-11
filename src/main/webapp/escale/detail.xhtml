@@ -323,8 +323,9 @@
                             </div>
                         </f:facet>
                         <p:tabView dynamic="true" cache="true" effect="fold" style="box-shadow: 0 0 2px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2)!important;">
-                            <p:tab title="Manifeste" titleStyleClass="box-solid" class="ui-fluid">
-                                <p:panelGrid columns="2" class="ui-g-3" columnClasses="label text-left,value text-right" >
+                            <p:tab title="Manifeste" titleStyleClass="box-solid" class="ui-g ui-fluid">
+                                <div class="ui-g">
+                                    <p:panelGrid columns="2" class="ui-g-3" columnClasses="label text-left,value text-right" >
                                     <f:facet name="header">
                                         TOTAUX
                                     </f:facet>
@@ -341,7 +342,7 @@
                                     <h:outputText value="Poids:" />
                                     <h:outputText value="$#{escaleBean.poidsTotal}" />
                                 </p:panelGrid>
-                                <p:panelGrid class="ui-g-9">
+                                    <p:panelGrid class="ui-g-9">
                                     <f:facet name="header">
                                         <p:row>
                                             <p:column colspan="7">DOUANE</p:column>
@@ -456,7 +457,7 @@
                                         </p:row>
                                     </f:facet>
                                 </p:panelGrid>
-
+                                </div>
                             </p:tab>
                             <p:tab title="Facture" titleStyleClass="box-solid">
 
