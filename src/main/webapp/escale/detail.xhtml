@@ -54,10 +54,8 @@
             .ui-fluid .ui-inputfield {
                 height: 36px !important;
             }
-            .float-right{float:right!important}
-            .ui-panelgrid .ui-panelgrid-cell {
-                padding: 0px 10px 0px 0px!important;
-                text-align:center!important;
+            .float-right{
+                float:right!important
             }
             body .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active.box-solid {
 
@@ -292,72 +290,83 @@
                             <div class="col-12 col-sm-3 " style="padding-left: 0px">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Recette</span>
-                                        <span class="info-box-number text-center text-muted mb-0">2300</span>
+                                        <span class="info-box-text text-center text-muted">Manifestes</span>
+                                        <span class="info-box-number text-center text-muted mb-0">#{escaleBean.nombreManifestes}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-3" style="padding-right: 10px;padding-left: 10px;">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Recouvrement</span>
-                                        <span class="info-box-number text-center text-muted mb-0">2000</span>
+                                        <span class="info-box-text text-center text-muted">BLs</span>
+                                        <span class="info-box-number text-center text-muted mb-0">#{escaleBean.nombreBLs}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-3" style="padding-right: 10px;padding-left: 10px;">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Solde</span>
-                                        <span class="info-box-number text-center text-muted mb-0">20 </span>
+                                        <span class="info-box-text text-center text-muted">Conteneurs</span>
+                                        <span class="info-box-number text-center text-muted mb-0">#{escaleBean.nombreCTNs} </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-3"  style="padding-right: 0px">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Solde</span>
-                                        <span class="info-box-number text-center text-muted mb-0">20 </span>
+                                        <span class="info-box-text text-center text-muted">Tonnage</span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            <h:outputText value="#{escaleBean.poidsTotal}">
+                                                <f:convertNumber pattern="#0,000" locale="fr"/>
+                                            </h:outputText> 
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </f:facet>
                         <p:tabView dynamic="true" cache="true" effect="fold" style="box-shadow: 0 0 2px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2)!important;">
-                            <p:tab title="Manifeste" titleStyleClass="box-solid" class="ui-g ui-fluid">
-                                <div class="ui-g">
-                                    <p:panelGrid columns="2" class="ui-g-3" columnClasses="label text-left,value text-right" >
-                                    <f:facet name="header">
-                                        TOTAUX
-                                    </f:facet>
-
-                                    <h:outputText value="Manifestes:" />
-                                    <h:outputText value="#{escaleBean.nombreManifestes}" />
-
-                                    <h:outputText value="BLs:" />
-                                    <h:outputText value="#{escaleBean.nombreBLs}" />
-
-                                    <h:outputText value="Conteneurs:" />
-                                    <h:outputText value="#{escaleBean.nombreCTNs}"/>
-
-                                    <h:outputText value="Poids:" />
-                                    <h:outputText value="$#{escaleBean.poidsTotal}" />
-                                </p:panelGrid>
-                                    <p:panelGrid class="ui-g-9">
+                            <p:tab title="Manifeste" titleStyleClass="box-solid" >
+                                <p:panelGrid style="width: 100%">
                                     <f:facet name="header">
                                         <p:row>
-                                            <p:column colspan="7">DOUANE</p:column>
+                                            <p:column colspan="8">DOUANE</p:column>
                                         </p:row>
                                         <p:row>
-                                            <p:column colspan="2">Conf. Semifinals</p:column>
-                                            <p:column colspan="2">Conf. Finals</p:column>
-                                            <p:column colspan="2">NBA Finals</p:column>
-                                            <p:column>Champion</p:column>
+                                           <p:column colspan="1">Mouvement</p:column>
+                                            <p:column colspan="1">Trafic</p:column>
+                                            <p:column colspan="1">Tonnage</p:column>
+                                            <p:column colspan="1">EVP</p:column>
+                                            <p:column colspan="1">Plein</p:column>*
+                                            <p:column colspan="1">Vide</p:column>
+                                            <p:column colspan="1">Total</p:column>
                                         </p:row>
 
                                     </f:facet>
 
                                     <p:row>
-                                        <p:column style="font-weight: bold;">Seattle</p:column>
+                                        <p:column rowspan="2" style="font-weight: bold;">DEBARQUEMENT</p:column>
+                                        <p:column style="font-weight: bold;">Import</p:column>
+                                        <p:column style="font-weight: bold;">Transbo</p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column rowspan="2" style="font-weight: bold;">EMBARQUEMENT</p:column>
+                                        <p:column style="font-weight: bold;">Export</p:column>
+                                        <p:column style="font-weight: bold;">Transbo</p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="font-weight: bold;">EXPORT</p:column>
+                                        <p:column style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="2" style="font-weight: bold;">Seattle</p:column>
+                                        <p:column rowspan="2" style="font-weight: bold;">4</p:column>
+
+                                        <p:column rowspan="5">Seattle</p:column>
+                                        <p:column rowspan="5">2</p:column>
+
+                                        <p:column rowspan="11" style="font-weight: bold;">Chicago</p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="font-weight: bold;">TRANSBO. EXPORT</p:column>
                                         <p:column style="font-weight: bold;">4</p:column>
 
                                         <p:column rowspan="2" style="font-weight: bold;">Seattle</p:column>
@@ -369,70 +378,7 @@
                                         <p:column rowspan="11" style="font-weight: bold;">Chicago</p:column>
                                     </p:row>
 
-                                    <p:row>
-                                        <p:column>Houston</p:column>
-                                        <p:column >0</p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column colspan="4" styleClass="ui-widget-header">
-                                            <p:spacer height="0"/>
-                                        </p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column style="font-weight: bold;">Utah</p:column>
-                                        <p:column style="font-weight: bold;">4</p:column>
-
-                                        <p:column rowspan="2">Utah</p:column>
-                                        <p:column rowspan="2">3</p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column>San Antonio</p:column>
-                                        <p:column >2</p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column colspan="6" styleClass="ui-widget-header">
-                                            <p:spacer height="0"/>
-                                        </p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column style="font-weight: bold;">Chicago</p:column>
-                                        <p:column style="font-weight: bold;">4</p:column>
-
-                                        <p:column rowspan="2" style="font-weight: bold;">Chicago</p:column>
-                                        <p:column rowspan="2" style="font-weight: bold;">4</p:column>
-
-                                        <p:column rowspan="5" style="font-weight: bold;">Chicago</p:column>
-                                        <p:column rowspan="5" style="font-weight: bold;">4</p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column>New York</p:column>
-                                        <p:column >1</p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column colspan="4" styleClass="ui-widget-header">
-                                            <p:spacer height="0"/>
-                                        </p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column>Atlanta</p:column>
-                                        <p:column >1</p:column>
-
-                                        <p:column rowspan="2">Orlando</p:column>
-                                        <p:column rowspan="2">0</p:column>
-                                    </p:row>
-
-                                    <p:row>
-                                        <p:column style="font-weight: bold;">Orlando</p:column>
-                                        <p:column style="font-weight: bold;">4</p:column>
-                                    </p:row>
+                                    
 
 
                                     <f:facet name="footer">
@@ -457,7 +403,6 @@
                                         </p:row>
                                     </f:facet>
                                 </p:panelGrid>
-                                </div>
                             </p:tab>
                             <p:tab title="Facture" titleStyleClass="box-solid">
 
