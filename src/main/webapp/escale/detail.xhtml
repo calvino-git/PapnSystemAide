@@ -107,9 +107,23 @@
                 -ms-flex: 1!important;
                 flex: 1!important;
                 padding: 5px 10px!important;
+                margin:0!important
             }
             .bg-light {
                 background-color: #f8f9fa!important;
+            }
+            div.ui-panel .ui-panel-title {
+                display: block!important;
+            }
+            .ui-panel.ui-widget .ui-panel-titlebar {
+                border: none!important;
+                padding: .7em;
+            }
+            .value {
+                font-weight: bold;
+            }
+            .label {
+                color: #000!important;
             }
         </style>
     </ui:define>
@@ -274,73 +288,63 @@
                 <!-- /.col -->
                 <div class="col-md-9">
                     <p:panel class="box box-primary">
-                        <div class="row">
-                            <div class="col-12 col-sm-4">
+                        <f:facet name="header">
+                            <div class="col-12 col-sm-3 " style="padding-left: 0px">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Estimated budget</span>
+                                        <span class="info-box-text text-center text-muted">Recette</span>
                                         <span class="info-box-number text-center text-muted mb-0">2300</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-4">
+                            <div class="col-12 col-sm-3" style="padding-right: 10px;padding-left: 10px;">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Total amount spent</span>
+                                        <span class="info-box-text text-center text-muted">Recouvrement</span>
                                         <span class="info-box-number text-center text-muted mb-0">2000</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-4">
+                            <div class="col-12 col-sm-3" style="padding-right: 10px;padding-left: 10px;">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Estimated project duration</span>
+                                        <span class="info-box-text text-center text-muted">Solde</span>
                                         <span class="info-box-number text-center text-muted mb-0">20 </span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <p:tabView dynamic="true" cache="true" effect="fold" >
-                            <p:tab title="Manifeste" titleStyleClass="box-solid">
-                                <h:panelGrid  columns="2" cellpadding="5">
+                            <div class="col-12 col-sm-3"  style="padding-right: 0px">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Solde</span>
+                                        <span class="info-box-number text-center text-muted mb-0">20 </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:tabView dynamic="true" cache="true" effect="fold" style="box-shadow: 0 0 2px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2)!important;">
+                            <p:tab title="Manifeste" titleStyleClass="box-solid" class="ui-fluid">
+                                <p:panelGrid columns="2" class="ui-g-3" columnClasses="label text-left,value text-right" >
                                     <f:facet name="header">
-                                        <h3 class="profile-username text-center">IMPORT</h3>
+                                        TOTAUX
                                     </f:facet>
-                                    <h:outputText value="Manifestes reçus:" style="font-weight: bold"/>
+
+                                    <h:outputText value="Manifestes:" />
                                     <h:outputText value="#{escaleBean.nombreManifestes}" />
 
-                                    <h:outputText value="B/Ls:" style="font-weight: bold"/>
+                                    <h:outputText value="BLs:" />
                                     <h:outputText value="#{escaleBean.nombreBLs}" />
 
-                                    <h:outputText value="40':" style="font-weight: bold"/>
-                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
+                                    <h:outputText value="Conteneurs:" />
+                                    <h:outputText value="#{escaleBean.nombreCTNs}"/>
 
-                                    <h:outputText value="20':" style="font-weight: bold"/>
-                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
-                                </h:panelGrid>
-                                <h:panelGrid  columns="2" cellpadding="5">
-                                    <f:facet name="header">
-                                        <h3 class="profile-username text-center">EXPORT</h3>
-                                    </f:facet>
-                                    <h:outputText value="Manifestes reçus:" style="font-weight: bold"/>
-                                    <h:outputText value="#{escaleBean.nombreManifestes}" />
-
-                                    <h:outputText value="B/Ls:" style="font-weight: bold"/>
-                                    <h:outputText value="#{escaleBean.nombreBLs}" />
-
-                                    <h:outputText value="40':" style="font-weight: bold"/>
-                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
-
-                                    <h:outputText value="20':" style="font-weight: bold"/>
-                                    <h:outputText value="#{escaleBean.nombreCTNs}" />
-                                </h:panelGrid>
-
-                            </p:tab>
-                            <p:tab title="Facture" titleStyleClass="box-solid">
-                                <p:panelGrid style="margin-top:20px">
+                                    <h:outputText value="Poids:" />
+                                    <h:outputText value="$#{escaleBean.poidsTotal}" />
+                                </p:panelGrid>
+                                <p:panelGrid class="ui-g-9">
                                     <f:facet name="header">
                                         <p:row>
-                                            <p:column colspan="7">1995-96 NBA Playoffs</p:column>
+                                            <p:column colspan="7">DOUANE</p:column>
                                         </p:row>
                                         <p:row>
                                             <p:column colspan="2">Conf. Semifinals</p:column>
@@ -452,6 +456,10 @@
                                         </p:row>
                                     </f:facet>
                                 </p:panelGrid>
+
+                            </p:tab>
+                            <p:tab title="Facture" titleStyleClass="box-solid">
+
                             </p:tab>
                             <p:tab title="Autres" titleStyleClass="box-solid">
 

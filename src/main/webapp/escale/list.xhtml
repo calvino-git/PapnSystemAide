@@ -94,8 +94,7 @@
                                                      process="@form"
                                                      update="@form"
                                                      icon="fa fa-search"
-                                                     styleClass="btn-primary"
-                                                     partialSubmit="true"/>
+                                                     styleClass="btn-primary"/>
                                 </div>
                                 <div class="ui-g-2">
                                     <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
@@ -113,7 +112,7 @@
                                         <f:selectItem itemLabel="TOUT" />
                                         <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
                                         <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
-                                        <p:ajax process="@this" update="@none" />
+                                        <p:ajax process="@form" update="@form" />
                                     </p:selectOneButton>
                                 </div>
                                 <div class="ui-g-2">

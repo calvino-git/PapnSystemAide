@@ -44,6 +44,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private int nombreBLs;
     private int nombreManifestes;
     private int nombreCTNs;
+    private double poidsTotal;
 
     @PostConstruct
     public void initBean() {
@@ -191,6 +192,14 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     public int getNombreManifestes() {
         nombreManifestes = entity.getGeneralInfoCollection().size();
         return nombreManifestes;
+    }
+
+    public double getPoidsTotal() {
+        poidsTotal = 0;
+        this.entity.getGeneralInfoCollection().forEach(manifeste->{
+            poidsTotal += manifeste.getTotalGrossMass();
+        });
+        return poidsTotal;
     }
     
 }
