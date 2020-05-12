@@ -7,12 +7,16 @@ package com.github.adminfaces.starter.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -121,10 +125,6 @@ public class BillOfLanding implements Serializable {
     @NotNull
     @Column(name = "GROSS_MASS")
     private double grossMass;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_GENERAL")
-    private long idGeneral;
     @Size(max = 255)
     @Column(name = "INFORMATION")
     private String information;
@@ -187,6 +187,13 @@ public class BillOfLanding implements Serializable {
     @NotNull
     @Column(name = "VOLUME_IN_CUBIC_METERS")
     private double volumeInCubicMeters;
+    
+    @JoinColumn(name = "ID_GENERAL", referencedColumnName = "ID")
+    @ManyToOne
+    private GeneralInfo idGeneral;
+    
+    @OneToMany(mappedBy = "idBol")
+    private Collection<Container> containerCollection;
 
     public BillOfLanding() {
     }
@@ -195,7 +202,7 @@ public class BillOfLanding implements Serializable {
         this.idBol = idBol;
     }
 
-    public BillOfLanding(Long idBol, double grossMass, long idGeneral, BigInteger lineNumber, double numOfCtnForThisBol, double numberOfPackages, double volumeInCubicMeters) {
+    public BillOfLanding(Long idBol, double grossMass, GeneralInfo idGeneral, BigInteger lineNumber, double numOfCtnForThisBol, double numberOfPackages, double volumeInCubicMeters) {
         this.idBol = idBol;
         this.grossMass = grossMass;
         this.idGeneral = idGeneral;
@@ -341,11 +348,11 @@ public class BillOfLanding implements Serializable {
         this.grossMass = grossMass;
     }
 
-    public long getIdGeneral() {
+    public GeneralInfo getIdGeneral() {
         return idGeneral;
     }
 
-    public void setIdGeneral(long idGeneral) {
+    public void setIdGeneral(GeneralInfo idGeneral) {
         this.idGeneral = idGeneral;
     }
 
@@ -528,10 +535,20 @@ public class BillOfLanding implements Serializable {
         }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {
         return "com.github.adminfaces.starter.model.BillOfLanding[ idBol=" + idBol + " ]";
+    }
+
+    public Collection<Container> getContainerCollection() {
+        return containerCollection;
+    }
+
+    public void setContainerCollection(Collection<Container> containerCollection) {
+        this.containerCollection = containerCollection;
     }
     
 }

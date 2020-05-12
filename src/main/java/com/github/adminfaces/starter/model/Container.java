@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -58,8 +60,6 @@ public class Container implements Serializable {
     @Size(max = 20)
     @Column(name = "GOODS_WEIGHT")
     private String goodsWeight;
-    @Column(name = "ID_BOL")
-    private Long idBol;
     @Size(max = 255)
     @Column(name = "MARKS1")
     private String marks1;
@@ -78,6 +78,10 @@ public class Container implements Serializable {
     @Size(max = 255)
     @Column(name = "TYPE_OF_CONTAINER")
     private String typeOfContainer;
+    
+    @JoinColumn(name = "ID_GENERAL", referencedColumnName = "ID")
+    @ManyToOne
+    private BillOfLanding idBol;
 
     public Container() {
     }
@@ -126,11 +130,11 @@ public class Container implements Serializable {
         this.goodsWeight = goodsWeight;
     }
 
-    public Long getIdBol() {
+    public BillOfLanding getIdBol() {
         return idBol;
     }
 
-    public void setIdBol(Long idBol) {
+    public void setIdBol(BillOfLanding idBol) {
         this.idBol = idBol;
     }
 
@@ -181,6 +185,8 @@ public class Container implements Serializable {
     public void setTypeOfContainer(String typeOfContainer) {
         this.typeOfContainer = typeOfContainer;
     }
+    
+    
 
     @Override
     public int hashCode() {

@@ -17,7 +17,9 @@ import com.github.adminfaces.persistence.bean.CrudMB;
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.persistence.service.Service;
 import com.github.adminfaces.starter.model.Colis;
+import com.github.adminfaces.starter.model.Container;
 import com.github.adminfaces.starter.model.Escale;
+import com.github.adminfaces.starter.model.GeneralInfo;
 import com.github.adminfaces.starter.model.Port;
 import com.github.adminfaces.starter.model.Trafic;
 import com.github.adminfaces.starter.model.TypeNavire;
@@ -52,7 +54,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private double poidsTotal;
     int countPlein;
     int countVide;
-    private List<String> dataTrafic;
+    private List<Object> dataTrafic;
 
     @PostConstruct
     public void initBean() {
@@ -211,7 +213,33 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         return poidsTotal;
     }
 
-    public List<String> genererDataByTrafic(String trafic) {
+    public List<Object> genererDataFromDouaneByTrafic(String trafic) {
+        dataTrafic.clear();
+        countPlein = 0;
+        countVide = 0;
+        List<GeneralInfo> manifeste = entity.getGeneralInfoCollection().stream()
+                .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase(trafic.equalsIgnoreCase("IMP") || trafic.equalsIgnoreCase("TRBI") ? "CGPNR" : "")
+                || m.getPlaceOfDepartureCode().equalsIgnoreCase(trafic.equalsIgnoreCase("EXP") || trafic.equalsIgnoreCase("TRBE") ? "CGPNR" : ""))
+                .collect(Collectors.toList());
+        manifeste.forEach(m -> {
+            m.getBlCollection().forEach(bl -> {
+                Long nbrCtnPleinByBl = bl.getContainerCollection().stream()
+                        .filter(c -> c.getEmptyFull().equalsIgnoreCase("1/1"))
+                        .collect(Collectors.counting());
+                countPlein += nbrCtnPleinByBl.intValue();
+                Long nbrCtnVideByBl = bl.getContainerCollection().stream()
+                        .filter(c -> c.getEmptyFull().equalsIgnoreCase("0/0"))
+                        .collect(Collectors.counting());
+                countVide += nbrCtnVideByBl.intValue();
+            });
+        });
+        dataTrafic.add(countPlein);
+        dataTrafic.add(countVide);
+        dataTrafic.add(Math.addExact(countPlein, countVide));
+        return dataTrafic;
+    }
+
+    public List<Object> genererDataFromColisByTrafic(String trafic) {
         dataTrafic.clear();
         countPlein = 0;
         countVide = 0;
@@ -232,17 +260,17 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
                 });
             });
         });
-        dataTrafic.add("" + countPlein);
-        dataTrafic.add("" + countVide);
-        dataTrafic.add("" + countPlein + countVide);
-        return dataTrafic;
-    }
-    
-    public List<String> getDataTrafic() {
+        dataTrafic.add(countPlein);
+        dataTrafic.add(countVide);
+        dataTrafic.add(Math.addExact(countPlein, countVide));
         return dataTrafic;
     }
 
-    public void setDataTrafic(List<String> impTrafic) {
+    public List<Object> getDataTrafic() {
+        return dataTrafic;
+    }
+
+    public void setDataTrafic(List<Object> impTrafic) {
         this.dataTrafic = impTrafic;
     }
 }

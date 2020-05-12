@@ -6,6 +6,7 @@
 package com.github.adminfaces.starter.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -159,6 +161,9 @@ public class GeneralInfo implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Escale idEscale;
 
+    @OneToMany(mappedBy = "idGeneral")
+    private Collection<BillOfLanding> blCollection;
+    
     public GeneralInfo() {
     }
 
@@ -438,6 +443,14 @@ public class GeneralInfo implements Serializable {
     @Override
     public String toString() {
         return "com.github.adminfaces.starter.model.GeneralInfo[ id=" + id + " ]";
+    }
+
+    public Collection<BillOfLanding> getBlCollection() {
+        return blCollection;
+    }
+
+    public void setBlCollection(Collection<BillOfLanding> blCollection) {
+        this.blCollection = blCollection;
     }
     
 }
