@@ -100,12 +100,13 @@
                                     <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
                                 </div>
                                 <div class="ui-g-2">
-                                    <p:datePicker id="date1" showIcon="true" pattern="yyyyMMdd" locale="fr"
-                                                  value="#{escaleBean.filter.params.debutETA}" placeholder="Date début"/> 
+                                    <p:datePicker id="date" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{escaleBean.range}"/>
                                 </div>
-                                <div class="ui-g-2">
-                                    <p:datePicker id="date2" showIcon="true"  pattern="yyyyMMdd"
-                                                  value="#{escaleBean.filter.params.finETA}" placeholder="Date fin"/>
+                                <div class="ui-g-1">
+                                    <p:datePicker id="date1"  showIcon="true" pattern="yyyyMMdd" locale="fr" placeholder="Date début"/> 
+                                </div>
+                                <div class="ui-g-1">
+                                    <p:datePicker id="date2" showIcon="true"  pattern="yyyyMMdd" placeholder="Date fin"/>
                                 </div>
                                 <div class="ui-g-3">
                                     <p:selectOneButton value="#{escaleBean.filter.params.catnavire}">

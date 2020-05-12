@@ -131,7 +131,7 @@ public class Colis implements Serializable {
     @Column(name = "COLIS")
     private String colis;
     @Column(name = "NOMBRE")
-    private BigDecimal nombre;
+    private Integer nombre;
     @Column(name = "NBR_BRD")
     private BigDecimal nbrBrd;
     @Column(name = "NBR_QUA")
@@ -358,11 +358,11 @@ public class Colis implements Serializable {
         this.colis = colis;
     }
 
-    public BigDecimal getNombre() {
+    public Integer getNombre() {
         return nombre;
     }
 
-    public void setNombre(BigDecimal nombre) {
+    public void setNombre(Integer nombre) {
         this.nombre = nombre;
     }
 

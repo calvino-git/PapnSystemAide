@@ -49,7 +49,11 @@
                 padding: .5em .2em !important;
             }
             .ui-panelgrid .ui-panelgrid-cell {
-                padding: 0px 10px !important;
+                padding: 1em .5em!important;
+                text-align: center!important;
+            }
+            .ui-panelgrid .ui-panelgrid-cell.ui-widget-header{
+                background-color: #f4f4f4!important;
             }
             .ui-fluid .ui-inputfield {
                 height: 36px !important;
@@ -331,160 +335,113 @@
                                         <p:row>
                                             <p:column colspan="1" rowspan="2">Mouvement</p:column>
                                             <p:column colspan="1" rowspan="2">Trafic</p:column>             
-                                            <p:column colspan="5">TRAITEMENT</p:column>
-                                            <p:column colspan="5">DOUANE</p:column>
-                                            <p:column colspan="5">CONGO-TERMINAL</p:column>
+                                            <p:column colspan="3">TRAITEMENT</p:column>
+                                            <p:column colspan="3">DOUANE</p:column>
+                                            <p:column colspan="3">CONGO-TERMINAL</p:column>
                                         </p:row>
                                         <p:row>
-                                            <p:column colspan="1">Conteneur</p:column>
                                             <p:column colspan="1">Plein</p:column>
                                             <p:column colspan="1">Vide</p:column>
                                             <p:column colspan="1">Total</p:column>
-                                            <p:column colspan="1">Tonnage</p:column>
-                                            <p:column colspan="1">Conteneur</p:column>
                                             <p:column colspan="1">Plein</p:column>
                                             <p:column colspan="1">Vide</p:column>
                                             <p:column colspan="1">Total</p:column>
-                                            <p:column colspan="1">Tonnage</p:column>
-                                            <p:column colspan="1">Conteneur</p:column>
                                             <p:column colspan="1">Plein</p:column>
                                             <p:column colspan="1">Vide</p:column>
                                             <p:column colspan="1">Total</p:column>
-                                            <p:column colspan="1">Tonnage</p:column>
                                         </p:row>
-
                                     </f:facet>
 
                                     <p:row>
                                         <p:column rowspan="3" style="font-weight: bold;">DEBARQUEMENT</p:column>
-                                        <p:column style="font-weight: bold;">Import</p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">IMPORT</p:column>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
                                     </p:row>
                                     <p:row>
-                                        <p:column style="font-weight: bold;">Transbo</p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSBO</p:column>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
                                     </p:row>
-                                    <p:row>
-                                        <p:column style="font-weight: bold;">Total</p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
+                                    <p:row >
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">Total</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">500</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">100</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">10</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
+
                                     </p:row>
                                     <p:row>
                                         <p:column rowspan="3" style="font-weight: bold;">EMBARQUEMENT</p:column>
-                                        <p:column style="font-weight: bold;">Export</p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">EXPORT</p:column>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
                                     </p:row>
                                     <p:row>
-                                        <p:column style="font-weight: bold;">Transbo</p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSBO</p:column>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
                                     </p:row>
                                     <p:row>
-                                        <p:column style="font-weight: bold;">Total</p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">Total</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">500</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">100</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">10</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
+
                                     </p:row>
                                     <f:facet name="footer">
                                         <p:row>
-                                        <p:column rowspan="3" style="font-weight: bold;">TOTAL</p:column>
-                                        <p:column style="font-weight: bold;"></p:column>
-                                        <p:column style="font-weight: bold;">2000</p:column>
-                                        <p:column style="font-weight: bold;">1000</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">500</p:column>
-                                        <p:column style="font-weight: bold;">200</p:column>
-                                        <p:column style="font-weight: bold;">100</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">50</p:column>
-                                        <p:column style="font-weight: bold;">20</p:column>
-                                        <p:column style="font-weight: bold;">10</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                        <p:column style="font-weight: bold;">5</p:column>
-                                    </p:row>
+                                            <p:column colspan="2" style="font-weight: bold;">TOTAL</p:column>
+                                            <p:column style="font-weight: bold;">500</p:column>
+                                            <p:column style="font-weight: bold;">100</p:column>
+                                            <p:column style="font-weight: bold;">50</p:column>
+                                            <p:column style="font-weight: bold;">50</p:column>
+                                            <p:column style="font-weight: bold;">50</p:column>
+                                            <p:column style="font-weight: bold;">10</p:column>
+                                            <p:column style="font-weight: bold;">5</p:column>
+                                            <p:column style="font-weight: bold;">5</p:column>
+                                            <p:column style="font-weight: bold;">5</p:column>
+
+                                        </p:row>
                                     </f:facet>
                                 </p:panelGrid>
                             </p:tab>

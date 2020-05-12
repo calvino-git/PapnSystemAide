@@ -973,10 +973,12 @@ public class Escale extends BaseEntity implements Serializable {
     private String voyageSortie;
     @OneToMany(mappedBy = "idEscale", fetch = FetchType.EAGER)
     private Collection<GeneralInfo> generalInfoCollection;
+    @OneToMany(mappedBy = "escleunik", fetch = FetchType.EAGER)
+    private Collection<Trafic> traficCollection;
     @JoinColumn(name = "nacleunik", referencedColumnName = "nacleunik")
     @ManyToOne
     private Navire nacleunik;
-    
+
     @JoinColumn(name = "agent", referencedColumnName = "code")
     @ManyToOne
     private Agent agent;
@@ -990,7 +992,7 @@ public class Escale extends BaseEntity implements Serializable {
 
     @Override
     public Integer getId() {
-        return id; 
+        return id;
     }
 
     public void setId(Integer id) {
@@ -3053,6 +3055,15 @@ public class Escale extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return "com.github.adminfaces.starter.model.Escale[ escleunik=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Trafic> getTraficCollection() {
+        return traficCollection;
+    }
+
+    public void setTraficCollection(Collection<Trafic> traficCollection) {
+        this.traficCollection = traficCollection;
     }
 
 }

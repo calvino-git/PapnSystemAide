@@ -16,13 +16,18 @@ import org.omnifaces.cdi.ViewScoped;
 import com.github.adminfaces.persistence.bean.CrudMB;
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.persistence.service.Service;
+import com.github.adminfaces.starter.model.Colis;
 import com.github.adminfaces.starter.model.Escale;
+import com.github.adminfaces.starter.model.Port;
+import com.github.adminfaces.starter.model.Trafic;
 import com.github.adminfaces.starter.model.TypeNavire;
 import com.github.adminfaces.starter.service.EscaleService;
 import com.github.adminfaces.starter.service.ConteneurCTService;
 import com.github.adminfaces.template.exception.BusinessException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.omnifaces.util.Faces;
 
@@ -45,10 +50,14 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private int nombreManifestes;
     private int nombreCTNs;
     private double poidsTotal;
+    int countPlein;
+    int countVide;
+    private List<String> dataTrafic;
 
     @PostConstruct
     public void initBean() {
         init();
+        dataTrafic = new ArrayList();
         dateFormat = new SimpleDateFormat("yyyyMMdd");
         format = new SimpleDateFormat("yyyyMMddhhmm");
     }
@@ -147,8 +156,8 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public void setRange(List<Date> range) {
         if (has(range)) {
-            getFilter().addParam("debutETA", dateFormat.format(range.get(0)));
-            getFilter().addParam("finETA", dateFormat.format(range.get(range.size() - 1)));
+            getFilter().addParam("debutETA", range.get(0))
+                    .addParam("finETA", range.get(range.size() - 1));
         }
         this.range = range;
     }
@@ -175,7 +184,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public int getNombreCTNs() {
         nombreCTNs = 0;
-        this.entity.getGeneralInfoCollection().forEach(manifeste->{
+        this.entity.getGeneralInfoCollection().forEach(manifeste -> {
             nombreCTNs += manifeste.getTotalNumberOfContainers();
         });
         return nombreCTNs;
@@ -183,7 +192,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public int getNombreBLs() {
         nombreBLs = 0;
-        this.entity.getGeneralInfoCollection().forEach(manifeste->{
+        this.entity.getGeneralInfoCollection().forEach(manifeste -> {
             nombreBLs += manifeste.getTotalNumberOfBols();
         });
         return nombreBLs;
@@ -196,10 +205,44 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public double getPoidsTotal() {
         poidsTotal = 0;
-        this.entity.getGeneralInfoCollection().forEach(manifeste->{
+        this.entity.getGeneralInfoCollection().forEach(manifeste -> {
             poidsTotal += manifeste.getTotalGrossMass();
         });
         return poidsTotal;
     }
+
+    public List<String> genererDataByTrafic(String trafic) {
+        dataTrafic.clear();
+        countPlein = 0;
+        countVide = 0;
+        List<Trafic> trafics = entity.getTraficCollection().stream()
+                .filter(t -> t.getTrafic().equalsIgnoreCase(trafic))
+                .collect(Collectors.toList());
+        trafics.forEach(t -> {
+            t.getPortCollection().forEach(p -> {
+                p.getBlCollection().forEach(bl -> {
+                    int nbrCtnPleinByBl = bl.getColisCollection().stream()
+                            .filter(c -> c.getPlvVde().equalsIgnoreCase("PLEIN"))
+                            .collect(Collectors.summingInt(Colis::getNombre));
+                    countPlein += nbrCtnPleinByBl;
+                    int nbrCtnVideByBl = bl.getColisCollection().stream()
+                            .filter(c -> c.getPlvVde().equalsIgnoreCase("VIDE"))
+                            .collect(Collectors.summingInt(Colis::getNombre));
+                    countVide += nbrCtnVideByBl;
+                });
+            });
+        });
+        dataTrafic.add("" + countPlein);
+        dataTrafic.add("" + countVide);
+        dataTrafic.add("" + countPlein + countVide);
+        return dataTrafic;
+    }
     
+    public List<String> getDataTrafic() {
+        return dataTrafic;
+    }
+
+    public void setDataTrafic(List<String> impTrafic) {
+        this.dataTrafic = impTrafic;
+    }
 }
