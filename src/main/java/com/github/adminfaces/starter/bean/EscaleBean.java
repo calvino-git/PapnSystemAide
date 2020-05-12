@@ -217,10 +217,18 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         dataTrafic.clear();
         countPlein = 0;
         countVide = 0;
-        List<GeneralInfo> manifeste = entity.getGeneralInfoCollection().stream()
-                .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase(trafic.equalsIgnoreCase("IMP") || trafic.equalsIgnoreCase("TRBI") ? "CGPNR" : "")
-                || m.getPlaceOfDepartureCode().equalsIgnoreCase(trafic.equalsIgnoreCase("EXP") || trafic.equalsIgnoreCase("TRBE") ? "CGPNR" : ""))
-                .collect(Collectors.toList());
+        List<GeneralInfo> manifeste = new ArrayList();
+        if (trafic.equalsIgnoreCase("IMP") || trafic.equalsIgnoreCase("TRBI")) {
+            manifeste = entity.getGeneralInfoCollection().stream()
+                    .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase("CGPNR"))
+                    .collect(Collectors.toList());
+        }
+        if (trafic.equalsIgnoreCase("EXP") || trafic.equalsIgnoreCase("TRBE")) {
+            manifeste = entity.getGeneralInfoCollection().stream()
+                    .filter(m -> m.getPlaceOfDepartureCode().equalsIgnoreCase("CGPNR"))
+                    .collect(Collectors.toList());
+        }
+
         manifeste.forEach(m -> {
             m.getBlCollection().forEach(bl -> {
                 Long nbrCtnPleinByBl = bl.getContainerCollection().stream()
