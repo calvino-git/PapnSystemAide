@@ -432,16 +432,15 @@
                                     </p:row>
                                     <p:row >
                                         <p:column style="font-weight: bold;" styleClass="ui-widget-header">Total</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">500</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">100</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">10</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
-
+                                        <ui:repeat value="#{escaleBean.genererDataFromColisByTrafic('I')}" var="elt">
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataFromDouaneByTrafic('I')}" var="elt">
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataFromColisByTrafic('I')}" var="elt">
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                        </ui:repeat>
                                     </p:row>
                                     <p:row>
                                         <p:column rowspan="3" style="font-weight: bold;">EMBARQUEMENT</p:column>
@@ -470,29 +469,28 @@
                                     </p:row>
                                     <p:row>
                                         <p:column style="font-weight: bold;" styleClass="ui-widget-header">Total</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">500</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">100</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">50</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">10</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">5</p:column>
-
+                                        <ui:repeat value="#{escaleBean.genererDataFromColisByTrafic('E')}" var="elt">
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataFromDouaneByTrafic('E')}" var="elt">
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataFromColisByTrafic('E')}" var="elt">
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                        </ui:repeat>
                                     </p:row>
                                     <f:facet name="footer">
                                         <p:row>
                                             <p:column colspan="2" style="font-weight: bold;">TOTAL</p:column>
-                                            <p:column style="font-weight: bold;">500</p:column>
-                                            <p:column style="font-weight: bold;">100</p:column>
-                                            <p:column style="font-weight: bold;">50</p:column>
-                                            <p:column style="font-weight: bold;">50</p:column>
-                                            <p:column style="font-weight: bold;">50</p:column>
-                                            <p:column style="font-weight: bold;">10</p:column>
-                                            <p:column style="font-weight: bold;">5</p:column>
-                                            <p:column style="font-weight: bold;">5</p:column>
-                                            <p:column style="font-weight: bold;">5</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataFromColisByTrafic('')}" var="elt">
+                                                <p:column style="font-weight: bold;">#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataFromDouaneByTrafic('')}" var="elt">
+                                                <p:column style="font-weight: bold;">#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataFromColisByTrafic('')}" var="elt">
+                                                <p:column style="font-weight: bold;">#{elt}</p:column>
+                                            </ui:repeat>
 
                                         </p:row>
                                     </f:facet>

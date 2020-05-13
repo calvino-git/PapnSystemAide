@@ -218,19 +218,23 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         countPlein = 0;
         countVide = 0;
         List<GeneralInfo> manifeste = new ArrayList();
-        if (trafic.equalsIgnoreCase("IMP") || trafic.equalsIgnoreCase("TRBI")) {
+        if (trafic.contains("I")) {
             manifeste = entity.getGeneralInfoCollection().stream()
-                    .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase("CGPNR"))
+                    .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase("POINTE-NOIRE"))
                     .collect(Collectors.toList());
         }
-        if (trafic.equalsIgnoreCase("EXP") || trafic.equalsIgnoreCase("TRBE")) {
+        
+        if (trafic.contains("E")) {
             manifeste = entity.getGeneralInfoCollection().stream()
-                    .filter(m -> m.getPlaceOfDepartureCode().equalsIgnoreCase("CGPNR"))
+                    .filter(m -> m.getPlaceOfDepartureCode().equalsIgnoreCase("POINTE-NOIRE"))
                     .collect(Collectors.toList());
         }
 
         manifeste.forEach(m -> {
-            m.getBlCollection().forEach(bl -> {
+            m.getBlCollection().stream()
+                    .filter(bl->bl.getBolNature().contains(trafic))
+                    .collect(Collectors.toList())
+                    .forEach(bl -> {
                 Long nbrCtnPleinByBl = bl.getContainerCollection().stream()
                         .filter(c -> c.getEmptyFull().equalsIgnoreCase("1/1"))
                         .collect(Collectors.counting());
@@ -252,7 +256,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         countPlein = 0;
         countVide = 0;
         List<Trafic> trafics = entity.getTraficCollection().stream()
-                .filter(t -> t.getTrafic().equalsIgnoreCase(trafic))
+                .filter(t -> t.getTrafic().contains(trafic))
                 .collect(Collectors.toList());
         trafics.forEach(t -> {
             t.getPortCollection().forEach(p -> {
