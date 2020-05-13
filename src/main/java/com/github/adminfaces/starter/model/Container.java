@@ -79,7 +79,7 @@ public class Container implements Serializable {
     @Column(name = "TYPE_OF_CONTAINER")
     private String typeOfContainer;
     
-    @JoinColumn(name = "ID_GENERAL", referencedColumnName = "ID")
+    @JoinColumn(name = "ID_BOL", referencedColumnName = "ID_BOL")
     @ManyToOne
     private BillOfLanding idBol;
 
