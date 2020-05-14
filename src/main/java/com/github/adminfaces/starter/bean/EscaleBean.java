@@ -68,13 +68,21 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     }
 
     public List<String> completeNavire(String query) {
-        List<String> result = escaleService.listNavires(query);
+        List<String> result = escaleService.listNavires(query)
+                .stream()
+                .sorted((o1, o2) -> {
+                    return o1.compareToIgnoreCase(o2);
+                }).collect(Collectors.toList());
         return result;
     }
 
     public List<TypeNavire> completeTypeNavire(String query) {
-        List<TypeNavire> list = escaleService.listeTypeNavireContains("%" + query + "%");
-        return list;
+        List<TypeNavire> liste = escaleService.listeTypeNavireContains("%" + query + "%")
+                .stream()
+                .sorted((o1, o2) -> {
+                    return o1.getLibelle().compareToIgnoreCase(o2.getLibelle());
+                }).collect(Collectors.toList());
+        return liste;
     }
 
     public void findEscaleByNumero(String numeroEscale) {

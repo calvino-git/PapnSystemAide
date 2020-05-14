@@ -136,7 +136,7 @@
                                   filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.filter.entity.navire}" forceSelection="true"
-                                                minQueryLength="2" queryDelay="500" dropdown="true"
+                                                minQueryLength="0" queryDelay="500" dropdown="true"  
                                                 completeMethod="#{escaleBean.completeNavire}" maxResults="10">
                                     <p:ajax event="itemSelect" process="@this" update="@none"
                                             oncomplete="PF('escale').filter()"/>
