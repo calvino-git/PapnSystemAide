@@ -19,8 +19,10 @@ import com.github.adminfaces.starter.model.Navire;
 import com.github.adminfaces.starter.model.Navire_;
 import com.github.adminfaces.starter.model.TypeNavire;
 import com.github.adminfaces.starter.model.TypeNavire_;
+import com.github.adminfaces.starter.model.VueAllEvp;
 import com.github.adminfaces.starter.repos.EscaleRepository;
 import com.github.adminfaces.starter.repos.TypeNavireRepository;
+import com.github.adminfaces.starter.repos.VueAllEvpRepository;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -54,6 +56,8 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     protected EscaleRepository escaleRepo;
     @Inject
     TypeNavireRepository typeNavireRepo;
+    @Inject
+    VueAllEvpRepository evpRepo;
     @Inject
     protected NavireService navireService;
     @Inject
@@ -91,6 +95,10 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         return criteria()
                 .likeIgnoreCase(Escale_.navire, navire)
                 .getResultList();
+    }
+    
+    public List<VueAllEvp> dataEVPbyEscale(String escale){
+        return evpRepo.listVueAllEvpByEscale(escale);
     }
 
     public List<String> listNavires(String query) {

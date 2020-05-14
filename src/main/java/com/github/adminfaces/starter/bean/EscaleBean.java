@@ -23,6 +23,7 @@ import com.github.adminfaces.starter.model.GeneralInfo;
 import com.github.adminfaces.starter.model.Port;
 import com.github.adminfaces.starter.model.Trafic;
 import com.github.adminfaces.starter.model.TypeNavire;
+import com.github.adminfaces.starter.model.VueAllEvp;
 import com.github.adminfaces.starter.service.EscaleService;
 import com.github.adminfaces.starter.service.ConteneurCTService;
 import com.github.adminfaces.template.exception.BusinessException;
@@ -54,12 +55,14 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     private double poidsTotal;
     int countPlein;
     int countVide;
+    int total;
     private List<Object> dataTrafic;
+    private List<VueAllEvp> listEVP;
 
     @PostConstruct
     public void initBean() {
         init();
-        dataTrafic = new ArrayList();
+        dataTrafic = new ArrayList(0);
         dateFormat = new SimpleDateFormat("yyyyMMdd");
         format = new SimpleDateFormat("yyyyMMddhhmm");
     }
@@ -80,7 +83,8 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         }
         Escale escaleFound = escaleService.findEscaleParNumero(numeroEscale);
         if (escaleFound == null) {
-            throw new BusinessException(String.format("Aucune escale correspondant au numero %s", numeroEscale));
+            throw new BusinessException(String.format("Aucune escale correspondant au numero %s",
+                    numeroEscale));
         }
         selection = escaleFound;
         clear();
@@ -124,11 +128,13 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         }
 
         if (filter.hasParam("debutETA")) {
-            sb.append("<b>").append(getMessage("label.debutETA")).append("</b>: ").append(filter.getParam("debutETA")).append(", ");
+            sb.append("<b>").append(getMessage("label.debutETA")).append("</b>: ")
+                    .append(filter.getParam("debutETA")).append(", ");
         }
 
         if (filter.hasParam("finETA")) {
-            sb.append("<b>").append(getMessage("label.finETA")).append("</b>: ").append(filter.getParam("finETA")).append(", ");
+            sb.append("<b>").append(getMessage("label.finETA")).append("</b>: ")
+                    .append(filter.getParam("finETA")).append(", ");
         }
 
         int commaIndex = sb.lastIndexOf(",");
@@ -223,7 +229,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
                     .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase("POINTE-NOIRE"))
                     .collect(Collectors.toList());
         }
-        
+
         if (trafic.contains("E")) {
             manifeste = entity.getGeneralInfoCollection().stream()
                     .filter(m -> m.getPlaceOfDepartureCode().equalsIgnoreCase("POINTE-NOIRE"))
@@ -232,22 +238,45 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
         manifeste.forEach(m -> {
             m.getBlCollection().stream()
-                    .filter(bl->bl.getBolNature().contains(trafic))
+                    .filter(bl -> bl.getBolNature().contains(trafic))
                     .collect(Collectors.toList())
                     .forEach(bl -> {
-                Long nbrCtnPleinByBl = bl.getContainerCollection().stream()
-                        .filter(c -> c.getEmptyFull().equalsIgnoreCase("1/1"))
-                        .collect(Collectors.counting());
-                countPlein += nbrCtnPleinByBl.intValue();
-                Long nbrCtnVideByBl = bl.getContainerCollection().stream()
-                        .filter(c -> c.getEmptyFull().equalsIgnoreCase("0/0"))
-                        .collect(Collectors.counting());
-                countVide += nbrCtnVideByBl.intValue();
-            });
+                        Long nbrCtnPleinByBl = bl.getContainerCollection().stream()
+                                .filter(c -> c.getEmptyFull().equalsIgnoreCase("1/1"))
+                                .collect(Collectors.counting());
+                        countPlein += nbrCtnPleinByBl.intValue();
+                        Long nbrCtnVideByBl = bl.getContainerCollection().stream()
+                                .filter(c -> c.getEmptyFull().equalsIgnoreCase("0/0"))
+                                .collect(Collectors.counting());
+                        countVide += nbrCtnVideByBl.intValue();
+                    });
         });
         dataTrafic.add(countPlein);
         dataTrafic.add(countVide);
         dataTrafic.add(Math.addExact(countPlein, countVide));
+        return dataTrafic;
+    }
+
+    public void refreshEVPData() {
+        listEVP = escaleService.dataEVPbyEscale(entity.getNumero());
+    }
+
+    public List<Object> genererDataByTrafic(String trafic, String source) {
+        dataTrafic.clear();
+        countPlein = 0;
+        countVide = 0;
+        total = 0;
+        List<VueAllEvp> liste = listEVP.stream()
+                .filter(e -> e.getTrafic().contains(trafic) && e.getSource().equalsIgnoreCase(source))
+                .collect(Collectors.toList());
+        liste.forEach(evp -> {
+            countPlein += evp.getPlein().intValue();
+            countVide += evp.getVide().intValue();
+            total += evp.getTotalEvp().intValue();
+        });
+        dataTrafic.add(countPlein);
+        dataTrafic.add(countVide);
+        dataTrafic.add(total);
         return dataTrafic;
     }
 
@@ -285,4 +314,13 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     public void setDataTrafic(List<Object> impTrafic) {
         this.dataTrafic = impTrafic;
     }
+
+    public List<VueAllEvp> getListEVP() {
+        return listEVP;
+    }
+
+    public void setListEVP(List<VueAllEvp> listEVP) {
+        this.listEVP = listEVP;
+    }
+
 }
