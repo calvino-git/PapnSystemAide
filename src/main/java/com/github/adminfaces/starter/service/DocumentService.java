@@ -65,8 +65,8 @@ public class DocumentService implements Serializable {
         DecimalFormat df = new DecimalFormat("#,##0");
         TreeNode root = new DefaultTreeNode(new Document("Marchandise", "-", "-"), null);
 
-        TreeNode tcs = new DefaultTreeNode(new Document("Marchandise conteneurisée", totalTonnageConteneur, totalMontantConteneur), root);
-        TreeNode cv = new DefaultTreeNode(new Document("Marchandise conventionnelle", totalTonnageConvent, totalMontantConvent), root);
+        TreeNode tcs = new DefaultTreeNode(new Document("CONTENEUR", totalTonnageConteneur, totalMontantConteneur), root);
+        TreeNode cv = new DefaultTreeNode(new Document("CONVENTIONNEL", totalTonnageConvent, totalMontantConvent), root);
 
         //Conteneurisée
         streamConteneurTonnage = listRedevMarch.stream().filter(rm -> rm.getCondit() != null && rm.getCondit().startsWith("TCS"));

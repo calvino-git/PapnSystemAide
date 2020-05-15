@@ -58,6 +58,7 @@ public class TotalBean implements Serializable {
 
     private TreeNode root;
     private TreeNode rootEVP;
+    private TreeNode rootEVPparAn;
 
     private Document selectedDocument;
     private DocumentEVP selectedDocumentEVP;
@@ -84,15 +85,16 @@ public class TotalBean implements Serializable {
         }
         updateRoot();
         rootEVP = documentEVPService.createDocuments();
+        rootEVPparAn = documentEVPService.createMainDocument();
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
         
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            debut = format.parse(documentEVPService.getDebut());
-            fin = format.parse(documentEVPService.getFin());
-        } catch (ParseException ex) {
-            Logger.getLogger(MarchFactBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            debut = format.parse(documentEVPService.getDebut());
+//            fin = format.parse(documentEVPService.getFin());
+//        } catch (ParseException ex) {
+//            Logger.getLogger(MarchFactBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
         columnHeaders = new ArrayList<>();
         DocumentEVP docEVP = new DocumentEVP();
@@ -163,6 +165,14 @@ public class TotalBean implements Serializable {
         this.columnTemplate = columnTemplate;
     }
 
+    public TreeNode getRootEVPparAn() {
+        return rootEVPparAn;
+    }
+
+    public void setRootEVPparAn(TreeNode rootEVPparAn) {
+        this.rootEVPparAn = rootEVPparAn;
+    }
+
     static public class ColumnModel implements Serializable {
 
         private String header;
@@ -209,7 +219,10 @@ public class TotalBean implements Serializable {
 
     public void updateRootEVP() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        rootEVP = documentEVPService.createDocuments(format.format(debut),format.format(fin));
+        rootEVP = documentEVPService.createDocuments();
+    }
+    public void updateRootEVPParAn() {
+        rootEVPparAn = documentEVPService.createMainDocument();
     }
 
     public TreeNode getRoot() {
@@ -377,6 +390,12 @@ public class TotalBean implements Serializable {
     @Named("rootEVP")
     public TreeNode produceRootEVP() {
         return rootEVP;
+    }
+    
+    @Produces
+    @Named("rootEVPParAn")
+    public TreeNode produceRootEVPParAn() {
+        return rootEVPparAn;
     }
 
     @Produces

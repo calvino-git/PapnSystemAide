@@ -10,6 +10,8 @@ import org.apache.deltaspike.data.api.Repository;
 @Repository
 public interface VueAllEvpRepository extends EntityRepository<VueAllEvp,Integer> {
 
+    @Query("SELECT v FROM VueAllEvp v WHERE v.departEff like :annee")
+    List<VueAllEvp> listVueAllEvpByAn(@QueryParam("annee") String annee);
     @Query("SELECT v FROM VueAllEvp v WHERE v.departEff between :debut and :fin")
     List<VueAllEvp> listVueAllEvpByDate(@QueryParam("debut") String debut,@QueryParam("fin") String fin);
     @Query("SELECT v FROM VueAllEvp v WHERE v.escale =:escale order by v.source desc")
