@@ -21,6 +21,7 @@ import com.github.adminfaces.starter.model.Container;
 import com.github.adminfaces.starter.model.Escale;
 import com.github.adminfaces.starter.model.GeneralInfo;
 import com.github.adminfaces.starter.model.Port;
+import com.github.adminfaces.starter.model.Quais;
 import com.github.adminfaces.starter.model.Trafic;
 import com.github.adminfaces.starter.model.TypeNavire;
 import com.github.adminfaces.starter.model.VueAllEvp;
@@ -82,6 +83,11 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
                 .sorted((o1, o2) -> {
                     return o1.getLibelle().compareToIgnoreCase(o2.getLibelle());
                 }).collect(Collectors.toList());
+        return liste;
+    }
+    
+    public List<Quais> completeQuai(String query) {
+        List<Quais> liste = escaleService.listeQuai(query);
         return liste;
     }
 

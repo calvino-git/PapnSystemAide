@@ -137,26 +137,29 @@
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.filter.entity.navire}" forceSelection="true"
                                                 minQueryLength="0" queryDelay="500" dropdown="true"  
-                                                completeMethod="#{escaleBean.completeNavire}" maxResults="10">
-                                    <p:ajax event="itemSelect" process="@this" update="@none"
-                                            oncomplete="PF('escale').filter()"/>
+                                                completeMethod="#{escaleBean.completeNavire}" scrollHeight="250" maxResults="10">
+                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
                             #{e.navire}
                         </p:column>
-                        <p:column headerText="TYPE NAVIRE" width="150" class="align-center" filterBy="#{e.typenavire}">
+                        <p:column headerText="TYPE NAVIRE" width="100" class="align-center" filterBy="#{e.typenavire}">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{escaleBean.filter.params.typenavire}" forceSelection="true" converter="#{typeNavireConverter}"
-                                                minQueryLength="2" queryDelay="500" dropdown="false" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
-                                                completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10">
-                                    <p:ajax event="itemSelect" process="@this" update="@none"
-                                            oncomplete="PF('escale').filter()"/>
+                                                minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
+                                                completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10" >
+                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
-
-                            <h:outputText converter="#{typeNavireConverter}" value="#{e.nacleunik.type}"/>
-                            <br/>
-                            <b>#{e.nacleunik.type.code}</b>
+                            <div id="typenav#{x+1}">
+                                <h:outputText class="text-bold" value="#{e.nacleunik.type.code}"/>
+                            </div>
+                            <p:outputPanel>
+                                <p:autoUpdate/>
+                                <p:tooltip for="@(div[id$=typenav#{x+1}])" escape="false" position="top"
+                                           showEvent="mouseover" hideEvent="mouseleave"
+                                           value="#{e.nacleunik.type}"/>
+                            </p:outputPanel>
                         </p:column>
                         <p:column headerText="NUMERO" width="100" sortBy="#{e.numero}" filterBy="#{e.numero}" class="align-center">
                             <f:facet name="filter">
@@ -179,7 +182,14 @@
                         <p:column headerText="AGENT" width="200" sortBy="#{e.agent}" filterBy="#{e.agent}" filterMatchMode="contains">
                             #{e.agent}
                         </p:column>
-                        <p:column headerText="QUAI" width="50" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center" >
+                        <p:column headerText="QUAI" width="100" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center" >
+                            <f:facet name="filter">
+                                <p:autoComplete value="#{escaleBean.filter.params.quai}" forceSelection="true" converter="#{quaiConverter}"
+                                                minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
+                                                completeMethod="#{escaleBean.completeQuai}" scrollHeight="200">
+                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                </p:autoComplete>
+                            </f:facet>
                             <div id="quai#{x+1}">
                                 <h:outputText class="text-bold" value="#{e.quai}"/>
                             </div>

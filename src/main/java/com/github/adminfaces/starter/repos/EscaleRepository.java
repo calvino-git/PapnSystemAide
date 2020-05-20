@@ -1,6 +1,9 @@
 package com.github.adminfaces.starter.repos;
 
 import com.github.adminfaces.starter.model.Escale;
+import com.github.adminfaces.starter.model.Quai;
+import com.github.adminfaces.starter.model.Quais;
+import com.github.adminfaces.starter.model.TypeNavire;
 import java.util.List;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Query;
@@ -29,4 +32,7 @@ public interface EscaleRepository extends EntityRepository<Escale,Integer> {
             + "WHERE n.type.code in ('BG', 'PM', 'NC', 'VD', 'SV', 'RM', 'VL') "
             + "and substring(e.arrivee,0,4) ='2020'")
     List<Escale> listEscaleGrandNav2020();
+
+    @Query("SELECT q FROM Quais q WHERE q.code is not null and (q.code like :quai or q.libelle like :quai)")
+    List<Quais> listeQuai(@QueryParam("quai") String quai);
 }

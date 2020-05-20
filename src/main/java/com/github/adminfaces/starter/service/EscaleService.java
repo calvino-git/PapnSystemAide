@@ -17,6 +17,8 @@ import com.github.adminfaces.starter.model.Escale;
 import com.github.adminfaces.starter.model.Escale_;
 import com.github.adminfaces.starter.model.Navire;
 import com.github.adminfaces.starter.model.Navire_;
+import com.github.adminfaces.starter.model.Quai;
+import com.github.adminfaces.starter.model.Quais;
 import com.github.adminfaces.starter.model.TypeNavire;
 import com.github.adminfaces.starter.model.TypeNavire_;
 import com.github.adminfaces.starter.model.VueAllEvp;
@@ -112,6 +114,10 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     public List<TypeNavire> listeTypeNavireContains(String query) {
         return typeNavireRepo.listeTypeNavireContains(query.toUpperCase());
     }
+    
+    public List<Quais> listeQuai(String query) {
+        return escaleRepo.listeQuai("%"+query.toUpperCase()+"%");
+    }
 
     @Override
     protected Criteria<Escale, Escale> configRestrictions(Filter<Escale> filter) {
@@ -149,6 +155,9 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
 
         if (filter.hasParam("numero")) {
             escaleCriteria.like(Escale_.numero, filter.getStringParam("numero") + "%");
+        }
+        if (filter.hasParam("quai")) {
+            escaleCriteria.eq(Escale_.quai, filter.getParam("quai",Quais.class));
         }
         if (filter.hasParam("agent")) {
             agentCriteria.like(Agent_.libelle, filter.getStringParam("agent").toUpperCase() + "%");
