@@ -447,6 +447,7 @@ public class Escale extends BaseEntity implements Serializable {
     private BigInteger traite;
     @Size(max = 8)
     @JoinColumn(name = "quai", referencedColumnName = "code")
+    @ManyToOne
     private Quais quai;
     @Column(name = "TONNAGE")
     private BigDecimal tonnage;
@@ -982,7 +983,8 @@ public class Escale extends BaseEntity implements Serializable {
     @JoinColumn(name = "agent", referencedColumnName = "code")
     @ManyToOne
     private Agent agent;
-
+    
+    
     public Escale() {
     }
 

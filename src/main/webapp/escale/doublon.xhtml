@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Escale double"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+        <f:metadata>
+            <f:viewParam name="an" value="#{escaleBean.filter.params.an}" converter="javax.faces.Integer"/>
+            <f:event type="preRenderView" listener="#{escaleBean.setup}"/>
+        </f:metadata>
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: .7;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                color: #3c8dbc;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+            .ui-columntoggler{
+                width: 125px !important;
+            }
+
+            .ui-columntoggler .ui-columntoggler-item label {
+                padding-left: 1.5em !important;
+                margin-bottom: -5px !important;
+            }
+            .ui-button-text-only .ui-button-text {
+                padding: .5em .2em !important;
+            }
+            .ui-panelgrid .ui-panelgrid-cell {
+                padding: 0px 10px !important;
+            }
+            .ui-fluid .ui-inputfield {
+                height: 36px !important;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        Consulter les escales en double
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons">
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Recherche avancée" update="@(.ui-dialog)" styleClass="btn-info" disabled="true"
+                                         oncomplete="PF('searchDialog').show()" icon="fa fa-search"/>
+
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Vider le filtre" update="@(.ui-dialog, .ui-datatable)" process="@form"
+                                         action="#{escaleBean.clear}"
+                                         icon="fa fa-refresh"/>
+                    </div>
+                </div>
+                <div class="box-body with-border">
+                    <p:dataTable id="escale" widgetVar="escale" var="e" value="#{escaleBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{e.id}"
+                                 filteredValue="#{escaleBean.filteredValue}" sortBy="#{e.arrivee}" sortOrder="descending" rowIndexVar="x"
+                                 paginatorPosition="bottom" selection="#{escaleBean.selection}"  selectionMode="single" sortMode="single"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,20,30">
+
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+
+                        <f:facet name="header">
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-1">
+                                    <p:commandButton id="brFind" value="Rechercher"
+                                                     process="@form"
+                                                     update="@form"
+                                                     icon="fa fa-search"
+                                                     styleClass="btn-primary"/>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:datePicker id="date" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{escaleBean.range}"/>
+                                </div>
+                                <div class="ui-g-1">
+                                    <p:datePicker id="date1"  showIcon="true" pattern="yyyyMMdd" locale="fr" placeholder="Date début"/> 
+                                </div>
+                                <div class="ui-g-1">
+                                    <p:datePicker id="date2" showIcon="true"  pattern="yyyyMMdd" placeholder="Date fin"/>
+                                </div>
+                                <div class="ui-g-3">
+                                    <p:selectOneButton value="#{escaleBean.filter.params.catnavire}">
+                                        <f:selectItem itemLabel="TOUT" />
+                                        <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
+                                        <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
+                                        <p:ajax process="@this" update="@none" />
+                                    </p:selectOneButton>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" icon="fa fa-list" />
+                                    <p:columnToggler  datasource="escale" trigger="toggler" />
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="N°" width="50" styleClass="align-center">
+                            #{x+1}
+                        </p:column>
+
+                        <p:column headerText="ETA" width="100" sortBy="#{e.arrivee}" filterBy="#{e.arrivee}" class="align-center">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.arrivee)}" style="font-weight: bold">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            #{e.arrH}
+                        </p:column>
+                        <p:column headerText="NAVIRE" width="200" filterBy="#{e.navire}" sortBy="#{e.navire}"
+                                  filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:autoComplete value="#{escaleBean.filter.entity.navire}" forceSelection="true"
+                                                minQueryLength="0" queryDelay="500" dropdown="true"  
+                                                completeMethod="#{escaleBean.completeNavire}" scrollHeight="250" maxResults="10">
+                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                </p:autoComplete>
+                            </f:facet>
+                            #{e.navire}
+                        </p:column>
+                        <p:column headerText="TYPE NAVIRE" width="100" class="align-center" filterBy="#{e.typenavire}">
+                            <f:facet name="filter">
+                                <p:autoComplete value="#{escaleBean.filter.params.typenavire}" forceSelection="true" converter="#{typeNavireConverter}"
+                                                minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
+                                                completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10" >
+                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                </p:autoComplete>
+                            </f:facet>
+                            <div id="typenav#{x+1}">
+                                <h:outputText class="text-bold" value="#{e.nacleunik.type.code}"/>
+                            </div>
+                            <p:outputPanel>
+                                <p:autoUpdate/>
+                                <p:tooltip for="@(div[id$=typenav#{x+1}])" escape="false" position="top"
+                                           showEvent="mouseover" hideEvent="mouseleave"
+                                           value="#{e.nacleunik.type}"/>
+                            </p:outputPanel>
+                        </p:column>
+                        <p:column headerText="NUMERO" width="100" sortBy="#{e.numero}" filterBy="#{e.numero}" class="align-center">
+                            <f:facet name="filter">
+                                <p:inputText value="#{escaleBean.filter.entity.numero}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                </p:inputText>
+                            </f:facet>
+                            <p:link value="#{e.numero}" style="font-weight: bold" outcome="/escale/detail">
+                                <f:param name="id" value="#{e.id}"/>
+                            </p:link>
+                        </p:column>
+                        <p:column headerText="N°VOYAGE" width="100" sortBy="#{e.voyage}" filterBy="#{e.voyage}">
+                            #{e.voyage}
+                        </p:column>
+                        <p:column headerText="DEPART INITIALE" width="100" sortBy="#{e.dateEscaleInitiale}">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.dateEscaleInitiale)}" rendered="#{not empty e.dateEscaleInitiale}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="AGENT" width="200" sortBy="#{e.agent}" filterBy="#{e.agent}" filterMatchMode="contains">
+                            #{e.agent}
+                        </p:column>
+                        <p:column headerText="QUAI" width="100" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center" >
+                            <f:facet name="filter">
+                                <p:autoComplete value="#{escaleBean.filter.params.quai}" forceSelection="true" converter="#{quaiConverter}"
+                                                minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
+                                                completeMethod="#{escaleBean.completeQuai}" scrollHeight="200">
+                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                </p:autoComplete>
+                            </f:facet>
+                            <div id="quai#{x+1}">
+                                <h:outputText class="text-bold" value="#{e.quai}"/>
+                            </div>
+                            <p:outputPanel>
+                                <p:autoUpdate/>
+                                <p:tooltip for="@(div[id$=quai#{x+1}])" escape="false" position="top"
+                                           showEvent="mouseover" hideEvent="mouseleave"
+                                           value="#{e.quai.libelle}"/>
+                            </p:outputPanel>
+                        </p:column>
+                        <p:column headerText="SITUATION" width="100" sortBy="#{e.situat}" filterBy="#{e.situat}"
+                                  style="background-color: #{e.situat eq 'ATTENDU' ? '#ff0'
+                                                             :e.situat eq 'ANNULE' ?'red'
+                                                             :e.situat eq 'RADE EXT' ? '#3c8dbc;color:white'
+                                                             :e.situat eq 'A QUAI' ? 'darkorange'
+                                                             :e.situat eq 'PARTI' ? 'lightblue'
+                                                             :'white'}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu value="#{escaleBean.filter.entity.situat}">
+                                    <f:selectItem itemLabel="TOUT" />
+                                    <f:selectItem itemLabel="ATTENDU" itemValue="ATTENDU"/>
+                                    <f:selectItem itemLabel="ANNULE" itemValue="ANNULE"/>
+                                    <f:selectItem itemLabel="RADE EXT." itemValue="RADE EXT"/>
+                                    <f:selectItem itemLabel="A QUAI" itemValue="A QUAI"/>
+                                    <f:selectItem itemLabel="PARTI" itemValue="PARTI"/>
+                                    <p:ajax process="@form" update="@form" oncomplete="PF('escale').filter()"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            #{e.situat}
+                        </p:column>
+                        <p:column headerText="MANIFESTE" width="100" sortBy="#{e.generalInfoCollection.size()}" filterBy="#{e.manifeste}">
+                            <f:facet name="filter">
+                                <p:spinner value="#{escaleBean.filter.params.manifeste}">
+                                    <f:converter converterId="javax.faces.Integer"/>
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                </p:spinner>
+                            </f:facet>
+                            #{not empty e.generalInfoCollection ? e.generalInfoCollection.size():0}
+                        </p:column>
+                        <p:column headerText="PROVENANCE" width="120" sortBy="#{e.provenanceO}" filterBy="#{e.provenanceO}">
+                            <h:outputText converter="#{portsConverter}" value="#{e.provenanceO}" />
+                        </p:column>
+                        <p:column headerText="DESTINATION" width="120" sortBy="#{e.destinationF}" filterBy="#{e.destinationF}">
+                            <h:outputText converter="#{portsConverter}" value="#{e.destinationF}" />
+                        </p:column>
+                        <p:column headerText="RADE" width="100" sortBy="#{e.arriveeRade}" filterBy="#{e.arriveeRade}" class="align-center">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.arriveeRade)}" rendered="#{not empty e.arriveeRade}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            #{e.arrHRade}
+                        </p:column>
+                        <p:column headerText="ACCOSTAGE" width="100" sortBy="#{e.datePasseEntree}" filterBy="#{e.datePasseEntree}" class="align-center">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.datePasseEntree)}" rendered="#{not empty e.datePasseEntree}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="DEPART" width="100" sortBy="#{e.departEffectif}" filterBy="#{e.departEffectif}" class="align-center">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.departEffectif)}" rendered="#{not empty e.departEffectif}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            #{e.depHEffectif}
+                        </p:column>
+                        <p:column headerText="BASSIN" width="100" sortBy="#{e.bassin}" filterBy="#{e.bassin}">
+                            #{e.bassin}
+                        </p:column>
+                        <p:column headerText="FILIERE" width="100" sortBy="#{e.filiere.libelle}" filterBy="#{e.filiere.libelle}">
+                            #{e.filiere.libelle}
+                        </p:column>
+                        <p:column headerText="TJN" width="100" visible="false">
+                            #{e.nacleunik.chargN}
+                        </p:column>
+                        <p:column headerText="TJB" width="100" visible="false">
+                            #{e.nacleunik.chargB}
+                        </p:column>
+                        <p:column headerText="VOLUME" width="100" visible="false">
+                            #{e.nacleunik.volume}
+                        </p:column>
+                        <p:column headerText="LONGUEUR" width="100" visible="false">
+                            #{e.nacleunik.longu}
+                        </p:column>
+                        <p:column headerText="LARGEUR" width="100" visible="false">
+                            #{e.nacleunik.largeur}
+                        </p:column>
+                        <p:column headerText="TIRANT" width="100" visible="false">
+                            #{e.nacleunik.hauteur}
+                        </p:column>
+                        <p:column headerText="CREATION" width="100" sortBy="#{e.dateCreat}" filterBy="#{e.dateCreat}" class="align-center">
+                            <h:outputText value="#{escaleBean.dateFormat.parse(e.dateCreat)}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                            #{e.HCreat}
+                        </p:column>
+                        <f:facet name="footer">
+                            <div id="footer">
+                                Critères <i class="fa fa-filter"/>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-solid box-danger">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+
+        <p:dialog header="Rechercher d'escales" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
+                  width="500" responsive="true" draggable="false" styleClass="box-success">
+
+            <h:form>
+                <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
+                                 ignoreAutoUpdate="true" styleClass="btn-primary" oncomplete="PF('searchDialog').hide()"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Clear" action="#{escaleBean.clear}" process="@this"
+                                 update="@form @(.ui-datatable, .ui-tooltip)" styleClass="btn-success"
+                                 icon="fa fa-refresh"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Close" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
+                <p:separator/>
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="navire" value="#{msg['label.navire']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:autoComplete id="navire" value="#{escaleBean.filter.entity.navire}" forceSelection="true"
+                                        minQueryLength="2" queryDelay="500" dropdown="true" 
+                                        completeMethod="#{escaleBean.completeNavire}" maxResults="15">
+                        </p:autoComplete>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel for="numero" value="#{msg['label.numero']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="numero" value="#{escaleBean.filter.entity.numero}"/>
+                    </div>
+
+                    <div class="ui-g-12">
+                        <p:outputLabel for="situat" value="#{msg['label.situat']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="situat" value="#{escaleBean.filter.entity.situat}"/>
+                    </div>
+
+                    <!--div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="debutETA" value="#{msg['label.debutETA']}"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:inputText id="debutETA" value="#{escaleBean.filter.params.debutETA}"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="finETA" value="#{msg['label.finETA']}"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:inputNumber id="finETA" value="#{escaleBean.filter.params.finETA}"/>
+                        </div>
+                    </div-->
+                    <div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="eta" value="#{msg['label.ETA']}"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:datePicker id="eta" selectionMode="range" readonlyInput="true" value="#{escaleBean.range}"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:outputPanel>
+            <p:autoUpdate/>
+            <p:tooltip for="@(div[id$=footer])" escape="false" position="top"
+                       showEvent="mouseover" hideEvent="mouseleave"
+                       value="#{escaleBean.searchCriteria}"/>
+        </p:outputPanel>
+
+
+    </ui:define>
+
+</ui:composition>

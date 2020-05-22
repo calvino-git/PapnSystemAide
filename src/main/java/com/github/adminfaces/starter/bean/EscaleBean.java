@@ -45,7 +45,6 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     @Inject
     private EscaleService escaleService;
-
     private String numeroEscale;
     private List<Date> range;
     private SimpleDateFormat dateFormat;
@@ -66,6 +65,10 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         dataTrafic = new ArrayList(0);
         dateFormat = new SimpleDateFormat("yyyyMMdd");
         format = new SimpleDateFormat("yyyyMMddhhmm");
+    }
+    
+    public void setup(){
+        filter.addParam("doublon", true);
     }
 
     public List<String> completeNavire(String query) {

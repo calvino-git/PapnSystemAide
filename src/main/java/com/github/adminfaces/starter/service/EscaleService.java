@@ -27,6 +27,7 @@ import com.github.adminfaces.starter.repos.TypeNavireRepository;
 import com.github.adminfaces.starter.repos.VueAllEvpRepository;
 import static com.github.adminfaces.template.util.Assert.has;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -44,6 +45,9 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
+import javax.persistence.metamodel.SingularAttribute;
+import org.apache.commons.collections.Predicate;
 import org.apache.deltaspike.data.api.criteria.Criteria;
 
 /**
@@ -98,8 +102,8 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
                 .likeIgnoreCase(Escale_.navire, navire)
                 .getResultList();
     }
-    
-    public List<VueAllEvp> dataEVPbyEscale(String escale){
+
+    public List<VueAllEvp> dataEVPbyEscale(String escale) {
         return evpRepo.listVueAllEvpByEscale(escale);
     }
 
@@ -114,9 +118,9 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     public List<TypeNavire> listeTypeNavireContains(String query) {
         return typeNavireRepo.listeTypeNavireContains(query.toUpperCase());
     }
-    
+
     public List<Quais> listeQuai(String query) {
-        return escaleRepo.listeQuai("%"+query.toUpperCase()+"%");
+        return escaleRepo.listeQuai("%" + query.toUpperCase() + "%");
     }
 
     @Override
@@ -140,6 +144,15 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             array2[listeGrandNavire.indexOf(t)] = t;
         });
         //create restrictions based on parameters map
+        if (filter.hasParam("doublon")) {
+            Criteria<Escale, Escale> escale2Criteria = criteria();
+            escaleCriteria.notEq(Escale_.situat, "ANNULE");
+            escale2Criteria.notEq(Escale_.situat, "ANNULE");
+
+            escaleCriteria.join(Escale_.nacleunik, navireCriteria);
+            escale2Criteria.join(Escale_.nacleunik, navireCriteria);
+
+        }
         if (filter.hasParam("catnavire")) {
             if (filter.getStringParam("catnavire").equalsIgnoreCase("GRAND")) {
                 navireCriteria.in(Navire_.type, array2);
@@ -149,7 +162,7 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
         if (filter.hasParam("typenavire")) {
-            navireCriteria.in(Navire_.type, filter.getParam("typenavire", TypeNavire.class));
+            navireCriteria.eq(Navire_.type, filter.getParam("typenavire", TypeNavire.class));
             escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
 
@@ -157,7 +170,7 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             escaleCriteria.like(Escale_.numero, filter.getStringParam("numero") + "%");
         }
         if (filter.hasParam("quai")) {
-            escaleCriteria.eq(Escale_.quai, filter.getParam("quai",Quais.class));
+            escaleCriteria.eq(Escale_.quai, filter.getParam("quai", Quais.class));
         }
         if (filter.hasParam("agent")) {
             agentCriteria.like(Agent_.libelle, filter.getStringParam("agent").toUpperCase() + "%");
@@ -213,6 +226,20 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             }
         }
         return escaleCriteria;
+    }
+    
+    @Override
+    public List<Escale> paginate(Filter<Escale> filter) {
+        if (filter.hasParam("doublon")) {
+            return escaleRepo.listEscaleDouble().subList(filter.getFirst(), filter.getFirst()+filter.getPageSize());
+        } else {
+            Criteria<Escale, Escale> criteria = configRestrictions(filter);
+            configSort(filter, criteria);
+            return criteria.createQuery()
+                    .setFirstResult(filter.getFirst())
+                    .setMaxResults(filter.getPageSize())
+                    .getResultList();
+        }
     }
 
     public Long getNbrPetitEscaleByAn(String an) {
