@@ -227,11 +227,20 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
         }
         return escaleCriteria;
     }
-    
+
+    @Override
+    public Long count(Filter<Escale> filter) {
+        if (filter.hasParam("doublon")) {
+            return escaleRepo.countEscaleDouble();
+        } else {
+            return count(configRestrictions(filter));
+        }
+    }
+
     @Override
     public List<Escale> paginate(Filter<Escale> filter) {
         if (filter.hasParam("doublon")) {
-            return escaleRepo.listEscaleDouble().subList(filter.getFirst(), filter.getFirst()+filter.getPageSize());
+            return escaleRepo.listEscaleDouble(filter.getFirst(), filter.getFirst() + filter.getPageSize());
         } else {
             Criteria<Escale, Escale> criteria = configRestrictions(filter);
             configSort(filter, criteria);

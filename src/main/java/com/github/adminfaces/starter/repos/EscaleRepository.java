@@ -34,8 +34,13 @@ public interface EscaleRepository extends EntityRepository<Escale,Integer> {
     List<Escale> listEscaleGrandNav2020();
     
     @Query("SELECT e1 FROM Escale e1,Escale e2 WHERE e1.situat<>'ANNULE' and e2.situat<>'ANNULE'"
-            + "and e1.nacleunik = e2.nacleunik and e1.arrivee = e2.arrivee and e1.id <> e2.id order by e1.arrivee desc, e1.navire asc")
-    List<Escale> listEscaleDouble();
+            + "and e1.nacleunik = e2.nacleunik and e1.arrivee = e2.arrivee and e1.id <> e2.id order by e1.arrivee desc, e1.navire asc"
+            + "WHERE rownum between :first and :last ")
+    List<Escale> listEscaleDouble(@QueryParam("first") int first,@QueryParam("last") int last);
+    
+    @Query("SELECT count(e1) FROM Escale e1,Escale e2 WHERE e1.situat<>'ANNULE' and e2.situat<>'ANNULE'"
+            + "and e1.nacleunik = e2.nacleunik and e1.arrivee = e2.arrivee and e1.id <> e2.id")
+    Long countEscaleDouble();
     
     @Query("SELECT q FROM Quais q WHERE q.code is not null and (q.code like :quai or q.libelle like :quai)")
     List<Quais> listeQuai(@QueryParam("quai") String quai);
