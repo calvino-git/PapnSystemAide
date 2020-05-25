@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 import static com.github.adminfaces.persistence.util.Messages.addDetailMessage;
 import com.github.adminfaces.template.config.AdminConfig;
+import java.time.LocalDate;
 import javax.inject.Inject;
 
 /**
@@ -40,7 +41,8 @@ public class LogonMB extends AdminSession implements Serializable {
     public void login() throws IOException {
         currentUser = email;
         addDetailMessage( email + " est connecté avec succès");
-        Faces.redirect(adminConfig.getIndexPage());
+        String page = adminConfig.getIndexPage()+"?annee=%s";
+        Faces.redirect(page,"2020");
     }
 
     @Override

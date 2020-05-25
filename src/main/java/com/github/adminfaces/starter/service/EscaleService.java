@@ -77,9 +77,9 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
 
     @PostConstruct
     public void init() {
-        annee = String.valueOf(LocalDateTime.now().getYear());
+//        annee = String.valueOf(LocalDateTime.now().getYear());
 //        list = escaleRepo.listEscaleGrandNav2020();
-        update();
+//        update();
         System.out.println("[" + LocalDateTime.now() + "] EscaleService initialisé...");
     }
 

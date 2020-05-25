@@ -27,7 +27,7 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
  * @author Calvin ILOKI
  */
 @Singleton
-@Startup
+//@Startup
 public class ChiffreAffaireService implements Serializable {
 
     private List<PrestationChiffreAffaire> list;
@@ -45,27 +45,34 @@ public class ChiffreAffaireService implements Serializable {
 
     @PostConstruct
     public void init() {
-        anneeFin = LocalDateTime.now().getYear();
-        anneeDebut = anneeFin-1;
-        update();
-        listStatic = list;
+//        anneeFin = LocalDateTime.now().getYear();
+//        anneeDebut = anneeFin-1;
+//        update();
+//        listStatic = list;
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService est initialisé...");
     }
 
-    @Schedule(minute = "*/10", hour = "*",persistent = false)
+//    @Schedule(minute = "*/10", hour = "*",persistent = false)
     public void update() {
         System.out.println("[" + LocalDateTime.now() + "] ChiffreAffaireService actualisé ...");
-        this.list = listByAn(anneeDebut, anneeFin);
-        this.totalRecetteParAn = getMontantTotalParAn(anneeFin);
+//        this.list = listByAn(anneeDebut, anneeFin);
+//        this.totalRecetteParAn = getMontantTotalParAn(anneeFin);
     }
 
     public <E extends PersistenceEntity> Criteria<E, E> criteria(Class<E> entityClass) {
         return new QueryCriteria<>(entityClass, entityClass, getEntityManager());
     }
 
+    public List<PrestationChiffreAffaire> listByAn(Integer annee) {
+        list = criteria(PrestationChiffreAffaire.class)
+                .eq(PrestationChiffreAffaire_.annee, annee)
+                .getResultList();
+        return list;
+    }
+    
     public List<PrestationChiffreAffaire> listByAn(Integer debut, Integer fin) {
         list = criteria(PrestationChiffreAffaire.class)
-                .between(PrestationChiffreAffaire_.annee, debut, fin)
+                .between(PrestationChiffreAffaire_.annee, debut,fin)
                 .getResultList();
         return list;
     }
@@ -143,8 +150,6 @@ public class ChiffreAffaireService implements Serializable {
     public void setAnneeFin(Integer anneeFin) {
         this.anneeFin = anneeFin;
     }
-    
-    
 
     public List<PrestationChiffreAffaire> getListStatic() {
         return listStatic;

@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
-import javax.enterprise.context.SessionScoped;
+import org.omnifaces.cdi.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.charts.ChartData;
@@ -42,7 +42,7 @@ import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class TotalBean implements Serializable {
 
     @Inject
@@ -63,7 +63,7 @@ public class TotalBean implements Serializable {
     private Document selectedDocument;
     private DocumentEVP selectedDocumentEVP;
 
-    private Integer anneeEnCours;
+    private Integer annee;
 
     private List<String> columnHeaders;
     private static List<String> VALID_COLUMN_KEYS;
@@ -76,16 +76,15 @@ public class TotalBean implements Serializable {
     private Date debut;
     private Date fin;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
-        anneeEnCours = LocalDate.now().getYear();
         years = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
-            years.add(anneeEnCours - i);
+            years.add(annee - i);
         }
-        updateRoot();
-        rootEVP = documentEVPService.createDocuments();
-        rootEVPparAn = documentEVPService.createMainDocument();
+        updateRoot(annee);
+        rootEVP = documentEVPService.createDocuments(annee);
+        rootEVPparAn = documentEVPService.createMainDocument(annee);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
         
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -213,16 +212,16 @@ public class TotalBean implements Serializable {
         this.rootEVP = rootEVP;
     }
 
-    public void updateRoot() {
-        root = documentService.createDocuments();
+    public void updateRoot(Integer annee) {
+        root = documentService.createDocuments(annee);
     }
 
-    public void updateRootEVP() {
+    public void updateRootEVP(Integer annee) {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        rootEVP = documentEVPService.createDocuments();
+        rootEVP = documentEVPService.createDocuments(annee);
     }
     public void updateRootEVPParAn() {
-        rootEVPparAn = documentEVPService.createMainDocument();
+        rootEVPparAn = documentEVPService.createMainDocument(annee);
     }
 
     public TreeNode getRoot() {
@@ -259,7 +258,7 @@ public class TotalBean implements Serializable {
             labels.add(annee.toString());
             totalParAn = 0.0;
 
-            List<PrestationChiffreAffaire> list = chiffreAffaireService.getListStatic().stream().filter(ca -> ca.getAnnee().equals(annee)).collect(Collectors.toList());
+            List<PrestationChiffreAffaire> list = chiffreAffaireService.listByAn(annee);
             list.forEach(p -> {
                 totalParAn += p.getMontant();
             });
@@ -293,85 +292,85 @@ public class TotalBean implements Serializable {
     @Produces
     @Named("nombreEscaleByAnnee")
     public Long nombreEscaleByAnnee() {
-        return escaleService.getNombreEscaleByAn();
+        return escaleService.getNbrEscaleByAn(annee.toString());
     }
 
     @Produces
     @Named("nombrePetitEscaleByAnnee")
     public Long nombrePetitEscaleByAnnee() {
-        return escaleService.getNombrePetitEscaleByAn();
+        return escaleService.getNbrPetitEscaleByAn(annee.toString());
     }
 
     @Produces
     @Named("nombreGrandEscaleByAnnee")
     public Long nombreGrandEscaleByAnnee() {
-        return escaleService.getNombreGrandEscaleByAn();
+        return escaleService.getNbrGrandEscaleByAn(annee.toString());
     }
 
     @Produces
     @Named("montantTotalParAn")
     public Double montantTotalParAn() {
-        return chiffreAffaireService.getTotalRecetteParAn();
+        return chiffreAffaireService.getMontantTotalParAn(annee);
     }
 
     @Produces
     @Named("tonnageConteneurParAn")
     public BigInteger tonnageConteneurParAn() {
-        return BigInteger.valueOf(Math.round((cctService.getTotalTonnageParAn().doubleValue() / 1000)));
+        return cctService.totalPoidsConteneurParAn(annee);
     }
 
     @Produces
     @Named("totalEVPParAn")
     public BigInteger totalEVPParAn() {
-        return cctService.getTotalEVPParAn();
+        return cctService.totalEVPParAn(annee);
     }
 
     @Produces
     @Named("totalImpEVPParAn")
     public BigInteger totalImpEVPParAn() {
-        return cctService.getTotalImpEVPParAn();
+        return cctService.totalImpEVPParAn(annee);
     }
 
     @Produces
     @Named("totalExpEVPParAn")
     public BigInteger totalExpEVPParAn() {
-        return cctService.getTotalExpEVPParAn();
+        return cctService.totalExpEVPParAn(annee);
     }
 
     @Produces
     @Named("totalTrbEVPParAn")
     public BigInteger totalTrbEVPParAn() {
-        return cctService.getTotalTrbEVPParAn();
+        return cctService.totalTrbEVPParAn(annee);
     }
 
     @Produces
     @Named("totalTstEVPParAn")
     public BigInteger totalTstEVPParAn() {
-        return cctService.getTotalTstEVPParAn();
+        return cctService.totalTstEVPParAn(annee);
     }
 
     @Produces
     @Named("totalImpTonnageParAn")
     public BigInteger totalImpTonnageParAn() {
-        return BigInteger.valueOf(Math.round((cctService.getTotalImpTonnageParAn().doubleValue() / 1000)));
+        return cctService.totalImpTonnageParAn(annee);
     }
 
     @Produces
     @Named("totalExpTonnageParAn")
     public BigInteger totalExpTonnageParAn() {
-        return BigInteger.valueOf(Math.round((cctService.getTotalExpTonnageParAn().doubleValue() / 1000)));
+        return cctService.totalExpTonnageParAn(annee);
     }
 
     @Produces
     @Named("totalTrbTonnageParAn")
     public BigInteger totalTrbTonnageParAn() {
-        return BigInteger.valueOf(Math.round((cctService.getTotalTrbTonnageParAn().doubleValue() / 1000)));
+        return cctService.getTotalTrbTonnageParAn(annee);
     }
 
     @Produces
     @Named("totalTstTonnageParAn")
     public BigInteger totalTstTonnageParAn() {
-        return BigInteger.valueOf(Math.round((cctService.getTotalTstTonnageParAn().doubleValue() / 1000)));
+        return cctService.getTotalTstTonnageParAn(annee);
     }
 
     @Produces
@@ -426,12 +425,12 @@ public class TotalBean implements Serializable {
         this.totalParAn = totalParAn;
     }
 
-    public Integer getAnneeEnCours() {
-        return anneeEnCours;
+    public Integer getAnnee() {
+        return annee;
     }
 
-    public void setAnneeEnCours(Integer anneeEnCours) {
-        this.anneeEnCours = anneeEnCours;
+    public void setAnnee(Integer annee) {
+        this.annee = annee;
     }
 
 }

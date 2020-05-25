@@ -39,15 +39,20 @@ public class DocumentEVPService implements Serializable {
     @PostConstruct
     public void init() {
         listDocEVP = new ArrayList<>();
-        listVueAllEvp = vueAllEvpRepo.listVueAllEvpByAn(LocalDateTime.now().getYear() + "%");
+        
+        System.out.println("LISTE DES EVPS PAR SOURCE ACTUALISEE...");
+    }
+
+    public void update(Integer annee){
+        listVueAllEvp = vueAllEvpRepo.listVueAllEvpByAn(annee + "%");
         listVueAllEvp.stream().forEach(evp -> {
             listDocEVP.add(new DocumentEVP(evp.getDepartEff(), evp.getNavire(), evp.getEscale(), evp.getMouvement(), evp.getSource(), "", "", ""));
         });
         listDocEVP = listDocEVP.stream().distinct().collect(Collectors.toList());
-        System.out.println("LISTE DES EVPS PAR SOURCE ACTUALISEE...");
     }
-
-    public TreeNode createMainDocument() {
+    
+    public TreeNode createMainDocument(Integer annee) {
+        update(annee);
         TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", "-", "-", "-"), null);
         listVueAllEvp.stream()
                 .collect(Collectors.groupingBy(evp -> {
@@ -99,7 +104,8 @@ public class DocumentEVPService implements Serializable {
         return root;
     }
 
-    public TreeNode createDocuments() {
+    public TreeNode createDocuments(Integer annee) {
+        update(annee);
         DecimalFormat df = new DecimalFormat("#,##0");
         TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", "-", "-", "-"), null);
 

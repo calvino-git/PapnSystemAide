@@ -49,7 +49,7 @@ public class ConteneurCongoTerminalService implements Serializable {
         System.out.println("[" + LocalDateTime.now() + "] CCTService initialisé...");
     }
     
-    @Schedule(minute = "*/10",hour = "*",persistent = false)
+//    @Schedule(minute = "*/10",hour = "*",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Tonnage et EVP mis à jour ...");
         String annee = String.valueOf(LocalDateTime.now().getYear());
@@ -62,7 +62,7 @@ public class ConteneurCongoTerminalService implements Serializable {
         this.totalExpTonnageParAn = tctRepo.getTotalExportTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalExportTonnageParAn(annee);
         this.totalTrbTonnageParAn = tctRepo.getTotalTransboTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransboTonnageParAn(annee);
         this.totalTstTonnageParAn = tctRepo.getTotalTransitTonnageParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalTransitTonnageParAn(annee);
-        this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalPoidsConteneurParAn(annee);
+//        this.totalTonnageParAn = tctRepo.getTotalPoidsConteneurParAn(annee)==null?BigInteger.ZERO:tctRepo.getTotalPoidsConteneurParAn(annee);
     }
     
     
@@ -147,5 +147,46 @@ public class ConteneurCongoTerminalService implements Serializable {
     public void setTotalTrbEVPParAn(BigInteger totalTrbEVPParAn) {
         this.totalTrbEVPParAn = totalTrbEVPParAn;
     }
+
+    public BigInteger totalPoidsConteneurParAn(Integer annee) {
+        return tctRepo.getTotalPoidsConteneurParAn(annee.toString());
+    }
+
+    public BigInteger totalEVPParAn(Integer annee) {
+       return tctRepo.getTotalEVPParAn(annee.toString());
+    }
+
+    public BigInteger totalImpEVPParAn(Integer annee) {
+        return tctRepo.getTotalImportEVPParAn(annee.toString());
+    }
+
+    public BigInteger totalExpEVPParAn(Integer annee) {
+        return tctRepo.getTotalExportEVPParAn(annee.toString());
+    }
+
+    public BigInteger totalTrbEVPParAn(Integer annee) {
+        return tctRepo.getTotalTransboEVPParAn(annee.toString());
+    }
+
+    public BigInteger totalTstEVPParAn(Integer annee) {
+        return tctRepo.getTotalTransitEVPParAn(annee.toString());
+    }
+
+    public BigInteger totalImpTonnageParAn(Integer annee) {
+        return tctRepo.getTotalImportTonnageParAn(annee.toString());
+    }
+
+    public BigInteger totalExpTonnageParAn(Integer annee) {
+        return tctRepo.getTotalExportTonnageParAn(annee.toString());
+    }
+
+    public BigInteger getTotalTrbTonnageParAn(Integer annee) {
+        return tctRepo.getTotalTransboTonnageParAn(annee.toString());
+    }
+
+    public BigInteger getTotalTstTonnageParAn(Integer annee) {
+        return tctRepo.getTotalTransitTonnageParAn(annee.toString());
+    }
+    
     
 }

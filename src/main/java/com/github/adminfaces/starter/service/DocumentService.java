@@ -39,7 +39,11 @@ public class DocumentService implements Serializable {
 
     @PostConstruct
     public void init() {
-        listRedevMarch = redMarchRepo.listRedevMarchByAn(LocalDateTime.now().getYear());
+        
+    }
+    
+    public void update(Integer annee){
+        listRedevMarch = redMarchRepo.listRedevMarchByAn(annee);
         streamConteneurTonnage = listRedevMarch.stream().filter(rm -> rm.getCondit() != null && rm.getCondit().startsWith("TCS"));
         streamConventionTonnage = listRedevMarch.stream().filter(rm -> rm.getCondit() != null && !rm.getCondit().startsWith("TCS"));
         streamConteneurMontant = listRedevMarch.stream().filter(rm -> rm.getTarif() != null && rm.getTarif().startsWith("MARCHANDTCS"));
@@ -58,10 +62,10 @@ public class DocumentService implements Serializable {
 
         totalMontantConvent = df.format(streamConventionMontant.collect(Collectors.summingDouble(rm -> rm.getMontant())));
         System.out.println("[" + LocalDateTime.now() + "] Total Montant Conventionnel : " + totalMontantConvent);
-
     }
 
-    public TreeNode createDocuments() {
+    public TreeNode createDocuments(Integer annee) {
+        update(annee);
         DecimalFormat df = new DecimalFormat("#,##0");
         TreeNode root = new DefaultTreeNode(new Document("Marchandise", "-", "-"), null);
 
