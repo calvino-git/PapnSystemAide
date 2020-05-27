@@ -262,20 +262,21 @@
                                             </h:outputText>
                                         </p:column>
                                         <p:column style="width:16px;text-align: left">
-                                            <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="fa fa-search">
-                                                <f:setPropertyActionListener value="#{document}" target="#{selectedDocument}" />
+                                            <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="Détail" styleClass="fa fa-search">
+                                                <f:setPropertyActionListener value="#{document}" target="#{selectedDocumentEVP}" />
                                             </p:commandLink>
                                         </p:column>
                                     </p:treeTable>
 
                                     <p:dialog id="dialog"  showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false" style="width: 200px">
                                         <p:outputPanel id="documentPanel" style="width: 200px">
-                                            <p:panelGrid  columns="1" rendered="#{not empty selectedDocument}" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12 align-left">
+                                            <p:panelGrid  columns="1" rendered="#{not empty selectedDocumentEVP}" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12 align-left">
                                                 <f:facet  name="header">
-                                                    #{selectedDocument[0]}
+                                                    #{selectedDocumentEVP[0]}
                                                 </f:facet>
-                                                <h:outputText id="size" value="Tonnage : #{selectedDocument[1]}" style="font-weight:bold" />
-                                                <h:outputText id="type" value="Montant : #{selectedDocument[2]}" style="font-weight:bold" />
+                                                <h:outputText id="plein" value="Plein : #{selectedDocumentEVP[1]}" style="font-weight:bold" />
+                                                <h:outputText id="vide" value="Vide : #{selectedDocumentEVP[2]}" style="font-weight:bold" />
+                                                <h:outputText id="total" value="Total : #{selectedDocumentEVP[3]}" style="font-weight:bold" />
                                             </p:panelGrid>
                                         </p:outputPanel>
                                     </p:dialog>
