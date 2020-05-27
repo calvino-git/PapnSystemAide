@@ -9,7 +9,7 @@
         <ui:param name="title" value="Escale"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
         <f:metadata>
             <f:viewParam name="an" value="#{escaleBean.filter.params.an}" converter="javax.faces.Integer"/>
-            <f:event type="preRenderView" listener="#{escaleBean.init}"/>
+            <f:event type="preRenderView" listener="#{escaleBean.disableDoublon}"/>
         </f:metadata>
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
@@ -113,7 +113,6 @@
                                         <f:selectItem itemLabel="TOUT" />
                                         <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
                                         <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
-                                        <p:ajax process="@this" update="@none" />
                                     </p:selectOneButton>
                                 </div>
                                 <div class="ui-g-2">

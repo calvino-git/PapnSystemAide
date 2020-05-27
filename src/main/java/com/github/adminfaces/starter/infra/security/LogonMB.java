@@ -41,8 +41,7 @@ public class LogonMB extends AdminSession implements Serializable {
     public void login() throws IOException {
         currentUser = email;
         addDetailMessage( email + " est connecté avec succès");
-        String page = adminConfig.getIndexPage()+"?annee=%s";
-        Faces.redirect(page,"2020");
+        Faces.redirect(adminConfig.getIndexPage());
     }
 
     @Override

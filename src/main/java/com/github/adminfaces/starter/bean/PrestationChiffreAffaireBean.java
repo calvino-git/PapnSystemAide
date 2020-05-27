@@ -78,9 +78,15 @@ public class PrestationChiffreAffaireBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        yearCount = 5;
+        yearCount = 4;
         anneeFin = chiffreAffaireService.getAnneeFin();
         anneeDebut = chiffreAffaireService.getAnneeDebut();
+//        createBarModel2();
+    }
+    
+    public void updateData(Integer annee){
+        anneeFin = annee;
+        anneeDebut = annee-yearCount;
         years = new ArrayList<>(anneeFin-anneeDebut+1);
         for(int i=anneeDebut;i<=anneeFin;i++){
             years.add(i);
@@ -123,7 +129,6 @@ public class PrestationChiffreAffaireBean implements Serializable {
         keyList = new ArrayList<>(listPrest.values().stream().sorted((o1, o2) -> {
             return o2.compareToIgnoreCase(o1); //To change body of generated lambdas, choose Tools | Templates.
         }).collect(Collectors.toList()));
-        createBarModel2();
     }
 
     public String getListParMoisN_1() {

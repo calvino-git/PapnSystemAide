@@ -95,12 +95,19 @@ public class ChiffreAffaireService implements Serializable {
 
     public Double getMontantTotalParAn(Integer annee) {
         montantParAn = 0.0;
+        list = criteria(PrestationChiffreAffaire.class)
+                .eq(PrestationChiffreAffaire_.annee, annee)
+                .getResultList();
         list.stream().filter(p -> p.getAnnee().intValue() == annee.intValue()).collect(Collectors.toList())
                 .forEach(p -> montantParAn += p.getMontant());
         return montantParAn;
     }
+    
     public Double getMontantTotalParMois(Integer mois) {
         montantParMois = 0.0;
+        list = criteria(PrestationChiffreAffaire.class)
+                .eq(PrestationChiffreAffaire_.mois, mois)
+                .getResultList();
         list.stream().filter(p -> p.getMois().intValue() == mois.intValue()).collect(Collectors.toList())
                 .forEach(p -> montantParMois += p.getMontant());
         return montantParMois;

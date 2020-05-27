@@ -70,7 +70,7 @@ public class DocumentService implements Serializable {
         TreeNode root = new DefaultTreeNode(new Document("Marchandise", "-", "-"), null);
 
         TreeNode tcs = new DefaultTreeNode(new Document("CONTENEUR", totalTonnageConteneur, totalMontantConteneur), root);
-        TreeNode cv = new DefaultTreeNode(new Document("CONVENTIONNEL", totalTonnageConvent, totalMontantConvent), root);
+        TreeNode cv = new DefaultTreeNode(new Document("AUTRES", totalTonnageConvent, totalMontantConvent), root);
 
         //Conteneurisée
         streamConteneurTonnage = listRedevMarch.stream().filter(rm -> rm.getCondit() != null && rm.getCondit().startsWith("TCS"));

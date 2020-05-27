@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
-import org.omnifaces.cdi.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.charts.ChartData;
@@ -42,7 +42,7 @@ import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class TotalBean implements Serializable {
 
     @Inject
@@ -72,21 +72,24 @@ public class TotalBean implements Serializable {
 
     private List<Integer> years;
     private Double totalParAn;
-    
+
     private Date debut;
     private Date fin;
 
 //    @PostConstruct
     public void init() {
+        if (annee == null) {
+            annee = LocalDate.now().getYear();
+        }
         years = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             years.add(annee - i);
         }
         updateRoot(annee);
-        rootEVP = documentEVPService.createDocuments(annee);
-        rootEVPparAn = documentEVPService.createMainDocument(annee);
+//        updateRootEVP(annee);
+        updateRootEVPParAn(annee);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
-        
+
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 //        try {
 //            debut = format.parse(documentEVPService.getDebut());
@@ -106,6 +109,19 @@ public class TotalBean implements Serializable {
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
         System.out.println("TotalBean est initialisé...");
+    }
+
+    public void updateRoot(Integer annee) {
+        root = documentService.createDocuments(annee);
+    }
+
+    public void updateRootEVP(Integer annee) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        rootEVP = documentEVPService.createDocuments(annee);
+    }
+
+    public void updateRootEVPParAn(Integer annee) {
+        rootEVPparAn = documentEVPService.createMainDocument(annee);
     }
 
     public Date getDebut() {
@@ -210,18 +226,6 @@ public class TotalBean implements Serializable {
 
     public void setRootEVP(TreeNode rootEVP) {
         this.rootEVP = rootEVP;
-    }
-
-    public void updateRoot(Integer annee) {
-        root = documentService.createDocuments(annee);
-    }
-
-    public void updateRootEVP(Integer annee) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        rootEVP = documentEVPService.createDocuments(annee);
-    }
-    public void updateRootEVPParAn() {
-        rootEVPparAn = documentEVPService.createMainDocument(annee);
     }
 
     public TreeNode getRoot() {
@@ -390,7 +394,7 @@ public class TotalBean implements Serializable {
     public TreeNode produceRootEVP() {
         return rootEVP;
     }
-    
+
     @Produces
     @Named("rootEVPParAn")
     public TreeNode produceRootEVPParAn() {
@@ -402,12 +406,12 @@ public class TotalBean implements Serializable {
     public Document produceSelectedDocument() {
         return selectedDocument;
     }
+
     @Produces
     @Named("selectedDocumentEVP")
     public DocumentEVP produceSelectedDocumentEVP() {
         return selectedDocumentEVP;
     }
-    
 
     public List<Integer> getYears() {
         return years;

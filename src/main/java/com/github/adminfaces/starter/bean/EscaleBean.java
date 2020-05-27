@@ -11,8 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.omnifaces.cdi.ViewScoped;
-
 import com.github.adminfaces.persistence.bean.CrudMB;
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.persistence.service.Service;
@@ -33,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Faces;
 
 /**
@@ -67,8 +66,11 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         format = new SimpleDateFormat("yyyyMMddhhmm");
     }
     
-    public void setup(){
+    public void enableDoublon(){
         filter.addParam("doublon", true);
+    }
+    public void disableDoublon(){
+        filter.getParams().remove("doublon", true);
     }
 
     public List<String> completeNavire(String query) {

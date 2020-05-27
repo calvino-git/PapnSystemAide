@@ -15,7 +15,7 @@ public interface EscaleRepository extends EntityRepository<Escale,Integer> {
     @Query("SELECT e FROM Escale e WHERE  substring(e.departEffectif,0,4) = :annee order by e.arrivee desc")
     Long listEscaleByAnnee(@QueryParam("annee") String annee);
 
-    @Query("SELECT COUNT(e.id) FROM Escale e WHERE e.situat = :situat and substring(e.departEffectif,0,4) = :annee")
+    @Query("SELECT COUNT(e.id) FROM Escale e WHERE e.situat like :situat and substring(e.departEffectif,0,4) = :annee")
     Long getNombreEscaleByAnnee(@QueryParam("situat") String situat,@QueryParam("annee") String annee);
     
     @Query("SELECT COUNT(e.id) FROM Escale e left join e.nacleunik n  "

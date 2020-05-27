@@ -114,7 +114,8 @@ public class DocumentEVPService implements Serializable {
                     && evp.getEscale().equals(doc.getEscale())
                     && evp.getMouvement().equals(doc.getTrafic())
                     && evp.getNavire().equals(doc.getNavire())
-                    && evp.getSource().equals(doc.getSource())).collect(Collectors.summingInt(e -> e.getPlein().intValue()));
+                    && evp.getSource().equals(doc.getSource()))
+                    .collect(Collectors.summingInt(e -> e.getPlein()==null?0:e.getPlein().intValue()));
 
             doc.setPlein(df.format(plein));
 
@@ -122,7 +123,8 @@ public class DocumentEVPService implements Serializable {
                     && evp.getEscale().equals(doc.getEscale())
                     && evp.getMouvement().equals(doc.getTrafic())
                     && evp.getNavire().equals(doc.getNavire())
-                    && evp.getSource().equals(doc.getSource())).collect(Collectors.summingInt(e -> e.getVide().intValue()));
+                    && evp.getSource().equals(doc.getSource()))
+                    .collect(Collectors.summingInt(e -> e.getVide()==null?0:e.getVide().intValue()));
 
             doc.setVide(df.format(vide));
 
@@ -130,7 +132,8 @@ public class DocumentEVPService implements Serializable {
                     && evp.getEscale().equals(doc.getEscale())
                     && evp.getMouvement().equals(doc.getTrafic())
                     && evp.getNavire().equals(doc.getNavire())
-                    && evp.getSource().equals(doc.getSource())).collect(Collectors.summingInt(e -> e.getTotalEvp().intValue()));
+                    && evp.getSource().equals(doc.getSource()))
+                    .collect(Collectors.summingInt(e -> e.getTotalEvp()==null?0:e.getTotalEvp().intValue()));
 
             doc.setTotalEvp(df.format(total));
 
