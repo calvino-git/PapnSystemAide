@@ -55,7 +55,7 @@ public class MarchfactService implements Serializable {
         System.out.println("[" + LocalDateTime.now() + "] MarchFactService est initialisé...");
     }
     
-    @Schedule(minute = "*/10",hour = "*",persistent = false)
+//    @Schedule(minute = "*/10",hour = "*",persistent = false)
     public void update(){
         System.out.println("[" + LocalDateTime.now() + "] Liste des marchandises mise à jour ...");
         listMarchFactByDepart(debut, fin);
@@ -69,8 +69,6 @@ public class MarchfactService implements Serializable {
         this.entityManager = entityManager;
     }
     
-    
-
     public List<Marchfact> getList() {
         return list;
     }

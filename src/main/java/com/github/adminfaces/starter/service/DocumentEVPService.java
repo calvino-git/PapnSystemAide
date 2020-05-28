@@ -46,14 +46,14 @@ public class DocumentEVPService implements Serializable {
     public void update(Integer annee){
         listVueAllEvp = vueAllEvpRepo.listVueAllEvpByAn(annee + "%");
         listVueAllEvp.stream().forEach(evp -> {
-            listDocEVP.add(new DocumentEVP(evp.getDepartEff(), evp.getNavire(), evp.getEscale(), evp.getMouvement(), evp.getSource(), "", "", ""));
+            listDocEVP.add(new DocumentEVP(evp.getDepartEff(), evp.getNavire(), evp.getEscale(), evp.getMouvement(), evp.getSource(), 0,0,0));
         });
         listDocEVP = listDocEVP.stream().distinct().collect(Collectors.toList());
     }
     
     public TreeNode createMainDocument(Integer annee) {
         update(annee);
-        TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", "-", "-", "-"), null);
+        TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", 0,0,0), null);
         listVueAllEvp.stream()
                 .collect(Collectors.groupingBy(evp -> {
                     return evp.getSource();
@@ -62,7 +62,7 @@ public class DocumentEVPService implements Serializable {
                     Integer plein = u.stream().collect(Collectors.summingInt(e -> e.getPlein().intValue()));
                     Integer vide = u.stream().collect(Collectors.summingInt(e -> e.getVide().intValue()));
                     Integer total = u.stream().collect(Collectors.summingInt(e -> e.getTotalEvp().intValue()));
-                    DocumentEVP doc = new DocumentEVP("", "", "", "", t, plein.toString(), vide.toString(), total.toString());
+                    DocumentEVP doc = new DocumentEVP("", "", "", "", t, plein, vide, total);
                     root.getChildren().add(new DefaultTreeNode(doc));
                 });
         return root;
@@ -70,8 +70,7 @@ public class DocumentEVPService implements Serializable {
     
     public TreeNode createDocuments(String debut, String fin) {
         listVueAllEvp = vueAllEvpRepo.listVueAllEvpByDate("20200101", "20200131");
-        DecimalFormat df = new DecimalFormat("#,##0");
-        TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", "-", "-", "-"), null);
+        TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", 0,0,0), null);
 
         listDocEVP.forEach(doc -> {
             Integer plein = listVueAllEvp.stream().filter(evp -> evp.getDepartEff().equals(doc.getDepartEff())
@@ -80,7 +79,7 @@ public class DocumentEVPService implements Serializable {
                     && evp.getNavire().equals(doc.getNavire())
                     && evp.getSource().equals(doc.getSource())).collect(Collectors.summingInt(e -> e.getPlein().intValue()));
 
-            doc.setPlein(df.format(plein));
+            doc.setPlein(plein);
 
             Integer vide = listVueAllEvp.stream().filter(evp -> evp.getDepartEff().equals(doc.getDepartEff())
                     && evp.getEscale().equals(doc.getEscale())
@@ -88,7 +87,7 @@ public class DocumentEVPService implements Serializable {
                     && evp.getNavire().equals(doc.getNavire())
                     && evp.getSource().equals(doc.getSource())).collect(Collectors.summingInt(e -> e.getVide().intValue()));
 
-            doc.setVide(df.format(vide));
+            doc.setVide(vide);
 
             Integer total = listVueAllEvp.stream().filter(evp -> evp.getDepartEff().equals(doc.getDepartEff())
                     && evp.getEscale().equals(doc.getEscale())
@@ -96,7 +95,7 @@ public class DocumentEVPService implements Serializable {
                     && evp.getNavire().equals(doc.getNavire())
                     && evp.getSource().equals(doc.getSource())).collect(Collectors.summingInt(e -> e.getTotalEvp().intValue()));
 
-            doc.setTotalEvp(df.format(total));
+            doc.setTotalEvp(total);
 
             TreeNode mouvement = new DefaultTreeNode(doc, root);
 
@@ -107,7 +106,7 @@ public class DocumentEVPService implements Serializable {
     public TreeNode createDocuments(Integer annee) {
         update(annee);
         DecimalFormat df = new DecimalFormat("#,##0");
-        TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", "-", "-", "-"), null);
+        TreeNode root = new DefaultTreeNode(new DocumentEVP("EVP", "-", "-", "-", "-", 0,0,0), null);
 
         listDocEVP.forEach(doc -> {
             Integer plein = listVueAllEvp.stream().filter(evp -> evp.getDepartEff().equals(doc.getDepartEff())
@@ -117,7 +116,7 @@ public class DocumentEVPService implements Serializable {
                     && evp.getSource().equals(doc.getSource()))
                     .collect(Collectors.summingInt(e -> e.getPlein()==null?0:e.getPlein().intValue()));
 
-            doc.setPlein(df.format(plein));
+            doc.setPlein(plein);
 
             Integer vide = listVueAllEvp.stream().filter(evp -> evp.getDepartEff().equals(doc.getDepartEff())
                     && evp.getEscale().equals(doc.getEscale())
@@ -126,7 +125,7 @@ public class DocumentEVPService implements Serializable {
                     && evp.getSource().equals(doc.getSource()))
                     .collect(Collectors.summingInt(e -> e.getVide()==null?0:e.getVide().intValue()));
 
-            doc.setVide(df.format(vide));
+            doc.setVide(vide);
 
             Integer total = listVueAllEvp.stream().filter(evp -> evp.getDepartEff().equals(doc.getDepartEff())
                     && evp.getEscale().equals(doc.getEscale())
@@ -135,7 +134,7 @@ public class DocumentEVPService implements Serializable {
                     && evp.getSource().equals(doc.getSource()))
                     .collect(Collectors.summingInt(e -> e.getTotalEvp()==null?0:e.getTotalEvp().intValue()));
 
-            doc.setTotalEvp(df.format(total));
+            doc.setTotalEvp(total);
 
             TreeNode mouvement = new DefaultTreeNode(doc, root);
 

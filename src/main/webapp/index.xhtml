@@ -29,7 +29,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <!-- small box -->
                     <div class="small-box bg-aqua">
-                        <div class="inner container-fluid" >
+                        <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row">
                                 <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{nombreEscaleByAnnee}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
@@ -56,7 +56,7 @@
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-red">
-                        <div class="inner container-fluid">
+                        <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row" >
                                 <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{totalEVPParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
@@ -97,7 +97,7 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-green">
-                        <div class="inner container-fluid">
+                        <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row" >
                                 <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{tonnageConteneurParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
@@ -134,7 +134,7 @@
                 <!-- /.col -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="small-box bg-yellow">
-                        <div class="inner container-fluid">
+                        <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row" >
                                 <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{montantTotalParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
@@ -167,8 +167,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <div class="col-md-6 col-sm-12">
+                <div class="col-lg-6 col-dm-12" style="padding:0">
+                    <div class="col-lg-6 col-dm-12" >
                         <div class="box box-primary ">
                             <div class="box-header with-border">
                                 <p:growl id="growl1" showDetail="true" />
@@ -178,7 +178,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-lg-6 col-dm-12">
                         <div class="box box-title">
                             <div class="box-header with-border">
                                 <p:growl id="growl2" showDetail="true" />
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-lg-6 col-dm-12">
                         <div class="box box-title">
                             <div class="box-header with-border">
                                 <p:growl id="growl4" showDetail="true" />
@@ -200,7 +200,7 @@
                                                 <i class="fa fa-refresh"></i>
                                             </p:commandLink>
                                         </f:facet>
-                                        <p:column width="" style="text-align: left" headerText="Conditionnement">
+                                        <p:column style="text-align: left" headerText="Conditionnement">
                                             <h:outputText  value="#{document.condition}" />
                                         </p:column>
                                         <p:column  style="text-align: right;font-weight: bold" headerText="Tonnage">
@@ -209,11 +209,11 @@
                                         <p:column  style="text-align: right;font-weight: bold" headerText="Montant">
                                             <h:outputText  value="#{document.montant}" />
                                         </p:column>
-                                        <p:column style="width:16px;text-align: left">
+                                        <!--p:column style="width:16px;text-align: left">
                                             <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="View Detail" styleClass="fa fa-search">
                                                 <f:setPropertyActionListener value="#{document}" target="#{selectedDocument}" />
                                             </p:commandLink>
-                                        </p:column>
+                                        </p:column-->
                                     </p:treeTable>
 
                                     <p:dialog id="dialog"  showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false" style="width: 200px">
@@ -231,7 +231,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-lg-6 col-dm-12">
                         <div class="box box-title">
                             <div class="box-header with-border">
                                 <p:growl id="growl5" showDetail="true" />
@@ -261,11 +261,6 @@
                                                 <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column style="width:16px;text-align: left">
-                                            <p:commandLink update=":form:documentPanel" oncomplete="PF('documentDialog').show()" title="Détail" styleClass="fa fa-search">
-                                                <f:setPropertyActionListener value="#{document}" target="#{selectedDocumentEVP}" />
-                                            </p:commandLink>
-                                        </p:column>
                                     </p:treeTable>
 
                                     <p:dialog id="dialog"  showEffect="fade" widgetVar="documentDialog" modal="true" resizable="false" style="width: 200px">
@@ -285,7 +280,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-dm-12">
                     <div class="box box-title">
                         <div class="box-header with-border">
                             <p:growl id="growl3" showDetail="true" />
@@ -340,8 +335,17 @@
                         },
                         maintainAspectRatio: false,
                         tooltips: {
+                            callbacks: {
+                                title: function (tooltipItem, data) {
+                                    return data['labels'][tooltipItem[0]['index']];
+                                },
+                                label: function (tooltipItem, data) {
+                                    return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ") + ' FCFA';
+                                }
+                            },
                             mode: mode,
                             intersect: intersect
+
                         },
                         hover: {
                             mode: mode,
@@ -418,6 +422,14 @@
                         },
                         maintainAspectRatio: false,
                         tooltips: {
+                            callbacks: {
+                                title: function (tooltipItem, data) {
+                                    return data['labels'][tooltipItem[0]['index']];
+                                },
+                                label: function (tooltipItem, data) {
+                                    return data.datasets[0]['label'][tooltipItem[0]['index']]+ ': ' + data.datasets[0]['data'][tooltipItem['index']].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ") + ' FCFA';
+                                }
+                            },
                             mode: mode,
                             intersect: intersect
                         },

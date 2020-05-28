@@ -18,9 +18,9 @@ public class DocumentEVP implements Serializable, Comparable<DocumentEVP> {
     private String escale;
     private String trafic;
     private String source;
-    private String plein;
-    private String vide;
-    private String totalEvp;
+    private Integer plein;
+    private Integer vide;
+    private Integer totalEvp;
 
     public DocumentEVP() {
     }
@@ -97,31 +97,31 @@ public class DocumentEVP implements Serializable, Comparable<DocumentEVP> {
         this.source = source;
     }
 
-    public String getPlein() {
+    public Integer getPlein() {
         return plein;
     }
 
-    public void setPlein(String plein) {
+    public void setPlein(Integer plein) {
         this.plein = plein;
     }
 
-    public String getVide() {
+    public Integer getVide() {
         return vide;
     }
 
-    public void setVide(String vide) {
+    public void setVide(Integer vide) {
         this.vide = vide;
     }
 
-    public String getTotalEvp() {
+    public Integer getTotalEvp() {
         return totalEvp;
     }
 
-    public void setTotalEvp(String totalEvp) {
+    public void setTotalEvp(Integer totalEvp) {
         this.totalEvp = totalEvp;
     }
 
-    public DocumentEVP(String departEff, String navire, String escale, String trafic, String source, String plein, String vide, String totalEvp) {
+    public DocumentEVP(String departEff, String navire, String escale, String trafic, String source, Integer plein, Integer vide, Integer totalEvp) {
         this.departEff = departEff;
         this.navire = navire;
         this.escale = escale;
