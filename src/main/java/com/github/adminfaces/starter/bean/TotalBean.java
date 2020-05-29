@@ -42,7 +42,7 @@ import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 @Named
-@SessionScoped
+@ApplicationScoped
 public class TotalBean implements Serializable {
 
     @Inject
@@ -382,24 +382,24 @@ public class TotalBean implements Serializable {
     public BarChartModel chiffreAffaireBar() {
         return createChiffreAffaireBarChart();
     }
-
-    @Produces
-    @Named("root")
-    public TreeNode produceRoot() {
-        return root;
-    }
-
-    @Produces
-    @Named("rootEVP")
-    public TreeNode produceRootEVP() {
-        return rootEVP;
-    }
-
-    @Produces
-    @Named("rootEVPParAn")
-    public TreeNode produceRootEVPParAn() {
-        return rootEVPparAn;
-    }
+//
+//    @Produces
+//    @Named("root")
+//    public TreeNode produceRoot() {
+//        return root;
+//    }
+//
+//    @Produces
+//    @Named("rootEVP")
+//    public TreeNode produceRootEVP() {
+//        return rootEVP;
+//    }
+//
+//    @Produces
+//    @Named("rootEVPParAn")
+//    public TreeNode produceRootEVPParAn() {
+//        return rootEVPparAn;
+//    }
 
     @Produces
     @Named("selectedDocument")

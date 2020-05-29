@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-dm-12">
-                        <div class="box box-title">
+                        <div class="box box-primary">
                             <div class="box-header with-border">
                                 <p:growl id="growl2" showDetail="true" />
                                 <div class="position-relative mb-4">
@@ -189,14 +189,13 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-dm-12">
-                        <div class="box box-title">
+                        <div class="box box-primary">
                             <div class="box-header with-border">
                                 <p:growl id="growl4" showDetail="true" />
-                                <h:form id="form">
-                                    <p:treeTable value="#{root}" var="document" styleClass="no-border" style="table-layout: fixed">
+                                    <p:treeTable id="root" value="#{totalBean.root}" var="document" styleClass="no-border" style="table-layout: fixed">
                                         <f:facet name="header">
                                             <h:outputText class="col-md-11 align-left" value="TRAFIC MARCHANDISE EN #{totalBean.annee}" />
-                                            <p:commandLink update="@form" class="align-right" action="#{totalBean.updateRoot()}" >
+                                            <p:commandLink update="root" class="align-right" action="#{totalBean.updateRoot(totalBean.annee)}" >
                                                 <i class="fa fa-refresh"></i>
                                             </p:commandLink>
                                         </f:facet>
@@ -227,19 +226,18 @@
                                             </p:panelGrid>
                                         </p:outputPanel>
                                     </p:dialog>
-                                </h:form>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-dm-12">
-                        <div class="box box-title">
+                        <div class="box box-primary">
                             <div class="box-header with-border">
                                 <p:growl id="growl5" showDetail="true" />
                                 <h:form id="form1">
-                                    <p:treeTable value="#{rootEVPParAn}" var="document" styleClass="no-border" style="table-layout: fixed">
+                                    <p:treeTable value="#{totalBean.rootEVPparAn}" var="document" styleClass="no-border" style="table-layout: fixed">
                                         <f:facet name="header">
                                             <h:outputText class="col-md-11 align-left" value="TRAFIC EVP EN #{totalBean.annee}" />
-                                            <p:commandLink update="@form" class="align-right" action="#{totalBean.updateRoot()}" >
+                                            <p:commandLink update="@form" partialSubmit="true" class="align-right" action="#{totalBean.updateRootEVPParAn(totalBean.annee)}" >
                                                 <i class="fa fa-refresh"></i>
                                             </p:commandLink>
                                         </f:facet>
@@ -281,8 +279,11 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-dm-12">
-                    <div class="box box-title">
+                    <div class="box box-primary">
                         <div class="box-header with-border">
+                            <h3 class="box-title">Etat d'occupation des quais</h3>
+                        </div>
+                        <div class="box-body">
                             <p:growl id="growl3" showDetail="true" />
                             <div class="position-relative mb-4">
                                 <iframe name="marinetraffic" id="marinetraffic" width="100%" height="500" scrolling="no" frameborder="1" title="PORT AUTONOME DE POINTE-NOIRE"
@@ -427,11 +428,13 @@
                                     return data['labels'][tooltipItem[0]['index']];
                                 },
                                 label: function (tooltipItem, data) {
-                                    return data.datasets[0]['label'][tooltipItem[0]['index']]+ ': ' + data.datasets[0]['data'][tooltipItem['index']].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ") + ' FCFA';
+                                    var str = data['datasets'][tooltipItem['datasetIndex']]['data'][tooltipItem['index']];
+                                    return str.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ") + ' FCFA';
                                 }
                             },
                             mode: mode,
-                            intersect: intersect
+                            intersect: intersect,
+                            displayColors: true
                         },
                         hover: {
                             mode: mode,
