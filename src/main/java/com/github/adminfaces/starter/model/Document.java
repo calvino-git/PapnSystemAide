@@ -15,11 +15,11 @@ public class Document implements Serializable, Comparable<Document> {
  
     private String condition;
      
-    private Double tonnage;
+    private Integer tonnage;
      
     private Double montant;
      
-    public Document(String condition, Double tonnage, Double montant) {
+    public Document(String condition, Integer tonnage, Double montant) {
         this.condition = condition;
         this.tonnage = tonnage;
         this.montant = montant;
@@ -33,11 +33,11 @@ public class Document implements Serializable, Comparable<Document> {
         this.condition = condition;
     }
  
-    public Double getTonnage() {
+    public Integer getTonnage() {
         return tonnage;
     }
  
-    public void setTonnage(Double tonnage) {
+    public void setTonnage(Integer tonnage) {
         this.tonnage = tonnage;
     }
  
@@ -94,6 +94,6 @@ public class Document implements Serializable, Comparable<Document> {
  
     @Override
     public int compareTo(Document document) {
-        return this.getCondition().compareTo(document.getCondition());
+        return this.getTonnage().compareTo(document.getTonnage());
     }
 }
