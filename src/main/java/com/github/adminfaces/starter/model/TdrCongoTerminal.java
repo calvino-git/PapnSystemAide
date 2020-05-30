@@ -69,7 +69,7 @@ public class TdrCongoTerminal implements Serializable {
     private String departEff;
     @Size(max = 4)
     @Column(name = "ANNEE", length = 4)
-    private String annee;
+    private Integer annee;
     @Size(max = 40)
     @Column(name = "NAVIRE", length = 40)
     private String navire;
@@ -159,11 +159,11 @@ public class TdrCongoTerminal implements Serializable {
         this.departEff = departEff;
     }
 
-    public String getAnnee() {
+    public Integer getAnnee() {
         return annee;
     }
 
-    public void setAnnee(String annee) {
+    public void setAnnee(Integer annee) {
         this.annee = annee;
     }
 

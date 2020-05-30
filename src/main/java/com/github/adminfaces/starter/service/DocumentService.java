@@ -27,10 +27,10 @@ public class DocumentService implements Serializable {
     @Inject
     RedevMarchRepository redMarchRepo;
 
-    private String totalTonnageConteneur;
-    private String totalTonnageConvent;
-    private String totalMontantConteneur;
-    private String totalMontantConvent;
+    private Double totalTonnageConteneur;
+    private Double totalTonnageConvent;
+    private Double totalMontantConteneur;
+    private Double totalMontantConvent;
     private List<RedevMarch> listRedevMarch;
     private Stream<RedevMarch> streamConteneurTonnage;
     private Stream<RedevMarch> streamConventionTonnage;
@@ -49,25 +49,23 @@ public class DocumentService implements Serializable {
         streamConteneurMontant = listRedevMarch.stream().filter(rm -> rm.getTarif() != null && rm.getTarif().startsWith("MARCHANDTCS"));
         streamConventionMontant = listRedevMarch.stream().filter(rm -> rm.getTarif() != null && !rm.getTarif().startsWith("MARCHANDTCS"));
 
-        DecimalFormat df = new DecimalFormat("#,##0");
-
-        totalTonnageConteneur = df.format(streamConteneurTonnage.collect(Collectors.summingDouble(rm -> rm.getTonnage()))/1000);
+        totalTonnageConteneur = (streamConteneurTonnage.collect(Collectors.summingDouble(rm -> rm.getTonnage()))/1000);
         System.out.println("[" + LocalDateTime.now() + "] Total Tonnage Conteneur : " + totalTonnageConteneur);
 
-        totalTonnageConvent = df.format(streamConventionTonnage.collect(Collectors.summingDouble(rm -> rm.getTonnage()))/1000);
+        totalTonnageConvent = (streamConventionTonnage.collect(Collectors.summingDouble(rm -> rm.getTonnage()))/1000);
         System.out.println("[" + LocalDateTime.now() + "] Total Tonnage Conventionnel : " + totalTonnageConvent);
 
-        totalMontantConteneur = df.format(streamConteneurMontant.collect(Collectors.summingDouble(rm -> rm.getMontant())));
+        totalMontantConteneur = (streamConteneurMontant.collect(Collectors.summingDouble(rm -> rm.getMontant())));
         System.out.println("[" + LocalDateTime.now() + "] Total Montant Conteneur : " + totalMontantConteneur);
 
-        totalMontantConvent = df.format(streamConventionMontant.collect(Collectors.summingDouble(rm -> rm.getMontant())));
+        totalMontantConvent = (streamConventionMontant.collect(Collectors.summingDouble(rm -> rm.getMontant())));
         System.out.println("[" + LocalDateTime.now() + "] Total Montant Conventionnel : " + totalMontantConvent);
     }
 
     public TreeNode createDocuments(Integer annee) {
         update(annee);
-        DecimalFormat df = new DecimalFormat("#,##0");
-        TreeNode root = new DefaultTreeNode(new Document("Marchandise", "-", "-"), null);
+//        DecimalFormat df = new DecimalFormat("#,##0");
+        TreeNode root = new DefaultTreeNode(new Document("Marchandise", 0.0, 0.0), null);
 
         TreeNode tcs = new DefaultTreeNode(new Document("CONTENEUR", totalTonnageConteneur, totalMontantConteneur), root);
         TreeNode cv = new DefaultTreeNode(new Document("AUTRES", totalTonnageConvent, totalMontantConvent), root);
@@ -82,14 +80,14 @@ public class DocumentService implements Serializable {
         
         
         for (Map.Entry<String, Double> entry : mapStreamConteneurTonnage.entrySet()) {
-            Document doc = new Document(entry.getKey(), df.format(entry.getValue()/1000), "");
+            Document doc = new Document(entry.getKey(), (entry.getValue()/1000), 0.0);
             Double montant = 0.0;
             for (Map.Entry<String, Double> entry2 : mapStreamConteneurMontant.entrySet()) {
                 if (entry2.getKey().contains(entry.getKey())) {
                     montant += entry2.getValue();
                 }
             }
-            doc.setMontant(df.format(montant));
+            doc.setMontant((montant));
             TreeNode expenses = new DefaultTreeNode("document", doc, tcs);
         }
         //Conventionnelle
@@ -102,20 +100,21 @@ public class DocumentService implements Serializable {
         
         
         for (Map.Entry<String, Double> entry : mapStreamConventionTonnage.entrySet()) {
-            Document doc = new Document(entry.getKey(), df.format(entry.getValue()/1000), "");
+            Document doc = new Document(entry.getKey(), (entry.getValue()/1000), 0.0);
             Double montant = 0.0;
             for (Map.Entry<String, Double> entry2 : mapStreamConventionMontant.entrySet()) {
                 if (entry2.getKey().contains(entry.getKey())) {
                     montant += entry2.getValue();
                 }
             }
-            doc.setMontant(df.format(montant));
+            doc.setMontant((montant));
             TreeNode expenses = new DefaultTreeNode("document", doc, cv);
         }
 
         return root;
     }
 
+    /*
     public TreeNode createCheckboxDocuments() {
         TreeNode root = new CheckboxTreeNode(new Document("Files", "-", "Folder"), null);
 
@@ -148,4 +147,5 @@ public class DocumentService implements Serializable {
 
         return root;
     }
+*/
 }
