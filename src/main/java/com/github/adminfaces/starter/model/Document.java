@@ -15,11 +15,11 @@ public class Document implements Serializable, Comparable<Document> {
  
     private String condition;
      
-    private Integer tonnage;
+    private Long tonnage;
      
-    private Double montant;
+    private Long montant;
      
-    public Document(String condition, Integer tonnage, Double montant) {
+    public Document(String condition, Long tonnage, Long montant) {
         this.condition = condition;
         this.tonnage = tonnage;
         this.montant = montant;
@@ -33,19 +33,19 @@ public class Document implements Serializable, Comparable<Document> {
         this.condition = condition;
     }
  
-    public Integer getTonnage() {
+    public Long getTonnage() {
         return tonnage;
     }
  
-    public void setTonnage(Integer tonnage) {
+    public void setTonnage(Long tonnage) {
         this.tonnage = tonnage;
     }
  
-    public Double getMontant() {
+    public Long getMontant() {
         return montant;
     }
  
-    public void setMontant(Double montant) {
+    public void setMontant(Long montant) {
         this.montant = montant;
     }
  

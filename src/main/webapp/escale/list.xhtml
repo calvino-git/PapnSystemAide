@@ -8,7 +8,6 @@
     <ui:define name="metadata">
         <ui:param name="title" value="Escale"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
         <f:metadata>
-            <f:viewParam name="an" value="#{escaleBean.filter.params.an}" converter="javax.faces.Integer"/>
             <f:event type="preRenderView" listener="#{escaleBean.disableDoublon}"/>
         </f:metadata>
         <style type="text/css">

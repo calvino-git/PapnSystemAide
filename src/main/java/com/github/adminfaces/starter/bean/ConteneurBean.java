@@ -40,11 +40,13 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
     private Date date;
     private ConteneurDouane selectedConteneur;
     private SimpleDateFormat format;
+    private SimpleDateFormat format2;
     private DefaultDashboardModel model;
 
     @PostConstruct
     public void initBean() {
-        format = new SimpleDateFormat("yyyyMM");
+        format2 = new SimpleDateFormat("yyyyMM");
+        format = new SimpleDateFormat("dd/MM/yyyy");
         this.model = new DefaultDashboardModel();
         DashboardColumn mainColumn = new DefaultDashboardColumn();
         mainColumn.addWidget("ct");
@@ -55,8 +57,8 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
 
     public void find() {
         if (date != null) {
-            filter.getEntity().setMois(format.format(date));
-        }else{
+            filter.getEntity().setMois(format2.format(date));
+        } else {
             filter.getEntity().setMois(null);
         }
         if (has(filter.getEntity().getNumero()) || has(filter.getEntity().getNavire()) || has(filter.getEntity().getMois())) {

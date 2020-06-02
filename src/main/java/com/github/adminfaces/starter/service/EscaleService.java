@@ -165,7 +165,9 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             navireCriteria.eq(Navire_.type, filter.getParam("typenavire", TypeNavire.class));
             escaleCriteria.join(Escale_.nacleunik, navireCriteria);
         }
-
+        if (filter.hasParam("arrivee")) {
+            annee = filter.getStringParam("arrivee");
+        }
         if (filter.hasParam("numero")) {
             escaleCriteria.like(Escale_.numero, filter.getStringParam("numero") + "%");
         }
@@ -176,31 +178,40 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             agentCriteria.like(Agent_.libelle, filter.getStringParam("agent").toUpperCase() + "%");
             escaleCriteria.join(Escale_.agent, agentCriteria);
         }
-        if (filter.hasParam("an")) {
-            try {
-                Date parseDebutETA = dateFormat.parse(filter.getIntParam("an") + "0101");
-                Date parseFinETA = dateFormat.parse(filter.getIntParam("an") + "1231");
-                if (!filter.hasParam("debutETA")) {
-                    filter.addParam("debutETA", parseDebutETA);
-                }
-                if (!filter.hasParam("finETA")) {
-                    filter.addParam("finETA", parseFinETA);
-                }
-                escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)), dateFormat.format(filter.getParam("finETA", Date.class)));
-
-            } catch (ParseException ex) {
-                Logger.getLogger(EscaleService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-
-            if (filter.hasParam("debutETA") && filter.hasParam("finETA")) {
-                escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)), dateFormat.format(filter.getParam("finETA", Date.class)));
-            } else if (filter.hasParam("debutETA")) {
-                escaleCriteria.gtOrEq(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)));
-            } else if (filter.hasParam("finETA")) {
-                escaleCriteria.ltOrEq(Escale_.arrivee, dateFormat.format(filter.getParam("finETA", Date.class)));
-            }
+        if (filter.hasParam("debutETA") && filter.hasParam("finETA")) {
+            escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)), dateFormat.format(filter.getParam("finETA", Date.class)));
+        } else if (filter.hasParam("debutETA")) {
+            escaleCriteria.gtOrEq(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)));
+        } else if (filter.hasParam("finETA")) {
+            escaleCriteria.ltOrEq(Escale_.arrivee, dateFormat.format(filter.getParam("finETA", Date.class)));
         }
+//        if (filter.hasParam("an")) {
+//            try {
+//                Date parseDebutETA = dateFormat.parse(filter.getIntParam("an") + "0101");
+//                Date parseFinETA = dateFormat.parse(filter.getIntParam("an") + "1231");
+//                if (!filter.hasParam("debutETA")) {
+//                    filter.addParam("debutETA", parseDebutETA);
+//                }
+//                if (!filter.hasParam("finETA")) {
+//                    filter.addParam("finETA", parseFinETA);
+//                }
+//                escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)), dateFormat.format(filter.getParam("finETA", Date.class)));
+//
+//            } catch (ParseException ex) {
+//                Logger.getLogger(EscaleService.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } else {
+//
+//            if (filter.hasParam("debutETA") && filter.hasParam("finETA")) {
+//                escaleCriteria.between(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)), dateFormat.format(filter.getParam("finETA", Date.class)));
+//            } else if (filter.hasParam("debutETA")) {
+//                escaleCriteria.gtOrEq(Escale_.arrivee, dateFormat.format(filter.getParam("debutETA", Date.class)));
+//            } else if (filter.hasParam("finETA")) {
+//                escaleCriteria.ltOrEq(Escale_.arrivee, dateFormat.format(filter.getParam("finETA", Date.class)));
+//            }
+//        }
+
+        
         //create restrictions based on filter entity
         if (has(filter.getEntity())) {
             Escale filterEntity = filter.getEntity();
@@ -219,11 +230,14 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
             }
 
             if (has(filterEntity.getArrivee())) {
-                escaleCriteria.likeIgnoreCase(Escale_.arrivee, filterEntity.getArrivee() + "%");
+                annee = filterEntity.getArrivee();
             }
             if (has(filterEntity.getFiliere())) {
                 escaleCriteria.eq(Escale_.filiere, filterEntity.getFiliere());
             }
+        }
+        if(has(annee)){
+            escaleCriteria.like(Escale_.arrivee, annee + "%");
         }
         return escaleCriteria;
     }

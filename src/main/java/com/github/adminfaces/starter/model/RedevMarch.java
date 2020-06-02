@@ -23,9 +23,9 @@ public class RedevMarch  extends BaseEntity implements Serializable{
     @Column(name = "tarif")
     private String tarif;
     @Column(name = "tonnage")
-    private Integer tonnage;
+    private Long tonnage;
     @Column(name = "montant")
-    private Double montant;
+    private Long montant;
 
     
 
@@ -64,19 +64,19 @@ public class RedevMarch  extends BaseEntity implements Serializable{
         this.tarif = tarif;
     }
 
-    public Integer getTonnage() {
+    public Long getTonnage() {
         return tonnage;
     }
 
-    public void setTonnage(Integer tonnage) {
+    public void setTonnage(Long tonnage) {
         this.tonnage = tonnage;
     }
 
-    public Double getMontant() {
+    public Long getMontant() {
         return montant;
     }
 
-    public void setMontant(Double montant) {
+    public void setMontant(Long montant) {
         this.montant = montant;
     }
 

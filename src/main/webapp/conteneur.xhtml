@@ -106,7 +106,7 @@
                         </div>
                         <div class="ui-g-12">
                             <p:dataTable widgetVar="ctnTable" var="c" value="#{conteneurCongoTerminalBean.list}" rows="5" rowKey="#{c.id}" lazy="true" 
-                                         paginator="true" tableStyleClass="align-center" sortMode="multiple" sortField="#{c.date}" sortOrder="descending"
+                                         paginator="true" tableStyleClass="align-center" sortMode="multiple" sortField="#{c.mois}" sortOrder="descending"
                                          paginatorPosition="bottom" style="width: 100%" filteredValue="#{conteneurCongoTerminalBean.filteredValue}" rowsPerPageTemplate="5,10"
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          currentPageReportTemplate="[{startRecord} à {endRecord} de {totalRecords}]"  rowIndexVar="x">
@@ -159,7 +159,7 @@
 
                             </p:dataTable>
                             <p:dataTable widgetVar="douaneTable" var="c" value="#{conteneurBean.list}" rows="5" rowKey="#{c.id}" lazy="true" 
-                                         paginator="true" tableStyleClass="align-center" sortMode="multiple" sortField="#{c.date}" sortOrder="descending"
+                                         paginator="true" tableStyleClass="align-center" sortMode="multiple" sortField="#{c.mois}" sortOrder="descending"
                                          paginatorPosition="bottom" style="width: 100%" filteredValue="#{conteneurBean.filteredValue}" rowsPerPageTemplate="5,10" rowIndexVar="x" 
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          currentPageReportTemplate="[{startRecord} à {endRecord} de {totalRecords}]">
