@@ -107,13 +107,13 @@
                         </f:facet>
                         <f:facet name="header">
                             <p:growl id="growl" showDetail="true" sticky="true" />
-                            <p:panelGrid columns="2" columnClasses="ui-g-12 ui-md-6 ui-lg-3 align-left,ui-g-12 ui-md-6 ui-lg-3 align-left"
+                            <p:panelGrid columns="2" columnClasses="ui-g-4 ui-sm-4 ui-md-1 ui-lg-4 align-left,ui-g-8 ui-sm-8 ui-md-3 ui-lg-8 align-left"
                                          layout="grid" styleClass="showcase-text-align-center ui-fluid">
-                                <p:outputLabel value="Date debut: *" for="debut"/>
+                                <p:outputLabel value="Date debut:" for="debut"/>
                                 <p:datePicker id="debut" value="#{marchFactBean.debut}" locale="fr"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de debut obligatoire"
                                               required="true" label="Debut" style="width:auto"/>
 
-                                <p:outputLabel value="Date fin: *" for="fin"/>
+                                <p:outputLabel value="Date fin:" for="fin"/>
                                 <p:datePicker id="fin" value="#{marchFactBean.fin}" locale="fr" pattern="dd/MM/yyyy" showIcon="true" 
                                               requiredMessage="Date de fin obligatoire"
                                               required="true" label="Fin" style="width:auto"/>
