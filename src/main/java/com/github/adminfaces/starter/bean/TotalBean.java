@@ -31,6 +31,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.omnifaces.util.Faces;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -109,6 +110,10 @@ public class TotalBean implements Serializable {
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
         System.out.println("TotalBean est initialisé...");
+    }
+    
+    public void toListEscale(){
+        Faces.redirect("escale/list");
     }
 
     public void updateRoot(Integer annee) {

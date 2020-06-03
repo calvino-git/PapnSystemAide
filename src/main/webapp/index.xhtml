@@ -50,11 +50,10 @@
                             <i class="fa fa-ship"></i>
                             <h1 style="text-align: center;font-family: 'Impact';font-size: 45px;margin-top: 0px;margin-bottom: 0px;">#{totalBean.annee}</h1>
                         </div>
-                            <p:link class="small-box-footer" value="Détails" outcome="escale/list.xhtml" >
-                                <p:ajax listener="#{escaleBean.filter.entity.setArrivee(totalBean.annee)}"/>
-                                <i class="fa fa-arrow-circle-right"></i>
-                            </p:link>
-                        <a href="escale/list.xhtml?annee=#{totalBean.annee}" class="small-box-footer">Détails <i class="fa fa-arrow-circle-right"></i></a>
+                        <h:link class="small-box-footer" value="Détails" outcome="/escale/list" >
+                            <i class="fa fa-fw fa-arrow-circle-right"></i>
+                            <p:ajax listener="#{escaleBean.filter.entity.setArrivee(totalBean.annee)}"/>
+                        </h:link>
                     </div>
                 </div>
                 <!-- /.col -->
