@@ -144,8 +144,8 @@
 
                                     #{c.trafic == 'E' ? 'EXP': c.trafic == 'I' ?'IMP' : c.trafic == 'T' and c.mouvement == 'DEBA'?'TRBI' :c.trafic == 'T' and c.mouvement == 'EMBA'?'TRBE' : ''}
                                 </p:column>
-                                <p:column headerText="Navire" sortBy="#{c.escale}" style="width: 120px">
-                                    #{c.escale}
+                                <p:column headerText="Navire" sortBy="#{empty c.navire ? c.escale : c.navire}" style="width: 120px">
+                                    #{empty c.navire ? c.escale : c.navire}
                                 </p:column>
                                 <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" style="width: 80px">
                                     #{c.voyage}

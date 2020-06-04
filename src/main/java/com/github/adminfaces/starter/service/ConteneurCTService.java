@@ -59,8 +59,8 @@ public class ConteneurCTService extends CrudService<ConteneurCT, Integer> implem
             if (has(filterEntity.getMois())) {
                 criteria.eq(ConteneurCT_.mois, filterEntity.getMois());
             }
-            if (has(filterEntity.getEscale())) {
-                criteria.likeIgnoreCase(ConteneurCT_.escale, "%" +filterEntity.getEscale() + "%");
+            if (has(filterEntity.getNavire())) {
+                criteria.likeIgnoreCase(ConteneurCT_.navire, "%" + filterEntity.getNavire() + "%");
             }
 
             if (has(filterEntity.getNumCtn())) {

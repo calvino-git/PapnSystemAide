@@ -72,7 +72,7 @@
                         </p:column>
                         <p:column headerText="Date" sortBy="#{c.date}" width="8%">
                             <h:outputText value="#{c.date}">
-                                <f:convertDateTime pattern="dd/MM/yy"/>
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Mois" sortBy="#{c.mois}" width="6%">
@@ -99,7 +99,7 @@
                             #{c.mouvement}
                         </p:column>
                         <p:column headerText="Trafic" sortBy="#{c.trafic}" filterBy="#{c.trafic}"
-                                  filterMatchMode="equals" priority="3" width="5%">
+                                  filterMatchMode="equals" priority="3" width="10%">
                             <f:facet name="filter">
                                 <p:selectOneButton value="#{conteneurCongoTerminalBean.filter.entity.trafic}">
                                     <f:selectItem itemLabel="EXP" itemValue="E"/>
@@ -110,16 +110,16 @@
                             </f:facet>
                             <h:outputText value="#{c.trafic == 'E' ? 'EXPORT': c.trafic == 'I' ?'IMPORT' : 'TRANSBO'}"/>
                         </p:column>
-                        <p:column headerText="Escale" sortBy="#{c.escale}" width="15%">
-                            #{c.escale}
+                        <p:column headerText="Navire" sortBy="#{c.navire}" width="10%">
+                            #{c.navire}
                         </p:column>
-                        <p:column headerText="N°VOYAGE" sortBy="#{c.voyage}" width="10%">
+                        <p:column headerText="N° Voyage" sortBy="#{c.voyage}" width="10%">
                             #{c.voyage}
                         </p:column>
-                        <p:column headerText="POL" sortBy="#{c.pol}" width="10%">
+                        <p:column headerText="Port Chargement" sortBy="#{c.pol}" width="10%">
                             #{c.pol}
                         </p:column>
-                        <p:column headerText="POD" sortBy="#{c.pod}" width="10%">
+                        <p:column headerText="Port Déchargement" sortBy="#{c.pod}" width="10%">
                             #{c.pod}
                         </p:column>
 

@@ -68,15 +68,24 @@ public class ConteneurBean extends CrudMB<ConteneurDouane> implements Serializab
             ExpressionFactory expressionFactory = application.getExpressionFactory();
             ValueExpression exp = expressionFactory.createValueExpression(elContext, "#{conteneurCongoTerminalBean}", Object.class);
             ConteneurCongoTerminalBean result = (ConteneurCongoTerminalBean) exp.getValue(elContext);
+            
+            //Prendre numero, navire et mois du formulaire de recherche de ce bean(ConteneurBean) pour les charger dans le filtre de #{conteneurCongoTerminalBean}
             if (has(filter.getEntity().getNumero())) {
                 result.getFilter().getEntity().setNumCtn(filter.getEntity().getNumero());
+            } else {
+                result.getFilter().getEntity().setNumCtn(null);
             }
+            
             if (has(filter.getEntity().getNavire())) {
-                result.getFilter().getEntity().setEscale(filter.getEntity().getNavire());
+                result.getFilter().getEntity().setNavire(filter.getEntity().getNavire());
+            } else {
+                result.getFilter().getEntity().setNavire(null);
             }
 
             if (has(filter.getEntity().getMois())) {
                 result.getFilter().getEntity().setMois(BigInteger.valueOf(Long.valueOf(filter.getEntity().getMois())));
+            } else {
+                result.getFilter().getEntity().setMois(null);
             }
         }
     }

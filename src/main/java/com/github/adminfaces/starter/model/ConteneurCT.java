@@ -45,6 +45,7 @@ import org.hibernate.annotations.Subselect;
     , @NamedQuery(name = "ConteneurCT.findByTare", query = "SELECT c FROM ConteneurCT c WHERE c.tare = :tare")
     , @NamedQuery(name = "ConteneurCT.findByExpCours", query = "SELECT c FROM ConteneurCT c WHERE c.expCours = :expCours")
     , @NamedQuery(name = "ConteneurCT.findByEscale", query = "SELECT c FROM ConteneurCT c WHERE c.escale = :escale")
+    , @NamedQuery(name = "ConteneurCT.findByNavire", query = "SELECT c FROM ConteneurCT c WHERE c.navire = :navire")
     , @NamedQuery(name = "ConteneurCT.findByVoyage", query = "SELECT c FROM ConteneurCT c WHERE c.voyage = :voyage")
     , @NamedQuery(name = "ConteneurCT.findByPol", query = "SELECT c FROM ConteneurCT c WHERE c.pol = :pol")
     , @NamedQuery(name = "ConteneurCT.findByPod", query = "SELECT c FROM ConteneurCT c WHERE c.pod = :pod")
@@ -92,6 +93,9 @@ public class ConteneurCT  extends BaseEntity implements Serializable {
     @Size(max = 50)
     @Column(name = "ESCALE", length = 50)
     private String escale;
+    @Size(max = 50)
+    @Column(name = "NAVIRE", length = 50)
+    private String navire;
     @Size(max = 50)
     @Column(name = "VOYAGE", length = 50)
     private String voyage;
@@ -271,6 +275,7 @@ public class ConteneurCT  extends BaseEntity implements Serializable {
         this.dateDep = dateDep;
     }
 
+    
 //    @Override
 //    public int hashCode() {
 //        int hash = 0;
@@ -301,5 +306,13 @@ public class ConteneurCT  extends BaseEntity implements Serializable {
 
     public boolean hasTrafic() {
        return trafic != null && !"".equals(trafic.trim());    }
+
+    public String getNavire() {
+        return navire;
+    }
+
+    public void setNavire(String navire) {
+        this.navire = navire;
+    }
     
 }
