@@ -52,7 +52,7 @@
                         </div>
                         <h:link class="small-box-footer" value="Détails" outcome="/escale/list" >
                             <i class="fa fa-fw fa-arrow-circle-right"></i>
-                            <p:ajax listener="#{escaleBean.filter.entity.setArrivee(totalBean.annee)}"/>
+                            <f:param name="annee" value="#{totalBean.annee}"/>
                         </h:link>
                     </div>
                 </div>

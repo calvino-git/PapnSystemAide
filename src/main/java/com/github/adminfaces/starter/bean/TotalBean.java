@@ -87,7 +87,7 @@ public class TotalBean implements Serializable {
             years.add(annee - i);
         }
         updateRoot(annee);
-//        updateRootEVP(annee);
+        updateRootEVP(annee);
         updateRootEVPParAn(annee);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.FRANCE);
 
