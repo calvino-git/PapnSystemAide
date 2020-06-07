@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -150,7 +151,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByManut", query = "SELECT f FROM Facture f WHERE f.manut = :manut"),
     @NamedQuery(name = "Facture.findByTccleunik", query = "SELECT f FROM Facture f WHERE f.tccleunik = :tccleunik"),
     @NamedQuery(name = "Facture.findByDateProchainePenalite", query = "SELECT f FROM Facture f WHERE f.dateProchainePenalite = :dateProchainePenalite")})
-public class Facture implements Serializable {
+public class Facture extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -158,7 +159,7 @@ public class Facture implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "CICLEUNIK")
-    private BigDecimal cicleunik;
+    private Integer cicleunik;
     @Size(max = 8)
     @Column(name = "CODE")
     private String code;
@@ -474,15 +475,15 @@ public class Facture implements Serializable {
     public Facture() {
     }
 
-    public Facture(BigDecimal cicleunik) {
+    public Facture(Integer cicleunik) {
         this.cicleunik = cicleunik;
     }
 
-    public BigDecimal getCicleunik() {
+    public Integer getCicleunik() {
         return cicleunik;
     }
 
-    public void setCicleunik(BigDecimal cicleunik) {
+    public void setCicleunik(Integer cicleunik) {
         this.cicleunik = cicleunik;
     }
 
@@ -1477,6 +1478,11 @@ public class Facture implements Serializable {
     @Override
     public String toString() {
         return "com.github.adminfaces.starter.model.Facture[ cicleunik=" + cicleunik + " ]";
+    }
+
+    @Override
+    public Integer getId() {
+        return cicleunik;
     }
     
 }

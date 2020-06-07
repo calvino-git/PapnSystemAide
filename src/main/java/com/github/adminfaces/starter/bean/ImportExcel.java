@@ -43,10 +43,11 @@ public class ImportExcel {
 
     private String QUERY_CT;
     private UploadedFile excel;
+    private Double progress;
 
-    @Resource(name = "java:app/virtre",
+    @Resource(name = "java:app/cargo",
             shareable = true,
-            description = "java:app/virtre")
+            description = "java:app/cargo")
     private DataSource ds;
 
     @PostConstruct
@@ -66,7 +67,7 @@ public class ImportExcel {
             ex.printStackTrace();
         }
         XSSFWorkbook workbk;
-        
+
         Connection con = ds.getConnection();
         try {
             PreparedStatement stmt = con.prepareStatement(QUERY_CT);
@@ -123,7 +124,8 @@ public class ImportExcel {
                 stmt.setString(32, "");//TYPE IN 
                 stmt.setString(33, row.getCell(13) == null ? "" : row.getCell(13).toString());//CARRIER
                 if (i % 1000 == 0) {
-                    System.out.print("=");
+                    progress = (row.getRowNum()*100.0)/(sheet.getLastRowNum());
+                    System.out.print("*");
                 }
 
                 stmt.executeUpdate();
@@ -132,8 +134,6 @@ public class ImportExcel {
             }
 
             excelFile.deleteOnExit();
-            FacesMessage message = new FacesMessage(event.getFile().getFileName() + " importé avec succès.\n " + i + " enregistrements.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
 
 //                MYWORKS.put(listFile.getName(),workbk);
         } catch (IOException | InvalidFormatException | SQLException ex) {
@@ -152,6 +152,11 @@ public class ImportExcel {
         }
     }
 
+    public void onComplete() {
+        FacesMessage message = new FacesMessage(excel.getFileName() + " importé avec succès.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
     public UploadedFile getExcel() {
         return excel;
     }
@@ -166,6 +171,14 @@ public class ImportExcel {
 
     public void setQUERY_CT(String QUERY_CT) {
         this.QUERY_CT = QUERY_CT;
+    }
+
+    public Double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Double progress) {
+        this.progress = progress;
     }
 
 }
