@@ -28,15 +28,18 @@ public class FactureService extends CrudService<Facture, Integer> implements Ser
     @Inject
     protected FactureRepository factureRepository;//you can create repositories to extract complex queries from your service
 
+    @Override
     protected Criteria<Facture, Facture> configRestrictions(Filter<Facture> filter) {
 
         Criteria<Facture, Facture> criteria = criteria();
-
+        criteria.notNull(Facture_.factDate);
         //create restrictions based on parameters map
         if (filter.hasParam("numero")) {
-            criteria.eq(Facture_.numero, filter.getStringParam("numero"));
+            criteria.like(Facture_.numero, filter.getStringParam("numero") + "%");
         }
-
+        if (filter.hasParam("mntHt")) {
+            criteria.eq(Facture_.mntHt, filter.getParam("mntHt", BigDecimal.class));
+        }
         if (filter.hasParam("minPrice") && filter.hasParam("maxPrice")) {
             criteria.between(Facture_.mntHt, filter.getParam("minPrice", BigDecimal.class), filter.getParam("maxPrice", BigDecimal.class));
         } else if (filter.hasParam("minPrice")) {
@@ -52,8 +55,8 @@ public class FactureService extends CrudService<Facture, Integer> implements Ser
                 criteria.likeIgnoreCase(Facture_.numero, filterEntity.getNumero() + "%");
             }
 
-            if (has(filterEntity.getFDate())) {
-                criteria.eq(Facture_.fDate, filterEntity.getFDate());
+            if (has(filterEntity.getFactDate())) {
+                criteria.eq(Facture_.factDate, filterEntity.getFactDate());
             }
 
             if (has(filterEntity.getTexte())) {
@@ -61,6 +64,9 @@ public class FactureService extends CrudService<Facture, Integer> implements Ser
             }
             if (has(filterEntity.getType())) {
                 criteria.eq(Facture_.type, filterEntity.getType());
+            }
+            if (has(filterEntity.getTexte1())) {
+                criteria.like(Facture_.texte1, filterEntity.getTexte1());
             }
         }
         return criteria;
@@ -70,6 +76,8 @@ public class FactureService extends CrudService<Facture, Integer> implements Ser
         return criteria()
                 .select(String.class, attribute(Facture_.texte))
                 .likeIgnoreCase(Facture_.texte, "%" + query + "%")
+                .distinct()
+                .orderAsc(Facture_.texte)
                 .getResultList();
     }
     
@@ -84,5 +92,14 @@ public class FactureService extends CrudService<Facture, Integer> implements Ser
         Facture f = new Facture();
         f.setNumero(toString);
         return factureRepository.findBy(f, Facture_.numero);
+    }
+
+    public List<String> getRedevances(String query) {
+        return criteria()
+                .select(String.class, attribute(Facture_.texte1))
+                .distinct()
+                .notNull(Facture_.texte1)
+                .orderDesc(Facture_.factDate)
+                .getResultList();
     }
 }

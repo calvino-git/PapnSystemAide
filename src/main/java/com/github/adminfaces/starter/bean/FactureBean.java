@@ -35,6 +35,11 @@ public class FactureBean extends CrudMB<Facture> implements Serializable {
         List<String> result = factureService.getClients(query);
         return result;
     }
+    public List<String> completeRedevenace(String query) {
+        List<String> result = factureService.getRedevances(query);
+        return result;
+    }
+    
     @Produces
     @Named("clients")
     public List<String> getClient() {

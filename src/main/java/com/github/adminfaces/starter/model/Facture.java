@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByMntHt3", query = "SELECT f FROM Facture f WHERE f.mntHt3 = :mntHt3"),
     @NamedQuery(name = "Facture.findByMntHt4", query = "SELECT f FROM Facture f WHERE f.mntHt4 = :mntHt4"),
     @NamedQuery(name = "Facture.findByLadate", query = "SELECT f FROM Facture f WHERE f.ladate = :ladate"),
-    @NamedQuery(name = "Facture.findByFDate", query = "SELECT f FROM Facture f WHERE f.fDate = :fDate"),
+    @NamedQuery(name = "Facture.findByFactDate", query = "SELECT f FROM Facture f WHERE f.factDate = :factDate"),
     @NamedQuery(name = "Facture.findBySens", query = "SELECT f FROM Facture f WHERE f.sens = :sens"),
     @NamedQuery(name = "Facture.findByTexte1", query = "SELECT f FROM Facture f WHERE f.texte1 = :texte1"),
     @NamedQuery(name = "Facture.findByCompte", query = "SELECT f FROM Facture f WHERE f.compte = :compte"),
@@ -210,7 +210,7 @@ public class Facture extends BaseEntity implements Serializable {
     private String ladate;
     @Size(max = 8)
     @Column(name = "F_DATE")
-    private String fDate;
+    private String factDate;
     @Size(max = 8)
     @Column(name = "SENS")
     private String sens;
@@ -663,12 +663,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.ladate = ladate;
     }
 
-    public String getFDate() {
-        return fDate;
+    public String getFactDate() {
+        return factDate;
     }
 
-    public void setFDate(String fDate) {
-        this.fDate = fDate;
+    public void setFactDate(String fDate) {
+        this.factDate = fDate;
     }
 
     public String getSens() {

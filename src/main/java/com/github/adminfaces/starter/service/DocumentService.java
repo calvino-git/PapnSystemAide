@@ -68,7 +68,6 @@ public class DocumentService implements Serializable {
         update(annee);
 //        DecimalFormat df = new DecimalFormat("#,##0");
         TreeNode root = new DefaultTreeNode(new Document("Marchandise", new Long(0), new Long(0)), null);
-
         TreeNode tcs = new DefaultTreeNode(new Document("CONTENEUR", totalTonnageConteneur, totalMontantConteneur), root);
         TreeNode cv = new DefaultTreeNode(new Document("AUTRES", totalTonnageConvent, totalMontantConvent), root);
 
