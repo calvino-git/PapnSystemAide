@@ -435,7 +435,7 @@
                                     </f:facet>
 
                                     <p:row>
-                                        <p:column rowspan="3" style="font-weight: bold;">DEBARQUEMENT</p:column>
+                                        <p:column rowspan="4" style="font-weight: bold;">DEBARQUEMENT</p:column>
                                         <p:column style="font-weight: bold;" styleClass="ui-widget-header">IMPORT</p:column>
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','MANIFESTE')}" var="elt">
                                             <p:column>#{elt}</p:column>
@@ -443,7 +443,7 @@
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','DOUANE')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','CONGO-TERMINAL')}" var="elt">
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','CONGOTERMINAL')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
                                     </p:row>
@@ -455,7 +455,19 @@
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','DOUANE')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','CONGO-TERMINAL')}" var="elt">
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','CONGOTERMINAL')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSIT</p:column>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','MANIFESTE')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','DOUANE')}" var="elt">
+                                            <p:column>#{elt}</p:column>
+                                        </ui:repeat>
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','CONGOTERMINAL')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
                                     </p:row>
@@ -467,7 +479,7 @@
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('I','DOUANE')}" var="elt">
                                             <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
                                         </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('I','CONGO-TERMINAL')}" var="elt">
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('I','CONGOTERMINAL')}" var="elt">
                                             <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
                                         </ui:repeat>
                                     </p:row>
@@ -480,7 +492,7 @@
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','DOUANE')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','CONGO-TERMINAL')}" var="elt">
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','CONGOTERMINAL')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
                                     </p:row>
@@ -492,7 +504,7 @@
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','DOUANE')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','CONGO-TERMINAL')}" var="elt">
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','CONGOTERMINAL')}" var="elt">
                                             <p:column>#{elt}</p:column>
                                         </ui:repeat>
                                     </p:row>
@@ -504,7 +516,7 @@
                                         <ui:repeat value="#{escaleBean.genererDataByTrafic('E','DOUANE')}" var="elt">
                                             <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
                                         </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('E','CONGO-TERMINAL')}" var="elt">
+                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('E','CONGOTERMINAL')}" var="elt">
                                             <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
                                         </ui:repeat>
                                     </p:row>
@@ -519,7 +531,7 @@
                                             <ui:repeat value="#{escaleBean.genererDataByTrafic('','DOUANE')}" var="elt">
                                                 <p:column style="font-weight: bold;">#{elt}</p:column>
                                             </ui:repeat>
-                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('','CONGO-TERMINAL')}" var="elt">
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('','CONGOTERMINAL')}" var="elt">
                                                 <p:column style="font-weight: bold;">#{elt}</p:column>
                                             </ui:repeat>
 

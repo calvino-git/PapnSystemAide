@@ -281,6 +281,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     }
 
     public List<Object> genererDataByTrafic(String trafic, String source) {
+        
         dataTrafic.clear();
         countPlein = 0;
         countVide = 0;
@@ -293,6 +294,9 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
             countVide += evp.getVide().intValue();
             total += evp.getTotalEvp().intValue();
         });
+        if(trafic.contains("TRANSIT")){
+            System.err.println("");
+        }
         dataTrafic.add(countPlein);
         dataTrafic.add(countVide);
         dataTrafic.add(total);
