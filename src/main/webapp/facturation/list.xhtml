@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
+                xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:adm="http://github.com/adminfaces"
                 template="#{layoutMB.template}">
 
@@ -85,10 +85,10 @@
                     </p:splitButton>
 
                     <p:separator/>
-                    <p:dataTable widgetVar="factureTable" var="f" value="#{factureBean.list}" rows="5" rowStyleClass="align-center"
-                                 rowKey="#{f.id}" lazy="true" paginator="true" sortMode="multiple" sortField="factDate"
-                                 filteredValue="#{factureBean.filteredValue}" rowIndexVar="x"  
-                                 paginatorPosition="bottom" selection="#{factureBean.selection}" sortOrder="Descending"
+                    <p:dataTable widgetVar="factureTable" var="f" value="#{factureBean.list}" rows="10" rowStyleClass="align-center"
+                                 rowKey="#{f.cicleunik}" lazy="true" paginator="true" sortMode="multiple" sortBy="#{f.factDate}"
+                                 filteredValue="#{factureBean.filteredValue}" rowIndexVar="x" 
+                                 selection="#{factureBean.selection}" sortOrder="Descending"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]" rowsPerPageTemplate="5,10,15,20,30">
 
@@ -104,17 +104,25 @@
                             <p:commandButton id="brFind" value="Find"
                                              action="#{factureBean.findFactureByNumero(factureBean.id)}"
                                              process="@form"
-                                             update="@form"
-                                             styleClass="btn-flat bg-black btn-states"
+                                             update="@form" icon="fa fa-search"
+                                             styleClass="btn-info"
                                              partialSubmit="true"/> 
                         </f:facet>
-                        <p:column selectionMode="single" width="2%" styleClass="align-center">
-                            #{x+1}
+                        <p:column selectionMode="single" width="30"  style="padding:2px">
+                            <span style="display: block">#{x+1}</span>
                         </p:column>
-                        <p:column headerText="Date" sortBy="#{f.factDate}" filterBy="#{f.factDate}">
-                            #{f.factDate}
+                        <p:column headerText="Cicleunik" width="100" sortBy="#{f.cicleunik}" filterBy="#{f.cicleunik}">
+                            #{f.cicleunik}
                         </p:column>
-                        <p:column headerText="Numero" sortBy="#{f.numero}" filterBy="#{f.numero}">
+                        <p:column headerText="Date" width="100" sortBy="#{f.factDate}" filterBy="#{f.factDate}">
+                            <f:facet name="filter">
+                                <p:inputMask mask="99/99/9999" value="#{factureBean.filter.entity.factDate}" converter="#{dateConverter}" >
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('factureTable').filter()"/>
+                                </p:inputMask>
+                            </f:facet>
+                            <h:outputText value="#{f.factDate}" converter="#{dateConverter}"/>
+                        </p:column>
+                        <p:column headerText="Numero" width="100" sortBy="#{f.numero}" filterBy="#{f.numero}">
                             <f:facet name="filter">
                                 <p:inputText value="#{factureBean.filter.entity.numero}">
                                     <p:ajax process="@this" update="@none" oncomplete="PF('factureTable').filter()"/>
@@ -122,10 +130,10 @@
                             </f:facet>
                             #{f.numero}
                         </p:column>
-                        <p:column headerText="Mois Compt." sortBy="#{f.moisComptable}" filterBy="#{f.moisComptable}">
-                            #{f.moisComptable}
+                        <p:column headerText="Mois Compt." width="110" sortBy="#{f.moisComptable}" filterBy="#{f.moisComptable}">
+                            <h:outputText value="#{f.moisComptable}" converter="#{moisComptableConverter}"/>
                         </p:column>
-                        <p:column headerText="Client" filterBy="#{f.texte}" sortBy="#{f.texte}"
+                        <p:column headerText="Client" width="200" filterBy="#{f.texte}" sortBy="#{f.texte}"
                                   filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{factureBean.filter.entity.texte}" forceSelection="true"
@@ -137,16 +145,16 @@
                             </f:facet>
                             #{f.texte}
                         </p:column>
-                        <p:column headerText="Montant HT" sortBy="#{f.mntHt}" filterBy="#{f.mntHt}">
+                        <p:column headerText="Montant HT" width="120" sortBy="#{f.mntHt}" filterBy="#{f.mntHt}">
                             #{f.mntHt}
                         </p:column>
-                        <p:column headerText="Montant TVA" sortBy="#{f.mntTva}" filterBy="#{f.mntTva}">
+                        <p:column headerText="Montant TVA" width="120" sortBy="#{f.mntTva}" filterBy="#{f.mntTva}">
                             #{f.mntTva}
                         </p:column>
-                        <p:column headerText="Montant TTC" sortBy="#{f.mntTtc}" filterBy="#{f.mntTtc}">
+                        <p:column headerText="Montant TTC" width="120" sortBy="#{f.mntTtc}" filterBy="#{f.mntTtc}">
                             #{f.mntTtc}
                         </p:column>
-                        <p:column headerText="Redevance" sortBy="#{f.texte1}" filterBy="#{f.texte1}">
+                        <p:column headerText="Redevance" width="150" sortBy="#{f.texte1}" filterBy="#{f.texte1}">
                             <f:facet name="filter">
                                 <p:autoComplete value="#{factureBean.filter.entity.texte1}" forceSelection="true"
                                                 minQueryLength="2" queryDelay="500" dropdown="true"
@@ -157,25 +165,72 @@
                             </f:facet>
                             #{f.texte1}
                         </p:column>
-                        <p:column headerText="Type" sortBy="#{f.type}" filterBy="#{f.type}">
-                            #{f.type}
+                        <p:column headerText="Type" width="150" sortBy="#{f.type}" filterBy="#{f.type}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu value="#{factureBean.filter.entity.type}">
+                                    <f:selectItem itemLabel="TOUT"/>
+                                    <f:selectItem itemLabel="FACTURE" itemValue="1"/>
+                                    <f:selectItem itemLabel="AVOIR" itemValue="2"/>
+                                    <f:selectItem itemLabel="AVOIR INTERNE" itemValue="3"/>
+                                    <f:selectItem itemLabel="BROUILLARD" itemValue="4"/>
+                                    <f:selectItem itemLabel="ACOMPTE" itemValue="5"/>
+                                    <f:selectItem itemLabel="DUPLICATA" itemValue="6"/>
+                                    <f:selectItem itemLabel="NOTE DE CREDIT" itemValue="7"/>
+                                    <f:selectItem itemLabel="COMPLEMENTAIRE" itemValue="8"/>
+                                    <f:selectItem itemLabel="REMPLACEMENT" itemValue="9"/>
+                                    <p:ajax event="itemSelect" process="@this" update="@none"
+                                            oncomplete="PF('factureTable').filter()"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{f.type}" converter="#{typeFactureConverter}"/>
                         </p:column>
-                        <p:column headerText="Statut" sortBy="#{f.statut}" filterBy="#{f.statut}">
+                        <p:column headerText="Statut" width="100"  sortBy="#{f.statut}" filterBy="#{f.statut}">
+                            <f:facet name="filter">
+                                <p:selectOneMenu value="#{factureBean.filter.entity.statut}">
+                                    <f:selectItem itemLabel="TOUT"/>
+                                    <f:selectItem itemLabel="VALIDEE" itemValue="VALIDEE"/>
+                                    <f:selectItem itemLabel="FACTUREE" itemValue="FACTUREE"/>
+                                    <f:selectItem itemLabel="LITIGE" itemValue="LITIGE"/>
+                                    <f:selectItem itemLabel="ANNULE" itemValue="ANNULE"/>
+                                    <f:selectItem itemLabel="TRANSMISE" itemValue="TRANSMISE"/>
+                                    <f:selectItem itemLabel="REGLEE" itemValue="REGLEE"/>
+                                    <f:selectItem itemLabel="PARTIEL" itemValue="PARTIEL"/>
+                                    <p:ajax event="itemSelect" process="@this" update="@none"
+                                            oncomplete="PF('factureTable').filter()"/>
+                                </p:selectOneMenu>
+                            </f:facet>
                             #{f.statut}
                         </p:column>
-                        <p:column headerText="Situation" sortBy="#{f.situation}" filterBy="#{f.situation}">
+                        <p:column headerText="Genre" width="100" sortBy="#{f.code}" filterBy="#{f.code}">
+                            <pe:switch value="#{f.code}">
+                                <pe:defaultCase>
+                                    DIVERS
+                                </pe:defaultCase>
+                                <pe:case value="1">
+                                    NAVIRE
+                                </pe:case>
+                                <pe:case value="2">
+                                    MARCHANDISE
+                                </pe:case>
+                                <pe:case value="3">
+                                    DOMAINE
+                                </pe:case>
+                            </pe:switch>
+                            
+                        </p:column>
+                        <p:column headerText="Situation" width="100" sortBy="#{f.situation}" filterBy="#{f.situation}">
                             #{f.situation}
                         </p:column>
-                        <p:column headerText="Solde" sortBy="#{f.solde}" filterBy="#{f.solde}">
+                        <p:column headerText="Solde" width="100" sortBy="#{f.solde}" filterBy="#{f.solde}">
                             #{f.solde}
                         </p:column>
-                        <p:column headerText="Centre fact." sortBy="#{f.centreFacturier}" filterBy="#{f.centreFacturier}">
+                        <p:column headerText="Centre fact." width="120" sortBy="#{f.centreFacturier}" filterBy="#{f.centreFacturier}">
                             #{f.centreFacturier}
                         </p:column>
-                        <p:column headerText="Gestion" sortBy="#{f.gestion}" filterBy="#{f.gestion}">
+                        <p:column headerText="Gestion" width="100" sortBy="#{f.gestion}" filterBy="#{f.gestion}">
                             #{f.gestion}
                         </p:column>
-                        <p:column headerText="Mode regl." sortBy="#{f.modeReglement}" filterBy="#{f.modeReglement}">
+                        <p:column headerText="Mode regl." width="100" sortBy="#{f.modeReglement}" filterBy="#{f.modeReglement}">
                             #{f.modeReglement}
                         </p:column>
                         <f:facet name="footer">

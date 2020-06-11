@@ -37,6 +37,9 @@ public class FactureService extends CrudService<Facture, Integer> implements Ser
         if (filter.hasParam("numero")) {
             criteria.like(Facture_.numero, filter.getStringParam("numero") + "%");
         }
+        if (filter.hasParam("moisComptable")) {
+            criteria.like(Facture_.moisComptable, filter.getStringParam("moisComptable") + "%");
+        }
         if (filter.hasParam("mntHt")) {
             criteria.eq(Facture_.mntHt, filter.getParam("mntHt", BigDecimal.class));
         }

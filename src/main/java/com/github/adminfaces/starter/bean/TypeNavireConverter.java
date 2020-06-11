@@ -8,8 +8,7 @@ package com.github.adminfaces.starter.bean;
 import com.github.adminfaces.starter.model.TypeNavire;
 import com.github.adminfaces.starter.repos.TypeNavireRepository;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -21,7 +20,7 @@ import javax.inject.Named;
  * @author Calvin ILOKI
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class TypeNavireConverter implements Serializable,Converter {
 
     @Inject
