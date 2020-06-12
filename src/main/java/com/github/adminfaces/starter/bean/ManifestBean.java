@@ -49,7 +49,7 @@ public class ManifestBean implements Serializable {
     }
 
     public void rechercherRefMan() {
-        if (trafic.equals("T")) {
+        if (trafic.equals("TOUT")) {
             refManList = manifesteService.rechercherRefMan(debut, fin, "IMP");
             refManList.addAll(manifesteService.rechercherRefMan(debut, fin, "EXP"));
         } else {

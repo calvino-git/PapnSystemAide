@@ -33,7 +33,7 @@
                         <p:datePicker id="fin" value="#{manifestBean.fin}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de fin obligatoire"
                                       required="true" placeholder="31/12/2019" label="Fin" style="width:200px;text-align: right" locale="fr"/>
                         <p:selectOneMenu id="trafic" value="#{manifestBean.trafic}" required="false" style="width:200px;text-align: right">
-                            <f:selectItem itemLabel="TOUT" itemValue="T"/>
+                            <f:selectItem itemLabel="TOUT" itemValue="TOUT"/>
                             <f:selectItem itemLabel="IMPORT" itemValue="IMP"/>
                             <f:selectItem itemLabel="EXPORT" itemValue="EXP"/>
                         </p:selectOneMenu>
@@ -50,7 +50,7 @@
                         <f:facet name="header">
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"  layout="grid" styleClass="ui-fluid">
                                 <p:outputPanel style="text-align: left">
-                                    <h:outputText value="#{manifestBean.refManList.size()} MANIFESTES TROUVES EN #{manifestBean.trafic}ORT." style="color: red;font-size: large"/>
+                                    <h:outputText value="#{manifestBean.refManList.size()} MANIFESTES TROUVES EN #{manifestBean.trafic}." style="color: red;font-size: large"/>
                                 </p:outputPanel>
                                 <p:outputPanel style="text-align: right">
                                     <h:outputText value="Recherche sur tous les champs :"/>
@@ -86,7 +86,7 @@
                             <h:outputText value="#{refman.dateArrivee}" />
                         </p:column>
 
-                        <p:column headerText="Consignataire" style="width: 30px" filterBy="#{refman.nomTransporteur}" sortBy="#{refman.nomTransporteur}">
+                        <p:column headerText="Consignataire" style="width: 30px" filterBy="#{refman.nomTransporteur}" filterMatchMode="contains" sortBy="#{refman.nomTransporteur}">
                             <h:outputText value="#{refman.codeTransporteur} : #{refman.nomTransporteur}" />
                         </p:column>
                         <p:column headerText="Date d'enregistrement" style="width: 30px" filterBy="#{refman.numeroEnregistrement}" sortBy="#{refman.dateEnregistrement}">

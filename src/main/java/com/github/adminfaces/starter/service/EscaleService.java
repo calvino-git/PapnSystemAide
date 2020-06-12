@@ -328,4 +328,8 @@ public class EscaleService extends CrudService<Escale, Integer> implements Seria
     public Long getNombreGrandEscaleByAnnee(String situat, String annee) {
         return escaleRepo.getNombreGrandEscaleByAnnee(situat, annee);
     }
+
+    public List<Escale> listeDoublon() {
+        return escaleRepo.listEscaleDouble();
+    }
 }

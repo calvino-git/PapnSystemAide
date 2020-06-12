@@ -253,7 +253,7 @@
                 <artifactId>payara-micro-maven-plugin</artifactId>
                 <configuration>
                     <payaraVersion>${version.payara}</payaraVersion>
-                    <deployWar>false</deployWar>
+                    <deployWar>true</deployWar>
                     <commandLineOptions>
                         <option>
                             <key>--autoBindHttp</key>

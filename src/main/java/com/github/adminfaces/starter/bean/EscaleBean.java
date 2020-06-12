@@ -57,10 +57,12 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     int total;
     private List<Object> dataTrafic;
     private List<VueAllEvp> listEVP;
+    private List<Escale> listeDoublon;
 
     @PostConstruct
     public void initBean() {
         init();
+        listeDoublon = escaleService.listeDoublon();
         dataTrafic = new ArrayList(0);
         dateFormat = new SimpleDateFormat("yyyyMMdd");
         format = new SimpleDateFormat("yyyyMMddhhmm");
@@ -344,6 +346,14 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public void setListEVP(List<VueAllEvp> listEVP) {
         this.listEVP = listEVP;
+    }
+
+    public List<Escale> getListeDoublon() {
+        return listeDoublon;
+    }
+
+    public void setListeDoublon(List<Escale> listeDoublon) {
+        this.listeDoublon = listeDoublon;
     }
 
 }
