@@ -118,6 +118,8 @@ public class Trafic implements Serializable {
     private BigInteger nbreBl;
     @OneToMany(mappedBy = "trcleunik")
     private Collection<Port> portCollection;
+    @OneToMany(mappedBy = "trcleunik")
+    private Collection<Prests> prestsCollection;
     @JoinColumn(name = "ESCLEUNIK", referencedColumnName = "ESCLEUNIK")
     @ManyToOne
     private Escale escleunik;
@@ -337,6 +339,46 @@ public class Trafic implements Serializable {
     @Override
     public String toString() {
         return "com.github.adminfaces.starter.model.Trafic[ trcleunik=" + trcleunik + " ]";
+    }
+
+    public String getdCreat() {
+        return dCreat;
+    }
+
+    public void setdCreat(String dCreat) {
+        this.dCreat = dCreat;
+    }
+
+    public String gethCreat() {
+        return hCreat;
+    }
+
+    public void sethCreat(String hCreat) {
+        this.hCreat = hCreat;
+    }
+
+    public String getdModif() {
+        return dModif;
+    }
+
+    public void setdModif(String dModif) {
+        this.dModif = dModif;
+    }
+
+    public String gethModif() {
+        return hModif;
+    }
+
+    public void sethModif(String hModif) {
+        this.hModif = hModif;
+    }
+
+    public Collection<Prests> getPrestsCollection() {
+        return prestsCollection;
+    }
+
+    public void setPrestsCollection(Collection<Prests> prestsCollection) {
+        this.prestsCollection = prestsCollection;
     }
     
 }

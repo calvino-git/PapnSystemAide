@@ -972,10 +972,15 @@ public class Escale extends BaseEntity implements Serializable {
     @Size(max = 12)
     @Column(name = "VOYAGE_SORTIE")
     private String voyageSortie;
-    @OneToMany(mappedBy = "idEscale", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idEscale", fetch = FetchType.LAZY)
     private Collection<GeneralInfo> generalInfoCollection;
-    @OneToMany(mappedBy = "escleunik", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
     private Collection<Trafic> traficCollection;
+    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
+    private Collection<Prests> prestsCollection;
+    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
+    private Collection<Facture> factureCollection;
+    
     @JoinColumn(name = "nacleunik", referencedColumnName = "nacleunik")
     @ManyToOne
     private Navire nacleunik;
@@ -3067,5 +3072,22 @@ public class Escale extends BaseEntity implements Serializable {
     public void setTraficCollection(Collection<Trafic> traficCollection) {
         this.traficCollection = traficCollection;
     }
+
+    public Collection<Prests> getPrestsCollection() {
+        return prestsCollection;
+    }
+
+    public void setPrestsCollection(Collection<Prests> prestsCollection) {
+        this.prestsCollection = prestsCollection;
+    }
+
+    public Collection<Facture> getFactureCollection() {
+        return factureCollection;
+    }
+
+    public void setFactureCollection(Collection<Facture> factureCollection) {
+        this.factureCollection = factureCollection;
+    }
+    
 
 }

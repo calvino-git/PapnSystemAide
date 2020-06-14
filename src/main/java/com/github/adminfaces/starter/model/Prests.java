@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -139,7 +142,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Prests.findBySrcleunik", query = "SELECT p FROM Prests p WHERE p.srcleunik = :srcleunik"),
     @NamedQuery(name = "Prests.findByDmcleunik", query = "SELECT p FROM Prests p WHERE p.dmcleunik = :dmcleunik"),
     @NamedQuery(name = "Prests.findByPdcleunik", query = "SELECT p FROM Prests p WHERE p.pdcleunik = :pdcleunik")})
-public class Prests implements Serializable {
+public class Prests extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -289,8 +292,9 @@ public class Prests implements Serializable {
     private String hModif;
     @Column(name = "ENCLEUNIK")
     private BigInteger encleunik;
-    @Column(name = "CICLEUNIK")
-    private BigInteger cicleunik;
+    @JoinColumn(name = "CICLEUNIK",referencedColumnName = "CICLEUNIK")
+    @ManyToOne
+    private Facture cicleunik;
     @Column(name = "QUCLEUNIK")
     private BigInteger qucleunik;
     @Column(name = "OK_AGENT")
@@ -328,8 +332,9 @@ public class Prests implements Serializable {
     @Size(max = 8)
     @Column(name = "AFFECTATION")
     private String affectation;
-    @Column(name = "ESCLEUNIK")
-    private BigInteger escleunik;
+    @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
+    @ManyToOne
+    private Escale escleunik;
     @Column(name = "BASE")
     private BigDecimal base;
     @Column(name = "CHARGE_FIXE")
@@ -376,8 +381,9 @@ public class Prests implements Serializable {
     private BigDecimal reduc8;
     @Column(name = "TOTAL_REDUC")
     private BigDecimal totalReduc;
-    @Column(name = "TRCLEUNIK")
-    private BigInteger trcleunik;
+    @JoinColumn(name = "TRCLEUNIK",referencedColumnName = "TRCLEUNIK")
+    @ManyToOne
+    private Trafic trcleunik;
     @Column(name = "OPCLEUNIK")
     private BigInteger opcleunik;
     @Size(max = 8)
@@ -409,8 +415,9 @@ public class Prests implements Serializable {
     private BigInteger srcleunik;
     @Column(name = "DMCLEUNIK")
     private BigInteger dmcleunik;
-    @Column(name = "PDCLEUNIK")
-    private BigInteger pdcleunik;
+    @JoinColumn(name = "PDCLEUNIK", referencedColumnName = "PDCLEUNIK")
+    @ManyToOne
+    private PrestsDomaine pdcleunik;
 
     public Prests() {
     }
@@ -419,6 +426,10 @@ public class Prests implements Serializable {
         this.pucleunik = pucleunik;
     }
 
+    @Override
+    public BigDecimal getId() {
+        return pucleunik;
+    }
     public BigDecimal getPucleunik() {
         return pucleunik;
     }
@@ -883,11 +894,11 @@ public class Prests implements Serializable {
         this.encleunik = encleunik;
     }
 
-    public BigInteger getCicleunik() {
+    public Facture getCicleunik() {
         return cicleunik;
     }
 
-    public void setCicleunik(BigInteger cicleunik) {
+    public void setCicleunik(Facture cicleunik) {
         this.cicleunik = cicleunik;
     }
 
@@ -1003,11 +1014,11 @@ public class Prests implements Serializable {
         this.affectation = affectation;
     }
 
-    public BigInteger getEscleunik() {
+    public Escale getEscleunik() {
         return escleunik;
     }
 
-    public void setEscleunik(BigInteger escleunik) {
+    public void setEscleunik(Escale escleunik) {
         this.escleunik = escleunik;
     }
 
@@ -1179,11 +1190,11 @@ public class Prests implements Serializable {
         this.totalReduc = totalReduc;
     }
 
-    public BigInteger getTrcleunik() {
+    public Trafic getTrcleunik() {
         return trcleunik;
     }
 
-    public void setTrcleunik(BigInteger trcleunik) {
+    public void setTrcleunik(Trafic trcleunik) {
         this.trcleunik = trcleunik;
     }
 
@@ -1299,11 +1310,11 @@ public class Prests implements Serializable {
         this.dmcleunik = dmcleunik;
     }
 
-    public BigInteger getPdcleunik() {
+    public PrestsDomaine getPdcleunik() {
         return pdcleunik;
     }
 
-    public void setPdcleunik(BigInteger pdcleunik) {
+    public void setPdcleunik(PrestsDomaine pdcleunik) {
         this.pdcleunik = pdcleunik;
     }
 

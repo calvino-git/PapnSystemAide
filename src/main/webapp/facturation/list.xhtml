@@ -27,7 +27,7 @@
                 color: #3c8dbc;
                 font-weight: 500;
             }
-            
+
             .ui-datatable-footer {
                 border: none;
             }
@@ -53,7 +53,7 @@
                                          action="#{factureBean.delete}"
                                          disabled="#{empty factureBean.selectionList or factureBean.selectionList.size() == 0}"
                                          process="@this" update="@form"
-                        >
+                                         >
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
@@ -86,9 +86,9 @@
 
                     <p:separator/>
                     <p:dataTable widgetVar="factureTable" var="f" value="#{factureBean.list}" rows="10" rowStyleClass="align-center"
-                                 rowKey="#{f.cicleunik}" lazy="true" paginator="true" sortMode="multiple" sortBy="#{f.factDate}"
+                                 rowKey="#{f.cicleunik}" lazy="true" paginator="true" sortMode="single" sortBy="#{f.factDate}"
                                  filteredValue="#{factureBean.filteredValue}" rowIndexVar="x" 
-                                 selection="#{factureBean.selection}" sortOrder="Descending"
+                                 selection="#{factureBean.selection}" sortOrder="descending"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]" rowsPerPageTemplate="5,10,15,20,30">
 
@@ -146,13 +146,19 @@
                             #{f.texte}
                         </p:column>
                         <p:column headerText="Montant HT" width="120" sortBy="#{f.mntHt}" filterBy="#{f.mntHt}">
-                            #{f.mntHt}
+                            <h:outputText value="#{f.mntHt}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="Montant TVA" width="120" sortBy="#{f.mntTva}" filterBy="#{f.mntTva}">
-                            #{f.mntTva}
+                            <h:outputText value="#{f.mntTva}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="Montant TTC" width="120" sortBy="#{f.mntTtc}" filterBy="#{f.mntTtc}">
-                            #{f.mntTtc}
+                            <h:outputText value="#{f.mntTtc}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="Redevance" width="150" sortBy="#{f.texte1}" filterBy="#{f.texte1}">
                             <f:facet name="filter">
@@ -216,13 +222,15 @@
                                     DOMAINE
                                 </pe:case>
                             </pe:switch>
-                            
+
                         </p:column>
                         <p:column headerText="Situation" width="100" sortBy="#{f.situation}" filterBy="#{f.situation}">
                             #{f.situation}
                         </p:column>
                         <p:column headerText="Solde" width="100" sortBy="#{f.solde}" filterBy="#{f.solde}">
-                            #{f.solde}
+                            <h:outputText value="#{f.solde}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="Centre fact." width="120" sortBy="#{f.centreFacturier}" filterBy="#{f.centreFacturier}">
                             #{f.centreFacturier}
@@ -304,7 +312,7 @@
         </p:dialog>
 
         <p:outputPanel>
-			<p:autoUpdate/>
+            <p:autoUpdate/>
             <p:tooltip for="@(div[id$=footer])" escape="false" position="top"
                        showEvent="mouseover" hideEvent="mouseleave"
                        value="#{carListMB.searchCriteria}"/>

@@ -9,12 +9,18 @@ import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -77,7 +83,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByNumeroQuittance", query = "SELECT f FROM Facture f WHERE f.numeroQuittance = :numeroQuittance"),
     @NamedQuery(name = "Facture.findByCentimesAdd", query = "SELECT f FROM Facture f WHERE f.centimesAdd = :centimesAdd"),
     @NamedQuery(name = "Facture.findByMntCentimesAdd", query = "SELECT f FROM Facture f WHERE f.mntCentimesAdd = :mntCentimesAdd"),
-    @NamedQuery(name = "Facture.findByTrcleunik", query = "SELECT f FROM Facture f WHERE f.trcleunik = :trcleunik"),
+    @NamedQuery(name = "Facture.findByEstrcleunik", query = "SELECT f FROM Facture f WHERE f.estrcleunik = :estrcleunik"),
     @NamedQuery(name = "Facture.findByAvoirImputablePort", query = "SELECT f FROM Facture f WHERE f.avoirImputablePort = :avoirImputablePort"),
     @NamedQuery(name = "Facture.findByTvaSurFacture", query = "SELECT f FROM Facture f WHERE f.tvaSurFacture = :tvaSurFacture"),
     @NamedQuery(name = "Facture.findByCncleunik", query = "SELECT f FROM Facture f WHERE f.cncleunik = :cncleunik"),
@@ -243,8 +249,9 @@ public class Facture extends BaseEntity implements Serializable {
     @Size(max = 4)
     @Column(name = "H_MODIF")
     private String hModif;
-    @Column(name = "ESCLEUNIK")
-    private BigInteger escleunik;
+    @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
+    @ManyToOne
+    private Escale escleunik;
     @Size(max = 8)
     @Column(name = "C_MAG")
     private String cMag;
@@ -275,8 +282,9 @@ public class Facture extends BaseEntity implements Serializable {
     private BigDecimal centimesAdd;
     @Column(name = "MNT_CENTIMES_ADD")
     private BigDecimal mntCentimesAdd;
-    @Column(name = "TRCLEUNIK")
-    private BigInteger trcleunik;
+    @JoinColumn(name = "TRCLEUNIK",referencedColumnName ="TRCLEUNIK" )
+    @ManyToOne
+    private Escale estrcleunik;
     @Size(max = 8)
     @Column(name = "AVOIR_IMPUTABLE_PORT")
     private String avoirImputablePort;
@@ -410,8 +418,9 @@ public class Facture extends BaseEntity implements Serializable {
     private BigDecimal couts;
     @Column(name = "DMCLEUNIK")
     private BigInteger dmcleunik;
-    @Column(name = "DDCLEUNIK")
-    private BigInteger ddcleunik;
+    @JoinColumn(name = "DDCLEUNIK",referencedColumnName = "DDCLEUNIK")
+    @ManyToOne
+    private DossierDomaine ddcleunik;
     @Size(max = 6)
     @Column(name = "MOIS_COMPTABLE")
     private String moisComptable;
@@ -466,11 +475,14 @@ public class Facture extends BaseEntity implements Serializable {
     @Size(max = 8)
     @Column(name = "MANUT")
     private String manut;
-    @Column(name = "TCCLEUNIK")
-    private BigInteger tccleunik;
+    @JoinColumn(name = "TCCLEUNIK",referencedColumnName = "TCCLEUNIK")
+    @OneToOne
+    private ImportTcsCt tccleunik;
     @Size(max = 8)
     @Column(name = "DATE_PROCHAINE_PENALITE")
     private String dateProchainePenalite;
+    @OneToMany(mappedBy = "CICLEUNIK",fetch = FetchType.EAGER)
+    private List<Prests> listPrests;
 
     public Facture() {
     }
@@ -759,11 +771,11 @@ public class Facture extends BaseEntity implements Serializable {
         this.hModif = hModif;
     }
 
-    public BigInteger getEscleunik() {
+    public Escale getEscleunik() {
         return escleunik;
     }
 
-    public void setEscleunik(BigInteger escleunik) {
+    public void setEscleunik(Escale escleunik) {
         this.escleunik = escleunik;
     }
 
@@ -863,12 +875,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.mntCentimesAdd = mntCentimesAdd;
     }
 
-    public BigInteger getTrcleunik() {
-        return trcleunik;
+    public Escale getEstrcleunik() {
+        return estrcleunik;
     }
 
-    public void setTrcleunik(BigInteger trcleunik) {
-        this.trcleunik = trcleunik;
+    public void setEstrcleunik(Escale estrcleunik) {
+        this.estrcleunik = estrcleunik;
     }
 
     public String getAvoirImputablePort() {
@@ -1271,11 +1283,11 @@ public class Facture extends BaseEntity implements Serializable {
         this.dmcleunik = dmcleunik;
     }
 
-    public BigInteger getDdcleunik() {
+    public DossierDomaine getDdcleunik() {
         return ddcleunik;
     }
 
-    public void setDdcleunik(BigInteger ddcleunik) {
+    public void setDdcleunik(DossierDomaine ddcleunik) {
         this.ddcleunik = ddcleunik;
     }
 
@@ -1439,11 +1451,11 @@ public class Facture extends BaseEntity implements Serializable {
         this.manut = manut;
     }
 
-    public BigInteger getTccleunik() {
+    public ImportTcsCt getTccleunik() {
         return tccleunik;
     }
 
-    public void setTccleunik(BigInteger tccleunik) {
+    public void setTccleunik(ImportTcsCt tccleunik) {
         this.tccleunik = tccleunik;
     }
 
@@ -1483,6 +1495,126 @@ public class Facture extends BaseEntity implements Serializable {
     @Override
     public Integer getId() {
         return cicleunik;
+    }
+
+    public List<Prests> getPrestsCollection() {
+        return listPrests;
+    }
+
+    public void setPrestsCollection(List<Prests> prestsCollection) {
+        this.listPrests = prestsCollection;
+    }
+
+    public String getdCreat() {
+        return dCreat;
+    }
+
+    public void setdCreat(String dCreat) {
+        this.dCreat = dCreat;
+    }
+
+    public String gethCreat() {
+        return hCreat;
+    }
+
+    public void sethCreat(String hCreat) {
+        this.hCreat = hCreat;
+    }
+
+    public String getdModif() {
+        return dModif;
+    }
+
+    public void setdModif(String dModif) {
+        this.dModif = dModif;
+    }
+
+    public String gethModif() {
+        return hModif;
+    }
+
+    public void sethModif(String hModif) {
+        this.hModif = hModif;
+    }
+
+    public String getcMag() {
+        return cMag;
+    }
+
+    public void setcMag(String cMag) {
+        this.cMag = cMag;
+    }
+
+    public String getdRecepRecla() {
+        return dRecepRecla;
+    }
+
+    public void setdRecepRecla(String dRecepRecla) {
+        this.dRecepRecla = dRecepRecla;
+    }
+
+    public String getdCreRecla() {
+        return dCreRecla;
+    }
+
+    public void setdCreRecla(String dCreRecla) {
+        this.dCreRecla = dCreRecla;
+    }
+
+    public String getdEnvoiRecla() {
+        return dEnvoiRecla;
+    }
+
+    public void setdEnvoiRecla(String dEnvoiRecla) {
+        this.dEnvoiRecla = dEnvoiRecla;
+    }
+
+    public String getdRetourRecla() {
+        return dRetourRecla;
+    }
+
+    public void setdRetourRecla(String dRetourRecla) {
+        this.dRetourRecla = dRetourRecla;
+    }
+
+    public String getdEnvoiDg() {
+        return dEnvoiDg;
+    }
+
+    public void setdEnvoiDg(String dEnvoiDg) {
+        this.dEnvoiDg = dEnvoiDg;
+    }
+
+    public String getdReponse() {
+        return dReponse;
+    }
+
+    public void setdReponse(String dReponse) {
+        this.dReponse = dReponse;
+    }
+
+    public String getdRecepDfc() {
+        return dRecepDfc;
+    }
+
+    public void setdRecepDfc(String dRecepDfc) {
+        this.dRecepDfc = dRecepDfc;
+    }
+
+    public String getdRecepRegu() {
+        return dRecepRegu;
+    }
+
+    public void setdRecepRegu(String dRecepRegu) {
+        this.dRecepRegu = dRecepRegu;
+    }
+
+    public String getdEnvoiRegu() {
+        return dEnvoiRegu;
+    }
+
+    public void setdEnvoiRegu(String dEnvoiRegu) {
+        this.dEnvoiRegu = dEnvoiRegu;
     }
     
 }
