@@ -8,12 +8,14 @@ package com.github.adminfaces.starter.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -127,6 +129,9 @@ public class Cheque implements Serializable {
     private String echeanceEffet;
     @Column(name = "TRANSFERT_COMPTA")
     private Short transfertCompta;
+    
+    @OneToMany(mappedBy = "CHCLEUNIK")
+    private List<Paiement> listPaiement;
 
     public Cheque() {
     }
@@ -358,6 +363,62 @@ public class Cheque implements Serializable {
     @Override
     public String toString() {
         return "com.github.adminfaces.starter.model.Cheque[ chcleunik=" + chcleunik + " ]";
+    }
+
+    public String getlDate() {
+        return lDate;
+    }
+
+    public void setlDate(String lDate) {
+        this.lDate = lDate;
+    }
+
+    public String getlHeure() {
+        return lHeure;
+    }
+
+    public void setlHeure(String lHeure) {
+        this.lHeure = lHeure;
+    }
+
+    public String getdCreat() {
+        return dCreat;
+    }
+
+    public void setdCreat(String dCreat) {
+        this.dCreat = dCreat;
+    }
+
+    public String gethCreat() {
+        return hCreat;
+    }
+
+    public void sethCreat(String hCreat) {
+        this.hCreat = hCreat;
+    }
+
+    public String getdModif() {
+        return dModif;
+    }
+
+    public void setdModif(String dModif) {
+        this.dModif = dModif;
+    }
+
+    public String gethModif() {
+        return hModif;
+    }
+
+    public void sethModif(String hModif) {
+        this.hModif = hModif;
+    }
+
+    public List<Paiement> getListPaiement() {
+        return listPaiement;
+    }
+
+    public void setListPaiement(List<Paiement> listPaiement) {
+        this.listPaiement = listPaiement;
     }
     
 }

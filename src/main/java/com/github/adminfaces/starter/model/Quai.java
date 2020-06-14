@@ -379,7 +379,7 @@ public class Quai implements Serializable {
     private Long nombrePilotage;
     @JoinColumn(name = "ESCLEUNIK", referencedColumnName = "ESCLEUNIK")
     @ManyToOne
-    private Escale escleunik;
+    private Escale escale;
 
     public Quai() {
     }
@@ -1108,12 +1108,12 @@ public class Quai implements Serializable {
         this.nombrePilotage = nombrePilotage;
     }
 
-    public Escale getEscleunik() {
-        return escleunik;
+    public Escale getEscale() {
+        return escale;
     }
 
-    public void setEscleunik(Escale escleunik) {
-        this.escleunik = escleunik;
+    public void setEscale(Escale escale) {
+        this.escale = escale;
     }
 
     @Override

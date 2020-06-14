@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,8 +13,11 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -54,7 +58,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Paiement.findByMntHt", query = "SELECT p FROM Paiement p WHERE p.mntHt = :mntHt"),
     @NamedQuery(name = "Paiement.findByMntTva", query = "SELECT p FROM Paiement p WHERE p.mntTva = :mntTva"),
     @NamedQuery(name = "Paiement.findByMntCentimesAdd", query = "SELECT p FROM Paiement p WHERE p.mntCentimesAdd = :mntCentimesAdd")})
-public class Paiement implements Serializable {
+public class Paiement extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -102,8 +106,9 @@ public class Paiement implements Serializable {
     @Size(max = 4)
     @Column(name = "H_MODIF")
     private String hModif;
-    @Column(name = "CICLEUNIK")
-    private BigInteger cicleunik;
+    @JoinColumn(name = "CICLEUNIK", referencedColumnName = "CICLEUNIK")
+    @OneToOne
+    private Facture facture;
     @Size(max = 20)
     @Column(name = "BANQUE")
     private String banque;
@@ -113,8 +118,9 @@ public class Paiement implements Serializable {
     @Size(max = 8)
     @Column(name = "MODE_REGLEMENT")
     private String modeReglement;
-    @Column(name = "CHCLEUNIK")
-    private BigInteger chcleunik;
+    @JoinColumn(name = "CHCLEUNIK", referencedColumnName = "CHCLEUNIK")
+    @ManyToOne
+    private Cheque cheque;
     @Size(max = 8)
     @Column(name = "DATE_SOUSCRIPTION")
     private String dateSouscription;
@@ -135,6 +141,10 @@ public class Paiement implements Serializable {
 
     public Paiement(BigDecimal pmcleunik) {
         this.pmcleunik = pmcleunik;
+    }
+
+    public BigDecimal getId() {
+        return pmcleunik;
     }
 
     public BigDecimal getPmcleunik() {
@@ -257,12 +267,12 @@ public class Paiement implements Serializable {
         this.hModif = hModif;
     }
 
-    public BigInteger getCicleunik() {
-        return cicleunik;
+    public Facture getFacture() {
+        return facture;
     }
 
-    public void setCicleunik(BigInteger cicleunik) {
-        this.cicleunik = cicleunik;
+    public void setFacture(Facture facture) {
+        this.facture = facture;
     }
 
     public String getBanque() {
@@ -289,12 +299,12 @@ public class Paiement implements Serializable {
         this.modeReglement = modeReglement;
     }
 
-    public BigInteger getChcleunik() {
-        return chcleunik;
+    public Cheque getCheque() {
+        return cheque;
     }
 
-    public void setChcleunik(BigInteger chcleunik) {
-        this.chcleunik = chcleunik;
+    public void setCheque(Cheque cheque) {
+        this.cheque = cheque;
     }
 
     public String getDateSouscription() {
@@ -369,5 +379,5 @@ public class Paiement implements Serializable {
     public String toString() {
         return "com.github.adminfaces.starter.model.Paiement[ pmcleunik=" + pmcleunik + " ]";
     }
-    
+
 }

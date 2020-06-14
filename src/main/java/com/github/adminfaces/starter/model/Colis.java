@@ -253,7 +253,7 @@ public class Colis implements Serializable {
     private BigInteger tccleunik;
     @JoinColumn(name = "BLCLEUNIK", referencedColumnName = "BLCLEUNIK")
     @ManyToOne
-    private Bl blcleunik;
+    private Bl bl;
 
     public Colis() {
     }
@@ -742,12 +742,12 @@ public class Colis implements Serializable {
         this.tccleunik = tccleunik;
     }
 
-    public Bl getBlcleunik() {
-        return blcleunik;
+    public Bl getBl() {
+        return bl;
     }
 
-    public void setBlcleunik(Bl blcleunik) {
-        this.blcleunik = blcleunik;
+    public void setBl(Bl bl) {
+        this.bl = bl;
     }
 
     @Override

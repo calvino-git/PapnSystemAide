@@ -8,7 +8,7 @@ package com.github.adminfaces.starter.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -117,9 +117,9 @@ public class Trafic implements Serializable {
     @Column(name = "NBRE_BL")
     private BigInteger nbreBl;
     @OneToMany(mappedBy = "trcleunik")
-    private Collection<Port> portCollection;
-    @OneToMany(mappedBy = "trcleunik")
-    private Collection<Prests> prestsCollection;
+    private List<Port> listPort;
+    @OneToMany(mappedBy = "trafic")
+    private List<Prests> listPrests;
     @JoinColumn(name = "ESCLEUNIK", referencedColumnName = "ESCLEUNIK")
     @ManyToOne
     private Escale escleunik;
@@ -300,12 +300,12 @@ public class Trafic implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Port> getPortCollection() {
-        return portCollection;
+    public List<Port> getListPort() {
+        return listPort;
     }
 
-    public void setPortCollection(Collection<Port> portCollection) {
-        this.portCollection = portCollection;
+    public void setListPort(List<Port> listPort) {
+        this.listPort = listPort;
     }
 
     public Escale getEscleunik() {
@@ -373,12 +373,12 @@ public class Trafic implements Serializable {
         this.hModif = hModif;
     }
 
-    public Collection<Prests> getPrestsCollection() {
-        return prestsCollection;
+    public List<Prests> getListPrests() {
+        return listPrests;
     }
 
-    public void setPrestsCollection(Collection<Prests> prestsCollection) {
-        this.prestsCollection = prestsCollection;
+    public void setListPrests(List<Prests> listPrests) {
+        this.listPrests = listPrests;
     }
     
 }

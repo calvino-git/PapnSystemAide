@@ -9,7 +9,7 @@ import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -41,7 +41,7 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
     private BigDecimal pdcleunik;
     @JoinColumn(name = "DMCLEUNIK",referencedColumnName = "DMCLEUNIK")
     @ManyToOne
-    private listPrestsDomaine dmcleunik;
+    private ContratDomaine dmcleunik;
     @Column(name = "QUANTITE", precision = 19, scale = 6)
     private BigDecimal quantite;
     @Column(name = "SUPERFICIE", precision = 19, scale = 6)
@@ -119,7 +119,7 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
     @Column(name = "REF_COURRIER", length = 80)
     private String refCourrier;
     @OneToMany(mappedBy = "pdcleunik", fetch = FetchType.EAGER)
-    private Collection<Prests> prestsCollection;
+    private List<Prests> listPrests;
 
     public PrestsDomaine() {
     }
@@ -139,11 +139,11 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
         this.pdcleunik = pdcleunik;
     }
 
-    public listPrestsDomaine getDmcleunik() {
+    public ContratDomaine getDmcleunik() {
         return dmcleunik;
     }
 
-    public void setDmcleunik(listPrestsDomaine dmcleunik) {
+    public void setDmcleunik(ContratDomaine dmcleunik) {
         this.dmcleunik = dmcleunik;
     }
 
@@ -421,12 +421,12 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
         return "com.github.adminfaces.starter.model.PrestsDomaine[ pdcleunik=" + pdcleunik + " ]";
     }
 
-    public Collection<Prests> getPrestsCollection() {
-        return prestsCollection;
+    public List<Prests> getListPrests() {
+        return listPrests;
     }
 
-    public void setPrestsCollection(Collection<Prests> prestsCollection) {
-        this.prestsCollection = prestsCollection;
+    public void setListPrests(List<Prests> listPrests) {
+        this.listPrests = listPrests;
     }
     
 }

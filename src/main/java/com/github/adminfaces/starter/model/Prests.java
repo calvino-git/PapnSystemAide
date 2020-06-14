@@ -383,7 +383,7 @@ public class Prests extends BaseEntity implements Serializable {
     private BigDecimal totalReduc;
     @JoinColumn(name = "TRCLEUNIK",referencedColumnName = "TRCLEUNIK")
     @ManyToOne
-    private Trafic trcleunik;
+    private Trafic trafic;
     @Column(name = "OPCLEUNIK")
     private BigInteger opcleunik;
     @Size(max = 8)
@@ -417,7 +417,7 @@ public class Prests extends BaseEntity implements Serializable {
     private BigInteger dmcleunik;
     @JoinColumn(name = "PDCLEUNIK", referencedColumnName = "PDCLEUNIK")
     @ManyToOne
-    private PrestsDomaine pdcleunik;
+    private PrestsDomaine prestsDomaine;
 
     public Prests() {
     }
@@ -1190,12 +1190,12 @@ public class Prests extends BaseEntity implements Serializable {
         this.totalReduc = totalReduc;
     }
 
-    public Trafic getTrcleunik() {
-        return trcleunik;
+    public Trafic getTrafic() {
+        return trafic;
     }
 
-    public void setTrcleunik(Trafic trcleunik) {
-        this.trcleunik = trcleunik;
+    public void setTrafic(Trafic trafic) {
+        this.trafic = trafic;
     }
 
     public BigInteger getOpcleunik() {
@@ -1310,12 +1310,12 @@ public class Prests extends BaseEntity implements Serializable {
         this.dmcleunik = dmcleunik;
     }
 
-    public PrestsDomaine getPdcleunik() {
-        return pdcleunik;
+    public PrestsDomaine getPrestsDomaine() {
+        return prestsDomaine;
     }
 
-    public void setPdcleunik(PrestsDomaine pdcleunik) {
-        this.pdcleunik = pdcleunik;
+    public void setPrestsDomaine(PrestsDomaine prestsDomaine) {
+        this.prestsDomaine = prestsDomaine;
     }
 
     @Override

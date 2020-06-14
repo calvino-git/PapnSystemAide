@@ -251,7 +251,7 @@ public class Facture extends BaseEntity implements Serializable {
     private String hModif;
     @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
     @ManyToOne
-    private Escale escleunik;
+    private Escale escale;
     @Size(max = 8)
     @Column(name = "C_MAG")
     private String cMag;
@@ -284,7 +284,7 @@ public class Facture extends BaseEntity implements Serializable {
     private BigDecimal mntCentimesAdd;
     @JoinColumn(name = "TRCLEUNIK",referencedColumnName ="TRCLEUNIK" )
     @ManyToOne
-    private Escale estrcleunik;
+    private Escale escale_trafic;
     @Size(max = 8)
     @Column(name = "AVOIR_IMPUTABLE_PORT")
     private String avoirImputablePort;
@@ -420,7 +420,7 @@ public class Facture extends BaseEntity implements Serializable {
     private BigInteger dmcleunik;
     @JoinColumn(name = "DDCLEUNIK",referencedColumnName = "DDCLEUNIK")
     @ManyToOne
-    private DossierDomaine ddcleunik;
+    private DossierDomaine dossierDomaine;
     @Size(max = 6)
     @Column(name = "MOIS_COMPTABLE")
     private String moisComptable;
@@ -477,7 +477,7 @@ public class Facture extends BaseEntity implements Serializable {
     private String manut;
     @JoinColumn(name = "TCCLEUNIK",referencedColumnName = "TCCLEUNIK")
     @OneToOne
-    private ImportTcsCt tccleunik;
+    private ImportTcsCt impTcsCt;
     @Size(max = 8)
     @Column(name = "DATE_PROCHAINE_PENALITE")
     private String dateProchainePenalite;
@@ -771,12 +771,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.hModif = hModif;
     }
 
-    public Escale getEscleunik() {
-        return escleunik;
+    public Escale getEscale() {
+        return escale;
     }
 
-    public void setEscleunik(Escale escleunik) {
-        this.escleunik = escleunik;
+    public void setEscale(Escale escale) {
+        this.escale = escale;
     }
 
     public String getCMag() {
@@ -875,12 +875,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.mntCentimesAdd = mntCentimesAdd;
     }
 
-    public Escale getEstrcleunik() {
-        return estrcleunik;
+    public Escale getEscale_trafic() {
+        return escale_trafic;
     }
 
-    public void setEstrcleunik(Escale estrcleunik) {
-        this.estrcleunik = estrcleunik;
+    public void setEscale_trafic(Escale escale_trafic) {
+        this.escale_trafic = escale_trafic;
     }
 
     public String getAvoirImputablePort() {
@@ -1283,12 +1283,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.dmcleunik = dmcleunik;
     }
 
-    public DossierDomaine getDdcleunik() {
-        return ddcleunik;
+    public DossierDomaine getDossierDomaine() {
+        return dossierDomaine;
     }
 
-    public void setDdcleunik(DossierDomaine ddcleunik) {
-        this.ddcleunik = ddcleunik;
+    public void setDossierDomaine(DossierDomaine dossierDomaine) {
+        this.dossierDomaine = dossierDomaine;
     }
 
     public String getMoisComptable() {
@@ -1451,12 +1451,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.manut = manut;
     }
 
-    public ImportTcsCt getTccleunik() {
-        return tccleunik;
+    public ImportTcsCt getImpTcsCt() {
+        return impTcsCt;
     }
 
-    public void setTccleunik(ImportTcsCt tccleunik) {
-        this.tccleunik = tccleunik;
+    public void setImpTcsCt(ImportTcsCt impTcsCt) {
+        this.impTcsCt = impTcsCt;
     }
 
     public String getDateProchainePenalite() {

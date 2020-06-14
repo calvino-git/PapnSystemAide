@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Table(name = "CONTRAT_DOMAINE", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
-public class listPrestsDomaine extends BaseEntity implements Serializable {
+public class ContratDomaine extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -41,7 +41,7 @@ public class listPrestsDomaine extends BaseEntity implements Serializable {
     private BigDecimal dmcleunik;
     @JoinColumn(name = "DDCLEUNIK", referencedColumnName = "DDCLEUNIK")
     @OneToOne
-    private DossierDomaine ddcleunik;
+    private DossierDomaine dossierDomaine;
     @Size(max = 20)
     @Column(name = "CONTRAT", length = 20)
     private String contrat;
@@ -244,10 +244,10 @@ public class listPrestsDomaine extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "DNCLEUNIK",fetch = FetchType.EAGER)
     private List<PrestsDomaine> prestsDomaineList;
 
-    public listPrestsDomaine() {
+    public ContratDomaine() {
     }
 
-    public listPrestsDomaine(BigDecimal dmcleunik) {
+    public ContratDomaine(BigDecimal dmcleunik) {
         this.dmcleunik = dmcleunik;
     }
     
@@ -264,12 +264,12 @@ public class listPrestsDomaine extends BaseEntity implements Serializable {
         this.dmcleunik = dmcleunik;
     }
 
-    public DossierDomaine getDdcleunik() {
-        return ddcleunik;
+    public DossierDomaine getDossierDomaine() {
+        return dossierDomaine;
     }
 
-    public void setDdcleunik(DossierDomaine ddcleunik) {
-        this.ddcleunik = ddcleunik;
+    public void setDossierDomaine(DossierDomaine dossierDomaine) {
+        this.dossierDomaine = dossierDomaine;
     }
 
     public String getContrat() {
@@ -914,10 +914,10 @@ public class listPrestsDomaine extends BaseEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof listPrestsDomaine)) {
+        if (!(object instanceof ContratDomaine)) {
             return false;
         }
-        listPrestsDomaine other = (listPrestsDomaine) object;
+        ContratDomaine other = (ContratDomaine) object;
         if ((this.dmcleunik == null && other.dmcleunik != null) || (this.dmcleunik != null && !this.dmcleunik.equals(other.dmcleunik))) {
             return false;
         }

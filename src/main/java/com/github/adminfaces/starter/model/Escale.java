@@ -6,11 +6,12 @@
 package com.github.adminfaces.starter.model;
 
 import com.github.adminfaces.persistence.model.BaseEntity;
+import com.github.adminfaces.persistence.service.Service;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -972,19 +973,23 @@ public class Escale extends BaseEntity implements Serializable {
     @Size(max = 12)
     @Column(name = "VOYAGE_SORTIE")
     private String voyageSortie;
+    
     @OneToMany(mappedBy = "idEscale", fetch = FetchType.LAZY)
-    private Collection<GeneralInfo> generalInfoCollection;
+    private List<GeneralInfo> listManifeste;
     @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
-    private Collection<Trafic> traficCollection;
+    private List<Trafic> listTrafic;
     @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
-    private Collection<Prests> prestsCollection;
+    private List<Prests> listPrests;
+    @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY)
+    private List<Facture> listFacture;
     @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
-    private Collection<Facture> factureCollection;
+    private List<Quai> listQuai;
+    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
+    private List<Service> listService;
     
     @JoinColumn(name = "nacleunik", referencedColumnName = "nacleunik")
     @ManyToOne
     private Navire nacleunik;
-
     @JoinColumn(name = "agent", referencedColumnName = "code")
     @ManyToOne
     private Agent agent;
@@ -3031,12 +3036,12 @@ public class Escale extends BaseEntity implements Serializable {
     }
 
     @XmlTransient
-    public Collection<GeneralInfo> getGeneralInfoCollection() {
-        return generalInfoCollection;
+    public List<GeneralInfo> getListManifeste() {
+        return listManifeste;
     }
 
-    public void setGeneralInfoCollection(Collection<GeneralInfo> generalInfoCollection) {
-        this.generalInfoCollection = generalInfoCollection;
+    public void setListManifeste(List<GeneralInfo> listManifeste) {
+        this.listManifeste = listManifeste;
     }
 
     @Override
@@ -3065,28 +3070,172 @@ public class Escale extends BaseEntity implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Trafic> getTraficCollection() {
-        return traficCollection;
+    public List<Trafic> getListTrafic() {
+        return listTrafic;
     }
 
-    public void setTraficCollection(Collection<Trafic> traficCollection) {
-        this.traficCollection = traficCollection;
+    public void setListTrafic(List<Trafic> listTrafic) {
+        this.listTrafic = listTrafic;
     }
 
-    public Collection<Prests> getPrestsCollection() {
-        return prestsCollection;
+    public List<Prests> getListPrests() {
+        return listPrests;
     }
 
-    public void setPrestsCollection(Collection<Prests> prestsCollection) {
-        this.prestsCollection = prestsCollection;
+    public void setListPrests(List<Prests> listPrests) {
+        this.listPrests = listPrests;
     }
 
-    public Collection<Facture> getFactureCollection() {
-        return factureCollection;
+    public List<Facture> getListFacture() {
+        return listFacture;
     }
 
-    public void setFactureCollection(Collection<Facture> factureCollection) {
-        this.factureCollection = factureCollection;
+    public void setListFacture(List<Facture> listFacture) {
+        this.listFacture = listFacture;
+    }
+
+    public String getfDate() {
+        return fDate;
+    }
+
+    public void setfDate(String fDate) {
+        this.fDate = fDate;
+    }
+
+    public String getfHeure() {
+        return fHeure;
+    }
+
+    public void setfHeure(String fHeure) {
+        this.fHeure = fHeure;
+    }
+
+    public String getnFact() {
+        return nFact;
+    }
+
+    public void setnFact(String nFact) {
+        this.nFact = nFact;
+    }
+
+    public String getfEche() {
+        return fEche;
+    }
+
+    public void setfEche(String fEche) {
+        this.fEche = fEche;
+    }
+
+    public String gettHoraire() {
+        return tHoraire;
+    }
+
+    public void settHoraire(String tHoraire) {
+        this.tHoraire = tHoraire;
+    }
+
+    public String getdDemande() {
+        return dDemande;
+    }
+
+    public void setdDemande(String dDemande) {
+        this.dDemande = dDemande;
+    }
+
+    public String gethDemande() {
+        return hDemande;
+    }
+
+    public void sethDemande(String hDemande) {
+        this.hDemande = hDemande;
+    }
+
+    public String gethCreat() {
+        return hCreat;
+    }
+
+    public void sethCreat(String hCreat) {
+        this.hCreat = hCreat;
+    }
+
+    public String getdModif() {
+        return dModif;
+    }
+
+    public void setdModif(String dModif) {
+        this.dModif = dModif;
+    }
+
+    public String gethModif() {
+        return hModif;
+    }
+
+    public void sethModif(String hModif) {
+        this.hModif = hModif;
+    }
+
+    public String gethEtaNavire() {
+        return hEtaNavire;
+    }
+
+    public void sethEtaNavire(String hEtaNavire) {
+        this.hEtaNavire = hEtaNavire;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
+    public String getdDebPilote() {
+        return dDebPilote;
+    }
+
+    public void setdDebPilote(String dDebPilote) {
+        this.dDebPilote = dDebPilote;
+    }
+
+    public String gethDebPilote() {
+        return hDebPilote;
+    }
+
+    public void sethDebPilote(String hDebPilote) {
+        this.hDebPilote = hDebPilote;
+    }
+
+    public String getdEmbPilote() {
+        return dEmbPilote;
+    }
+
+    public void setdEmbPilote(String dEmbPilote) {
+        this.dEmbPilote = dEmbPilote;
+    }
+
+    public String gethEmbPilote() {
+        return hEmbPilote;
+    }
+
+    public void sethEmbPilote(String hEmbPilote) {
+        this.hEmbPilote = hEmbPilote;
+    }
+
+    public List<Quai> getListQuai() {
+        return listQuai;
+    }
+
+    public void setListQuai(List<Quai> listQuai) {
+        this.listQuai = listQuai;
+    }
+
+    public List<Service> getListService() {
+        return listService;
+    }
+
+    public void setListService(List<Service> listService) {
+        this.listService = listService;
     }
     
 

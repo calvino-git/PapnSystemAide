@@ -13,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -103,8 +105,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Services.findByDateExploitation", query = "SELECT s FROM Services s WHERE s.dateExploitation = :dateExploitation"),
     @NamedQuery(name = "Services.findByHeureExploitation", query = "SELECT s FROM Services s WHERE s.heureExploitation = :heureExploitation"),
     @NamedQuery(name = "Services.findByAffectation", query = "SELECT s FROM Services s WHERE s.affectation = :affectation"),
-    @NamedQuery(name = "Services.findByQucleunik", query = "SELECT s FROM Services s WHERE s.qucleunik = :qucleunik"),
-    @NamedQuery(name = "Services.findByEscleunik", query = "SELECT s FROM Services s WHERE s.escleunik = :escleunik"),
+    @NamedQuery(name = "Services.findByQuai", query = "SELECT s FROM Services s WHERE s.quai = :quai"),
+    @NamedQuery(name = "Services.findByEscale", query = "SELECT s FROM Services s WHERE s.escale = :escale"),
     @NamedQuery(name = "Services.findByBase", query = "SELECT s FROM Services s WHERE s.base = :base"),
     @NamedQuery(name = "Services.findByChargeFixe", query = "SELECT s FROM Services s WHERE s.chargeFixe = :chargeFixe"),
     @NamedQuery(name = "Services.findByAvoir", query = "SELECT s FROM Services s WHERE s.avoir = :avoir"),
@@ -345,10 +347,11 @@ public class Services implements Serializable {
     @Size(max = 8)
     @Column(name = "AFFECTATION")
     private String affectation;
-    @Column(name = "QUCLEUNIK")
-    private BigInteger qucleunik;
+    @JoinColumn(name = "QUCLEUNIK",referencedColumnName = "QUCLEUNIK" )
+    @ManyToOne
+    private Quai quai;
     @Column(name = "ESCLEUNIK")
-    private BigInteger escleunik;
+    private Escale escale;
     @Column(name = "BASE")
     private BigDecimal base;
     @Column(name = "CHARGE_FIXE")
@@ -1058,20 +1061,20 @@ public class Services implements Serializable {
         this.affectation = affectation;
     }
 
-    public BigInteger getQucleunik() {
-        return qucleunik;
+    public Quai getQuai() {
+        return quai;
     }
 
-    public void setQucleunik(BigInteger qucleunik) {
-        this.qucleunik = qucleunik;
+    public void setQuai(Quai quai) {
+        this.quai = quai;
     }
 
-    public BigInteger getEscleunik() {
-        return escleunik;
+    public Escale getEscale() {
+        return escale;
     }
 
-    public void setEscleunik(BigInteger escleunik) {
-        this.escleunik = escleunik;
+    public void setEscale(Escale escale) {
+        this.escale = escale;
     }
 
     public BigDecimal getBase() {

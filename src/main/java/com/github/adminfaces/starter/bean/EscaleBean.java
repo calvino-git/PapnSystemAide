@@ -313,7 +313,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
                 .filter(t -> t.getTrafic().contains(trafic))
                 .collect(Collectors.toList());
         trafics.forEach(t -> {
-            t.getPortCollection().forEach(p -> {
+            t.getListPortgetListPort().forEach(p -> {
                 p.getBlCollection().forEach(bl -> {
                     int nbrCtnPleinByBl = bl.getColisCollection().stream()
                             .filter(c -> c.getPlvVde().equalsIgnoreCase("PLEIN"))

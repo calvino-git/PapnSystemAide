@@ -9,7 +9,7 @@ import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -77,7 +77,7 @@ public class DossierDomaine extends BaseEntity implements Serializable {
     @Column(name = "CLE_PARCELLE")
     private BigInteger cleParcelle;
     @OneToMany(mappedBy = "ddcleunik", fetch = FetchType.EAGER)
-    private Collection<listPrestsDomaine> contratCollection;
+    private List<ContratDomaine> listContrat;
 
     public DossierDomaine() {
     }
@@ -236,12 +236,12 @@ public class DossierDomaine extends BaseEntity implements Serializable {
         return "com.github.adminfaces.starter.model.DossierDomaine[ ddcleunik=" + ddcleunik + " ]";
     }
 
-    public Collection<listPrestsDomaine> getContratCollection() {
-        return contratCollection;
+    public List<ContratDomaine> getListContrat() {
+        return listContrat;
     }
 
-    public void setContratCollection(Collection<listPrestsDomaine> contratCollection) {
-        this.contratCollection = contratCollection;
+    public void setListContrat(List<ContratDomaine> listContrat) {
+        this.listContrat = listContrat;
     }
     
 }

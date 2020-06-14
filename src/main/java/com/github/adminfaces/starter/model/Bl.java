@@ -713,7 +713,7 @@ public class Bl implements Serializable {
     private Port pocleunik;
     @OneToMany(mappedBy = "blcleunik")
     private Collection<March> marchCollection;
-    @OneToMany(mappedBy = "blcleunik")
+    @OneToMany(mappedBy = "bl")
     private Collection<Colis> colisCollection;
 
     public Bl() {
