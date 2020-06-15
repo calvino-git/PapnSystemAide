@@ -95,7 +95,7 @@ public class Port implements Serializable {
     @JoinColumn(name = "TRCLEUNIK", referencedColumnName = "TRCLEUNIK")
     @ManyToOne
     private Trafic trcleunik;
-    @OneToMany(mappedBy = "pocleunik")
+    @OneToMany(mappedBy = "port")
     private Collection<Bl> blCollection;
 
     public Port() {

@@ -159,7 +159,7 @@ public class GeneralInfo implements Serializable {
     private String dateInsertion;
     @JoinColumn(name = "ID_ESCALE", referencedColumnName = "ESCLEUNIK")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Escale idEscale;
+    private Escale escale;
 
     @OneToMany(mappedBy = "idGeneral")
     private Collection<BillOfLanding> blCollection;
@@ -412,12 +412,12 @@ public class GeneralInfo implements Serializable {
         this.dateInsertion = dateInsertion;
     }
 
-    public Escale getIdEscale() {
-        return idEscale;
+    public Escale getEscale() {
+        return escale;
     }
 
-    public void setIdEscale(Escale idEscale) {
-        this.idEscale = idEscale;
+    public void setEscale(Escale escale) {
+        this.escale = escale;
     }
 
     @Override

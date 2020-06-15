@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByUtilisat", query = "SELECT f FROM Facture f WHERE f.utilisat = :utilisat"),
     @NamedQuery(name = "Facture.findByDModif", query = "SELECT f FROM Facture f WHERE f.dModif = :dModif"),
     @NamedQuery(name = "Facture.findByHModif", query = "SELECT f FROM Facture f WHERE f.hModif = :hModif"),
-    @NamedQuery(name = "Facture.findByEscleunik", query = "SELECT f FROM Facture f WHERE f.escleunik = :escleunik"),
+    @NamedQuery(name = "Facture.findByEscaleNavire", query = "SELECT f FROM Facture f WHERE f.escaleNavire = :escaleNavire"),
     @NamedQuery(name = "Facture.findByCMag", query = "SELECT f FROM Facture f WHERE f.cMag = :cMag"),
     @NamedQuery(name = "Facture.findByBlcleunik", query = "SELECT f FROM Facture f WHERE f.blcleunik = :blcleunik"),
     @NamedQuery(name = "Facture.findByPvcleunik", query = "SELECT f FROM Facture f WHERE f.pvcleunik = :pvcleunik"),
@@ -83,7 +83,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByNumeroQuittance", query = "SELECT f FROM Facture f WHERE f.numeroQuittance = :numeroQuittance"),
     @NamedQuery(name = "Facture.findByCentimesAdd", query = "SELECT f FROM Facture f WHERE f.centimesAdd = :centimesAdd"),
     @NamedQuery(name = "Facture.findByMntCentimesAdd", query = "SELECT f FROM Facture f WHERE f.mntCentimesAdd = :mntCentimesAdd"),
-    @NamedQuery(name = "Facture.findByEstrcleunik", query = "SELECT f FROM Facture f WHERE f.estrcleunik = :estrcleunik"),
     @NamedQuery(name = "Facture.findByAvoirImputablePort", query = "SELECT f FROM Facture f WHERE f.avoirImputablePort = :avoirImputablePort"),
     @NamedQuery(name = "Facture.findByTvaSurFacture", query = "SELECT f FROM Facture f WHERE f.tvaSurFacture = :tvaSurFacture"),
     @NamedQuery(name = "Facture.findByCncleunik", query = "SELECT f FROM Facture f WHERE f.cncleunik = :cncleunik"),
@@ -134,7 +133,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByBanque", query = "SELECT f FROM Facture f WHERE f.banque = :banque"),
     @NamedQuery(name = "Facture.findByCouts", query = "SELECT f FROM Facture f WHERE f.couts = :couts"),
     @NamedQuery(name = "Facture.findByDmcleunik", query = "SELECT f FROM Facture f WHERE f.dmcleunik = :dmcleunik"),
-    @NamedQuery(name = "Facture.findByDdcleunik", query = "SELECT f FROM Facture f WHERE f.ddcleunik = :ddcleunik"),
+    @NamedQuery(name = "Facture.findByDossierDomaine", query = "SELECT f FROM Facture f WHERE f.dossierDomaine = :dossierDomaine"),
     @NamedQuery(name = "Facture.findByMoisComptable", query = "SELECT f FROM Facture f WHERE f.moisComptable = :moisComptable"),
     @NamedQuery(name = "Facture.findByTexte2", query = "SELECT f FROM Facture f WHERE f.texte2 = :texte2"),
     @NamedQuery(name = "Facture.findByBacleunik", query = "SELECT f FROM Facture f WHERE f.bacleunik = :bacleunik"),
@@ -155,7 +154,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facture.findByDgHeure", query = "SELECT f FROM Facture f WHERE f.dgHeure = :dgHeure"),
     @NamedQuery(name = "Facture.findByDateTransfert", query = "SELECT f FROM Facture f WHERE f.dateTransfert = :dateTransfert"),
     @NamedQuery(name = "Facture.findByManut", query = "SELECT f FROM Facture f WHERE f.manut = :manut"),
-    @NamedQuery(name = "Facture.findByTccleunik", query = "SELECT f FROM Facture f WHERE f.tccleunik = :tccleunik"),
+    @NamedQuery(name = "Facture.findByImpTcsCt", query = "SELECT f FROM Facture f WHERE f.impTcsCt = :impTcsCt"),
     @NamedQuery(name = "Facture.findByDateProchainePenalite", query = "SELECT f FROM Facture f WHERE f.dateProchainePenalite = :dateProchainePenalite")})
 public class Facture extends BaseEntity implements Serializable {
 
@@ -251,7 +250,7 @@ public class Facture extends BaseEntity implements Serializable {
     private String hModif;
     @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
     @ManyToOne
-    private Escale escale;
+    private Escale escaleNavire;
     @Size(max = 8)
     @Column(name = "C_MAG")
     private String cMag;
@@ -284,7 +283,7 @@ public class Facture extends BaseEntity implements Serializable {
     private BigDecimal mntCentimesAdd;
     @JoinColumn(name = "TRCLEUNIK",referencedColumnName ="TRCLEUNIK" )
     @ManyToOne
-    private Escale escale_trafic;
+    private Escale escaleMarchandise;
     @Size(max = 8)
     @Column(name = "AVOIR_IMPUTABLE_PORT")
     private String avoirImputablePort;
@@ -481,7 +480,7 @@ public class Facture extends BaseEntity implements Serializable {
     @Size(max = 8)
     @Column(name = "DATE_PROCHAINE_PENALITE")
     private String dateProchainePenalite;
-    @OneToMany(mappedBy = "CICLEUNIK",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "facture",fetch = FetchType.EAGER)
     private List<Prests> listPrests;
 
     public Facture() {
@@ -771,12 +770,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.hModif = hModif;
     }
 
-    public Escale getEscale() {
-        return escale;
+    public Escale getEscaleNavire() {
+        return escaleNavire;
     }
 
-    public void setEscale(Escale escale) {
-        this.escale = escale;
+    public void setEscaleNavire(Escale escaleNavire) {
+        this.escaleNavire = escaleNavire;
     }
 
     public String getCMag() {
@@ -875,12 +874,12 @@ public class Facture extends BaseEntity implements Serializable {
         this.mntCentimesAdd = mntCentimesAdd;
     }
 
-    public Escale getEscale_trafic() {
-        return escale_trafic;
+    public Escale getEscaleMarchandise() {
+        return escaleMarchandise;
     }
 
-    public void setEscale_trafic(Escale escale_trafic) {
-        this.escale_trafic = escale_trafic;
+    public void setEscaleMarchandise(Escale escaleMarchandise) {
+        this.escaleMarchandise = escaleMarchandise;
     }
 
     public String getAvoirImputablePort() {

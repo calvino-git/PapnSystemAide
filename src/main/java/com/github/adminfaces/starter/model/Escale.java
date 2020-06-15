@@ -6,7 +6,6 @@
 package com.github.adminfaces.starter.model;
 
 import com.github.adminfaces.persistence.model.BaseEntity;
-import com.github.adminfaces.persistence.service.Service;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -974,18 +973,20 @@ public class Escale extends BaseEntity implements Serializable {
     @Column(name = "VOYAGE_SORTIE")
     private String voyageSortie;
     
-    @OneToMany(mappedBy = "idEscale", fetch = FetchType.LAZY)
-    private List<GeneralInfo> listManifeste;
-    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
-    private List<Trafic> listTrafic;
-    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
-    private List<Prests> listPrests;
     @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY)
-    private List<Facture> listFacture;
-    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
+    private List<GeneralInfo> listManifeste;
+    @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY)
+    private List<Trafic> listTrafic;
+    @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY)
+    private List<Prests> listPrests;
+    @OneToMany(mappedBy = "escaleNavire", fetch = FetchType.LAZY)
+    private List<Facture> listFactureNavire;
+    @OneToMany(mappedBy = "escaleMarchandise", fetch = FetchType.LAZY)
+    private List<Facture> listFactureMarchandise;
+    @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY)
     private List<Quai> listQuai;
-    @OneToMany(mappedBy = "escleunik", fetch = FetchType.LAZY)
-    private List<Service> listService;
+    @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY)
+    private List<Services> listService;
     
     @JoinColumn(name = "nacleunik", referencedColumnName = "nacleunik")
     @ManyToOne
@@ -3086,12 +3087,12 @@ public class Escale extends BaseEntity implements Serializable {
         this.listPrests = listPrests;
     }
 
-    public List<Facture> getListFacture() {
-        return listFacture;
+    public List<Facture> getListFactureNavire() {
+        return listFactureNavire;
     }
 
-    public void setListFacture(List<Facture> listFacture) {
-        this.listFacture = listFacture;
+    public void setListFactureNavire(List<Facture> listFactureNavire) {
+        this.listFactureNavire = listFactureNavire;
     }
 
     public String getfDate() {
@@ -3230,12 +3231,20 @@ public class Escale extends BaseEntity implements Serializable {
         this.listQuai = listQuai;
     }
 
-    public List<Service> getListService() {
+    public List<Services> getListService() {
         return listService;
     }
 
-    public void setListService(List<Service> listService) {
+    public void setListService(List<Services> listService) {
         this.listService = listService;
+    }
+
+    public List<Facture> getListFactureMarchandise() {
+        return listFactureMarchandise;
+    }
+
+    public void setListFactureMarchandise(List<Facture> listFactureMarchandise) {
+        this.listFactureMarchandise = listFactureMarchandise;
     }
     
 

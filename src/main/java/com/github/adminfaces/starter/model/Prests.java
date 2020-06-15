@@ -89,7 +89,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Prests.findByDModif", query = "SELECT p FROM Prests p WHERE p.dModif = :dModif"),
     @NamedQuery(name = "Prests.findByHModif", query = "SELECT p FROM Prests p WHERE p.hModif = :hModif"),
     @NamedQuery(name = "Prests.findByEncleunik", query = "SELECT p FROM Prests p WHERE p.encleunik = :encleunik"),
-    @NamedQuery(name = "Prests.findByCicleunik", query = "SELECT p FROM Prests p WHERE p.cicleunik = :cicleunik"),
+    @NamedQuery(name = "Prests.findByFacture", query = "SELECT p FROM Prests p WHERE p.facture = :facture"),
     @NamedQuery(name = "Prests.findByQucleunik", query = "SELECT p FROM Prests p WHERE p.qucleunik = :qucleunik"),
     @NamedQuery(name = "Prests.findByOkAgent", query = "SELECT p FROM Prests p WHERE p.okAgent = :okAgent"),
     @NamedQuery(name = "Prests.findByOkCapitaine", query = "SELECT p FROM Prests p WHERE p.okCapitaine = :okCapitaine"),
@@ -104,7 +104,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Prests.findByDateExploitation", query = "SELECT p FROM Prests p WHERE p.dateExploitation = :dateExploitation"),
     @NamedQuery(name = "Prests.findByHeureExploitation", query = "SELECT p FROM Prests p WHERE p.heureExploitation = :heureExploitation"),
     @NamedQuery(name = "Prests.findByAffectation", query = "SELECT p FROM Prests p WHERE p.affectation = :affectation"),
-    @NamedQuery(name = "Prests.findByEscleunik", query = "SELECT p FROM Prests p WHERE p.escleunik = :escleunik"),
+    @NamedQuery(name = "Prests.findByEscale", query = "SELECT p FROM Prests p WHERE p.escale = :escale"),
     @NamedQuery(name = "Prests.findByBase", query = "SELECT p FROM Prests p WHERE p.base = :base"),
     @NamedQuery(name = "Prests.findByChargeFixe", query = "SELECT p FROM Prests p WHERE p.chargeFixe = :chargeFixe"),
     @NamedQuery(name = "Prests.findByAvoir", query = "SELECT p FROM Prests p WHERE p.avoir = :avoir"),
@@ -126,7 +126,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Prests.findByReduc7", query = "SELECT p FROM Prests p WHERE p.reduc7 = :reduc7"),
     @NamedQuery(name = "Prests.findByReduc8", query = "SELECT p FROM Prests p WHERE p.reduc8 = :reduc8"),
     @NamedQuery(name = "Prests.findByTotalReduc", query = "SELECT p FROM Prests p WHERE p.totalReduc = :totalReduc"),
-    @NamedQuery(name = "Prests.findByTrcleunik", query = "SELECT p FROM Prests p WHERE p.trcleunik = :trcleunik"),
+    @NamedQuery(name = "Prests.findByTrafic", query = "SELECT p FROM Prests p WHERE p.trafic = :trafic"),
     @NamedQuery(name = "Prests.findByOpcleunik", query = "SELECT p FROM Prests p WHERE p.opcleunik = :opcleunik"),
     @NamedQuery(name = "Prests.findByConditions", query = "SELECT p FROM Prests p WHERE p.conditions = :conditions"),
     @NamedQuery(name = "Prests.findByQuantiteMini", query = "SELECT p FROM Prests p WHERE p.quantiteMini = :quantiteMini"),
@@ -141,7 +141,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Prests.findByCouts", query = "SELECT p FROM Prests p WHERE p.couts = :couts"),
     @NamedQuery(name = "Prests.findBySrcleunik", query = "SELECT p FROM Prests p WHERE p.srcleunik = :srcleunik"),
     @NamedQuery(name = "Prests.findByDmcleunik", query = "SELECT p FROM Prests p WHERE p.dmcleunik = :dmcleunik"),
-    @NamedQuery(name = "Prests.findByPdcleunik", query = "SELECT p FROM Prests p WHERE p.pdcleunik = :pdcleunik")})
+    @NamedQuery(name = "Prests.findByPrestsDomaine", query = "SELECT p FROM Prests p WHERE p.prestsDomaine = :prestsDomaine")})
 public class Prests extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -294,7 +294,7 @@ public class Prests extends BaseEntity implements Serializable {
     private BigInteger encleunik;
     @JoinColumn(name = "CICLEUNIK",referencedColumnName = "CICLEUNIK")
     @ManyToOne
-    private Facture cicleunik;
+    private Facture facture;
     @Column(name = "QUCLEUNIK")
     private BigInteger qucleunik;
     @Column(name = "OK_AGENT")
@@ -334,7 +334,7 @@ public class Prests extends BaseEntity implements Serializable {
     private String affectation;
     @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
     @ManyToOne
-    private Escale escleunik;
+    private Escale escale;
     @Column(name = "BASE")
     private BigDecimal base;
     @Column(name = "CHARGE_FIXE")
@@ -894,12 +894,12 @@ public class Prests extends BaseEntity implements Serializable {
         this.encleunik = encleunik;
     }
 
-    public Facture getCicleunik() {
-        return cicleunik;
+    public Facture getFacture() {
+        return facture;
     }
 
-    public void setCicleunik(Facture cicleunik) {
-        this.cicleunik = cicleunik;
+    public void setFacture(Facture facture) {
+        this.facture = facture;
     }
 
     public BigInteger getQucleunik() {
@@ -1014,12 +1014,12 @@ public class Prests extends BaseEntity implements Serializable {
         this.affectation = affectation;
     }
 
-    public Escale getEscleunik() {
-        return escleunik;
+    public Escale getEscale() {
+        return escale;
     }
 
-    public void setEscleunik(Escale escleunik) {
-        this.escleunik = escleunik;
+    public void setEscale(Escale escale) {
+        this.escale = escale;
     }
 
     public BigDecimal getBase() {

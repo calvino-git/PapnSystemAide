@@ -9,12 +9,16 @@ import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -227,6 +231,8 @@ public class Agent extends BaseEntity implements Serializable {
     @Size(max = 50)
     @Column(name = "E_MAIL")
     private String eMail;
+    @OneToMany(mappedBy = "agent",fetch = FetchType.LAZY)
+    private List<Escale> listEscale;
 
     public Agent() {
     }
@@ -235,6 +241,7 @@ public class Agent extends BaseEntity implements Serializable {
         this.code = code;
     }
 
+    @Override
     public String getId() {
         return code;
     }
@@ -669,6 +676,14 @@ public class Agent extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return this.libelle;
+    }
+
+    public List<Escale> getListEscale() {
+        return listEscale;
+    }
+
+    public void setListEscale(List<Escale> listEscale) {
+        this.listEscale = listEscale;
     }
     
 }

@@ -12,11 +12,11 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author calviniloki
  */
-@MappedSuperclass
+@Entity
 @Table(name = "PRESTS_DOMAINE", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
 public class PrestsDomaine extends BaseEntity implements Serializable {
@@ -41,7 +41,7 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
     private BigDecimal pdcleunik;
     @JoinColumn(name = "DMCLEUNIK",referencedColumnName = "DMCLEUNIK")
     @ManyToOne
-    private ContratDomaine dmcleunik;
+    private ContratDomaine contratDomaine;
     @Column(name = "QUANTITE", precision = 19, scale = 6)
     private BigDecimal quantite;
     @Column(name = "SUPERFICIE", precision = 19, scale = 6)
@@ -118,7 +118,7 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
     @Size(max = 80)
     @Column(name = "REF_COURRIER", length = 80)
     private String refCourrier;
-    @OneToMany(mappedBy = "pdcleunik", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "prestsDomaine", fetch = FetchType.EAGER)
     private List<Prests> listPrests;
 
     public PrestsDomaine() {
@@ -139,12 +139,12 @@ public class PrestsDomaine extends BaseEntity implements Serializable {
         this.pdcleunik = pdcleunik;
     }
 
-    public ContratDomaine getDmcleunik() {
-        return dmcleunik;
+    public ContratDomaine getContratDomaine() {
+        return contratDomaine;
     }
 
-    public void setDmcleunik(ContratDomaine dmcleunik) {
-        this.dmcleunik = dmcleunik;
+    public void setContratDomaine(ContratDomaine contratDomaine) {
+        this.contratDomaine = contratDomaine;
     }
 
     public BigDecimal getQuantite() {

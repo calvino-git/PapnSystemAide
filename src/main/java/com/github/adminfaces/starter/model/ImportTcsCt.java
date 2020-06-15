@@ -50,7 +50,7 @@ public class ImportTcsCt extends BaseEntity {
     @Size(max = 4)
     @Column(name = "H_MODIF")
     private String hModif;
-    @OneToOne(mappedBy = "TCCLEUNIK",optional = true)
+    @OneToOne(mappedBy = "impTcsCt",optional = true)
     private Facture facture;
 
     public ImportTcsCt() {

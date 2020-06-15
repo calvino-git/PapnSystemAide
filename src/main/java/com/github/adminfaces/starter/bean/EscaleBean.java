@@ -213,7 +213,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public int getNombreCTNs() {
         nombreCTNs = 0;
-        this.entity.getGeneralInfoCollection().forEach(manifeste -> {
+        this.entity.getListManifeste().forEach(manifeste -> {
             nombreCTNs += manifeste.getTotalNumberOfContainers();
         });
         return nombreCTNs;
@@ -221,20 +221,20 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
 
     public int getNombreBLs() {
         nombreBLs = 0;
-        this.entity.getGeneralInfoCollection().forEach(manifeste -> {
+        this.entity.getListManifeste().forEach(manifeste -> {
             nombreBLs += manifeste.getTotalNumberOfBols();
         });
         return nombreBLs;
     }
 
     public int getNombreManifestes() {
-        nombreManifestes = entity.getGeneralInfoCollection().size();
+        nombreManifestes = entity.getListManifeste().size();
         return nombreManifestes;
     }
 
     public double getPoidsTotal() {
         poidsTotal = 0;
-        this.entity.getGeneralInfoCollection().forEach(manifeste -> {
+        this.entity.getListManifeste().forEach(manifeste -> {
             poidsTotal += manifeste.getTotalGrossMass();
         });
         return poidsTotal;
@@ -246,13 +246,13 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         countVide = 0;
         List<GeneralInfo> manifeste = new ArrayList();
         if (trafic.contains("I")) {
-            manifeste = entity.getGeneralInfoCollection().stream()
+            manifeste = entity.getListManifeste().stream()
                     .filter(m -> m.getPlaceOfDestinationCode().equalsIgnoreCase("POINTE-NOIRE"))
                     .collect(Collectors.toList());
         }
 
         if (trafic.contains("E")) {
-            manifeste = entity.getGeneralInfoCollection().stream()
+            manifeste = entity.getListManifeste().stream()
                     .filter(m -> m.getPlaceOfDepartureCode().equalsIgnoreCase("POINTE-NOIRE"))
                     .collect(Collectors.toList());
         }
@@ -309,11 +309,11 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         dataTrafic.clear();
         countPlein = 0;
         countVide = 0;
-        List<Trafic> trafics = entity.getTraficCollection().stream()
+        List<Trafic> trafics = entity.getListTrafic().stream()
                 .filter(t -> t.getTrafic().contains(trafic))
                 .collect(Collectors.toList());
         trafics.forEach(t -> {
-            t.getListPortgetListPort().forEach(p -> {
+            t.getListPort().forEach(p -> {
                 p.getBlCollection().forEach(bl -> {
                     int nbrCtnPleinByBl = bl.getColisCollection().stream()
                             .filter(c -> c.getPlvVde().equalsIgnoreCase("PLEIN"))

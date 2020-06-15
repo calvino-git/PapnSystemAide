@@ -710,7 +710,7 @@ public class Bl implements Serializable {
     private String numBooking;
     @JoinColumn(name = "POCLEUNIK", referencedColumnName = "POCLEUNIK")
     @ManyToOne
-    private Port pocleunik;
+    private Port port;
     @OneToMany(mappedBy = "blcleunik")
     private Collection<March> marchCollection;
     @OneToMany(mappedBy = "bl")
@@ -2155,12 +2155,12 @@ public class Bl implements Serializable {
         this.numBooking = numBooking;
     }
 
-    public Port getPocleunik() {
-        return pocleunik;
+    public Port getPort() {
+        return port;
     }
 
-    public void setPocleunik(Port pocleunik) {
-        this.pocleunik = pocleunik;
+    public void setPort(Port port) {
+        this.port = port;
     }
 
     @XmlTransient

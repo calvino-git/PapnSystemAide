@@ -130,7 +130,7 @@ public class Cheque implements Serializable {
     @Column(name = "TRANSFERT_COMPTA")
     private Short transfertCompta;
     
-    @OneToMany(mappedBy = "CHCLEUNIK")
+    @OneToMany(mappedBy = "cheque")
     private List<Paiement> listPaiement;
 
     public Cheque() {

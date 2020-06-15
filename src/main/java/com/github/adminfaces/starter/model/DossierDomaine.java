@@ -12,9 +12,9 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author calviniloki
  */
+@Entity
 @Table(name = "DOSSIER_DOMAINE", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
 public class DossierDomaine extends BaseEntity implements Serializable {
@@ -76,7 +77,7 @@ public class DossierDomaine extends BaseEntity implements Serializable {
     private String sousZone;
     @Column(name = "CLE_PARCELLE")
     private BigInteger cleParcelle;
-    @OneToMany(mappedBy = "ddcleunik", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "dossierDomaine", fetch = FetchType.EAGER)
     private List<ContratDomaine> listContrat;
 
     public DossierDomaine() {

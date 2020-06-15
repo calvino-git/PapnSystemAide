@@ -12,11 +12,10 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author calviniloki
  */
+@Entity
 @Table(name = "CONTRAT_DOMAINE", catalog = "", schema = "PPNCARGO")
 @XmlRootElement
 public class ContratDomaine extends BaseEntity implements Serializable {
@@ -241,8 +241,8 @@ public class ContratDomaine extends BaseEntity implements Serializable {
     private Short topReseauElectrique;
     @Column(name = "TOP_RESEAU_TELEPHONE")
     private Short topReseauTelephone;
-    @OneToMany(mappedBy = "DNCLEUNIK",fetch = FetchType.EAGER)
-    private List<PrestsDomaine> prestsDomaineList;
+    @OneToMany(mappedBy = "contratDomaine",fetch = FetchType.EAGER)
+    private List<PrestsDomaine> listPrestDomaine;
 
     public ContratDomaine() {
     }
@@ -961,12 +961,12 @@ public class ContratDomaine extends BaseEntity implements Serializable {
         this.hModif = hModif;
     }
 
-    public List<PrestsDomaine> getPrestsDomaineList() {
-        return prestsDomaineList;
+    public List<PrestsDomaine> getListPrestDomaine() {
+        return listPrestDomaine;
     }
 
-    public void setPrestsDomaineList(List<PrestsDomaine> prestsDomaineList) {
-        this.prestsDomaineList = prestsDomaineList;
+    public void setListPrestDomaine(List<PrestsDomaine> listPrestDomaine) {
+        this.listPrestDomaine = listPrestDomaine;
     }
     
 }

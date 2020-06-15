@@ -122,7 +122,7 @@ public class Trafic implements Serializable {
     private List<Prests> listPrests;
     @JoinColumn(name = "ESCLEUNIK", referencedColumnName = "ESCLEUNIK")
     @ManyToOne
-    private Escale escleunik;
+    private Escale escale;
 
     public Trafic() {
     }
@@ -308,12 +308,12 @@ public class Trafic implements Serializable {
         this.listPort = listPort;
     }
 
-    public Escale getEscleunik() {
-        return escleunik;
+    public Escale getEscale() {
+        return escale;
     }
 
-    public void setEscleunik(Escale escleunik) {
-        this.escleunik = escleunik;
+    public void setEscale(Escale escale) {
+        this.escale = escale;
     }
 
     @Override

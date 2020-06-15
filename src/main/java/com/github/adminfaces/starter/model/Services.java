@@ -350,7 +350,8 @@ public class Services implements Serializable {
     @JoinColumn(name = "QUCLEUNIK",referencedColumnName = "QUCLEUNIK" )
     @ManyToOne
     private Quai quai;
-    @Column(name = "ESCLEUNIK")
+    @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
+    @ManyToOne
     private Escale escale;
     @Column(name = "BASE")
     private BigDecimal base;
