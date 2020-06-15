@@ -259,10 +259,6 @@
                             <key>--autoBindHttp</key>
                         </option>
                         <option>
-                            <key>--rootdir</key>
-                            <value>${rootdir.payara}</value>
-                        </option>
-                        <option>
                             <key>--addLibs</key>
                             <value>${rootdir.payara}/lib/ojdbc7.jar</value>
                         </option>

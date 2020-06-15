@@ -6,6 +6,8 @@
 package com.github.adminfaces.starter.bean;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Connection;
@@ -25,10 +27,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.sql.DataSource;
+import net.sf.jasperreports.engine.export.oasis.TableStyle;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFBuiltinTableStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -62,7 +67,11 @@ public class ImportExcel {
 
         System.out.println(excelFile.getAbsolutePath());
         try {
-            Files.write(excelFile.toPath(), excel.getContents());
+            excelFile = Files.write(excelFile.toPath(), excel.getContents()).toFile();
+//            FileWriter fileWriter = new FileWriter(excelFile);
+//            fileWriter.flush();
+//            fileWriter.close();
+//            Files.write(excelFile.toPath(), excel.getContents());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -75,6 +84,17 @@ public class ImportExcel {
             XSSFSheet sheet = workbk.getSheetAt(0);
             Iterator rows = sheet.rowIterator();
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            System.out.println("Nombre de table:" + sheet.getTables().size());
+            XSSFTable tab = sheet.getTables().get(0);
+            System.out.println("Style:" + tab.getStyle().getName());
+            System.out.println("Style:" + tab.getStyle().getStyle().isBuiltin());
+            tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());
+
+            File file = new File(excelFile.getName()+"2");
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                workbk.write(out);
+                out.close();
+            }
             int i = 0;
             while (rows.hasNext()) {
                 XSSFRow row = (XSSFRow) rows.next();
@@ -124,7 +144,7 @@ public class ImportExcel {
                 stmt.setString(32, "");//TYPE IN 
                 stmt.setString(33, row.getCell(13) == null ? "" : row.getCell(13).toString());//CARRIER
                 if (i % 1000 == 0) {
-                    progress = (row.getRowNum()*100.0)/(sheet.getLastRowNum());
+                    progress = (row.getRowNum() * 100.0) / (sheet.getLastRowNum());
                     System.out.print("*");
                 }
 
