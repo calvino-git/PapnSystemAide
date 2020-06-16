@@ -219,14 +219,14 @@
                             </f:facet>
                             #{e.situat}
                         </p:column>
-                        <p:column headerText="MANIFESTE" width="100" sortBy="#{e.generalInfoCollection.size()}" filterBy="#{e.manifeste}">
+                        <p:column headerText="MANIFESTE" width="100" sortBy="#{e.listManifeste.size()}" filterBy="#{e.manifeste}">
                             <f:facet name="filter">
                                 <p:spinner value="#{escaleBean.filter.params.manifeste}">
                                     <f:converter converterId="javax.faces.Integer"/>
                                     <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
                                 </p:spinner>
                             </f:facet>
-                            #{not empty e.generalInfoCollection ? e.generalInfoCollection.size():0}
+                            #{not empty e.listManifeste ? e.listManifeste.size():0}
                         </p:column>
                         <p:column headerText="PROVENANCE" width="120" sortBy="#{e.provenanceO}" filterBy="#{e.provenanceO}">
                             <h:outputText converter="#{portsConverter}" value="#{e.provenanceO}" />

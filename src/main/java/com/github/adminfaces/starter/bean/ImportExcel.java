@@ -29,7 +29,10 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.export.oasis.TableStyle;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.util.AreaReference;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFBuiltinTableStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -85,7 +88,13 @@ public class ImportExcel {
             Iterator rows = sheet.rowIterator();
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             System.out.println("Nombre de table:" + sheet.getTables().size());
-            XSSFTable tab = sheet.getTables().get(0);
+//            XSSFTable tab = sheet.getTables().get(0);
+            CellReference cellRefTopLeft = new CellReference(sheet.getFirstRowNum(), 0);
+            CellReference cellRefBottomRight = new CellReference(sheet.getLastRowNum(), sheet.getRow(sheet.getLastRowNum()).getLastCellNum());
+            
+            AreaReference areaReference = new AreaReference(cellRefTopLeft, cellRefBottomRight, SpreadsheetVersion.EXCEL97);
+            XSSFTable tab = sheet.createTable(areaReference);
+            
             System.out.println("Style:" + tab.getStyle().getName());
             System.out.println("Style:" + tab.getStyle().getStyle().isBuiltin());
             tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());

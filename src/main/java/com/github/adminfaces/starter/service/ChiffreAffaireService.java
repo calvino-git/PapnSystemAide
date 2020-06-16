@@ -27,7 +27,7 @@ import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
  * @author Calvin ILOKI
  */
 @Singleton
-//@Startup
+@Startup
 public class ChiffreAffaireService implements Serializable {
 
     private List<PrestationChiffreAffaire> list;
@@ -69,10 +69,10 @@ public class ChiffreAffaireService implements Serializable {
                 .getResultList();
         return list;
     }
-    
+
     public List<PrestationChiffreAffaire> listByAn(Integer debut, Integer fin) {
         list = criteria(PrestationChiffreAffaire.class)
-                .between(PrestationChiffreAffaire_.annee, debut,fin)
+                .between(PrestationChiffreAffaire_.annee, debut, fin)
                 .getResultList();
         return list;
     }
@@ -84,7 +84,7 @@ public class ChiffreAffaireService implements Serializable {
                 .orderDesc(PrestationChiffreAffaire_.montant)
                 .getSingleResult();
     }
-    
+
     public PrestationChiffreAffaire getPrestParMois(String code, Integer mois) {
         return criteria(PrestationChiffreAffaire.class)
                 .eq(PrestationChiffreAffaire_.mois, mois)
@@ -102,7 +102,7 @@ public class ChiffreAffaireService implements Serializable {
                 .forEach(p -> montantParAn += p.getMontant());
         return montantParAn;
     }
-    
+
     public Double getMontantTotalParMois(Integer mois) {
         montantParMois = 0.0;
         list = criteria(PrestationChiffreAffaire.class)
@@ -182,7 +182,6 @@ public class ChiffreAffaireService implements Serializable {
         this.montantParMois = montantParMois;
     }
 
-    
     public Double getTotalRecetteParAn() {
         return totalRecetteParAn;
     }
@@ -205,6 +204,11 @@ public class ChiffreAffaireService implements Serializable {
 
     public void setList(List<PrestationChiffreAffaire> list) {
         this.list = list;
+    }
+
+    public Double montantPrestationParAn(Integer annee, String prestation) {
+        Double montantPrestationParAn = chiffreAffaireRepo.montantPrestationParAn(annee, prestation);
+        return montantPrestationParAn;
     }
 
 }
