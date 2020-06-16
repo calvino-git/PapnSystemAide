@@ -104,14 +104,27 @@ public class MarchFactBean implements Serializable {
         AreaReference areaReference = new AreaReference(cellRefTopLeft, cellRefBottomRight, SpreadsheetVersion.EXCEL97);
         XSSFTable tab = sheet.createTable(areaReference);
         tab.getCTTable().addNewTableStyleInfo();
-        tab.getCTTable().getTableStyleInfo().setName("TableStyleMedium2"); 
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(HorizontalAlignment.LEFT);
-        sheet.getRow(0).setRowStyle(cellStyle);
-//        tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());
-//        XSSFColor color1 = new XSSFColor(Color.getHSBColor(217, 225, 242),new DefaultIndexedColorMap());
+//        tab.getCTTable().getTableStyleInfo().setName("TableStyleMedium2"); 
+        
+////        tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());
+
         XSSFTableStyleInfo style = (XSSFTableStyleInfo) tab.getStyle();
+        style.setName("TableStyleMedium2");
         style.setShowRowStripes(true);
+        XSSFColor color1 = new XSSFColor(Color.BLACK, new DefaultIndexedColorMap());
+        XSSFCellStyle cellStyle = wb.createCellStyle();
+        XSSFFont font = wb.createFont();
+        cellStyle.setWrapText(false);
+        cellStyle.setAlignment(HorizontalAlignment.LEFT);
+        font.setColor((short) 2);
+        cellStyle.setFont(font);
+        System.out.println("Style :" + sheet.getRow(1).getCell(0).getCellStyle().getFont());
+//        cellStyle.setAlignment(HorizontalAlignment.LEFT);
+        sheet.getRow(1).setRowStyle(cellStyle);
+        tab.updateHeaders();
+        tab.updateReferences();
+//        System.out.println("Color : " + style.getStyle().isBuiltin());
+//        style.getStyle().getStyle(TableStyleType.firstRowStripe).getFontFormatting().setFontColor(color1);
 //        style.getStyle().getStyle(TableStyleType.headerRow).getFontFormatting().setFontColor(color2);
 //        tab.getStyle().getStyle().getStyle(TableStyleType.firstRowStripe).getPatternFormatting().setFillBackgroundColor(color1);
 //        tab.getStyle().getStyle().getStyle(TableStyleType.headerRow).getFontFormatting().setFontColor(color2);
