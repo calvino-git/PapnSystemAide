@@ -321,7 +321,63 @@
 
                                     <div class="chart">
                                         <!-- Sales Chart Canvas -->
-                                        <canvas id="saleChart" height="180" style="height: 180px;"></canvas>
+                                        <h:form>
+                                            <p:dataTable var="evp" value="#{totalBean.listSourceEVPAnnee}" sortBy="#{evp.mouvement}">
+                                                <p:columnGroup type="header">
+                                                    <p:row>
+                                                        <p:column rowspan="2" headerText="MOUVEMENT" />
+                                                        <p:column rowspan="2" headerText="TRAFIC" />
+                                                        <p:column colspan="3" headerText="MANIFESTE" />
+                                                        <p:column colspan="3" headerText="DOUANE" />
+                                                        <p:column colspan="3" headerText="CONGOTERMINAL" />
+                                                    </p:row>
+                                                    <p:row>
+                                                        <p:column colspan="1" headerText="PLEIN" />
+                                                        <p:column colspan="1" headerText="VIDE" />
+                                                        <p:column colspan="1" headerText="TOTAL" />
+                                                        <p:column colspan="1" headerText="PLEIN" />
+                                                        <p:column colspan="1" headerText="VIDE" />
+                                                        <p:column colspan="1" headerText="TOTAL" />
+                                                        <p:column colspan="1" headerText="PLEIN" />
+                                                        <p:column colspan="1" headerText="VIDE" />
+                                                        <p:column colspan="1" headerText="TOTAL" />
+                                                    </p:row>
+                                                </p:columnGroup>
+                                                <p:column groupRow="true">
+                                                    <h:outputText value="#{evp.mouvement}" />
+                                                </p:column>
+                                                <p:column groupRow="true">
+                                                    <h:outputText value="#{evp.trafic}" />
+                                                </p:column>
+                                                <p:column headerText="PLEIN">
+                                                    <h:outputText value="#{evp.manifestePlein}" />
+                                                </p:column>
+                                                <p:column headerText="VIDE">
+                                                    <h:outputText value="#{evp.manifesteVide}" />
+                                                </p:column>
+                                                <p:column headerText="TOTAL">
+                                                    <h:outputText value="#{evp.manifesteTotal}" />
+                                                </p:column>
+                                                <p:column headerText="PLEIN">
+                                                    <h:outputText value="#{evp.douanePlein}" />
+                                                </p:column>
+                                                <p:column headerText="VIDE">
+                                                    <h:outputText value="#{evp.douaneVide}" />
+                                                </p:column>
+                                                <p:column headerText="TOTAL">
+                                                    <h:outputText value="#{evp.douaneTotal}" />
+                                                </p:column>
+                                                <p:column headerText="PLEIN">
+                                                    <h:outputText value="#{evp.congoTerminalPlein}" />
+                                                </p:column>
+                                                <p:column headerText="VIDE">
+                                                    <h:outputText value="#{evp.congoTerminalVide}" />
+                                                </p:column>
+                                                <p:column headerText="TOTAL">
+                                                    <h:outputText value="#{evp.congoTerminalTotal}" />
+                                                </p:column>
+                                            </p:dataTable>
+                                        </h:form>
                                     </div>
                                     <!-- /.chart-responsive -->
                                 </div>

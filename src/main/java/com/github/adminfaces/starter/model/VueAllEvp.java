@@ -5,6 +5,7 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigInteger;
 import javax.persistence.Column;
@@ -36,7 +37,7 @@ import org.hibernate.annotations.Immutable;
     @NamedQuery(name = "VueAllEvp.findByPlein", query = "SELECT v FROM VueAllEvp v WHERE v.plein = :plein"),
     @NamedQuery(name = "VueAllEvp.findByVide", query = "SELECT v FROM VueAllEvp v WHERE v.vide = :vide"),
     @NamedQuery(name = "VueAllEvp.findByTotalEvp", query = "SELECT v FROM VueAllEvp v WHERE v.totalEvp = :totalEvp")})
-public class VueAllEvp implements Serializable {
+public class VueAllEvp extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -143,6 +144,7 @@ public class VueAllEvp implements Serializable {
         this.totalEvp = totalEvp;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }

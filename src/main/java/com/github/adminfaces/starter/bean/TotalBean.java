@@ -3,11 +3,14 @@ package com.github.adminfaces.starter.bean;
 import com.github.adminfaces.starter.model.Document;
 import com.github.adminfaces.starter.model.DocumentEVP;
 import com.github.adminfaces.starter.model.PrestationChiffreAffaire;
+import com.github.adminfaces.starter.model.VueSourceEvp;
+import com.github.adminfaces.starter.model.VueSourceEvpAnnee;
 import com.github.adminfaces.starter.service.ChiffreAffaireService;
 import com.github.adminfaces.starter.service.ConteneurCongoTerminalService;
 import com.github.adminfaces.starter.service.DocumentEVPService;
 import com.github.adminfaces.starter.service.DocumentService;
 import com.github.adminfaces.starter.service.EscaleService;
+import com.github.adminfaces.starter.service.VueAllEvpService;
 import java.beans.EventHandler;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -56,6 +59,8 @@ public class TotalBean implements Serializable {
     private DocumentService documentService;
     @Inject
     private DocumentEVPService documentEVPService;
+    @Inject
+    private VueAllEvpService vueAllEvpService;
 
     private TreeNode root;
     private TreeNode rootEVP;
@@ -67,6 +72,7 @@ public class TotalBean implements Serializable {
     private Integer annee;
 
     private List<String> columnHeaders;
+    private List<VueSourceEvpAnnee> listSourceEVPAnnee;
     private static List<String> VALID_COLUMN_KEYS;
     private List<TotalBean.ColumnModel> columns;
     private String columnTemplate = "id departEffectif type";
@@ -109,6 +115,7 @@ public class TotalBean implements Serializable {
         }
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
+        listSourceEVPAnnee = vueAllEvpService.listeEVPParSourceEtParAnnee(annee);
         System.out.println("TotalBean est initialisé...");
     }
     
@@ -116,6 +123,11 @@ public class TotalBean implements Serializable {
         Faces.redirect("escale/list");
     }
 
+    public BigInteger totalEVPParSourceParTraficEtParAn(String annee,String trafic,String source){
+        BigInteger total = vueAllEvpService.totalEVPParSourceParTraficEtParAn(annee,trafic,source);
+        return total;
+    }
+    
     public void updateRoot(Integer annee) {
         root = documentService.createDocuments(annee);
     }
@@ -191,6 +203,14 @@ public class TotalBean implements Serializable {
 
     public void setRootEVPparAn(TreeNode rootEVPparAn) {
         this.rootEVPparAn = rootEVPparAn;
+    }
+
+    public List<VueSourceEvpAnnee> getListSourceEVPAnnee() {
+        return listSourceEVPAnnee;
+    }
+
+    public void setListSourceEVPAnnee(List<VueSourceEvpAnnee> listSourceEVPAnnee) {
+        this.listSourceEVPAnnee = listSourceEVPAnnee;
     }
 
     static public class ColumnModel implements Serializable {
