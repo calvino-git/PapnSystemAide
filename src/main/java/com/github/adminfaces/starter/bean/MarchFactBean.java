@@ -1,5 +1,6 @@
 package com.github.adminfaces.starter.bean;
 
+import com.github.adminfaces.starter.bean.util.XlsxExporter;
 import com.github.adminfaces.starter.model.Marchfact;
 import java.io.Serializable;
 import java.util.List;
@@ -24,10 +25,15 @@ import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Table;
 import org.apache.poi.ss.usermodel.TableStyle;
 import org.apache.poi.ss.usermodel.TableStyleType;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.AreaReference;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.model.ThemesTable;
 import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.IndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFBuiltinTableStyle;
@@ -63,6 +69,7 @@ public class MarchFactBean implements Serializable {
     private static List<String> VALID_COLUMN_KEYS;
     private List<ColumnModel> columns;
     private String columnTemplate = "id departEffectif type";
+    private XlsxExporter export;
 
     @Inject
     private MarchfactService marchFactService;
@@ -87,6 +94,7 @@ public class MarchFactBean implements Serializable {
         }
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
+        export = new XlsxExporter();
         System.out.println("MarchFactureBean initialisé...");
     }
 
@@ -97,37 +105,17 @@ public class MarchFactBean implements Serializable {
 
     public void postProcessXLS(Object document) {
         XSSFWorkbook wb = (XSSFWorkbook) document;
-        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
         CellReference cellRefTopLeft = new CellReference(sheet.getFirstRowNum(), 0);
-        CellReference cellRefBottomRight = new CellReference(sheet.getLastRowNum(), sheet.getRow(sheet.getLastRowNum()).getLastCellNum());
-
-        AreaReference areaReference = new AreaReference(cellRefTopLeft, cellRefBottomRight, SpreadsheetVersion.EXCEL97);
+        CellReference cellRefBottomRight = new CellReference(sheet.getLastRowNum(), sheet.getRow(sheet.getLastRowNum()).getLastCellNum()-1);
+        AreaReference areaReference = wb.getCreationHelper().createAreaReference(cellRefTopLeft, cellRefBottomRight);
         XSSFTable tab = sheet.createTable(areaReference);
+        StylesTable styleTable = wb.getStylesSource();
+        styleTable.ensureThemesTable();
+        tab.setName("tab1");
         tab.getCTTable().addNewTableStyleInfo();
-//        tab.getCTTable().getTableStyleInfo().setName("TableStyleMedium2"); 
-        
-////        tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());
-
         XSSFTableStyleInfo style = (XSSFTableStyleInfo) tab.getStyle();
         style.setName("TableStyleMedium2");
-        style.setShowRowStripes(true);
-        XSSFColor color1 = new XSSFColor(Color.BLACK, new DefaultIndexedColorMap());
-        XSSFCellStyle cellStyle = wb.createCellStyle();
-        XSSFFont font = wb.createFont();
-        cellStyle.setWrapText(false);
-        cellStyle.setAlignment(HorizontalAlignment.LEFT);
-        font.setColor((short) 2);
-        cellStyle.setFont(font);
-        System.out.println("Style :" + sheet.getRow(1).getCell(0).getCellStyle().getFont());
-//        cellStyle.setAlignment(HorizontalAlignment.LEFT);
-        sheet.getRow(1).setRowStyle(cellStyle);
-        tab.updateHeaders();
-        tab.updateReferences();
-//        System.out.println("Color : " + style.getStyle().isBuiltin());
-//        style.getStyle().getStyle(TableStyleType.firstRowStripe).getFontFormatting().setFontColor(color1);
-//        style.getStyle().getStyle(TableStyleType.headerRow).getFontFormatting().setFontColor(color2);
-//        tab.getStyle().getStyle().getStyle(TableStyleType.firstRowStripe).getPatternFormatting().setFillBackgroundColor(color1);
-//        tab.getStyle().getStyle().getStyle(TableStyleType.headerRow).getFontFormatting().setFontColor(color2);
     }
 
     public void updateList() {
@@ -184,6 +172,14 @@ public class MarchFactBean implements Serializable {
 
         //update columns
         createDynamicColumns();
+    }
+
+    public XlsxExporter getExport() {
+        return export;
+    }
+
+    public void setExport(XlsxExporter export) {
+        this.export = export;
     }
 
     static public class ColumnModel implements Serializable {

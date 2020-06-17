@@ -11,6 +11,11 @@
             <f:viewAction action="#{totalBean.init()}"/>
             <f:viewAction action="#{prestationChiffreAffaireBean.updateData(totalBean.annee)}"/>
         </f:metadata>
+        <style type="text/css">
+            .progress-group .float-right{
+                float: right!important;
+            }
+        </style>
     </ui:define>
     <ui:define name="head-end">
         <ui:param name="renderBreadCrumb" value="false"/>
@@ -300,6 +305,119 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h5 class="box-title">Trafic EVP</h5>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="text-center">
+                                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                                    </p>
+
+                                    <div class="chart">
+                                        <!-- Sales Chart Canvas -->
+                                        <canvas id="saleChart" height="180" style="height: 180px;"></canvas>
+                                    </div>
+                                    <!-- /.chart-responsive -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-4">
+                                    <p class="text-center">
+                                        <strong>Goal Completion</strong>
+                                    </p>
+
+                                    <div class="progress-group">
+                                        Manifeste
+                                        <span class="float-right"><b>160</b>/200</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" style="width: 80%;background-color:#337ab7"></div>
+                                        </div>
+                                    </div>
+                                    <!-- /.progress-group -->
+
+                                    <div class="progress-group">
+                                        Congo Terminal
+                                        <span class="float-right"> <b>310</b>/400</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-danger" style="width: 75%;background-color: #dc3545;"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- /.progress-group -->
+                                    <div class="progress-group">
+                                        <span class="progress-text">Visit Premium Page</span>
+                                        <span class="float-right"><b>480</b>/800</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-success" style="width: 60%;background-color: #28a745;"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- /.progress-group -->
+                                    <div class="progress-group">
+                                        Manifeste Telechargé
+                                        <span class="float-right"><b>250</b>/500</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-warning" style="width: 50%;background-color: #ffc107;"></div>
+                                        </div>
+                                    </div>
+                                    <!-- /.progress-group -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- ./card-body -->
+                        <div class="box-footer" style="background-color: rgba(51,122,183,.08);">
+                            <div class="row">
+                                <div class="col-sm-3 col-6">
+                                    <div class="description-block border-right" style="border-right: 1px solid #dee2e6;">
+                                        <span class="description-percentage text-success"><i class="fa fa-caret-up"></i> 17%</span>
+                                        <h5 class="description-header">35,210.43</h5>
+                                        <span class="description-text">IMPORT</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-3 col-6">
+                                    <div class="description-block border-right" style="border-right: 1px solid #dee2e6;">
+                                        <span class="description-percentage text-warning"><i class="fa fa-caret-left"></i> 0%</span>
+                                        <h5 class="description-header">10,390.90</h5>
+                                        <span class="description-text">EXPORT</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-3 col-6">
+                                    <div class="description-block border-right" style="border-right: 1px solid #dee2e6;">
+                                        <span class="description-percentage text-success"><i class="fa fa-caret-up"></i> 20%</span>
+                                        <h5 class="description-header">24,813.53</h5>
+                                        <span class="description-text">TRANSBO</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-3 col-6">
+                                    <div class="description-block">
+                                        <span class="description-percentage text-danger"><i class="fa fa-caret-down"></i> 18%</span>
+                                        <h5 class="description-header">1200</h5>
+                                        <span class="description-text">TOTAL</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
         </div>
 
     </ui:define>
@@ -318,6 +436,93 @@
                 var intersect = true;
                 var $salesChart = $("#salesChart").get(0).getContext("2d");
                 var salesChart = new Chart($salesChart, {
+                    type: 'bar',
+                    data: {
+                        labels: #{prestationChiffreAffaireBean.labels},
+                        datasets: [
+                            {
+                                label: '2019',
+                                backgroundColor: '#006edb',
+                                borderColor: '#007bff',
+                                data: #{prestationChiffreAffaireBean.listMnt}
+                            }/*,
+                             {
+                             label: '2018',
+                             backgroundColor: '#808080',
+                             borderColor: '#808080',
+                             data: [1000, 2000, 3525, 2500, 2700, 700, 1700, 2700, 2000, 1800, 1500, 2000]
+                             }*/
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'CHIFFRE D\'AFFAIRE'
+                        },
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            callbacks: {
+                                title: function (tooltipItem, data) {
+                                    return data['labels'][tooltipItem[0]['index']];
+                                },
+                                label: function (tooltipItem, data) {
+                                    return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ") + ' FCFA';
+                                }
+                            },
+                            mode: mode,
+                            intersect: intersect
+
+                        },
+                        hover: {
+                            mode: mode,
+                            intersect: intersect
+                        },
+                        legend: {
+                            display: false,
+                            position: 'bottom'
+                        },
+                        scales: {
+                            yAxes: [{
+                                    // display: false,
+                                    gridLines: {
+                                        display: true
+                                    },
+                                    ticks: $.extend({
+                                        beginAtZero: true,
+                                        // Include a dollar sign in the ticks
+                                        callback: function (value, index, values) {
+                                            if (value >= 1000) {
+                                                value /= 1000;
+                                                if (value >= 1000) {
+                                                    value /= 1000;
+                                                    if (value >= 1000) {
+                                                        value /= 1000;
+                                                        value += ' Milliard';
+                                                    } else {
+                                                        value += ' Million';
+                                                    }
+                                                } else {
+                                                    value += ' Mille';
+                                                }
+
+                                            }
+                                            return value;
+                                        }
+                                    }, ticksStyle)
+                                }],
+                            xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: true
+                                    },
+                                    ticks: ticksStyle
+                                }]
+                        }
+                    }
+                });
+
+                var $saleChart = $("#saleChart").get(0).getContext("2d");
+                var saleChart = new Chart($saleChart, {
                     type: 'bar',
                     data: {
                         labels: #{prestationChiffreAffaireBean.labels},

@@ -85,7 +85,7 @@
 
                         <f:facet name="header">
                             <div class="ui-g ui-fluid">
-                                <div class="ui-g-1">
+                                <div class="ui-g-2">
                                     <p:commandButton id="brFind" value="Rechercher"
                                                      process="@form"
                                                      update="@form"
@@ -95,11 +95,8 @@
                                 <div class="ui-g-2">
                                     <p:inputText id="inptId" value="#{escaleBean.numeroEscale}" placeholder="N° d'escale"/>
                                 </div>
-                                <div class="ui-g-1">
-                                    <p:datePicker id="date1"  showIcon="true" pattern="yyyyMMdd" locale="fr" placeholder="Date début"/> 
-                                </div>
-                                <div class="ui-g-1">
-                                    <p:datePicker id="date2" showIcon="true"  pattern="yyyyMMdd" placeholder="Date fin"/>
+                                <div class="ui-g-3">
+                                    <p:datePicker id="date" placeholder="Période" showIcon="true" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{escaleBean.range}"/>
                                 </div>
                                 <div class="ui-g-3">
                                     <p:selectOneButton value="#{escaleBean.numeroEscale}">

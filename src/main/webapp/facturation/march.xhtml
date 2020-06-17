@@ -101,7 +101,7 @@
                             <div style="float:right;padding-top: 5px;">
                                 <h:commandLink>
                                     <p:graphicImage value="#{resource['images/microsoft_excel_2019_480px.png']}"  width="30"/>
-                                    <p:dataExporter type="xlsx" target="mfTable" pageOnly="true" postProcessor="#{marchFactBean.postProcessXLS}" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.simpleDate(marchFactBean.debut)}-#{marchFactBean.simpleDate(marchFactBean.fin)}" />
+                                    <p:dataExporter type="xlsx" customExporter="#{marchFactBean.export}" target="mfTable" pageOnly="true" postProcessor="#{marchFactBean.postProcessXLS}" fileName="CONTROLE-MARCHANDISE-#{marchFactBean.simpleDate(marchFactBean.debut)}-#{marchFactBean.simpleDate(marchFactBean.fin)}" />
                                 </h:commandLink>                      
                             </div>
                         </f:facet>
