@@ -281,7 +281,7 @@ public class Facture extends BaseEntity implements Serializable {
     private BigDecimal centimesAdd;
     @Column(name = "MNT_CENTIMES_ADD")
     private BigDecimal mntCentimesAdd;
-    @JoinColumn(name = "TRCLEUNIK",referencedColumnName ="TRCLEUNIK" )
+    @JoinColumn(name = "TRCLEUNIK",referencedColumnName ="ESCLEUNIK" )
     @ManyToOne
     private Escale escaleMarchandise;
     @Size(max = 8)

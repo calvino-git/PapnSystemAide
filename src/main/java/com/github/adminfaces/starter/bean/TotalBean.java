@@ -128,6 +128,11 @@ public class TotalBean implements Serializable {
         return total;
     }
     
+    public BigInteger totalEVPParSourceEtParAn(Integer annee,String videPleinTotal,String source){
+        BigInteger total = vueAllEvpService.totalEVPParSourceEtParAn(annee.toString(),videPleinTotal,source);
+        return total;
+    }
+    
     public void updateRoot(Integer annee) {
         root = documentService.createDocuments(annee);
     }

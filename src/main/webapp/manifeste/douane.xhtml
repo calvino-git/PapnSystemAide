@@ -48,11 +48,18 @@
                     <p:dataTable id="refman" widgetVar="refTable" var="refman" value="#{manifestBean.refManList}" paginator="true" 
                                  rowsPerPageTemplate="10,15,20,30" rows="10" rendered="#{not empty manifestBean.refManList}" rowIndexVar="x">
                         <f:facet name="header">
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6"  layout="grid" styleClass="ui-fluid">
-                                <p:outputPanel style="text-align: left">
+                            <p:panelGrid columns="3" columnClasses="ui-grid-col-6 align-left,ui-grid-col-6 align-center,ui-grid-col-6 align-right"  layout="grid" styleClass="ui-fluid">
+                                <p:outputPanel>
                                     <h:outputText value="#{manifestBean.refManList.size()} MANIFESTES TROUVES EN #{manifestBean.trafic}." style="color: red;font-size: large"/>
                                 </p:outputPanel>
-                                <p:outputPanel style="text-align: right">
+                                <p:outputPanel>
+                                    <p:commandButton value="Télécharger" 
+                                         icon="fa fa-download"
+                                         ajax="false"
+                                         action="#{manifestBean.telechargerTousLesManifestes}"
+                                         style="width: auto"/>
+                                </p:outputPanel>
+                                <p:outputPanel>
                                     <h:outputText value="Recherche sur tous les champs :"/>
                                     <p:spacer height="10"/>
                                     <p:inputText id="globalFilter" onkeyup="PF('refTable').filter()" style="width:150px"

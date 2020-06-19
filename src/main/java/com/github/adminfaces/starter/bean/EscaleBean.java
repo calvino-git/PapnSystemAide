@@ -355,5 +355,11 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     public void setListeDoublon(List<Escale> listeDoublon) {
         this.listeDoublon = listeDoublon;
     }
+    
+    @Override
+    public void clear() {
+       super.clear();
+       escaleService.setAnnee(null);
+    }
 
 }

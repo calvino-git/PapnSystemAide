@@ -15,6 +15,9 @@
             .progress-group .float-right{
                 float: right!important;
             }
+            body .ui-datatable th.ui-state-default {
+                background: #f4f4f4!important;
+            }
         </style>
     </ui:define>
     <ui:define name="head-end">
@@ -309,14 +312,14 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h5 class="box-title">Trafic EVP</h5>
+                            <h5 class="box-title">TRAFIC EVP #{totalBean.annee}</h5>
                         </div>
                         <!-- /.card-header -->
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-8">
                                     <p class="text-center">
-                                        <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                                        <strong>TABLEAU DE COMPRATAIRE DU NOMBRE EVP SPAR SOURCE</strong>
                                     </p>
 
                                     <div class="chart">
@@ -325,11 +328,11 @@
                                             <p:dataTable var="evp" value="#{totalBean.listSourceEVPAnnee}" sortBy="#{evp.mouvement}">
                                                 <p:columnGroup type="header">
                                                     <p:row>
-                                                        <p:column rowspan="2" headerText="MOUVEMENT" />
-                                                        <p:column rowspan="2" headerText="TRAFIC" />
-                                                        <p:column colspan="3" headerText="MANIFESTE" />
-                                                        <p:column colspan="3" headerText="DOUANE" />
-                                                        <p:column colspan="3" headerText="CONGOTERMINAL" />
+                                                        <p:column colspan="2" rowspan="2" headerText="MOUVEMENT" />
+                                                        <p:column colspan="2" rowspan="2" headerText="TRAFIC" />
+                                                        <p:column style="background-color: #00c0ef; " colspan="3" headerText="MANIFESTE" />
+                                                        <p:column style="background-color: #dd4b39" colspan="3" headerText="DOUANE" />
+                                                        <p:column style="background-color: #00a65a" colspan="3" headerText="CONGOTERMINAL" />
                                                     </p:row>
                                                     <p:row>
                                                         <p:column colspan="1" headerText="PLEIN" />
@@ -343,39 +346,108 @@
                                                         <p:column colspan="1" headerText="TOTAL" />
                                                     </p:row>
                                                 </p:columnGroup>
-                                                <p:column groupRow="true">
-                                                    <h:outputText value="#{evp.mouvement}" />
+                                                <p:column colspan="2" groupRow="true">
+                                                    <h:outputText value="#{evp.mouvement == 'DEBA'?'DEBARQUEMENT':evp.mouvement == 'EMBA'?'EMBARQUEMENT':''}" />
                                                 </p:column>
-                                                <p:column groupRow="true">
-                                                    <h:outputText value="#{evp.trafic}" />
-                                                </p:column>
-                                                <p:column headerText="PLEIN">
-                                                    <h:outputText value="#{evp.manifestePlein}" />
-                                                </p:column>
-                                                <p:column headerText="VIDE">
-                                                    <h:outputText value="#{evp.manifesteVide}" />
-                                                </p:column>
-                                                <p:column headerText="TOTAL">
-                                                    <h:outputText value="#{evp.manifesteTotal}" />
+                                                <p:column colspan="2" style="background: #f4f4f4;" groupRow="true">
+                                                    <h:outputText value="#{evp.trafic.contains('TRB')?'TRANSBORDEMENT':evp.trafic.contains('IMP')?'IMPORT':evp.trafic.contains('EXP')?'EXPORT':evp.trafic}" />
                                                 </p:column>
                                                 <p:column headerText="PLEIN">
-                                                    <h:outputText value="#{evp.douanePlein}" />
+                                                    <h:outputText value="#{evp.manifestePlein}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="VIDE">
-                                                    <h:outputText value="#{evp.douaneVide}" />
+                                                    <h:outputText value="#{evp.manifesteVide}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="TOTAL">
-                                                    <h:outputText value="#{evp.douaneTotal}" />
+                                                    <h:outputText value="#{evp.manifesteTotal}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="PLEIN">
-                                                    <h:outputText value="#{evp.congoTerminalPlein}" />
+                                                    <h:outputText value="#{evp.douanePlein}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="VIDE">
-                                                    <h:outputText value="#{evp.congoTerminalVide}" />
+                                                    <h:outputText value="#{evp.douaneVide}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="TOTAL">
-                                                    <h:outputText value="#{evp.congoTerminalTotal}" />
+                                                    <h:outputText value="#{evp.douaneTotal}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
                                                 </p:column>
+                                                <p:column headerText="PLEIN">
+                                                    <h:outputText value="#{evp.congoTerminalPlein}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="VIDE">
+                                                    <h:outputText value="#{evp.congoTerminalVide}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="TOTAL">
+                                                    <h:outputText value="#{evp.congoTerminalTotal}" >
+                                                        <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:columnGroup type="footer">
+                                                    <p:row>
+                                                        <p:column colspan="4" style="text-align:right" footerText="Total:" />
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'P','MANIFESTE')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'V','MANIFESTE')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','MANIFESTE')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'P','DOUANE')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'V','DOUANE')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','DOUANE')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'P','CONGOTERMINAL')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'V','CONGOTERMINAL')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <p:column >
+                                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','CONGOTERMINAL')}" >
+                                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                                            </h:outputText>
+                                                        </p:column>
+                                                    </p:row>
+                                                </p:columnGroup>
                                             </p:dataTable>
                                         </h:form>
                                     </div>
@@ -384,41 +456,23 @@
                                 <!-- /.col -->
                                 <div class="col-md-4">
                                     <p class="text-center">
-                                        <strong>Goal Completion</strong>
+                                        <strong>Evolution par rapport à la Douane</strong>
                                     </p>
 
                                     <div class="progress-group">
                                         Manifeste
-                                        <span class="float-right"><b>160</b>/200</span>
+                                        <span class="float-right"><b>#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','MANIFESTE')}</b>/#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','DOUANE')}</span>
                                         <div class="progress progress-sm">
-                                            <div class="progress-bar bg-primary" style="width: 80%;background-color:#337ab7"></div>
+                                            <div class="progress-bar bg-primary" style="width: #{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','MANIFESTE')*100/totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','DOUANE')}%;background-color:#337ab7"></div>
                                         </div>
                                     </div>
                                     <!-- /.progress-group -->
 
                                     <div class="progress-group">
                                         Congo Terminal
-                                        <span class="float-right"> <b>310</b>/400</span>
+                                        <span class="float-right"> <b>#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','CONGOTERMINAL')}</b>/#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','DOUANE')}</span>
                                         <div class="progress progress-sm">
-                                            <div class="progress-bar bg-danger" style="width: 75%;background-color: #dc3545;"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- /.progress-group -->
-                                    <div class="progress-group">
-                                        <span class="progress-text">Visit Premium Page</span>
-                                        <span class="float-right"><b>480</b>/800</span>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-success" style="width: 60%;background-color: #28a745;"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- /.progress-group -->
-                                    <div class="progress-group">
-                                        Manifeste Telechargé
-                                        <span class="float-right"><b>250</b>/500</span>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-warning" style="width: 50%;background-color: #ffc107;"></div>
+                                            <div class="progress-bar bg-danger" style="width: #{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','CONGOTERMINAL')*100/totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','DOUANE')}%;background-color: #dc3545;"></div>
                                         </div>
                                     </div>
                                     <!-- /.progress-group -->
@@ -430,38 +484,41 @@
                         <!-- ./card-body -->
                         <div class="box-footer" style="background-color: rgba(51,122,183,.08);">
                             <div class="row">
-                                <div class="col-sm-3 col-6">
+                                <div class="col-sm-4 col-6">
                                     <div class="description-block border-right" style="border-right: 1px solid #dee2e6;">
                                         <span class="description-percentage text-success"><i class="fa fa-caret-up"></i> 17%</span>
-                                        <h5 class="description-header">35,210.43</h5>
-                                        <span class="description-text">IMPORT</span>
+                                        <h5 class="description-header">
+                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','MANIFESTE')}" >
+                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                            </h:outputText> EVPs
+                                        </h5>
+                                        <span class="description-text">MANIFESTE</span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
                                 <!-- /.col -->
-                                <div class="col-sm-3 col-6">
+                                <div class="col-sm-4 col-6">
                                     <div class="description-block border-right" style="border-right: 1px solid #dee2e6;">
                                         <span class="description-percentage text-warning"><i class="fa fa-caret-left"></i> 0%</span>
-                                        <h5 class="description-header">10,390.90</h5>
-                                        <span class="description-text">EXPORT</span>
+                                        <h5 class="description-header">
+                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','DOUANE')}" >
+                                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                            </h:outputText> EVPs
+                                        </h5>
+                                        <span class="description-text">DOUANE</span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
                                 <!-- /.col -->
-                                <div class="col-sm-3 col-6">
+                                <div class="col-sm-4 col-6">
                                     <div class="description-block border-right" style="border-right: 1px solid #dee2e6;">
                                         <span class="description-percentage text-success"><i class="fa fa-caret-up"></i> 20%</span>
-                                        <h5 class="description-header">24,813.53</h5>
-                                        <span class="description-text">TRANSBO</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-3 col-6">
-                                    <div class="description-block">
-                                        <span class="description-percentage text-danger"><i class="fa fa-caret-down"></i> 18%</span>
-                                        <h5 class="description-header">1200</h5>
-                                        <span class="description-text">TOTAL</span>
+                                        <h5 class="description-header">
+                                            <h:outputText value="#{totalBean.totalEVPParSourceEtParAn(totalBean.annee,'T','CONGOTERMINAL')}" >
+                                                <f:convertNumber locale="fr_FR" pattern="#,##0" />
+                                            </h:outputText> EVPs
+                                        </h5>
+                                        <span class="description-text">CONGO TERMINAL</span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -576,94 +633,6 @@
                         }
                     }
                 });
-
-                var $saleChart = $("#saleChart").get(0).getContext("2d");
-                var saleChart = new Chart($saleChart, {
-                    type: 'bar',
-                    data: {
-                        labels: #{prestationChiffreAffaireBean.labels},
-                        datasets: [
-                            {
-                                label: '2019',
-                                backgroundColor: '#006edb',
-                                borderColor: '#007bff',
-                                data: #{prestationChiffreAffaireBean.listMnt}
-                            }/*,
-                             {
-                             label: '2018',
-                             backgroundColor: '#808080',
-                             borderColor: '#808080',
-                             data: [1000, 2000, 3525, 2500, 2700, 700, 1700, 2700, 2000, 1800, 1500, 2000]
-                             }*/
-                        ]
-                    },
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'CHIFFRE D\'AFFAIRE'
-                        },
-                        maintainAspectRatio: false,
-                        tooltips: {
-                            callbacks: {
-                                title: function (tooltipItem, data) {
-                                    return data['labels'][tooltipItem[0]['index']];
-                                },
-                                label: function (tooltipItem, data) {
-                                    return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ") + ' FCFA';
-                                }
-                            },
-                            mode: mode,
-                            intersect: intersect
-
-                        },
-                        hover: {
-                            mode: mode,
-                            intersect: intersect
-                        },
-                        legend: {
-                            display: false,
-                            position: 'bottom'
-                        },
-                        scales: {
-                            yAxes: [{
-                                    // display: false,
-                                    gridLines: {
-                                        display: true
-                                    },
-                                    ticks: $.extend({
-                                        beginAtZero: true,
-                                        // Include a dollar sign in the ticks
-                                        callback: function (value, index, values) {
-                                            if (value >= 1000) {
-                                                value /= 1000;
-                                                if (value >= 1000) {
-                                                    value /= 1000;
-                                                    if (value >= 1000) {
-                                                        value /= 1000;
-                                                        value += ' Milliard';
-                                                    } else {
-                                                        value += ' Million';
-                                                    }
-                                                } else {
-                                                    value += ' Mille';
-                                                }
-
-                                            }
-                                            return value;
-                                        }
-                                    }, ticksStyle)
-                                }],
-                            xAxes: [{
-                                    display: true,
-                                    gridLines: {
-                                        display: true
-                                    },
-                                    ticks: ticksStyle
-                                }]
-                        }
-                    }
-                });
-
                 var $caChart = $("#caChart").get(0).getContext("2d");
                 var caChart = new Chart($caChart, {
                     type: 'bar',

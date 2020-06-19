@@ -35,7 +35,7 @@ public class VueSourceEvp extends BaseEntity implements Serializable {
     private Integer id;
     @Size(max = 8)
     @Column(name = "MOIS")
-    private String mois;
+    private String annee;
     @Size(max = 40)
     @Column(name = "NAVIRE")
     private String navire;
@@ -111,12 +111,12 @@ public class VueSourceEvp extends BaseEntity implements Serializable {
         this.id = id;
     }
 
-    public String getMois() {
-        return mois;
+    public String getAnnee() {
+        return annee;
     }
 
-    public void setMois(String mois) {
-        this.mois = mois;
+    public void setAnnee(String annee) {
+        this.annee = annee;
     }
 
     public BigInteger getManifestePlein() {

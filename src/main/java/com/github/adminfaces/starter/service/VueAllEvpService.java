@@ -7,7 +7,6 @@ package com.github.adminfaces.starter.service;
 
 import com.github.adminfaces.persistence.service.CrudService;
 import com.github.adminfaces.starter.model.VueAllEvp;
-import com.github.adminfaces.starter.model.VueSourceEvp;
 import com.github.adminfaces.starter.model.VueSourceEvpAnnee;
 import com.github.adminfaces.starter.repos.VueAllEvpRepository;
 import java.io.Serializable;
@@ -24,16 +23,31 @@ import javax.inject.Inject;
 @Stateless
 @Startup
 public class VueAllEvpService extends CrudService<VueAllEvp, Integer> implements Serializable {
+
     @Inject
     protected VueAllEvpRepository vueAllEvpRepo;
 
     public BigInteger totalEVPParSourceParTraficEtParAn(String annee, String trafic, String source) {
-        BigInteger total = vueAllEvpRepo.totalEVPParSourceParTraficEtParAn(annee,"%" + trafic + "%", source);
+        BigInteger total = vueAllEvpRepo.totalEVPParSourceParTraficEtParAn(annee, "%" + trafic + "%", source);
         return total;
     }
+
     public List<VueSourceEvpAnnee> listeEVPParSourceEtParAnnee(Integer annee) {
         List<VueSourceEvpAnnee> list = vueAllEvpRepo.listeEVPParSourceEtParAnnee(annee.toString());
         return list;
     }
-    
+
+    public BigInteger totalEVPParSourceEtParAn(String annee, String videPleinTotal, String source) {
+        if (videPleinTotal.equalsIgnoreCase("P")) {
+            BigInteger total = vueAllEvpRepo.totalEVPPleinParSourceEtParAn(annee+"%", source);
+            return total;
+        } else if (videPleinTotal.equalsIgnoreCase("V")) {
+            BigInteger total = vueAllEvpRepo.totalEVPVideParSourceEtParAn(annee+"%", source);
+            return total;
+        } else {
+            BigInteger total = vueAllEvpRepo.totalEVPParSourceEtParAn(annee+"%", source);
+            return total;
+        }
+    }
+
 }

@@ -213,7 +213,7 @@
                             </f:facet>
                             #{e.situat}
                         </p:column>
-                        <p:column headerText="MANIFESTE" width="100" sortBy="#{e.listManifeste.size()}" filterBy="#{e.manifeste}">
+                        <p:column headerText="MANIFESTE" width="100" sortBy="#{e.manifeste}" sortFunction="" filterBy="#{e.manifeste}">
                             <f:facet name="filter">
                                 <p:spinner value="#{escaleBean.filter.params.manifeste}">
                                     <f:converter converterId="javax.faces.Integer"/>
