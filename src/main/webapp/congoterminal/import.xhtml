@@ -20,13 +20,10 @@
                 <h:form>
                     <p:growl id="growl" />
                     <p:fileUpload  style="padding: 10px" label="Fichier" uploadLabel="Importer" cancelLabel= "Annuler" fileUploadListener="#{importExcel.insertData}" mode="advanced"
-                                   dragDropSupport="true" auto="false" onstart="PF('pbAjaxLong').cancel();PF('pbAjaxLong').setValue(0);PF('pbAjaxLong').start();" oncomplete="showBar()"
+                                   dragDropSupport="true" auto="false" onstart="showBar()" oncomplete="hideBar()"
                                    multiple="true" update="messages" sizeLimit="1000000000" fileLimit="3"
-                                   allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Fichier incorrect">
+                                   allowTypes="/(\.|\/)(xlsx)$/" invalidFileMessage="Fichier incorrect.Choisir un fichier EXCEL au format XLSX.">
                     </p:fileUpload>
-                    <p:progressBar widgetVar="pbAjaxLong" ajax="true" value="#{importExcel.progress}" labelTemplate="{value}%" global="false" interval="500">
-                        <p:ajax event="complete" listener="#{progressBarView.onComplete}" update="growl"/>
-                    </p:progressBar>
                 </h:form>
             </div>
         </div>

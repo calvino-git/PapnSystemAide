@@ -81,4 +81,15 @@
             <value>false</value>
         </property>
     </data-source>
+    <data-source>
+        <name>java:app/virtre</name>
+        <class-name>oracle.jdbc.pool.OracleDataSource</class-name>
+        <url>jdbc:oracle:thin:@10.0.55.203:1521:VIRTRE</url>
+        <user>ppncargo</user>
+        <password>ppncargo</password>
+        <property>
+            <name>timezoneAsRegion</name>
+            <value>false</value>
+        </property>
+    </data-source>
 </web-app>

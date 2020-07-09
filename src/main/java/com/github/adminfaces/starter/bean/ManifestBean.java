@@ -80,14 +80,14 @@ public class ManifestBean implements Serializable {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         File tmpDir = new File("tmp");
         tmpDir.mkdir();
-        String zipFile = tmpDir.getName() + File.separator + "Mainifeste-" + sdf.format(debut) + "-" + sdf.format(fin) + ".zip";
+        String zipFile = tmpDir.getName() + File.separator + "Manifeste-" + sdf.format(debut) + "-" + sdf.format(fin) + ".zip";
 
         if (!refManList.isEmpty()) {
             try (FileOutputStream file = new FileOutputStream(zipFile); ZipOutputStream zip = new ZipOutputStream(file)) {
                 refManList.forEach(ref -> {
                     long copy = 0;
                     try {
-                        File xml = new File(tmpDir.getName() + File.separator + ref.getNavire() + "-" + ref.getNumeroVoyage() + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + ".xml");
+                        File xml = new File(tmpDir.getName() + File.separator + ref.getNavire().replaceAll("/", "") + "-" + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + ".xml");
                         InputStream inputStream = manifesteService.recupererStreamManifeste(ref);
                         Files.copy(inputStream, xml.toPath(), REPLACE_EXISTING);
                         if (!xml.exists()) {

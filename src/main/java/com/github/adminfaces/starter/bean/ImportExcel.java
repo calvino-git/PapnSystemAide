@@ -53,9 +53,9 @@ public class ImportExcel {
     private UploadedFile excel;
     private Double progress;
 
-    @Resource(name = "java:app/cargo",
+    @Resource(name = "java:app/virtre",
             shareable = true,
-            description = "java:app/cargo")
+            description = "java:app/virtre")
     private DataSource ds;
 
     @PostConstruct
@@ -88,22 +88,22 @@ public class ImportExcel {
             Iterator rows = sheet.rowIterator();
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             System.out.println("Nombre de table:" + sheet.getTables().size());
-//            XSSFTable tab = sheet.getTables().get(0);
-            CellReference cellRefTopLeft = new CellReference(sheet.getFirstRowNum(), 0);
-            CellReference cellRefBottomRight = new CellReference(sheet.getLastRowNum(), sheet.getRow(sheet.getLastRowNum()).getLastCellNum());
-            
-            AreaReference areaReference = new AreaReference(cellRefTopLeft, cellRefBottomRight, SpreadsheetVersion.EXCEL97);
-            XSSFTable tab = sheet.createTable(areaReference);
-            
-            System.out.println("Style:" + tab.getStyle().getName());
-            System.out.println("Style:" + tab.getStyle().getStyle().isBuiltin());
-            tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());
-
-            File file = new File(excelFile.getName()+"2");
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                workbk.write(out);
-                out.close();
-            }
+////            XSSFTable tab = sheet.getTables().get(0);
+//            CellReference cellRefTopLeft = new CellReference(sheet.getFirstRowNum(), 0);
+//            CellReference cellRefBottomRight = new CellReference(sheet.getLastRowNum(), sheet.getRow(sheet.getLastRowNum()).getLastCellNum());
+//            
+//            AreaReference areaReference = new AreaReference(cellRefTopLeft, cellRefBottomRight, SpreadsheetVersion.EXCEL97);
+//            XSSFTable tab = sheet.createTable(areaReference);
+//            
+//            System.out.println("Style:" + tab.getStyle().getName());
+//            System.out.println("Style:" + tab.getStyle().getStyle().isBuiltin());
+//            tab.setStyleName(XSSFBuiltinTableStyle.TableStyleMedium2.name());
+//
+//            File file = new File(excelFile.getName()+"2");
+//            try (FileOutputStream out = new FileOutputStream(file)) {
+//                workbk.write(out);
+//                out.close();
+//            }
             int i = 0;
             while (rows.hasNext()) {
                 XSSFRow row = (XSSFRow) rows.next();
