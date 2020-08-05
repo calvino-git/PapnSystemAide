@@ -73,7 +73,8 @@ public class ManifesteService implements Serializable {
             System.out.println("Date de debut : " + inRef.getDebut());
             System.out.println("Date de fin : " + inRef.getFin());
             System.out.println("Trafic : " + inRef.getType());
-            refManList = awService.getManListRef(inRef).stream().filter(m -> m.getBureauDouane().contains("DD141") || m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
+            List<RefManResult> list = awService.getManListRef(inRef);
+            refManList = list.stream().filter(m -> m.getBureauDouane().contains("DD141") || m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
         }
         return refManList;
     }

@@ -54,7 +54,6 @@ public class ImportExcel {
     private Double progress;
 
     @Resource(name = "java:app/virtre",
-            shareable = true,
             description = "java:app/virtre")
     private DataSource ds;
 
@@ -70,7 +69,7 @@ public class ImportExcel {
 
         System.out.println(excelFile.getAbsolutePath());
         try {
-            excelFile = Files.write(excelFile.toPath(), excel.getContents()).toFile();
+            Files.write(excelFile.toPath(), excel.getContents()).toFile();
 //            FileWriter fileWriter = new FileWriter(excelFile);
 //            fileWriter.flush();
 //            fileWriter.close();
@@ -83,12 +82,13 @@ public class ImportExcel {
         Connection con = ds.getConnection();
         try {
             PreparedStatement stmt = con.prepareStatement(QUERY_CT);
-            workbk = new XSSFWorkbook(excelFile);
+            File file =  new File(excel.getFileName());
+            workbk = new XSSFWorkbook(file);
             XSSFSheet sheet = workbk.getSheetAt(0);
             Iterator rows = sheet.rowIterator();
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             System.out.println("Nombre de table:" + sheet.getTables().size());
-////            XSSFTable tab = sheet.getTables().get(0);
+//            XSSFTable tab = sheet.getTables().get(0);
 //            CellReference cellRefTopLeft = new CellReference(sheet.getFirstRowNum(), 0);
 //            CellReference cellRefBottomRight = new CellReference(sheet.getLastRowNum(), sheet.getRow(sheet.getLastRowNum()).getLastCellNum());
 //            
@@ -112,7 +112,7 @@ public class ImportExcel {
                     System.out.println(" LIGNE " + row.getRowNum());
                     continue;
                 }
-                stmt.setInt(1, Integer.valueOf(excelFile.getName().substring(0, 6))); //MOIS                
+                stmt.setInt(1, Integer.valueOf(file.getName().substring(0, 6))); //MOIS                
                 stmt.setString(2, row.getCell(0).toString()); //NUM_CTN
                 stmt.setString(3, row.getCell(11) == null ? "" : row.getCell(11).toString()); //DAT
                 stmt.setString(4, row.getCell(1) == null ? ""
@@ -161,8 +161,8 @@ public class ImportExcel {
 
                 i++;
             }
-
-            excelFile.deleteOnExit();
+            
+            file.deleteOnExit();
 
 //                MYWORKS.put(listFile.getName(),workbk);
         } catch (IOException | InvalidFormatException | SQLException ex) {
