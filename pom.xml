@@ -259,10 +259,6 @@
                             <key>--autoBindHttp</key>
                         </option>
                         <option>
-                            <key>--rootDir</key>
-                            <value>${rootdir.payara}</value>
-                        </option>
-                        <option>
                             <key>--deploy</key>
                             <value>${project.build.directory}/${project.build.finalName}</value>
                         </option>

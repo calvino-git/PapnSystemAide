@@ -87,7 +87,9 @@ public class ManifestBean implements Serializable {
                 refManList.forEach(ref -> {
                     long copy = 0;
                     try {
-                        File xml = new File(tmpDir.getName() + File.separator + ref.getNavire().replaceAll("/", "") + "-" + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + ".xml");
+                        String[] tmp = ref.getDateEnregistrement().split("/");
+                        String date_enregistrement_douane = tmp[2] + tmp[1] + tmp[0];
+                        File xml = new File(tmpDir.getName() + File.separator + ref.getNavire().replaceAll("/", "") + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + "-" + date_enregistrement_douane + ".xml");
                         InputStream inputStream = manifesteService.recupererStreamManifeste(ref);
                         Files.copy(inputStream, xml.toPath(), REPLACE_EXISTING);
                         if (!xml.exists()) {

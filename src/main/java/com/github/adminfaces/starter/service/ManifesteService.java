@@ -21,11 +21,20 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import static java.time.temporal.ChronoField.*;
+import java.time.temporal.TemporalField;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -41,6 +50,7 @@ import org.omnifaces.util.Faces;
  * @author Calvin ILOKI
  */
 @Stateless
+@Startup
 public class ManifesteService implements Serializable {
 
     private AWPAPNWebService awService;
@@ -53,9 +63,54 @@ public class ManifesteService implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("[" + LocalDateTime.now() + "] Service de recherche de manifestes à douane demarré ...");
         ws = new AWPAPNWebService_Service();
         awService = ws.getAWPAPNWebServicePort();
         factory = new ObjectFactory();
+    }
+
+    @Schedule(hour = "*", minute = "*/10", persistent = false)
+    public void verifierNouveauManifestDouane() {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        //creating the instance of LocalDate using the day, month, year info
+        LocalDate localDate = LocalDate.now();
+
+        //local date + atStartOfDay() + default time zone + toInstant() = Date
+        Date today = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+
+        //Displaying LocalDate and Date
+        System.out.println("LocalDate is: " + localDate);
+        System.out.println("Date is: " + today);
+        System.out.println("[" + today.toString() + "] Recherche de nouveaux manifestes douanes déposés aujourd'hui ...");
+        List<RefManResult> refManList = null;
+        refManList = rechercherRefMan(today, today, "IMP");
+        refManList.addAll(rechercherRefMan(today, today, "EXP"));
+        if (!refManList.isEmpty()) {
+            refManList.forEach(ref -> {
+                try {
+                    System.out.println("TELECHARGEMENT DE " + ref.getNavire() + "-" + ref.getNumeroVoyage() + "-" + ref.getCodeTransporteur() + "-" + ref.getDateArrivee() + ".xml");
+                    InputStream stream = recupererStreamManifeste(ref);
+                    JAXBContext jaxbContext = JAXBContext.newInstance(Awmds.class);
+                    unmarshaller = jaxbContext.createUnmarshaller();
+                    Awmds awmds = (Awmds) unmarshaller.unmarshal(stream);
+                    marshaller = jaxbContext.createMarshaller();
+                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                    String[] tmp = ref.getDateEnregistrement().split("/");
+                    String date_enregistrement_douane = tmp[2] + tmp[1] + tmp[0];
+                    File xml = new File("D:\\escales\\manifest\\douane" + File.separator + ref.getNavire().replaceAll("/", "") + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + "-" + date_enregistrement_douane + ".xml");
+
+                    // Marshalling and saving XML to the file.
+                    if (!xml.exists()) {
+                        marshaller.marshal(awmds, xml);
+                        System.out.println("ENREGISTREMENT: " + xml.getAbsolutePath());
+                    }
+
+                } catch (JAXBException ex) {
+                    Logger.getLogger(ManifesteService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        }
     }
 
     public List<RefManResult> rechercherRefMan(Date debut, Date fin, String trafic) {
@@ -74,7 +129,9 @@ public class ManifesteService implements Serializable {
             System.out.println("Date de fin : " + inRef.getFin());
             System.out.println("Trafic : " + inRef.getType());
             List<RefManResult> list = awService.getManListRef(inRef);
-            refManList = list.stream().filter(m -> m.getBureauDouane().contains("DD141") || m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
+            System.out.println("Manifeste(s) trouvé(s) : " + list.size());
+
+            refManList = list.stream().filter(m -> m.getBureauDouane() != null && m.getBureauDouane().contains("DD141") || m.getBureauDouane() != null && m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
         }
         return refManList;
     }

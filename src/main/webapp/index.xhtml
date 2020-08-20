@@ -39,9 +39,9 @@
                     <div class="small-box bg-aqua">
                         <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row">
-                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{nombreEscaleByAnnee}">
+                                <h:outputText style="font-size: 20px" value="#{nombreEscaleByAnnee}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">Escales</span>
+                                </h:outputText> <span style="font-size: 18px;">Escales</span>
                             </h3>
                             <h:panelGrid width="70%" border="0" columns="2">
                                 <h:outputText style="font-size: 18px;" value="PETIT NAVIRE   "/>
@@ -69,9 +69,9 @@
                     <div class="small-box bg-red">
                         <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row" >
-                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{totalEVPParAn}">
+                                <h:outputText style="font-size: 20px" value="#{totalEVPParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size:calc(100% - 0.7vw - 0.7vh">EVPs</span>
+                                </h:outputText> <span style="font-size: 20px">EVPs</span>
                             </h3>
                             <h:panelGrid width="70%" border="0" columns="2">
                                 <h:outputText style="font-size: 18px;" value="IMPORT"/>
@@ -110,9 +110,9 @@
                     <div class="small-box bg-green">
                         <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row" >
-                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{tonnageConteneurParAn}">
+                                <h:outputText style="font-size: 20px" value="#{tonnageConteneurParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">Tonnes</span>
+                                </h:outputText> <span style="font-size: 20px">Tonnes</span>
                             </h3>
                             <h:panelGrid width="70%" border="0" columns="2">
                                 <h:outputText style="font-size: 18px;" value="IMPORT"/>
@@ -147,15 +147,11 @@
                     <div class="small-box bg-yellow">
                         <div class="inner container-fluid" style="height: 170px;">
                             <h3 class="row" >
-                                <h:outputText style="font-size: calc(100% - 0.5vw - 0.5vh);" value="#{montantTotalParAn}">
+                                <h:outputText style="font-size: 20px" value="#{montantTotalParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText> <span style="font-weight: normal;font-size: calc(100% - 0.7vw - 0.7vh)">FCFA</span>
+                                </h:outputText> <span style="font-size: 20px">FCFA</span>
                             </h3>
                             <h:panelGrid width="70%" border="0" columns="2">
-                                <h:outputText style="font-size: 18px;" value="HORS TAXE"/>
-                                <h:outputText style="font-size: 18px;font-weight: bold" value="#{totalImpTonnageParAn}">
-                                    <f:convertNumber locale="fr_FR" pattern="#,##0"/>
-                                </h:outputText>
                                 <h:outputText style="font-size: 18px;" value="PAYE"/>
                                 <h:outputText  style="font-size: 18px;font-weight: bold" value="#{totalExpTonnageParAn}">
                                     <f:convertNumber locale="fr_FR" pattern="#,##0"/>
@@ -178,8 +174,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-dm-12" style="padding:0">
-                    <div class="col-lg-6 col-dm-12" >
+                <!-- div class="col-md-12" style="padding:0" -->
+                    <div class="col-lg-4 col-md-6" >
                         <div class="box box-primary ">
                             <div class="box-body with-border">
                                 <p:growl id="growl1" showDetail="true" />
@@ -189,7 +185,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-dm-12">
+                    <div class="col-lg-4 col-md-6">
                         <div class="box box-primary">
                             <div class="box-body with-border">
                                 <p:growl id="growl2" showDetail="true" />
@@ -199,7 +195,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-dm-12">
+                    <div class="col-lg-4 col-md-6">
                         <div class="box box-primary">
                             <div class="box-body with-border">
                                 <p:growl id="growl4" showDetail="true" />
@@ -244,7 +240,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-dm-12">
+                    <div class="col-lg-4 col-md-6">
                         <div class="box box-primary">
                             <div class="box-body with-border">
                                 <p:growl id="growl5" showDetail="true" />
@@ -292,24 +288,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-dm-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">SITUATION DES NAVIRES A QUAI</h3>
-                        </div>
-                        <div class="box-body">
-                            <p:growl id="growl3" showDetail="true" />
-                            <div class="position-relative mb-4">
-                                <iframe name="marinetraffic" id="marinetraffic" width="100%" height="500" scrolling="no" frameborder="1" title="PORT AUTONOME DE POINTE-NOIRE"
-                                        src="https://www.marinetraffic.com/fr/ais/embed/zoom:16/centery:-4.7800/centerx:11.83/maptype:4/shownames:true/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+                <!-- /div -->
+                
+                <div class="col-lg-8 col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
                             <h5 class="box-title">TRAFIC EVP #{totalBean.annee}</h5>
@@ -317,7 +298,7 @@
                         <!-- /.card-header -->
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <p class="text-center">
                                         <strong>TABLEAU DE COMPRATAIRE DU NOMBRE EVP SPAR SOURCE</strong>
                                     </p>
@@ -529,7 +510,23 @@
                     </div>
                     <!-- /.card -->
                 </div>
-                <!-- /.col -->
+                
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-dm-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">SITUATION DES NAVIRES A QUAI</h3>
+                        </div>
+                        <div class="box-body">
+                            <p:growl id="growl3" showDetail="true" />
+                            <div class="position-relative mb-4">
+                                <iframe name="marinetraffic" id="marinetraffic" width="100%" height="500" scrolling="no" frameborder="1" title="PORT AUTONOME DE POINTE-NOIRE"
+                                        src="https://www.marinetraffic.com/fr/ais/embed/zoom:16/centery:-4.7800/centerx:11.83/maptype:4/shownames:true/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"/>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.col -->
             </div>
         </div>
 
