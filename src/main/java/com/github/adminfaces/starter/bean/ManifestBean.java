@@ -56,6 +56,7 @@ public class ManifestBean implements Serializable {
 
     @Inject
     ManifesteService manifesteService;
+    private int i;
 
     @PostConstruct
     private void init() {
@@ -63,6 +64,7 @@ public class ManifestBean implements Serializable {
     }
 
     public void rechercherRefMan() {
+        
         if (trafic.equals("TOUT")) {
             refManList = manifesteService.rechercherRefMan(debut, fin, "IMP");
             refManList.addAll(manifesteService.rechercherRefMan(debut, fin, "EXP"));
@@ -78,22 +80,31 @@ public class ManifestBean implements Serializable {
 
     public void telechargerTousLesManifestes() throws FileNotFoundException, IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        File tmpDir = new File("tmp");
-        tmpDir.mkdir();
-        String zipFile = tmpDir.getName() + File.separator + "Manifeste-" + sdf.format(debut) + "-" + sdf.format(fin) + ".zip";
+        String dossierDouane = "D:\\escales\\manifest\\douane";
+        String zipFile = dossierDouane + File.separator + "Manifeste-" + sdf.format(debut) + "-" + sdf.format(fin) + ".zip";
 
         if (!refManList.isEmpty()) {
             try (FileOutputStream file = new FileOutputStream(zipFile); ZipOutputStream zip = new ZipOutputStream(file)) {
+                i=0;
                 refManList.forEach(ref -> {
                     long copy = 0;
                     try {
                         String[] tmp = ref.getDateEnregistrement().split("/");
                         String date_enregistrement_douane = tmp[2] + tmp[1] + tmp[0];
-                        File xml = new File(tmpDir.getName() + File.separator + ref.getNavire().replaceAll("/", "") + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + "-" + date_enregistrement_douane + ".xml");
+                        String navire = ref.getNavire() != null ? ref.getNavire().replaceAll("/", "").replaceAll("\"", "").replaceAll(" ", "_"):"";
+                        String fileName = navire + "-" + ref.getCodeTransporteur() 
+                                + "-" + ref.getAnneeEnregistrement() 
+                                + "-" + ref.getNumeroEnregistrement() 
+                                + "-" + date_enregistrement_douane + ".xml";
+
+                        File xml = new File(dossierDouane + File.separator + tmp[2] + File.separator + tmp[1] + File.separator + tmp[0] + File.separator + fileName);
+                        xml.getParentFile().mkdirs();
                         InputStream inputStream = manifesteService.recupererStreamManifeste(ref);
                         Files.copy(inputStream, xml.toPath(), REPLACE_EXISTING);
                         if (!xml.exists()) {
                             Files.createFile(xml.toPath());
+                            i++;
+                            System.out.println("TECHARGEMENT N° " + i + " => " + xml.getAbsolutePath());
                         }
 //                        
 //                        try (FileOutputStream fos = new FileOutputStream(xml)) {
@@ -116,7 +127,6 @@ public class ManifestBean implements Serializable {
         File file = new File(zipFile);
         System.out.println(file.getAbsolutePath());
         Faces.sendFile(file, true);
-        tmpDir.delete();
 
     }
 

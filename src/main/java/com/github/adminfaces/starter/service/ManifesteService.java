@@ -60,36 +60,37 @@ public class ManifesteService implements Serializable {
     private AWPAPNWebService_Service ws;
     private Unmarshaller unmarshaller;
     private Marshaller marshaller;
+    private int i;
 
     @PostConstruct
     public void init() {
         System.out.println("[" + LocalDateTime.now() + "] Service de recherche de manifestes à douane demarré ...");
-        ws = new AWPAPNWebService_Service();
-        awService = ws.getAWPAPNWebServicePort();
         factory = new ObjectFactory();
     }
 
-    @Schedule(hour = "*", minute = "*/10", persistent = false)
+    @Schedule(hour = "*", persistent = false)
     public void verifierNouveauManifestDouane() {
+        ws = new AWPAPNWebService_Service();
+        awService = ws.getAWPAPNWebServicePort();
+
         ZoneId defaultZoneId = ZoneId.systemDefault();
 
         //creating the instance of LocalDate using the day, month, year info
         LocalDate localDate = LocalDate.now();
 
         //local date + atStartOfDay() + default time zone + toInstant() = Date
+        Date today_6 = Date.from(localDate.minusDays(6).atStartOfDay(defaultZoneId).toInstant());
         Date today = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 
-        //Displaying LocalDate and Date
-        System.out.println("LocalDate is: " + localDate);
-        System.out.println("Date is: " + today);
-        System.out.println("[" + today.toString() + "] Recherche de nouveaux manifestes douanes déposés aujourd'hui ...");
+        //Displaying LocalDate and Date                        
+        Logger.getLogger("DOUANE WEB SERVICE").info("Recherche de nouveaux manifestes douanes déposés aujourd'hui ...");
         List<RefManResult> refManList = null;
-        refManList = rechercherRefMan(today, today, "IMP");
-        refManList.addAll(rechercherRefMan(today, today, "EXP"));
+        refManList = rechercherRefMan(today_6, today, "IMP");
+        refManList.addAll(rechercherRefMan(today_6, today, "EXP"));
         if (!refManList.isEmpty()) {
+            i = 0;
             refManList.forEach(ref -> {
                 try {
-                    System.out.println("TELECHARGEMENT DE " + ref.getNavire() + "-" + ref.getNumeroVoyage() + "-" + ref.getCodeTransporteur() + "-" + ref.getDateArrivee() + ".xml");
                     InputStream stream = recupererStreamManifeste(ref);
                     JAXBContext jaxbContext = JAXBContext.newInstance(Awmds.class);
                     unmarshaller = jaxbContext.createUnmarshaller();
@@ -98,12 +99,17 @@ public class ManifesteService implements Serializable {
                     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                     String[] tmp = ref.getDateEnregistrement().split("/");
                     String date_enregistrement_douane = tmp[2] + tmp[1] + tmp[0];
-                    File xml = new File("D:\\escales\\manifest\\douane" + File.separator + ref.getNavire().replaceAll("/", "") + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + "-" + date_enregistrement_douane + ".xml");
+                    String navire = ref.getNavire() != null ? ref.getNavire().replaceAll("/", "").replaceAll("\"", "").replaceAll(" ", "_") : "";
+                    String filename = "D:\\escales\\manifest\\douane" + File.separator + tmp[2] + File.separator + tmp[1] + File.separator + tmp[0] + File.separator + navire + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + "-" + date_enregistrement_douane + ".xml";
+
+                    File xml = new File(filename);
 
                     // Marshalling and saving XML to the file.
                     if (!xml.exists()) {
+                        xml.getParentFile().mkdirs();
                         marshaller.marshal(awmds, xml);
-                        System.out.println("ENREGISTREMENT: " + xml.getAbsolutePath());
+                        i++;
+                        System.out.println("TECHARGEMENT N° " + i + " => " + xml.getAbsolutePath());
                     }
 
                 } catch (JAXBException ex) {
@@ -129,14 +135,20 @@ public class ManifesteService implements Serializable {
             System.out.println("Date de fin : " + inRef.getFin());
             System.out.println("Trafic : " + inRef.getType());
             List<RefManResult> list = awService.getManListRef(inRef);
-            System.out.println("Manifeste(s) trouvé(s) : " + list.size());
 
-            refManList = list.stream().filter(m -> m.getBureauDouane() != null && m.getBureauDouane().contains("DD141") || m.getBureauDouane() != null && m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
+            refManList = list.stream().filter(m -> m.getBureauDouane() != null && m.getBureauDouane().contains("DD141")
+                    || m.getBureauDouane() != null && m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
+
+            System.out.println("Manifeste(s) trouvé(s) : " + refManList.size());
         }
         return refManList;
     }
 
     public InputStream recupererStreamManifeste(RefManResult ref) {
+        if (awService == null) {
+            ws = new AWPAPNWebService_Service();
+            awService = ws.getAWPAPNWebServicePort();
+        }
         InputReferenceGetManifest refman = factory.createInputReferenceGetManifest();
         refman.setDateDepart(ref.getDateDepart());
         refman.setNumEnreg(ref.getNumeroEnregistrement());

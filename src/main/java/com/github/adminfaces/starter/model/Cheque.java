@@ -5,57 +5,51 @@
  */
 package com.github.adminfaces.starter.model;
 
+import com.github.adminfaces.persistence.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Immutable;
 
 /**
  *
- * @author Calvin ILOKI
+ * @author Administrateur
  */
 @Entity
-@Table(name = "CHEQUE", catalog = "", schema = "PPNCARGO")
+@Table(name = "MV_CHEQUE", catalog = "", schema = "PPNCARGO")
+@Immutable
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Cheque.findAll", query = "SELECT c FROM Cheque c"),
-    @NamedQuery(name = "Cheque.findByChcleunik", query = "SELECT c FROM Cheque c WHERE c.chcleunik = :chcleunik"),
-    @NamedQuery(name = "Cheque.findByNumero", query = "SELECT c FROM Cheque c WHERE c.numero = :numero"),
-    @NamedQuery(name = "Cheque.findByLDate", query = "SELECT c FROM Cheque c WHERE c.lDate = :lDate"),
-    @NamedQuery(name = "Cheque.findByLHeure", query = "SELECT c FROM Cheque c WHERE c.lHeure = :lHeure"),
-    @NamedQuery(name = "Cheque.findByMntTtc", query = "SELECT c FROM Cheque c WHERE c.mntTtc = :mntTtc"),
-    @NamedQuery(name = "Cheque.findByTexte", query = "SELECT c FROM Cheque c WHERE c.texte = :texte"),
-    @NamedQuery(name = "Cheque.findByControle", query = "SELECT c FROM Cheque c WHERE c.controle = :controle"),
-    @NamedQuery(name = "Cheque.findByGestion", query = "SELECT c FROM Cheque c WHERE c.gestion = :gestion"),
-    @NamedQuery(name = "Cheque.findByStatut", query = "SELECT c FROM Cheque c WHERE c.statut = :statut"),
-    @NamedQuery(name = "Cheque.findByCreateur", query = "SELECT c FROM Cheque c WHERE c.createur = :createur"),
-    @NamedQuery(name = "Cheque.findByDCreat", query = "SELECT c FROM Cheque c WHERE c.dCreat = :dCreat"),
-    @NamedQuery(name = "Cheque.findByHCreat", query = "SELECT c FROM Cheque c WHERE c.hCreat = :hCreat"),
-    @NamedQuery(name = "Cheque.findByUtilisat", query = "SELECT c FROM Cheque c WHERE c.utilisat = :utilisat"),
-    @NamedQuery(name = "Cheque.findByDModif", query = "SELECT c FROM Cheque c WHERE c.dModif = :dModif"),
-    @NamedQuery(name = "Cheque.findByHModif", query = "SELECT c FROM Cheque c WHERE c.hModif = :hModif"),
-    @NamedQuery(name = "Cheque.findByCicleunik", query = "SELECT c FROM Cheque c WHERE c.cicleunik = :cicleunik"),
-    @NamedQuery(name = "Cheque.findByBocleunik", query = "SELECT c FROM Cheque c WHERE c.bocleunik = :bocleunik"),
-    @NamedQuery(name = "Cheque.findByBanque", query = "SELECT c FROM Cheque c WHERE c.banque = :banque"),
-    @NamedQuery(name = "Cheque.findByNumeroCompte", query = "SELECT c FROM Cheque c WHERE c.numeroCompte = :numeroCompte"),
-    @NamedQuery(name = "Cheque.findByModeReglement", query = "SELECT c FROM Cheque c WHERE c.modeReglement = :modeReglement"),
-    @NamedQuery(name = "Cheque.findByMontantVentile", query = "SELECT c FROM Cheque c WHERE c.montantVentile = :montantVentile"),
-    @NamedQuery(name = "Cheque.findByClient", query = "SELECT c FROM Cheque c WHERE c.client = :client"),
-    @NamedQuery(name = "Cheque.findByDateSouscription", query = "SELECT c FROM Cheque c WHERE c.dateSouscription = :dateSouscription"),
-    @NamedQuery(name = "Cheque.findByEcheanceEffet", query = "SELECT c FROM Cheque c WHERE c.echeanceEffet = :echeanceEffet"),
-    @NamedQuery(name = "Cheque.findByTransfertCompta", query = "SELECT c FROM Cheque c WHERE c.transfertCompta = :transfertCompta")})
-public class Cheque implements Serializable {
+    @NamedQuery(name = "Cheque.findAll", query = "SELECT m FROM Cheque m"),
+    @NamedQuery(name = "Cheque.findById", query = "SELECT m FROM Cheque m WHERE m.id = :id"),
+    @NamedQuery(name = "Cheque.findByNumero", query = "SELECT m FROM Cheque m WHERE m.numero = :numero"),
+    @NamedQuery(name = "Cheque.findByDateCheque", query = "SELECT m FROM Cheque m WHERE m.dateCheque = :dateCheque"),
+    @NamedQuery(name = "Cheque.findByMontantTtc", query = "SELECT m FROM Cheque m WHERE m.montantTtc = :montantTtc"),
+    @NamedQuery(name = "Cheque.findByMontantVentile", query = "SELECT m FROM Cheque m WHERE m.montantVentile = :montantVentile"),
+    @NamedQuery(name = "Cheque.findByDetails", query = "SELECT m FROM Cheque m WHERE m.details = :details"),
+    @NamedQuery(name = "Cheque.findByStatut", query = "SELECT m FROM Cheque m WHERE m.statut = :statut"),
+    @NamedQuery(name = "Cheque.findByBanque", query = "SELECT m FROM Cheque m WHERE m.banque = :banque"),
+    @NamedQuery(name = "Cheque.findByModeReglement", query = "SELECT m FROM Cheque m WHERE m.modeReglement = :modeReglement"),
+    @NamedQuery(name = "Cheque.findByClient", query = "SELECT m FROM Cheque m WHERE m.client = :client"),
+    @NamedQuery(name = "Cheque.findByDateSouscription", query = "SELECT m FROM Cheque m WHERE m.dateSouscription = :dateSouscription"),
+    @NamedQuery(name = "Cheque.findByEcheanceEffet", query = "SELECT m FROM Cheque m WHERE m.echeanceEffet = :echeanceEffet"),
+    @NamedQuery(name = "Cheque.findByTransfertCompta", query = "SELECT m FROM Cheque m WHERE m.transfertCompta = :transfertCompta"),
+    @NamedQuery(name = "Cheque.findByCreateur", query = "SELECT m FROM Cheque m WHERE m.createur = :createur"),
+    @NamedQuery(name = "Cheque.findByDateCreation", query = "SELECT m FROM Cheque m WHERE m.dateCreation = :dateCreation"),
+    @NamedQuery(name = "Cheque.findByHeureCreation", query = "SELECT m FROM Cheque m WHERE m.heureCreation = :heureCreation"),
+    @NamedQuery(name = "Cheque.findByUtilsateur", query = "SELECT m FROM Cheque m WHERE m.utilsateur = :utilsateur"),
+    @NamedQuery(name = "Cheque.findByDateModif", query = "SELECT m FROM Cheque m WHERE m.dateModif = :dateModif"),
+    @NamedQuery(name = "Cheque.findByHeureModif", query = "SELECT m FROM Cheque m WHERE m.heureModif = :heureModif")})
+public class Cheque extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -63,61 +57,29 @@ public class Cheque implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "CHCLEUNIK")
-    private BigDecimal chcleunik;
+    private Integer id;
     @Size(max = 12)
     @Column(name = "NUMERO")
     private String numero;
     @Size(max = 8)
-    @Column(name = "L_DATE")
-    private String lDate;
-    @Size(max = 4)
-    @Column(name = "L_HEURE")
-    private String lHeure;
-    @Column(name = "MNT_TTC")
-    private BigDecimal mntTtc;
+    @Column(name = "DATE_CHEQUE")
+    private String dateCheque;
+    @Column(name = "MONTANT_TTC")
+    private BigDecimal montantTtc;
+    @Column(name = "MONTANT_VENTILE")
+    private BigDecimal montantVentile;
     @Size(max = 80)
-    @Column(name = "TEXTE")
-    private String texte;
-    @Column(name = "CONTROLE")
-    private Short controle;
-    @Column(name = "GESTION")
-    private BigInteger gestion;
+    @Column(name = "DETAILS")
+    private String details;
     @Size(max = 8)
     @Column(name = "STATUT")
     private String statut;
-    @Size(max = 10)
-    @Column(name = "CREATEUR")
-    private String createur;
-    @Size(max = 8)
-    @Column(name = "D_CREAT")
-    private String dCreat;
-    @Size(max = 4)
-    @Column(name = "H_CREAT")
-    private String hCreat;
-    @Size(max = 10)
-    @Column(name = "UTILISAT")
-    private String utilisat;
-    @Size(max = 8)
-    @Column(name = "D_MODIF")
-    private String dModif;
-    @Size(max = 4)
-    @Column(name = "H_MODIF")
-    private String hModif;
-    @Column(name = "CICLEUNIK")
-    private BigInteger cicleunik;
-    @Column(name = "BOCLEUNIK")
-    private BigInteger bocleunik;
     @Size(max = 20)
     @Column(name = "BANQUE")
     private String banque;
-    @Size(max = 20)
-    @Column(name = "NUMERO_COMPTE")
-    private String numeroCompte;
-    @Size(max = 8)
+    @Size(max = 14)
     @Column(name = "MODE_REGLEMENT")
     private String modeReglement;
-    @Column(name = "MONTANT_VENTILE")
-    private BigDecimal montantVentile;
     @Size(max = 20)
     @Column(name = "CLIENT")
     private String client;
@@ -129,23 +91,35 @@ public class Cheque implements Serializable {
     private String echeanceEffet;
     @Column(name = "TRANSFERT_COMPTA")
     private Short transfertCompta;
-    
-    @OneToMany(mappedBy = "cheque")
-    private List<Paiement> listPaiement;
+    @Size(max = 10)
+    @Column(name = "CREATEUR")
+    private String createur;
+    @Size(max = 8)
+    @Column(name = "DATE_CREATION")
+    private String dateCreation;
+    @Size(max = 4)
+    @Column(name = "HEURE_CREATION")
+    private String heureCreation;
+    @Size(max = 10)
+    @Column(name = "UTILSATEUR")
+    private String utilsateur;
+    @Size(max = 8)
+    @Column(name = "DATE_MODIF")
+    private String dateModif;
+    @Size(max = 4)
+    @Column(name = "HEURE_MODIF")
+    private String heureModif;
 
     public Cheque() {
     }
 
-    public Cheque(BigDecimal chcleunik) {
-        this.chcleunik = chcleunik;
+    @Override
+    public Integer getId() {
+        return id;
     }
 
-    public BigDecimal getChcleunik() {
-        return chcleunik;
-    }
-
-    public void setChcleunik(BigDecimal chcleunik) {
-        this.chcleunik = chcleunik;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNumero() {
@@ -156,52 +130,36 @@ public class Cheque implements Serializable {
         this.numero = numero;
     }
 
-    public String getLDate() {
-        return lDate;
+    public String getDateCheque() {
+        return dateCheque;
     }
 
-    public void setLDate(String lDate) {
-        this.lDate = lDate;
+    public void setDateCheque(String dateCheque) {
+        this.dateCheque = dateCheque;
     }
 
-    public String getLHeure() {
-        return lHeure;
+    public BigDecimal getMontantTtc() {
+        return montantTtc;
     }
 
-    public void setLHeure(String lHeure) {
-        this.lHeure = lHeure;
+    public void setMontantTtc(BigDecimal montantTtc) {
+        this.montantTtc = montantTtc;
     }
 
-    public BigDecimal getMntTtc() {
-        return mntTtc;
+    public BigDecimal getMontantVentile() {
+        return montantVentile;
     }
 
-    public void setMntTtc(BigDecimal mntTtc) {
-        this.mntTtc = mntTtc;
+    public void setMontantVentile(BigDecimal montantVentile) {
+        this.montantVentile = montantVentile;
     }
 
-    public String getTexte() {
-        return texte;
+    public String getDetails() {
+        return details;
     }
 
-    public void setTexte(String texte) {
-        this.texte = texte;
-    }
-
-    public Short getControle() {
-        return controle;
-    }
-
-    public void setControle(Short controle) {
-        this.controle = controle;
-    }
-
-    public BigInteger getGestion() {
-        return gestion;
-    }
-
-    public void setGestion(BigInteger gestion) {
-        this.gestion = gestion;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public String getStatut() {
@@ -212,70 +170,6 @@ public class Cheque implements Serializable {
         this.statut = statut;
     }
 
-    public String getCreateur() {
-        return createur;
-    }
-
-    public void setCreateur(String createur) {
-        this.createur = createur;
-    }
-
-    public String getDCreat() {
-        return dCreat;
-    }
-
-    public void setDCreat(String dCreat) {
-        this.dCreat = dCreat;
-    }
-
-    public String getHCreat() {
-        return hCreat;
-    }
-
-    public void setHCreat(String hCreat) {
-        this.hCreat = hCreat;
-    }
-
-    public String getUtilisat() {
-        return utilisat;
-    }
-
-    public void setUtilisat(String utilisat) {
-        this.utilisat = utilisat;
-    }
-
-    public String getDModif() {
-        return dModif;
-    }
-
-    public void setDModif(String dModif) {
-        this.dModif = dModif;
-    }
-
-    public String getHModif() {
-        return hModif;
-    }
-
-    public void setHModif(String hModif) {
-        this.hModif = hModif;
-    }
-
-    public BigInteger getCicleunik() {
-        return cicleunik;
-    }
-
-    public void setCicleunik(BigInteger cicleunik) {
-        this.cicleunik = cicleunik;
-    }
-
-    public BigInteger getBocleunik() {
-        return bocleunik;
-    }
-
-    public void setBocleunik(BigInteger bocleunik) {
-        this.bocleunik = bocleunik;
-    }
-
     public String getBanque() {
         return banque;
     }
@@ -284,28 +178,12 @@ public class Cheque implements Serializable {
         this.banque = banque;
     }
 
-    public String getNumeroCompte() {
-        return numeroCompte;
-    }
-
-    public void setNumeroCompte(String numeroCompte) {
-        this.numeroCompte = numeroCompte;
-    }
-
     public String getModeReglement() {
         return modeReglement;
     }
 
     public void setModeReglement(String modeReglement) {
         this.modeReglement = modeReglement;
-    }
-
-    public BigDecimal getMontantVentile() {
-        return montantVentile;
-    }
-
-    public void setMontantVentile(BigDecimal montantVentile) {
-        this.montantVentile = montantVentile;
     }
 
     public String getClient() {
@@ -340,10 +218,58 @@ public class Cheque implements Serializable {
         this.transfertCompta = transfertCompta;
     }
 
+    public String getCreateur() {
+        return createur;
+    }
+
+    public void setCreateur(String createur) {
+        this.createur = createur;
+    }
+
+    public String getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public String getHeureCreation() {
+        return heureCreation;
+    }
+
+    public void setHeureCreation(String heureCreation) {
+        this.heureCreation = heureCreation;
+    }
+
+    public String getUtilsateur() {
+        return utilsateur;
+    }
+
+    public void setUtilsateur(String utilsateur) {
+        this.utilsateur = utilsateur;
+    }
+
+    public String getDateModif() {
+        return dateModif;
+    }
+
+    public void setDateModif(String dateModif) {
+        this.dateModif = dateModif;
+    }
+
+    public String getHeureModif() {
+        return heureModif;
+    }
+
+    public void setHeureModif(String heureModif) {
+        this.heureModif = heureModif;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (chcleunik != null ? chcleunik.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -354,7 +280,7 @@ public class Cheque implements Serializable {
             return false;
         }
         Cheque other = (Cheque) object;
-        if ((this.chcleunik == null && other.chcleunik != null) || (this.chcleunik != null && !this.chcleunik.equals(other.chcleunik))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -362,63 +288,7 @@ public class Cheque implements Serializable {
 
     @Override
     public String toString() {
-        return "com.github.adminfaces.starter.model.Cheque[ chcleunik=" + chcleunik + " ]";
-    }
-
-    public String getlDate() {
-        return lDate;
-    }
-
-    public void setlDate(String lDate) {
-        this.lDate = lDate;
-    }
-
-    public String getlHeure() {
-        return lHeure;
-    }
-
-    public void setlHeure(String lHeure) {
-        this.lHeure = lHeure;
-    }
-
-    public String getdCreat() {
-        return dCreat;
-    }
-
-    public void setdCreat(String dCreat) {
-        this.dCreat = dCreat;
-    }
-
-    public String gethCreat() {
-        return hCreat;
-    }
-
-    public void sethCreat(String hCreat) {
-        this.hCreat = hCreat;
-    }
-
-    public String getdModif() {
-        return dModif;
-    }
-
-    public void setdModif(String dModif) {
-        this.dModif = dModif;
-    }
-
-    public String gethModif() {
-        return hModif;
-    }
-
-    public void sethModif(String hModif) {
-        this.hModif = hModif;
-    }
-
-    public List<Paiement> getListPaiement() {
-        return listPaiement;
-    }
-
-    public void setListPaiement(List<Paiement> listPaiement) {
-        this.listPaiement = listPaiement;
+        return id.toString();
     }
     
 }

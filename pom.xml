@@ -243,28 +243,32 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.4.0.905</version>
-            </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-micro-maven-plugin</artifactId>
+                <version>1.0.7</version>
                 <configuration>
                     <payaraVersion>${version.payara}</payaraVersion>
                     <deployWar>true</deployWar>
                     <commandLineOptions>
                         <option>
-                            <key>--autoBindHttp</key>
+                            <key>-!-autoBindHttp</key>
                         </option>
                         <option>
-                            <key>--deploy</key>
+                            <key>-!-addLibs</key>
+                            <value>${rootdir.payara}/lib/</value>
+                        </option>
+                        <option>
+                            <key>-!-deploy</key>
                             <value>${project.build.directory}/${project.build.finalName}</value>
                         </option>
                     </commandLineOptions>
                 </configuration>
-                <version>1.0.4</version>
+            </plugin-->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.4.0.905</version>
             </plugin>
             <plugin>
                 <groupId>org.jvnet.jax-ws-commons</groupId>
@@ -309,6 +313,28 @@
                         </resource>
                     </webResources>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>fish.payara.maven.plugins</groupId>
+                <artifactId>payara-micro-maven-plugin</artifactId>
+                <configuration>
+                    <payaraVersion>${version.payara}</payaraVersion>
+                    <deployWar>false</deployWar>
+                    <commandLineOptions>
+                        <option>
+                            <key>--autoBindHttp</key>
+                        </option>
+                        <option>
+                            <key>--addLibs</key>
+                            <value>lib</value>
+                        </option>
+                        <option>
+                            <key>--deploy</key>
+                            <value>${project.build.directory}/${project.build.finalName}</value>
+                        </option>
+                    </commandLineOptions>
+                </configuration>
+                <version>1.0.4</version>
             </plugin>
         </plugins>
         <finalName>SysAide</finalName>

@@ -15,6 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,8 +65,8 @@ public class ImportExcel {
 
     @PostConstruct
     public void init() {
-        QUERY_CT = "INSERT INTO CONGO_TERMINAL VALUES (SEQ_PAPN_CONGO_TERMINAL.nextval"
-                + ",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        QUERY_CT = "INSERT INTO DSIPAPN.CONGO_TERMINAL_CONTENEUR VALUES (DSIPAPN.SEQ_CONGO_TERMINAL_CONTENEUR.nextval"
+                + ",?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     }
 
     public void insertData(FileUploadEvent event) throws SQLException {
@@ -86,7 +92,7 @@ public class ImportExcel {
             workbk = new XSSFWorkbook(file);
             XSSFSheet sheet = workbk.getSheetAt(0);
             Iterator rows = sheet.rowIterator();
-            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmm");
             System.out.println("Nombre de table:" + sheet.getTables().size());
 //            XSSFTable tab = sheet.getTables().get(0);
 //            CellReference cellRefTopLeft = new CellReference(sheet.getFirstRowNum(), 0);
@@ -152,6 +158,7 @@ public class ImportExcel {
                 stmt.setString(31, "");//VOYAGE IN
                 stmt.setString(32, "");//TYPE IN 
                 stmt.setString(33, row.getCell(13) == null ? "" : row.getCell(13).toString());//CARRIER
+                stmt.setString(34, dateFormat.format(LocalDateTime.now()));//
                 if (i % 1000 == 0) {
                     progress = (row.getRowNum() * 100.0) / (sheet.getLastRowNum());
                     System.out.print("*");

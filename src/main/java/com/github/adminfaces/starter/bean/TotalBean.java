@@ -11,6 +11,8 @@ import com.github.adminfaces.starter.service.DocumentEVPService;
 import com.github.adminfaces.starter.service.DocumentService;
 import com.github.adminfaces.starter.service.EscaleService;
 import com.github.adminfaces.starter.service.VueAllEvpService;
+import com.github.adminfaces.starter.ws.ManifesteDouane;
+import com.github.adminfaces.template.bean.LayoutMB;
 import java.beans.EventHandler;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,6 +36,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.xml.ws.Endpoint;
 import org.omnifaces.util.Faces;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.charts.ChartData;
@@ -61,6 +64,9 @@ public class TotalBean implements Serializable {
     private DocumentEVPService documentEVPService;
     @Inject
     private VueAllEvpService vueAllEvpService;
+    
+    @Inject
+    private LayoutMB layoutMB;
 
     private TreeNode root;
     private TreeNode rootEVP;
@@ -83,7 +89,7 @@ public class TotalBean implements Serializable {
     private Date debut;
     private Date fin;
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
         if (annee == null) {
             annee = LocalDate.now().getYear();
@@ -116,7 +122,8 @@ public class TotalBean implements Serializable {
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
         listSourceEVPAnnee = vueAllEvpService.listeEVPParSourceEtParAnnee(annee);
-        System.out.println("TotalBean est initialisé...");
+        System.out.println("TotalBean est initialisé..." + layoutMB.getTemplate());
+//        Endpoint.publish("http://localhost:8082/ManifesteDouane/manifesteDouane", new ManifesteDouane());
     }
     
     public void toListEscale(){

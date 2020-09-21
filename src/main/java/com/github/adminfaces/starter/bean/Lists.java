@@ -42,5 +42,6 @@ public class Lists implements Serializable {
                 .select(String.class, crud_Service.attribute(Car_.model))
                 .getResultList();
     }
+    
 
 }

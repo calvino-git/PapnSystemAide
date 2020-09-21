@@ -4,6 +4,10 @@
     <jta-data-source>java:app/cargo</jta-data-source>
     <class>com.github.adminfaces.starter.model.Marchfact</class>
     <class>com.github.adminfaces.starter.model.ConteneurDouane</class>
+    <class>com.github.adminfaces.starter.model.Cheque</class>
+    <class>com.github.adminfaces.starter.model.Reglement</class>
+    <class>com.github.adminfaces.starter.model.Paiement</class>
+    <class>com.github.adminfaces.starter.model.Client</class>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
       <property name="eclipselink.ddl-generation" value="none"/>

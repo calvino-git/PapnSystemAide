@@ -1,28 +1,263 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="#{layoutMB.template}"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
 
-    <ui:define name="head-end">
-        <ui:param name="renderBreadCrumb" value="false"/>
+    <ui:define name="metadata">
+        <ui:param name="title" value="BON DE RECOUVREMENT"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: .7;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                color: #3c8dbc;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+            .ui-columntoggler{
+                width: 125px !important;
+            }
+
+            .ui-columntoggler .ui-columntoggler-item label {
+                padding-left: 1.5em !important;
+                margin-bottom: -5px !important;
+            }
+            .ui-button-text-only .ui-button-text {
+                padding: .5em .2em !important;
+            }
+            .ui-panelgrid .ui-panelgrid-cell {
+                padding: 0px 10px !important;
+            }
+            .ui-fluid .ui-inputfield {
+                height: 36px !important;
+            }
+
+        </style>
     </ui:define>
 
-    <ui:define name="title">
-        <h2 class="align-center">
-            <span class="">
-                FACTURE
-            </span>
-        </h2>
+    <ui:define name="description">
+        Consulter les bons de recouvrement
     </ui:define>
+
     <ui:define name="body">
-        
+
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-body with-border">
+                    <p:dataTable id="cheque" widgetVar="cheque" var="ch" value="#{chequeBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{ch.id}"
+                                 filteredValue="#{chequeBean.filteredValue}" sortBy="#{ch.id}" sortOrder="descending" rowIndexVar="x"
+                                 selection="#{chequeBean.selection}"  selectionMode="single" sortMode="single"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,20,30">
+
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+
+                        <f:facet name="header">
+                            <div class="ui-g ui-fluid">
+                                 <div class="ui-g-2">
+                                    <p:inputText id="inptId" value="#{chequeBean.filter.entity.numero}" placeholder="N° d'escale"/>
+                                </div>
+                                <div class="ui-g-3">
+                                    <p:datePicker id="date" placeholder="Période" showIcon="true" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{chequeBean.range}"/>
+                                </div>
+                                <div class="ui-g-3">
+                                    <p:selectOneButton value="#{chequeBean.filter.params.catnavire}">
+                                        <f:selectItem itemLabel="TOUT" />
+                                        <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
+                                        <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
+                                    </p:selectOneButton>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:commandButton id="brFind" value="Rechercher"
+                                                     process="@form"
+                                                     update="@form"
+                                                     icon="fa fa-search"
+                                                     styleClass="btn-primary"/>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" icon="fa fa-list" />
+                                    <p:columnToggler  datasource="cheque" trigger="toggler" />
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="N°" width="50" styleClass="align-center">
+                            #{x+1}
+                        </p:column>
+
+                        <p:column headerText="N°BR" width="100" sortBy="#{ch.id}" filterBy="#{ch.id}" class="align-center">
+                            <h:outputText class="text-bold" value="#{ch.id}"/>
+                        </p:column>
+                        <p:column headerText="NUMERO" filterBy="#{ch.numero}" sortBy="#{ch.numero}">
+                            #{ch.numero}
+                        </p:column>
+                        <p:column headerText="BANQUE" filterBy="#{ch.banque}" sortBy="#{ch.banque}">
+                            #{ch.banque}
+                        </p:column>
+                        <p:column headerText="MODE" filterBy="#{ch.modeReglement}" sortBy="#{ch.modeReglement}">
+                            #{ch.modeReglement}
+                        </p:column>
+                        <p:column headerText="CLIENT" width="200" filterBy="#{ch.client}" sortBy="#{ch.client}" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:autoComplete value="#{chequeBean.filter.entity.client}" forceSelection="true"
+                                                minQueryLength="2" queryDelay="500" dropdown="true"
+                                                completeMethod="#{chequeBean.completeClient}" scrollHeight="300">
+                                    <p:ajax event="itemSelect" process="@this" update="@none"
+                                            oncomplete="PF('cheque').filter()"/>
+                                </p:autoComplete>
+                            </f:facet>
+                            #{ch.client}
+                        </p:column>
+                        <p:column headerText="STATUT" filterBy="#{ch.statut}" sortBy="#{ch.statut}">
+                            #{ch.statut}
+                        </p:column>
+                        <p:column headerText="DATE" width="100" class="align-center" filterBy="#{ch.dateCheque}" sortBy="#{ch.dateCheque}">
+                            <h:outputText value="#{ch.dateCheque}" converter="#{dateConverter}"/>
+                        </p:column>
+                        <p:column headerText="DETAILS" filterBy="#{ch.details}" sortBy="#{ch.details}">
+                            #{ch.details}
+                        </p:column>
+                        <p:column headerText="MONTANT(TTC)" filterBy="#{ch.montantTtc}" sortBy="#{ch.montantTtc}">
+                            <h:outputText value="#{ch.montantTtc}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="VENTILE" filterBy="#{ch.montantVentile}" sortBy="#{ch.montantVentile}">
+                            <h:outputText value="#{ch.montantVentile}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="SOUSCRIPTION" filterBy="#{ch.dateSouscription}" sortBy="#{ch.dateSouscription}" visible="false">
+                            #{ch.dateSouscription}
+                        </p:column>
+                        <p:column headerText="ECHEANCE" filterBy="#{ch.echeanceEffet}" sortBy="#{ch.echeanceEffet}" visible="false">
+                            #{ch.echeanceEffet}
+                        </p:column>
+                        <p:column headerText="COMPTA" filterBy="#{ch.transfertCompta}" sortBy="#{ch.transfertCompta}">
+                            #{ch.transfertCompta==0?'NON':'OUI'}
+                        </p:column>
+                        <p:column headerText="CREATEUR" filterBy="#{ch.createur}" sortBy="#{ch.createur}" visible="false">
+                            #{ch.createur}
+                        </p:column>
+                        <p:column headerText="CREATION" filterBy="#{ch.dateCreation}" sortBy="#{ch.dateCreation} #{heureCreation}" visible="false">
+                            #{ch.dateCreation} #{heureCreation}
+                        </p:column>
+                        <p:column headerText="MODIF. PAR" filterBy="#{ch.utilsateur}" sortBy="#{ch.utilsateur}" visible="false">
+                            #{ch.utilsateur}
+                        </p:column>
+                        <p:column headerText="MODIF." filterBy="#{ch.dateModif}" sortBy="#{ch.dateModif} #{ch.heureModif}" visible="false">
+                            #{ch.dateModif} #{ch.heureModif}
+                        </p:column>
+                        <f:facet name="footer">
+                            <div id="footer">
+                                Critères <i class="fa fa-filter"/>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-solid box-danger">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+
+        <p:dialog header="Apercu" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
+                  width="500" responsive="true" draggable="false" styleClass="box-success">
+
+            <h:form>
+                <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
+                                 ignoreAutoUpdate="true" styleClass="btn-primary" oncomplete="PF('searchDialog').hide()"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Clear" action="#{chequeBean.clear}" process="@this"
+                                 update="@form @(.ui-datatable, .ui-tooltip)" styleClass="btn-success"
+                                 icon="fa fa-refresh"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Close" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
+                <p:separator/>
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="navire" value="#{msg['label.navire']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:autoComplete id="navire" value="#{chequeBean.filter.entity.navire}" forceSelection="true"
+                                        minQueryLength="2" queryDelay="500" dropdown="true" 
+                                        completeMethod="#{chequeBean.completeNavire}" maxResults="15">
+                        </p:autoComplete>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel for="numero" value="#{msg['label.numero']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="numero" value="#{chequeBean.filter.entity.numero}"/>
+                    </div>
+
+                    <div class="ui-g-12">
+                        <p:outputLabel for="situat" value="#{msg['label.situat']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="situat" value="#{chequeBean.filter.entity.situat}"/>
+                    </div>
+
+                    <!--div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="debutETA" value="#{msg['label.debutETA']}"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:inputText id="debutETA" value="#{chequeBean.filter.params.debutETA}"/>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="finETA" value="#{msg['label.finETA']}"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:inputNumber id="finETA" value="#{chequeBean.filter.params.finETA}"/>
+                        </div>
+                    </div-->
+                    <div class="ui-g-6 ui-sm-12 ui-g-nopad">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="eta" value="#{msg['label.ETA']}"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:datePicker id="eta" selectionMode="range" readonlyInput="true" value="#{chequeBean.range}"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:outputPanel>
+            <p:autoUpdate/>
+            <p:tooltip for="@(div[id$=footer])" escape="false" position="top"
+                       showEvent="mouseover" hideEvent="mouseleave"
+                       value="#{chequeBean.searchCriteria}"/>
+        </p:outputPanel>
+
+
     </ui:define>
 
-    <ui:define name="content-end">
-        
-    </ui:define>
 </ui:composition>
-

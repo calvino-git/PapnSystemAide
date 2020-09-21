@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="JOURNAL DE REGLEMENT"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: .7;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                color: #3c8dbc;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+            .ui-columntoggler{
+                width: 125px !important;
+            }
+
+            .ui-columntoggler .ui-columntoggler-item label {
+                padding-left: 1.5em !important;
+                margin-bottom: -5px !important;
+            }
+            .ui-button-text-only .ui-button-text {
+                padding: .5em .2em !important;
+            }
+            .ui-panelgrid .ui-panelgrid-cell {
+                padding: 0px 10px !important;
+            }
+            .ui-fluid .ui-inputfield {
+                height: 36px !important;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        Consulter les reglemenns de facture
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form>
+            <div class="box box-primary">
+                <div class="box-body with-border">
+                    <p:dataTable id="reglement" widgetVar="reglement" var="r" value="#{reglementBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{r.pmcleunik}"
+                                 filteredValue="#{reglementBean.filteredValue}" sortBy="#{r.pmcleunik}" sortOrder="descending" rowIndexVar="x"
+                                 selection="#{reglementBean.selection}"  selectionMode="single" sortMode="single"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,20,30">
+
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+
+                        <f:facet name="header">
+                            <div class="ui-g ui-fluid">
+                                 <div class="ui-g-3">
+                                    <p:inputText id="inptId" value="#{reglementBean.filter.entity.chcleunik}" placeholder="N° Cheque"/>
+                                </div>
+                                <div class="ui-g-5">
+                                    <p:datePicker id="date" placeholder="Période" showIcon="true" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{reglementBean.periode}"/>
+                                </div>
+                                <div class="ui-g-2">
+                                    <p:commandButton id="brFind" value="Rechercher"
+                                                     process="@form"
+                                                     update="@form"
+                                                     icon="fa fa-search"
+                                                     styleClass="btn-primary"/>
+                                </div>
+                                <div class="ui-g-2 align-right">
+                                    <p:commandButton  styleClass="btn-primary" id="toggler" type="button" value="Colonnes" icon="fa fa-list" />
+                                    <p:columnToggler  datasource="reglement" trigger="toggler" />
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="N°" width="50" styleClass="align-center">
+                            #{x+1}
+                        </p:column>
+
+                        <p:column headerText="BR" width="100" sortBy="#{r.chcleunik}" filterBy="#{r.chcleunik}" class="align-center">
+                            <h:outputText class="text-bold" value="#{r.chcleunik}"/>
+                        </p:column>
+                        <p:column headerText="INFO" filterBy="#{r.info}" sortBy="#{r.info}">
+                            #{r.info}
+                        </p:column>
+                        <p:column headerText="BANQUE" filterBy="#{r.banque}" sortBy="#{r.banque}">
+                            #{r.banque}
+                        </p:column>
+                        <p:column headerText="MODE" filterBy="#{r.modeReglement}" sortBy="#{r.modeReglement}">
+                            #{referenceBean.modeReglement(r.modeReglement)}
+                        </p:column>
+                        <p:column headerText="CLIENT" width="200" filterBy="#{r.client}" sortBy="#{r.client}" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:autoComplete value="#{reglementBean.filter.entity.client}" forceSelection="true"
+                                                minQueryLength="2" queryDelay="500" dropdown="true" var="c" itemLabel="#{c.libelle}" itemValue="#{c}"
+                                                completeMethod="#{reglementBean.completeClient}" scrollHeight="300">
+                                    <p:ajax event="itemSelect" process="@this" update="@none"
+                                            oncomplete="PF('cheque').filter()"/>
+                                </p:autoComplete>
+                            </f:facet>
+                            #{r.client.libelle}
+                        </p:column>
+                        <p:column headerText="F. NUMERO" filterBy="#{r.numeroFacture}" sortBy="#{r.numeroFacture}">
+                            #{r.numeroFacture}
+                        </p:column>
+                        <p:column headerText="DATE PAIE." width="100" class="align-center" filterBy="#{r.dateCheque}" sortBy="#{r.dateCheque}">
+                            <h:outputText value="#{r.dateCheque}" converter="#{dateConverter}"/>
+                        </p:column>
+                        <p:column headerText="MNT PAYE" filterBy="#{r.montantPaiement}" sortBy="#{r.montantPaiement}">
+                            <h:outputText value="#{r.montantPaiement}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="MNT VENTILE" filterBy="#{r.montantVentile}" sortBy="#{r.montantVentile}">
+                            <h:outputText value="#{r.montantVentile}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="F. TYPE" filterBy="#{r.redevFacture}" sortBy="#{r.redevFacture}">
+                            #{r.redevFacture}
+                        </p:column>
+                        <p:column headerText="F. DATE" filterBy="#{r.dateFacture}" sortBy="#{r.dateFacture}">
+                            <h:outputText value="#{r.dateFacture}" converter="#{dateConverter}"/>
+                        </p:column>
+                        <p:column headerText="F. MONTANT" filterBy="#{r.montantTTCfacture}" class="align-center">
+                            <h:outputText value="#{r.montantTTCfacture}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="F. SOLDE" filterBy="#{r.soldeFacture}" class="align-center">
+                            <h:outputText value="#{r.soldeFacture}">
+                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                            </h:outputText>
+                        </p:column>
+                        <f:facet name="footer">
+                            <div id="footer">
+                                Critères <i class="fa fa-filter"/>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-solid box-danger">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+        <p:outputPanel>
+            <p:autoUpdate/>
+            <p:tooltip for="@(div[id$=footer])" escape="false" position="top"
+                       showEvent="mouseover" hideEvent="mouseleave"
+                       value="#{reglementBean.searchCriteria}"/>
+        </p:outputPanel>
+
+
+    </ui:define>
+
+</ui:composition>

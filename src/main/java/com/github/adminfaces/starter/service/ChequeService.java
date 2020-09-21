@@ -57,6 +57,8 @@ public class ChequeService extends CrudService<Cheque, Integer> implements Seria
         return criteria()
                 .select(String.class, attribute(Cheque_.client))
                 .likeIgnoreCase(Cheque_.client, "%" + query + "%")
+                .distinct()
+                .orderAsc(Cheque_.client)
                 .getResultList();
     }
 
