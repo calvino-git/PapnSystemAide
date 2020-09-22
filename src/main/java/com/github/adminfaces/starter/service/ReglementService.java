@@ -23,6 +23,8 @@ import java.util.List;
 import static com.github.adminfaces.template.util.Assert.has;
 import com.github.adminfaces.starter.repos.ReglementRepository;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.deltaspike.data.impl.criteria.QueryCriteria;
 
 /**
@@ -44,13 +46,20 @@ public class ReglementService extends CrudService<Reglement, Integer> implements
         Criteria<Reglement, Reglement> criteria = criteria();
 
         //create restrictions based on parameters map
-        if (filter.hasParam("client")) {
-            criteria.eq(Reglement_.banque, filter.getStringParam("banque"));
+        if (filter.hasParam("facture")) {
+            criteria.eq(Reglement_.numeroFacture, filter.getStringParam("facture"));
+        }
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+         if (filter.hasParam("debut") && filter.hasParam("fin")) {
+            criteria.between(Reglement_.dateCheque, fmt.format(filter.getParam("debut",Date.class)),fmt.format(filter.getParam("fin",Date.class)));
         }
 
         //create restrictions based on filter entity
         if (has(filter.getEntity())) {
             Reglement filterEntity = filter.getEntity();
+            if (has(filterEntity.getChcleunik())) {
+                criteria.eq(Reglement_.chcleunik,filterEntity.getChcleunik());
+            }
             if (has(filterEntity.getClient())) {
                 criteria.eq(Reglement_.client,filterEntity.getClient());
             }

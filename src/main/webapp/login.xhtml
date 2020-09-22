@@ -90,7 +90,7 @@
             <div class="box login-box-body">
                 <h:form>
                     <p class="login-box-msg">Se connecter pour lancer une session</p>
-                    <p:messages closable="true"/>
+                    
 
                     <div class="form-group has-feedback">
                         <p:inputText value="#{logonMB.email}" styleClass="form-control" placeholder="Nom d'utilisateur"
@@ -105,7 +105,9 @@
                         <i class="fa fa-lock form-control-feedback" style="font-size: 18px"></i>
                     </div>
                     <div class="row">
+                        
                         <div class="col-xs-12">
+                            <h:outputText style="color: red" value="#{logonMB.errorLogin}" rendered="#{not empty logonMB.errorLogin}"/>
                             <p:selectBooleanCheckbox itemLabel="Rester connecté" value="#{logonMB.remember}"/>
                         </div>
                         <p:spacer height="10"/>

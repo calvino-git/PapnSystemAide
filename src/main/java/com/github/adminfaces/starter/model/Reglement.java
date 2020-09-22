@@ -48,7 +48,6 @@ public class Reglement extends BaseEntity implements Serializable {
     @Size(max = 8)
     @Column(name = "BANQUE")
     private String banque;
-    @Size(max = 4)
     @JoinColumn(name = "CLIENT",referencedColumnName = "CODE")
     @ManyToOne
     private Client client;

@@ -10,8 +10,9 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import static com.github.adminfaces.persistence.util.Messages.addDetailMessage;
+import com.github.adminfaces.starter.model.User;
+import com.github.adminfaces.starter.service.LoginService;
 import com.github.adminfaces.template.config.AdminConfig;
-import java.time.LocalDate;
 import javax.inject.Inject;
 
 /**
@@ -31,17 +32,36 @@ import javax.inject.Inject;
 @Specializes
 public class LogonMB extends AdminSession implements Serializable {
 
-    private String currentUser;
+    private User currentUser;
     private String email;
     private String password;
     private boolean remember;
+    private String errorLogin;
+    private Integer tentative=0;
+
     @Inject
     private AdminConfig adminConfig;
+    @Inject
+    private LoginService loginService;
 
     public void login() throws IOException {
-        currentUser = email;
-        addDetailMessage( email + " est connecté avec succès");
-        Faces.redirect(adminConfig.getIndexPage());
+        currentUser = loginService.checkUser(email, password);
+        if (currentUser != null) {
+            addDetailMessage(currentUser + " est connecté avec succès");
+            Faces.redirect(adminConfig.getIndexPage());
+        }else{
+            errorLogin="Login ou mot de passe incorrect! " + ++tentative;
+            Faces.redirect(adminConfig.getLoginPage());
+        }
+
+    }
+
+    public Integer getTentative() {
+        return tentative;
+    }
+
+    public void setTentative(Integer tentative) {
+        this.tentative = tentative;
     }
 
     @Override
@@ -74,11 +94,19 @@ public class LogonMB extends AdminSession implements Serializable {
         this.remember = remember;
     }
 
-    public String getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(String currentUser) {
+    public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public String getErrorLogin() {
+        return errorLogin;
+    }
+
+    public void setErrorLogin(String errorLogin) {
+        this.errorLogin = errorLogin;
     }
 }

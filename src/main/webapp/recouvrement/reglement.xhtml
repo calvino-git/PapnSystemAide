@@ -110,27 +110,27 @@
                         </p:column>
                         <p:column headerText="CLIENT" width="200" filterBy="#{r.client}" sortBy="#{r.client}" filterMatchMode="contains">
                             <f:facet name="filter">
-                                <p:autoComplete value="#{reglementBean.filter.entity.client}" forceSelection="true"
+                                <p:autoComplete value="#{reglementBean.filter.entity.client}" forceSelection="true" converter="#{clientConverter}"
                                                 minQueryLength="2" queryDelay="500" dropdown="true" var="c" itemLabel="#{c.libelle}" itemValue="#{c}"
                                                 completeMethod="#{reglementBean.completeClient}" scrollHeight="300">
-                                    <p:ajax event="itemSelect" process="@this" update="@none"
-                                            oncomplete="PF('cheque').filter()"/>
+                                    <p:ajax event="itemSelect" process="@this" update="@this"
+                                            oncomplete="PF('reglement').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
                             #{r.client.libelle}
                         </p:column>
-                        <p:column headerText="F. NUMERO" filterBy="#{r.numeroFacture}" sortBy="#{r.numeroFacture}">
+                        <p:column headerText="N° FACT." width="100" filterBy="#{r.numeroFacture}" sortBy="#{r.numeroFacture}">
                             #{r.numeroFacture}
                         </p:column>
                         <p:column headerText="DATE PAIE." width="100" class="align-center" filterBy="#{r.dateCheque}" sortBy="#{r.dateCheque}">
                             <h:outputText value="#{r.dateCheque}" converter="#{dateConverter}"/>
                         </p:column>
-                        <p:column headerText="MNT PAYE" filterBy="#{r.montantPaiement}" sortBy="#{r.montantPaiement}">
+                        <p:column headerText="MNT PAYE" filterBy="#{r.montantPaiement}">
                             <h:outputText value="#{r.montantPaiement}">
                                 <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="MNT VENTILE" filterBy="#{r.montantVentile}" sortBy="#{r.montantVentile}">
+                        <p:column headerText="MNT VENT." filterBy="#{r.montantVentile}">
                             <h:outputText value="#{r.montantVentile}">
                                 <f:convertNumber locale="fr_FR" pattern="#,##0"/>
                             </h:outputText>
