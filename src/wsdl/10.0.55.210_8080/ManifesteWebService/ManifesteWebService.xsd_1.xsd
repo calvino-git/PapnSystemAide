@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3.payara-p3 (2.4.3.payara-maintenance-a5c1c68; 2019-06-17T14:04:38+0200) JAXWS-RI/2.3.2.payara-p2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><xs:schema xmlns:tns="http://ws.douane.papn/" xmlns:ns1="http://interf/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.douane.papn/">
+
+<xs:import namespace="http://interf/" schemaLocation="http://10.0.55.210:8080/ManifesteWebService/ManifesteWebService?xsd=2"/>
+
+<xs:element name="Awmds">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="General_segment">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="General_segment_id">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Customs_office_code" type="xs:string"/>
+<xs:element name="Voyage_number" type="xs:string"/>
+<xs:element name="Date_of_departure" type="xs:string"/>
+<xs:element name="Date_of_arrival" type="xs:string" minOccurs="0"/>
+<xs:element name="Time_of_arrival" type="xs:time" minOccurs="0"/>
+<xs:element name="Date_of_last_discharge" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Totals_segment">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Total_number_of_bols" type="xs:int"/>
+<xs:element name="Total_number_of_packages" type="xs:int"/>
+<xs:element name="Total_number_of_containers" type="xs:int"/>
+<xs:element name="Total_gross_mass" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Transport_information">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Carrier">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Carrier_code" type="xs:string"/>
+<xs:element name="Carrier_name" type="xs:string" minOccurs="0"/>
+<xs:element name="Carrier_address" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Shipping_Agent" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Shipping_Agent_code" type="xs:string"/>
+<xs:element name="Shipping_Agent_name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Mode_of_transport_code" type="xs:string"/>
+<xs:element name="Identity_of_transporter" type="xs:string" minOccurs="0"/>
+<xs:element name="Nationality_of_transporter_code" type="xs:string"/>
+<xs:element name="Place_of_transporter" type="xs:string" minOccurs="0"/>
+<xs:element name="Registration_number_of_transport_code" type="xs:string" minOccurs="0"/>
+<xs:element name="Date_of_registration" type="xs:string" minOccurs="0"/>
+<xs:element name="Master_information" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Load_unload_place">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Place_of_departure_code" type="xs:string"/>
+<xs:element name="Place_of_destination_code" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Tonnage" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Tonnage_net_weight" type="xs:double"/>
+<xs:element name="Tonnage_gross_weight" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Attached_Document" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Attached_document_code" type="xs:string"/>
+<xs:element name="Attached_document_filename" type="xs:string"/>
+<xs:element name="Attached_document_content" type="xs:base64Binary"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Bol_segment" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Bol_id">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Bol_reference" type="xs:string"/>
+<xs:element name="Line_number">
+<xs:simpleType>
+<xs:restriction base="xs:int"/>
+</xs:simpleType>
+</xs:element>
+<xs:element name="Bol_nature" type="xs:string"/>
+<xs:element name="Bol_type_code" type="xs:string"/>
+<xs:element name="Master_bol_ref_number" type="xs:string" minOccurs="0"/>
+<xs:element name="Unique_carrier_reference" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Load_unload_place">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Place_of_loading_code" type="xs:string"/>
+<xs:element name="Place_of_unloading_code" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Traders_segment">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Exporter">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Exporter_code" type="xs:string" minOccurs="0"/>
+<xs:element name="Exporter_name" type="xs:string"/>
+<xs:element name="Exporter_address" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Notify">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Notify_code" type="xs:string" minOccurs="0"/>
+<xs:element name="Notify_name" type="xs:string"/>
+<xs:element name="Notify_address" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Consignee">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Consignee_code" type="xs:string" minOccurs="0"/>
+<xs:element name="Consignee_name" type="xs:string"/>
+<xs:element name="Consignee_address" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="ctn_segment" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Ctn_reference" type="xs:string"/>
+<xs:element name="Number_of_packages" type="xs:int"/>
+<xs:element name="Type_of_container" type="xs:string"/>
+<xs:element name="Empty_Full" type="xs:string"/>
+<xs:element name="Marks1" type="xs:string" minOccurs="0"/>
+<xs:element name="Marks2" type="xs:string" minOccurs="0"/>
+<xs:element name="Marks3" type="xs:string" minOccurs="0"/>
+<xs:element name="Sealing_Party" type="xs:string" minOccurs="0"/>
+<xs:element name="Empty_weight" type="xs:double" minOccurs="0"/>
+<xs:element name="Goods_weight" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Goods_segment">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Number_of_packages" type="xs:double"/>
+<xs:element name="Package_type_code" type="xs:string"/>
+<xs:element name="Gross_mass" type="xs:double"/>
+<xs:element name="Shipping_marks" type="xs:string"/>
+<xs:element name="Goods_description" type="xs:string"/>
+<xs:element name="Seals_segment" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Number_of_seals" type="xs:int"/>
+<xs:element name="Marks_of_seals" type="xs:string"/>
+<xs:element name="Sealing_party_code" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Volume_in_cubic_meters" type="xs:double" minOccurs="0"/>
+<xs:element name="Num_of_ctn_for_this_bol" type="xs:int"/>
+<xs:element name="Information" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Split_segment" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Number_of_packages" type="xs:double"/>
+<xs:element name="Package_type_code" type="xs:string"/>
+<xs:element name="Gross_mass" type="xs:double"/>
+<xs:element name="Shipping_marks" type="xs:string"/>
+<xs:element name="Goods_description" type="xs:string"/>
+<xs:element name="Container" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Reference" type="xs:string"/>
+<xs:element name="Unloaded" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Value_segment">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Freight_segment" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="PC_indicator" type="xs:string" minOccurs="0"/>
+<xs:element name="Freight_value" type="xs:double" minOccurs="0"/>
+<xs:element name="Freight_currency" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Customs_segment" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Customs_value" type="xs:double" minOccurs="0"/>
+<xs:element name="Customs_currency" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Insurance_segment" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Insurance_value" type="xs:double" minOccurs="0"/>
+<xs:element name="Insurance_currency" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Transport_segment" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Transport_value" type="xs:double" minOccurs="0"/>
+<xs:element name="Transport_currency" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Location" minOccurs="0">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="Location_code" type="xs:string" minOccurs="0"/>
+<xs:element name="Location_info" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+
+<xs:element name="findManifeste" type="tns:findManifeste"/>
+
+<xs:element name="findManifesteResponse" type="tns:findManifesteResponse"/>
+
+<xs:element name="genererManifeste" type="tns:genererManifeste"/>
+
+<xs:element name="genererManifesteResponse" type="tns:genererManifesteResponse"/>
+
+<xs:element name="getManifesteXML" type="tns:getManifesteXML"/>
+
+<xs:element name="getManifesteXMLResponse" type="tns:getManifesteXMLResponse"/>
+
+<xs:element name="retrieveManifesteFromDouane" type="tns:retrieveManifesteFromDouane"/>
+
+<xs:element name="retrieveManifesteFromDouaneResponse" type="tns:retrieveManifesteFromDouaneResponse"/>
+
+<xs:complexType name="genererManifeste">
+<xs:sequence>
+<xs:element name="refMan" type="ns1:refManResult" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="genererManifesteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findManifeste">
+<xs:sequence>
+<xs:element name="debut" type="xs:string" minOccurs="0"/>
+<xs:element name="fin" type="xs:string" minOccurs="0"/>
+<xs:element name="trafic" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findManifesteResponse">
+<xs:sequence>
+<xs:element name="return" type="ns1:refManResult" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getManifesteXML">
+<xs:sequence>
+<xs:element name="debut" type="xs:string" minOccurs="0"/>
+<xs:element name="fin" type="xs:string" minOccurs="0"/>
+<xs:element name="trafic" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getManifesteXMLResponse">
+<xs:sequence>
+<xs:element name="return" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveManifesteFromDouane">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="retrieveManifesteFromDouaneResponse">
+<xs:sequence/>
+</xs:complexType>
+</xs:schema>

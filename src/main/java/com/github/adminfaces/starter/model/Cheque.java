@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,7 +27,7 @@ import org.hibernate.annotations.Immutable;
  * @author Administrateur
  */
 @Entity
-@Table(name = "MV_CHEQUE", catalog = "", schema = "PPNCARGO")
+@Table(name = "MV_CHEQUE", catalog = "", schema = "DSIPAPN")
 @Immutable
 @XmlRootElement
 @NamedQueries({
@@ -81,8 +83,9 @@ public class Cheque extends BaseEntity implements Serializable {
     @Column(name = "MODE_REGLEMENT")
     private String modeReglement;
     @Size(max = 20)
-    @Column(name = "CLIENT")
-    private String client;
+    @JoinColumn(name = "CLIENT",referencedColumnName = "code")
+    @ManyToOne
+    private Client client;
     @Size(max = 8)
     @Column(name = "DATE_SOUSCRIPTION")
     private String dateSouscription;
@@ -186,11 +189,11 @@ public class Cheque extends BaseEntity implements Serializable {
         this.modeReglement = modeReglement;
     }
 
-    public String getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(String client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 

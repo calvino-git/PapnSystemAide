@@ -1,25 +1,24 @@
 
-package com.github.adminfaces.starter.util;
+package com.github.adminfaces.starter.ws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour inputReferenceGetManifest complex type.
+ * <p>Classe Java pour genererManifeste complex type.
  * 
- * <p>Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="inputReferenceGetManifest">
+ * &lt;complexType name="genererManifeste">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="numEnreg" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="numVoy" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="dateDepart" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="numEnreg" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="numVoy" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="dateDepart" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,22 +28,19 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "inputReferenceGetManifest", propOrder = {
+@XmlType(name = "genererManifeste1", propOrder = {
     "numEnreg",
     "numVoy",
     "dateDepart"
 })
-public class InputReferenceGetManifest {
+public class GenererManifeste {
 
-    @XmlElement(required = true)
     protected String numEnreg;
-    @XmlElement(required = true)
     protected String numVoy;
-    @XmlElement(required = true)
     protected String dateDepart;
 
     /**
-     * Obtient la valeur de la propri�t� numEnreg.
+     * Obtient la valeur de la propriété numEnreg.
      * 
      * @return
      *     possible object is
@@ -56,7 +52,7 @@ public class InputReferenceGetManifest {
     }
 
     /**
-     * D�finit la valeur de la propri�t� numEnreg.
+     * Définit la valeur de la propriété numEnreg.
      * 
      * @param value
      *     allowed object is
@@ -68,7 +64,7 @@ public class InputReferenceGetManifest {
     }
 
     /**
-     * Obtient la valeur de la propri�t� numVoy.
+     * Obtient la valeur de la propriété numVoy.
      * 
      * @return
      *     possible object is
@@ -80,7 +76,7 @@ public class InputReferenceGetManifest {
     }
 
     /**
-     * D�finit la valeur de la propri�t� numVoy.
+     * Définit la valeur de la propriété numVoy.
      * 
      * @param value
      *     allowed object is
@@ -92,7 +88,7 @@ public class InputReferenceGetManifest {
     }
 
     /**
-     * Obtient la valeur de la propri�t� dateDepart.
+     * Obtient la valeur de la propriété dateDepart.
      * 
      * @return
      *     possible object is
@@ -104,7 +100,7 @@ public class InputReferenceGetManifest {
     }
 
     /**
-     * D�finit la valeur de la propri�t� dateDepart.
+     * Définit la valeur de la propriété dateDepart.
      * 
      * @param value
      *     allowed object is

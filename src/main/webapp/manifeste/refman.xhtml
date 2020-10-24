@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Manifeste - Douane"/>
+    </ui:define>
+    <ui:define name="title">
+        Consultation des manifestes à la douane
+    </ui:define>
+
+    <ui:define name="body">
+
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h:form>
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+                    <p:panelGrid columns="4" columnClasses="ui-g-3 align-left,ui-g-3 align-left,ui-g-3 align-left,ui-g-3 align-right" layout="grid" styleClass="ui-fluid">
+                        <f:facet name="header" class="align-left">
+                            <h:outputText class="align-left">
+                                Saisir la période et le type de trafic
+                            </h:outputText>
+                        </f:facet>
+                        <p:outputLabel value="Date debut" for="debut"/>
+                        <p:outputLabel value="Date fin" for="fin"/>
+                        <p:outputLabel value="Trafic" for="trafic"/>
+                        <p:spacer width="5px"/>
+                        <p:datePicker id="debut" value="#{referenceManifesteBean.debut}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de debut obligatoire"
+                                      required="true" placeholder="01/01/2019" label="Debut" style="width:200px;text-align: right" locale="fr"/>
+                        <p:datePicker id="fin" value="#{referenceManifesteBean.fin}"  pattern="dd/MM/yyyy" showIcon="true" requiredMessage="Date de fin obligatoire"
+                                      required="true" placeholder="31/12/2019" label="Fin" style="width:200px;text-align: right" locale="fr"/>
+                        <p:selectOneMenu id="trafic" value="#{referenceManifesteBean.trafic}" required="false" style="width:200px;text-align: right">
+                            <f:selectItem itemLabel="TOUT" itemValue="TOUT"/>
+                            <f:selectItem itemLabel="IMPORT" itemValue="IMP"/>
+                            <f:selectItem itemLabel="EXPORT" itemValue="EXP"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="Lancer la recherche" 
+                                         icon="fa fa-fw fa-search" 
+                                         process="debut fin trafic"
+                                         update="@form" 
+                                         styleClass="btn-primary" 
+                                         style="width: auto"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="3" columnClasses="ui-grid-col-6 align-left"  layout="grid" styleClass="ui-fluid">
+                        <p:commandButton value="Actualiser la liste" 
+                                         icon="fa fa-fw fa-refresh"
+                                         action="#{referenceManifesteBean.refresh}"
+                                         type="button"
+                                         update="refman"  
+                                         widgetVar="refreshButton"
+                                         styleClass="btn-primary" 
+                                         style="width: auto"/>
+                        <p:progressBar widgetVar="pbAjax" ajax="true" value="#{referenceManifesteBean.progress}" rendered="#{not (referenceManifesteBean.progress eq 0)}"   
+                                       labelTemplate="{value}%" styleClass="animated" global="false" interval="100"> 
+                            <p:ajax event="complete" listener="#{referenceManifesteBean.onComplete}" update="growl" oncomplete="PF('refreshButton').enable()"/>  
+                        </p:progressBar>
+                    </p:panelGrid>
+
+
+                    <p:dataTable id="refman" widgetVar="refTable" var="refman" value="#{referenceManifesteBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{refman.id}"
+                                 filteredValue="#{referenceManifesteBean.filteredValue}" sortBy="#{refman.dateEnregistrement}" sortOrder="descending" rowIndexVar="x"
+                                 selection="#{referenceManifesteBean.selection}"  selectionMode="single" sortMode="single"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,20,30" rendered="#{not empty referenceManifesteBean.list}">
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <f:facet name="header">
+
+                        </f:facet>
+                        <p:column headerText="#" width="5%" class="align-center">
+                            <h:outputText value="#{x+1}"/>
+                        </p:column>
+                        <p:column headerText="BUREAU" filterBy="#{refman.bureauDouane}" sortBy="#{refman.bureauDouane}" width="5%" class="align-center">
+                            <h:outputText value="#{refman.bureauDouane}" />
+                        </p:column>
+
+                        <p:column headerText="TRAFIC" width="5%" filterBy="#{refman.trafic}" sortBy="#{refman.trafic}" class="align-center">
+                            <h:outputText value="#{refman.trafic}" />
+                        </p:column>
+
+                        <p:column headerText="NUMERO" width="10%" filterBy="#{refman.numeroEnregistrement}" sortBy="#{refman.numeroEnregistrement}" class="align-center">
+                            <h:outputText value="#{refman.numeroEnregistrement}" />
+                        </p:column>
+
+                        <p:column headerText="CONSIGNATAIRE" width="15%" filterBy="#{refman.nomTransporteur}" sortBy="#{refman.nomTransporteur}">
+                            <h:outputText value="#{refman.codeTransporteur} : #{refman.nomTransporteur}" />
+                        </p:column>
+
+                        <p:column headerText="NAVIRE" width="15%" filterBy="#{refman.navire}" filterMatchMode="contains" sortBy="#{refman.navire}">
+                            <h:outputText value="#{refman.navire}" />
+                        </p:column>
+
+                        <p:column headerText="VOYAGE" width="10%" filterBy="#{refman.numeroVoyage}" sortBy="#{refman.numeroVoyage}">
+                            <h:outputText value="#{refman.numeroVoyage}" />
+                        </p:column>
+
+                        <p:column headerText="DATE DEPART" width="10%" filterBy="#{refman.dateDepart}" sortBy="#{refman.dateDepart}" class="align-center">
+                            <h:outputText value="#{referenceManifesteBean.toDate(refman.dateDepart)}" />
+                        </p:column>
+
+                        <p:column headerText="DATE ARRIVEE" width="10%" filterBy="#{refman.dateArrivee}" sortBy="#{refman.dateArrivee}" class="align-center">
+                            <h:outputText value="#{referenceManifesteBean.toDate(refman.dateArrivee)}" />
+                        </p:column>
+
+                        <p:column headerText="DATE ENREGISTREMENT" width="10%" filterBy="#{refman.numeroEnregistrement}" sortBy="#{refman.dateEnregistrement}" class="align-center">
+                            <h:outputText value="#{referenceManifesteBean.toDate(refman.dateEnregistrement)}" />
+                        </p:column>
+
+                        <p:column width="5%">
+                            <p:commandButton icon="fa fw fa-download" action="#{referenceManifesteBean.telecharger(refman)}" ajax="false">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+
+
+
+    </ui:define>
+
+    <ui:define name="code">
+        <p:tabView>
+            <p:tab title="Trace">
+                <pre>
+               <code class="language-html">
+                   <h:outputText value="" escape="true"/>
+               </code>
+                </pre>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -1,25 +1,24 @@
 
-package com.github.adminfaces.starter.util;
+package com.github.adminfaces.starter.ws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour inputReference complex type.
+ * <p>Classe Java pour findManifeste complex type.
  * 
- * <p>Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="inputReference">
+ * &lt;complexType name="findManifeste">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="debut" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="fin" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="type" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="debut" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="fin" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="trafic" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,22 +28,19 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "inputReference", propOrder = {
+@XmlType(name = "findManifeste1", propOrder = {
     "debut",
     "fin",
-    "type"
+    "trafic"
 })
-public class InputReference {
+public class FindManifeste {
 
-    @XmlElement(required = true)
     protected String debut;
-    @XmlElement(required = true)
     protected String fin;
-    @XmlElement(required = true)
-    protected String type;
+    protected String trafic;
 
     /**
-     * Obtient la valeur de la propri�t� debut.
+     * Obtient la valeur de la propriété debut.
      * 
      * @return
      *     possible object is
@@ -56,7 +52,7 @@ public class InputReference {
     }
 
     /**
-     * D�finit la valeur de la propri�t� debut.
+     * Définit la valeur de la propriété debut.
      * 
      * @param value
      *     allowed object is
@@ -68,7 +64,7 @@ public class InputReference {
     }
 
     /**
-     * Obtient la valeur de la propri�t� fin.
+     * Obtient la valeur de la propriété fin.
      * 
      * @return
      *     possible object is
@@ -80,7 +76,7 @@ public class InputReference {
     }
 
     /**
-     * D�finit la valeur de la propri�t� fin.
+     * Définit la valeur de la propriété fin.
      * 
      * @param value
      *     allowed object is
@@ -92,27 +88,27 @@ public class InputReference {
     }
 
     /**
-     * Obtient la valeur de la propri�t� type.
+     * Obtient la valeur de la propriété trafic.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getType() {
-        return type;
+    public String getTrafic() {
+        return trafic;
     }
 
     /**
-     * D�finit la valeur de la propri�t� type.
+     * Définit la valeur de la propriété trafic.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setType(String value) {
-        this.type = value;
+    public void setTrafic(String value) {
+        this.trafic = value;
     }
 
 }

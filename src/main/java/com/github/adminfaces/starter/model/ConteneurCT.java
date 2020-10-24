@@ -29,7 +29,7 @@ import org.hibernate.annotations.Subselect;
  * @author Calvin ILOKI
  */
 @Entity
-@Table(name = "VUE_CTN_CONGOTERMINAL", catalog = "", schema = "PPNCARGO")
+@Table(name = "VUE_CTN_CONGOTERMINAL", catalog = "", schema = "DSIPAPN")
 @XmlRootElement
 @Immutable
 @NamedQueries({

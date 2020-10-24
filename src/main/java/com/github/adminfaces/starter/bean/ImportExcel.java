@@ -158,7 +158,7 @@ public class ImportExcel {
                 stmt.setString(31, "");//VOYAGE IN
                 stmt.setString(32, "");//TYPE IN 
                 stmt.setString(33, row.getCell(13) == null ? "" : row.getCell(13).toString());//CARRIER
-                stmt.setString(34, dateFormat.format(LocalDateTime.now()));//
+                stmt.setString(34, dateFormat.format(new Date()));//
                 if (i % 1000 == 0) {
                     progress = (row.getRowNum() * 100.0) / (sheet.getLastRowNum());
                     System.out.print("*");

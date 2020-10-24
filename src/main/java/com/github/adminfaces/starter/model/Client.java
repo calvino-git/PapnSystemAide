@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrateur
  */
 @Entity
-@Table(name = "MV_CLIENT")
+@Table(name = "CLIENT", schema = "PPNCARGO")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
@@ -151,7 +151,7 @@ public class Client extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.github.adminfaces.starter.model.Client[ code=" + code + " ]";
+        return libelle;
     }
 
     public List<Reglement> getReglements() {

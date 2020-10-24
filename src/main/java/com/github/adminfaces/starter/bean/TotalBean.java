@@ -11,7 +11,6 @@ import com.github.adminfaces.starter.service.DocumentEVPService;
 import com.github.adminfaces.starter.service.DocumentService;
 import com.github.adminfaces.starter.service.EscaleService;
 import com.github.adminfaces.starter.service.VueAllEvpService;
-import com.github.adminfaces.starter.ws.ManifesteDouane;
 import com.github.adminfaces.template.bean.LayoutMB;
 import java.beans.EventHandler;
 

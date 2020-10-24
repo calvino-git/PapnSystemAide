@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrateur
  */
 @Entity
-@Table(name = "MV_PAIEMENT")
+@Table(name = "MV_PAIEMENT",schema = "DSIPAPN")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Paiement.findAll", query = "SELECT p FROM Paiement p"),

@@ -137,12 +137,12 @@
                         </p:column>
                         <p:column headerText="MONTANT(TTC)" filterBy="#{ch.montantTtc}" sortBy="#{ch.montantTtc}">
                             <h:outputText value="#{ch.montantTtc}">
-                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                <f:convertNumber locale="fr_FR" pattern="#,##0" maxFractionDigits="2"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="VENTILE" filterBy="#{ch.montantVentile}" sortBy="#{ch.montantVentile}">
                             <h:outputText value="#{ch.montantVentile}">
-                                <f:convertNumber locale="fr_FR" pattern="#,##0"/>
+                                <f:convertNumber locale="fr_FR" pattern="#,##0" maxFractionDigits="2"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="SOUSCRIPTION" filterBy="#{ch.dateSouscription}" sortBy="#{ch.dateSouscription}" visible="false">

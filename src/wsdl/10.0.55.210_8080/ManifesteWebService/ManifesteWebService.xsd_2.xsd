@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3.payara-p3 (2.4.3.payara-maintenance-a5c1c68; 2019-06-17T14:04:38+0200) JAXWS-RI/2.3.2.payara-p2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><xs:schema xmlns:tns="http://interf/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://interf/">
+
+<xs:complexType name="refManResult">
+<xs:complexContent>
+<xs:extension base="tns:webServiceResult">
+<xs:sequence>
+<xs:element name="instance_id" type="xs:string" minOccurs="0"/>
+<xs:element name="bureau_douane" type="xs:string" minOccurs="0"/>
+<xs:element name="numero_voyage" type="xs:string" minOccurs="0"/>
+<xs:element name="date_depart" type="xs:string" minOccurs="0"/>
+<xs:element name="annee_enregistrement" type="xs:string" minOccurs="0"/>
+<xs:element name="numero_enregistrement" type="xs:string" minOccurs="0"/>
+<xs:element name="date_enregistrement" type="xs:string" minOccurs="0"/>
+<xs:element name="date_arrivee" type="xs:string" minOccurs="0"/>
+<xs:element name="code_transporteur" type="xs:string" minOccurs="0"/>
+<xs:element name="nom_transporteur" type="xs:string" minOccurs="0"/>
+<xs:element name="navire" type="xs:string" minOccurs="0"/>
+<xs:element name="lieu_chargement" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="webServiceResult">
+<xs:sequence>
+<xs:element name="code" type="xs:int" minOccurs="0"/>
+<xs:element name="code_description" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

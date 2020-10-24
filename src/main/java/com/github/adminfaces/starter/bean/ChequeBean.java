@@ -12,6 +12,7 @@ import org.omnifaces.cdi.ViewScoped;
 
 import com.github.adminfaces.persistence.bean.CrudMB;
 import com.github.adminfaces.starter.model.Cheque;
+import com.github.adminfaces.starter.model.Client;
 import com.github.adminfaces.starter.service.ChequeService;
 import com.github.adminfaces.template.exception.BusinessException;
 import java.util.Date;
@@ -34,8 +35,8 @@ public class ChequeBean extends CrudMB<Cheque> implements Serializable {
         setCrudService(chequeService);
     }
 
-    public List<String> completeClient(String query) {
-        List<String> result = chequeService.getClients(query);
+    public List<Client> completeClient(String query) {
+        List<Client> result = chequeService.getClients(query);
         return result;
     }
 
@@ -54,7 +55,7 @@ public class ChequeBean extends CrudMB<Cheque> implements Serializable {
     public String getSearchCriteria() {
         StringBuilder sb = new StringBuilder(21);
 
-        String clientParam = null;
+        Client clientParam = null;
         Cheque chequeFilter = filter.getEntity();
 
         Integer idParam = null;
@@ -67,7 +68,7 @@ public class ChequeBean extends CrudMB<Cheque> implements Serializable {
         }
 
         if (filter.hasParam("client")) {
-            clientParam = filter.getStringParam("client");
+            clientParam = filter.getParam("client",Client.class);
         } else if (has(chequeFilter) && chequeFilter.getClient() != null) {
             clientParam = chequeFilter.getClient();
         }

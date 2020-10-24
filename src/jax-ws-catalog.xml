@@ -3,4 +3,7 @@
     <system systemId="http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?wsdl" uri="wsdl/192.168.115.125_8080/SydoniaPapnWS/AWPAPNWebService.wsdl"/>
     <system systemId="http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?wsdl=1" uri="wsdl/192.168.115.125_8080/SydoniaPapnWS/AWPAPNWebService.wsdl_1.wsdl"/>
     <system systemId="http://192.168.115.125:8080/SydoniaPapnWS/AWPAPNWebService?xsd=1" uri="wsdl/192.168.115.125_8080/SydoniaPapnWS/AWPAPNWebService.xsd_1.xsd"/>
+    <system systemId="http://10.0.55.210:8080/ManifesteWebService/ManifesteWebService?wsdl" uri="wsdl/10.0.55.210_8080/ManifesteWebService/ManifesteWebService.wsdl"/>
+    <system systemId="http://10.0.55.210:8080/ManifesteWebService/ManifesteWebService?xsd=1" uri="wsdl/10.0.55.210_8080/ManifesteWebService/ManifesteWebService.xsd_1.xsd"/>
+    <system systemId="http://10.0.55.210:8080/ManifesteWebService/ManifesteWebService?xsd=2" uri="wsdl/10.0.55.210_8080/ManifesteWebService/ManifesteWebService.xsd_2.xsd"/>
 </catalog>

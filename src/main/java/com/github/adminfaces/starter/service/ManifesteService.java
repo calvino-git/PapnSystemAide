@@ -5,40 +5,35 @@
  */
 package com.github.adminfaces.starter.service;
 
-import com.github.adminfaces.starter.model.Awmds;
-import com.github.adminfaces.starter.util.AWPAPNWebService;
-import com.github.adminfaces.starter.util.AWPAPNWebService_Service;
-import com.github.adminfaces.starter.util.GetManListRef;
-import com.github.adminfaces.starter.util.InputReference;
-import com.github.adminfaces.starter.util.InputReferenceGetManifest;
-import com.github.adminfaces.starter.util.ObjectFactory;
-import com.github.adminfaces.starter.util.RefManResult;
+import com.github.adminfaces.starter.model.ReferenceManifeste;
+import com.github.adminfaces.starter.ws.*;
+import com.github.adminfaces.template.exception.BusinessException;
+import static com.github.adminfaces.template.util.Assert.has;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import static java.time.temporal.ChronoField.*;
-import java.time.temporal.TemporalField;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -53,25 +48,32 @@ import org.omnifaces.util.Faces;
 @Startup
 public class ManifesteService implements Serializable {
 
-    private AWPAPNWebService awService;
-    private InputReference inRef;
+    private ManifesteWebService webService;
     private ObjectFactory factory;
-    private GetManListRef requestRefListManifest;
-    private AWPAPNWebService_Service ws;
+    private ManifesteWebService_Service service;
     private Unmarshaller unmarshaller;
     private Marshaller marshaller;
     private int i;
+    SimpleDateFormat format;
+
+    @Inject
+    ReferenceManifesteService referenceManifesteService;
 
     @PostConstruct
     public void init() {
         System.out.println("[" + LocalDateTime.now() + "] Service de recherche de manifestes à douane demarré ...");
+        format = new SimpleDateFormat("yyyyMMdd-HHmm");
         factory = new ObjectFactory();
+        service = new ManifesteWebService_Service();
+        webService = service.getManifesteWebServicePort();
     }
 
-    @Schedule(hour = "*", persistent = false)
+//    @Schedule(hour = "*", persistent = false)
     public void verifierNouveauManifestDouane() {
-        ws = new AWPAPNWebService_Service();
-        awService = ws.getAWPAPNWebServicePort();
+        if (webService == null) {
+            service = new ManifesteWebService_Service();
+            webService = service.getManifesteWebServicePort();
+        }
 
         ZoneId defaultZoneId = ZoneId.systemDefault();
 
@@ -84,7 +86,7 @@ public class ManifesteService implements Serializable {
 
         //Displaying LocalDate and Date                        
         Logger.getLogger("DOUANE WEB SERVICE").info("Recherche de nouveaux manifestes douanes déposés aujourd'hui ...");
-        List<RefManResult> refManList = null;
+        List<RefManResult> refManList = new ArrayList<>();
         refManList = rechercherRefMan(today_6, today, "IMP");
         refManList.addAll(rechercherRefMan(today_6, today, "EXP"));
         if (!refManList.isEmpty()) {
@@ -120,47 +122,36 @@ public class ManifesteService implements Serializable {
     }
 
     public List<RefManResult> rechercherRefMan(Date debut, Date fin, String trafic) {
-        inRef = factory.createInputReference();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        inRef.setDebut(sdf.format(debut));
-        inRef.setFin(sdf.format(fin));
-        inRef.setType(trafic);
-        requestRefListManifest = factory.createGetManListRef();
-        requestRefListManifest.setArg0(inRef);
-        List<RefManResult> refManList = null;
+        List<RefManResult> refManList = new ArrayList<>();
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        if (webService == null) {
+            service = new ManifesteWebService_Service();
+            webService = service.getManifesteWebServicePort();
+        }
 
-        if (awService != null) {
-            System.out.println("Appel du Web Service de la douane... ");
-            System.out.println("Date de debut : " + inRef.getDebut());
-            System.out.println("Date de fin : " + inRef.getFin());
-            System.out.println("Trafic : " + inRef.getType());
-            List<RefManResult> list = awService.getManListRef(inRef);
-
-            refManList = list.stream().filter(m -> m.getBureauDouane() != null && m.getBureauDouane().contains("DD141")
-                    || m.getBureauDouane() != null && m.getBureauDouane().contains("DD147")).collect(Collectors.toList());
-
-            System.out.println("Manifeste(s) trouvé(s) : " + refManList.size());
+        if (webService != null) {
+            refManList = webService.findManifeste(fmt.format(debut), fmt.format(fin), trafic);
+            System.out.println("Manifeste(s) " + trafic + " trouvé(s) : " + refManList.size());
         }
         return refManList;
     }
 
     public InputStream recupererStreamManifeste(RefManResult ref) {
-        if (awService == null) {
-            ws = new AWPAPNWebService_Service();
-            awService = ws.getAWPAPNWebServicePort();
+        if (webService == null) {
+            service = new ManifesteWebService_Service();
+            webService = service.getManifesteWebServicePort();
         }
-        InputReferenceGetManifest refman = factory.createInputReferenceGetManifest();
-        refman.setDateDepart(ref.getDateDepart());
-        refman.setNumEnreg(ref.getNumeroEnregistrement());
-        refman.setNumVoy(ref.getNumeroVoyage());
-        String manifeste = awService.genererManifeste(refman);
+        String manifeste = webService.genererManifeste(ref.getNumeroEnregistrement(), ref.getNumeroVoyage(), ref.getDateDepart());
         InputStream stream = new ByteArrayInputStream(manifeste.getBytes(Charset.forName("UTF-8")));
         return stream;
     }
 
     public void telechargerManifesteFromDouane(RefManResult ref) throws IOException {
         InputStream stream = recupererStreamManifeste(ref);
-        Faces.sendFile(stream, ref.getNavire() + "-" + ref.getNumeroVoyage() + "-" + ref.getCodeTransporteur() + "-" + ref.getDateArrivee() + ".xml", true);
+        String[] tmp = ref.getDateEnregistrement().split("/");
+        String date_enregistrement_douane = tmp[2] + tmp[1] + tmp[0];
+        String navire = ref.getNavire() != null ? ref.getNavire().replaceAll("/", "").replaceAll("\"", "").replaceAll(" ", "_") : "";
+        Faces.sendFile(stream, navire + "-" + ref.getCodeTransporteur() + "-" + ref.getAnneeEnregistrement() + "-" + ref.getNumeroEnregistrement() + "-" + date_enregistrement_douane + ".xml", true);
 
     }
 
@@ -187,20 +178,19 @@ public class ManifesteService implements Serializable {
         return awmds;
     }
 
-    public AWPAPNWebService getAwService() {
-        return awService;
-    }
-
-    public void setAwService(AWPAPNWebService awService) {
-        this.awService = awService;
-    }
-
-    public InputReference getInRef() {
-        return inRef;
-    }
-
-    public void setInRef(InputReference inRef) {
-        this.inRef = inRef;
+    public static void writeToZipFile(File xml, ZipOutputStream zipStream) throws FileNotFoundException, IOException {
+        System.out.println("Writing file : '" + xml + "' to zip file");
+//        File aFile = new File(xml);
+        try (FileInputStream fis = new FileInputStream(xml)) {
+            ZipEntry zipEntry = new ZipEntry(xml.getName());
+            zipStream.putNextEntry(zipEntry);
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = fis.read(bytes)) >= 0) {
+                zipStream.write(bytes, 0, length);
+            }
+            zipStream.closeEntry();
+        }
     }
 
     public ObjectFactory getFactory() {
@@ -209,22 +199,6 @@ public class ManifesteService implements Serializable {
 
     public void setFactory(ObjectFactory factory) {
         this.factory = factory;
-    }
-
-    public GetManListRef getRequestRefListManifest() {
-        return requestRefListManifest;
-    }
-
-    public void setRequestRefListManifest(GetManListRef requestRefListManifest) {
-        this.requestRefListManifest = requestRefListManifest;
-    }
-
-    public AWPAPNWebService_Service getWs() {
-        return ws;
-    }
-
-    public void setWs(AWPAPNWebService_Service ws) {
-        this.ws = ws;
     }
 
     public Unmarshaller getUnmarshaller() {
@@ -241,6 +215,22 @@ public class ManifesteService implements Serializable {
 
     public void setMarshaller(Marshaller marshaller) {
         this.marshaller = marshaller;
+    }
+
+    public ManifesteWebService getWebService() {
+        return webService;
+    }
+
+    public void setWebService(ManifesteWebService webService) {
+        this.webService = webService;
+    }
+
+    public ManifesteWebService_Service getService() {
+        return service;
+    }
+
+    public void setService(ManifesteWebService_Service service) {
+        this.service = service;
     }
 
 }

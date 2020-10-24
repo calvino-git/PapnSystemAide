@@ -57,8 +57,8 @@ public class ReglementService extends CrudService<Reglement, Integer> implements
         //create restrictions based on filter entity
         if (has(filter.getEntity())) {
             Reglement filterEntity = filter.getEntity();
-            if (has(filterEntity.getChcleunik())) {
-                criteria.eq(Reglement_.chcleunik,filterEntity.getChcleunik());
+            if (has(filterEntity.getCheque())) {
+                criteria.eq(Reglement_.cheque,filterEntity.getCheque());
             }
             if (has(filterEntity.getClient())) {
                 criteria.eq(Reglement_.client,filterEntity.getClient());

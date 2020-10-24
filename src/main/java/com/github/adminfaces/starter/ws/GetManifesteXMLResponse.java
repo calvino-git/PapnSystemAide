@@ -1,5 +1,5 @@
 
-package com.github.adminfaces.starter.util;
+package com.github.adminfaces.starter.ws;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour getManListRefResponse complex type.
+ * <p>Classe Java pour getManifesteXMLResponse complex type.
  * 
- * <p>Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="getManListRefResponse">
+ * &lt;complexType name="getManifesteXMLResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://interf/}refManResult" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}anyType" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,13 +29,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getManListRefResponse", propOrder = {
+@XmlType(name = "getManifesteXMLResponse1", propOrder = {
     "_return"
 })
-public class GetManListRefResponse {
+public class GetManifesteXMLResponse {
 
     @XmlElement(name = "return")
-    protected List<RefManResult> _return;
+    protected List<Object> _return;
 
     /**
      * Gets the value of the return property.
@@ -55,13 +55,13 @@ public class GetManListRefResponse {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link RefManResult }
+     * {@link Object }
      * 
      * 
      */
-    public List<RefManResult> getReturn() {
+    public List<Object> getReturn() {
         if (_return == null) {
-            _return = new ArrayList<RefManResult>();
+            _return = new ArrayList<Object>();
         }
         return this._return;
     }

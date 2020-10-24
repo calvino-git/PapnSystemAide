@@ -1,5 +1,5 @@
 
-package com.github.adminfaces.starter.util;
+package com.github.adminfaces.starter.ws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java pour refManResult complex type.
  * 
- * <p>Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType name="refManResult">
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "refManResult", propOrder = {
+@XmlType(name = "refManResult1", namespace = "http://interf/", propOrder = {
     "instanceId",
     "bureauDouane",
     "numeroVoyage",
@@ -81,7 +81,7 @@ public class RefManResult
     protected String lieuChargement;
 
     /**
-     * Obtient la valeur de la propri�t� instanceId.
+     * Obtient la valeur de la propriété instanceId.
      * 
      * @return
      *     possible object is
@@ -93,7 +93,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� instanceId.
+     * Définit la valeur de la propriété instanceId.
      * 
      * @param value
      *     allowed object is
@@ -105,7 +105,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� bureauDouane.
+     * Obtient la valeur de la propriété bureauDouane.
      * 
      * @return
      *     possible object is
@@ -117,7 +117,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� bureauDouane.
+     * Définit la valeur de la propriété bureauDouane.
      * 
      * @param value
      *     allowed object is
@@ -129,7 +129,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� numeroVoyage.
+     * Obtient la valeur de la propriété numeroVoyage.
      * 
      * @return
      *     possible object is
@@ -141,7 +141,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� numeroVoyage.
+     * Définit la valeur de la propriété numeroVoyage.
      * 
      * @param value
      *     allowed object is
@@ -153,7 +153,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� dateDepart.
+     * Obtient la valeur de la propriété dateDepart.
      * 
      * @return
      *     possible object is
@@ -165,7 +165,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� dateDepart.
+     * Définit la valeur de la propriété dateDepart.
      * 
      * @param value
      *     allowed object is
@@ -177,7 +177,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� anneeEnregistrement.
+     * Obtient la valeur de la propriété anneeEnregistrement.
      * 
      * @return
      *     possible object is
@@ -189,7 +189,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� anneeEnregistrement.
+     * Définit la valeur de la propriété anneeEnregistrement.
      * 
      * @param value
      *     allowed object is
@@ -201,7 +201,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� numeroEnregistrement.
+     * Obtient la valeur de la propriété numeroEnregistrement.
      * 
      * @return
      *     possible object is
@@ -213,7 +213,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� numeroEnregistrement.
+     * Définit la valeur de la propriété numeroEnregistrement.
      * 
      * @param value
      *     allowed object is
@@ -225,7 +225,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� dateEnregistrement.
+     * Obtient la valeur de la propriété dateEnregistrement.
      * 
      * @return
      *     possible object is
@@ -237,7 +237,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� dateEnregistrement.
+     * Définit la valeur de la propriété dateEnregistrement.
      * 
      * @param value
      *     allowed object is
@@ -249,7 +249,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� dateArrivee.
+     * Obtient la valeur de la propriété dateArrivee.
      * 
      * @return
      *     possible object is
@@ -261,7 +261,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� dateArrivee.
+     * Définit la valeur de la propriété dateArrivee.
      * 
      * @param value
      *     allowed object is
@@ -273,7 +273,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� codeTransporteur.
+     * Obtient la valeur de la propriété codeTransporteur.
      * 
      * @return
      *     possible object is
@@ -285,7 +285,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� codeTransporteur.
+     * Définit la valeur de la propriété codeTransporteur.
      * 
      * @param value
      *     allowed object is
@@ -297,7 +297,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� nomTransporteur.
+     * Obtient la valeur de la propriété nomTransporteur.
      * 
      * @return
      *     possible object is
@@ -309,7 +309,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� nomTransporteur.
+     * Définit la valeur de la propriété nomTransporteur.
      * 
      * @param value
      *     allowed object is
@@ -321,7 +321,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� navire.
+     * Obtient la valeur de la propriété navire.
      * 
      * @return
      *     possible object is
@@ -333,7 +333,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� navire.
+     * Définit la valeur de la propriété navire.
      * 
      * @param value
      *     allowed object is
@@ -345,7 +345,7 @@ public class RefManResult
     }
 
     /**
-     * Obtient la valeur de la propri�t� lieuChargement.
+     * Obtient la valeur de la propriété lieuChargement.
      * 
      * @return
      *     possible object is
@@ -357,7 +357,7 @@ public class RefManResult
     }
 
     /**
-     * D�finit la valeur de la propri�t� lieuChargement.
+     * Définit la valeur de la propriété lieuChargement.
      * 
      * @param value
      *     allowed object is

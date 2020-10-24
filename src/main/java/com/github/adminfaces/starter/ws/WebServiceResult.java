@@ -1,5 +1,5 @@
 
-package com.github.adminfaces.starter.util;
+package com.github.adminfaces.starter.ws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java pour webServiceResult complex type.
  * 
- * <p>Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType name="webServiceResult">
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "webServiceResult", propOrder = {
+@XmlType(name = "webServiceResult1", namespace = "http://interf/", propOrder = {
     "code",
     "codeDescription"
 })
@@ -43,7 +43,7 @@ public class WebServiceResult {
     protected String codeDescription;
 
     /**
-     * Obtient la valeur de la propri�t� code.
+     * Obtient la valeur de la propriété code.
      * 
      * @return
      *     possible object is
@@ -55,7 +55,7 @@ public class WebServiceResult {
     }
 
     /**
-     * D�finit la valeur de la propri�t� code.
+     * Définit la valeur de la propriété code.
      * 
      * @param value
      *     allowed object is
@@ -67,7 +67,7 @@ public class WebServiceResult {
     }
 
     /**
-     * Obtient la valeur de la propri�t� codeDescription.
+     * Obtient la valeur de la propriété codeDescription.
      * 
      * @return
      *     possible object is
@@ -79,7 +79,7 @@ public class WebServiceResult {
     }
 
     /**
-     * D�finit la valeur de la propri�t� codeDescription.
+     * Définit la valeur de la propriété codeDescription.
      * 
      * @param value
      *     allowed object is

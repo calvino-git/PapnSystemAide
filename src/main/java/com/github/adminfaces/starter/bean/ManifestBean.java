@@ -5,14 +5,12 @@
  */
 package com.github.adminfaces.starter.bean;
 
-import com.github.adminfaces.starter.model.Awmds;
 import com.github.adminfaces.starter.service.ManifesteService;
-import com.github.adminfaces.starter.util.RefManResult;
+import com.github.adminfaces.starter.ws.Awmds;
+import com.github.adminfaces.starter.ws.RefManResult;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,11 +18,11 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -64,14 +62,13 @@ public class ManifestBean implements Serializable {
     }
 
     public void rechercherRefMan() {
-        
+        refManList = new ArrayList<>();
         if (trafic.equals("TOUT")) {
-            refManList = manifesteService.rechercherRefMan(debut, fin, "IMP");
+            refManList.addAll(manifesteService.rechercherRefMan(debut, fin, "IMP"));
             refManList.addAll(manifesteService.rechercherRefMan(debut, fin, "EXP"));
         } else {
             refManList = manifesteService.rechercherRefMan(debut, fin, trafic);
         }
-
     }
 
     public void downloadManifeste(RefManResult ref) throws IOException {
@@ -85,16 +82,16 @@ public class ManifestBean implements Serializable {
 
         if (!refManList.isEmpty()) {
             try (FileOutputStream file = new FileOutputStream(zipFile); ZipOutputStream zip = new ZipOutputStream(file)) {
-                i=0;
+                i = 0;
                 refManList.forEach(ref -> {
                     long copy = 0;
                     try {
                         String[] tmp = ref.getDateEnregistrement().split("/");
                         String date_enregistrement_douane = tmp[2] + tmp[1] + tmp[0];
-                        String navire = ref.getNavire() != null ? ref.getNavire().replaceAll("/", "").replaceAll("\"", "").replaceAll(" ", "_"):"";
-                        String fileName = navire + "-" + ref.getCodeTransporteur() 
-                                + "-" + ref.getAnneeEnregistrement() 
-                                + "-" + ref.getNumeroEnregistrement() 
+                        String navire = ref.getNavire() != null ? ref.getNavire().replaceAll("/", "").replaceAll("\"", "").replaceAll(" ", "_") : "";
+                        String fileName = navire + "-" + ref.getCodeTransporteur()
+                                + "-" + ref.getAnneeEnregistrement()
+                                + "-" + ref.getNumeroEnregistrement()
                                 + "-" + date_enregistrement_douane + ".xml";
 
                         File xml = new File(dossierDouane + File.separator + tmp[2] + File.separator + tmp[1] + File.separator + tmp[0] + File.separator + fileName);
@@ -115,7 +112,7 @@ public class ManifestBean implements Serializable {
 //                            }
 //                            fos.close();
 //                        }
-                        writeToZipFile(xml, zip);
+                        manifesteService.writeToZipFile(xml, zip);
                     } catch (IOException ex) {
                         Logger.getLogger(ManifestBean.class.getName()).log(Level.SEVERE, "" + copy, ex);
                     }
@@ -128,21 +125,6 @@ public class ManifestBean implements Serializable {
         System.out.println(file.getAbsolutePath());
         Faces.sendFile(file, true);
 
-    }
-
-    public static void writeToZipFile(File xml, ZipOutputStream zipStream) throws FileNotFoundException, IOException {
-        System.out.println("Writing file : '" + xml + "' to zip file");
-//        File aFile = new File(xml);
-        try (FileInputStream fis = new FileInputStream(xml)) {
-            ZipEntry zipEntry = new ZipEntry(xml.getName());
-            zipStream.putNextEntry(zipEntry);
-            byte[] bytes = new byte[1024];
-            int length;
-            while ((length = fis.read(bytes)) >= 0) {
-                zipStream.write(bytes, 0, length);
-            }
-            zipStream.closeEntry();
-        }
     }
 
     public void convertirManifeste(FileUploadEvent event) throws IOException, JAXBException {

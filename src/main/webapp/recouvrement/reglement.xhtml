@@ -60,8 +60,8 @@
         <h:form>
             <div class="box box-primary">
                 <div class="box-body with-border">
-                    <p:dataTable id="reglement" widgetVar="reglement" var="r" value="#{reglementBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{r.pmcleunik}"
-                                 filteredValue="#{reglementBean.filteredValue}" sortBy="#{r.pmcleunik}" sortOrder="descending" rowIndexVar="x"
+                    <p:dataTable id="reglement" widgetVar="reglement" var="r" value="#{reglementBean.list}" rows="10" lazy="true" paginator="true" rowKey="#{r.id}"
+                                 filteredValue="#{reglementBean.filteredValue}" sortBy="#{r.id}" sortOrder="descending" rowIndexVar="x"
                                  selection="#{reglementBean.selection}"  selectionMode="single" sortMode="single"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} à {endRecord} de {totalRecords} ]"
@@ -74,7 +74,7 @@
                         <f:facet name="header">
                             <div class="ui-g ui-fluid">
                                  <div class="ui-g-3">
-                                    <p:inputText id="inptId" value="#{reglementBean.filter.entity.chcleunik}" placeholder="N° Cheque"/>
+                                    <p:inputText id="inptId" value="#{reglementBean.filter.entity.cheque}" placeholder="N° Cheque"/>
                                 </div>
                                 <div class="ui-g-5">
                                     <p:datePicker id="date" placeholder="Période" showIcon="true" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{reglementBean.periode}"/>
@@ -96,8 +96,8 @@
                             #{x+1}
                         </p:column>
 
-                        <p:column headerText="BR" width="100" sortBy="#{r.chcleunik}" filterBy="#{r.chcleunik}" class="align-center">
-                            <h:outputText class="text-bold" value="#{r.chcleunik}"/>
+                        <p:column headerText="BR" width="100" sortBy="#{r.cheque}" filterBy="#{r.cheque}" class="align-center">
+                            <h:outputText class="text-bold" value="#{r.cheque}"/>
                         </p:column>
                         <p:column headerText="INFO" filterBy="#{r.info}" sortBy="#{r.info}">
                             #{r.info}
@@ -120,6 +120,7 @@
                             #{r.client.libelle}
                         </p:column>
                         <p:column headerText="N° FACT." width="100" filterBy="#{r.numeroFacture}" sortBy="#{r.numeroFacture}">
+                            
                             #{r.numeroFacture}
                         </p:column>
                         <p:column headerText="DATE PAIE." width="100" class="align-center" filterBy="#{r.dateCheque}" sortBy="#{r.dateCheque}">

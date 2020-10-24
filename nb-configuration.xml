@@ -14,5 +14,6 @@ That way multiple projects can share the same settings (useful for formatting ru
 Any value defined here will override the pom.xml file value but is only applicable to the current project.
 -->
         <org-netbeans-modules-payara-micro.version>5.192</org-netbeans-modules-payara-micro.version>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_ManifesteWebService>http://10.0.55.210:8080/ManifesteWebService/ManifesteWebService?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_ManifesteWebService>
     </properties>
 </project-shared-configuration>

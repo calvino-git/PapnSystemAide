@@ -1,5 +1,5 @@
 
-package com.github.adminfaces.starter.util;
+package com.github.adminfaces.starter.ws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java pour genererManifesteResponse complex type.
  * 
- * <p>Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType name="genererManifesteResponse">
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "genererManifesteResponse", propOrder = {
+@XmlType(name = "genererManifesteResponse1", propOrder = {
     "_return"
 })
 public class GenererManifesteResponse {
@@ -36,7 +36,7 @@ public class GenererManifesteResponse {
     protected String _return;
 
     /**
-     * Obtient la valeur de la propri�t� return.
+     * Obtient la valeur de la propriété return.
      * 
      * @return
      *     possible object is
@@ -48,7 +48,7 @@ public class GenererManifesteResponse {
     }
 
     /**
-     * D�finit la valeur de la propri�t� return.
+     * Définit la valeur de la propriété return.
      * 
      * @param value
      *     allowed object is

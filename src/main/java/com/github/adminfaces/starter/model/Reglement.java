@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrateur
  */
 @Entity
-@Table(name = "MV_REGLEMENT", catalog = "", schema = "PPNCARGO")
+@Table(name = "MV_REGLEMENT", catalog = "", schema = "DSIPAPN")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Reglement.findAll", query = "SELECT r FROM Reglement r")})
@@ -37,11 +37,10 @@ public class Reglement extends BaseEntity implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PMCLEUNIK")
-    private Integer pmcleunik;
-    @JoinColumn(name = "CHCLEUNIK", referencedColumnName = "CHCLEUNIK")
-    @ManyToOne
-    private Cheque chcleunik;
+    @Column(name = "ID")
+    private Integer id;
+    @Column(name = "NUMERO_CHEQUE")
+    private String cheque;
     @Size(max = 12)
     @Column(name = "INFO")
     private String info;
@@ -79,23 +78,24 @@ public class Reglement extends BaseEntity implements Serializable {
     }
 
     public Reglement(Integer pmcleunik) {
-        this.pmcleunik = pmcleunik;
+        this.id = pmcleunik;
     }
 
-    public Integer getPmcleunik() {
-        return pmcleunik;
+    @Override
+    public Integer getId() {
+        return id;
     }
 
-    public void setPmcleunik(Integer pmcleunik) {
-        this.pmcleunik = pmcleunik;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Cheque getChcleunik() {
-        return chcleunik;
+    public String getCheque() {
+        return cheque;
     }
 
-    public void setChcleunik(Cheque chcleunik) {
-        this.chcleunik = chcleunik;
+    public void setCheque(String cheque) {
+        this.cheque = cheque;
     }
 
     public String getInfo() {
@@ -192,11 +192,6 @@ public class Reglement extends BaseEntity implements Serializable {
 
     public void setMontantPaiement(BigDecimal montantPaiement) {
         this.montantPaiement = montantPaiement;
-    }
-
-    @Override
-    public Integer getId() {
-        return pmcleunik;
     }
 
     
