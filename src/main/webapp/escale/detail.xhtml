@@ -267,7 +267,7 @@
                             <li class="list-group-item">
                                 <b>Sejour en rade</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade } 
+                                    <h:outputText value="#{escaleBean.diffDate(escaleBean.entity.datePasseEntree,escaleBean.entity.arriveeRade)} 
                                                   #{escaleBean.entity.datePasseEntree-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"
                                                   rendered="#{not empty escaleBean.entity.datePasseEntree and not empty escaleBean.entity.arriveeRade}"/>
 
@@ -276,7 +276,7 @@
                             <li class="list-group-item">
                                 <b>Sejour à quai</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree} 
+                                    <h:outputText value="#{escaleBean.diffDate(escaleBean.entity.departEffectif,escaleBean.entity.datePasseEntree)} 
                                                   #{escaleBean.entity.departEffectif-escaleBean.entity.datePasseEntree eq 1?'jr':'jrs'}"
                                                   rendered="#{not empty escaleBean.entity.datePasseEntree and not empty escaleBean.entity.departEffectif}"/>
                                 </a>
@@ -284,7 +284,7 @@
                             <li class="list-group-item">
                                 <b>Sejour au port</b>
                                 <a class="float-right">
-                                    <h:outputText value="#{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade}
+                                    <h:outputText value="#{escaleBean.diffDate(escaleBean.entity.departEffectif,escaleBean.entity.arriveeRade)}
                                                   #{escaleBean.entity.departEffectif-escaleBean.entity.arriveeRade eq 1?'jr':'jrs'}"
                                                   rendered="#{not empty escaleBean.entity.arriveeRade and not empty escaleBean.entity.departEffectif}"/>
                                 </a>
@@ -371,8 +371,8 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
-                    <p:panel class="box box-primary">
-                        <f:facet name="header">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
                             <div class="col-12 col-sm-3 " style="padding-left: 0px">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
@@ -399,154 +399,196 @@
                             </div>
                             <div class="col-12 col-sm-3"  style="padding-right: 0px">
                                 <div class="info-box bg-light">
-                                    <div class="info-box-content">
-                                        <span class="info-box-text text-center text-muted">Tonnage</span>
+                                    <div class="info-box-content col-6">
+                                        <span class="info-box-text text-center text-muted">Tonnage Débarqué</span>
                                         <span class="info-box-number text-center text-muted mb-0">
-                                            <h:outputText value="#{escaleBean.poidsTotal}">
-                                                <f:convertNumber pattern="#0,000" locale="fr"/>
+                                            <h:outputText value="#{escaleBean.entity.tonnageDeb}">
+                                                <f:convertNumber pattern="#,##0" locale="fr"/>
+                                            </h:outputText> 
+                                        </span>
+                                    </div>
+                                    <div class="info-box-content col-6">
+                                        <span class="info-box-text text-center text-muted">Tonnage Embarqué</span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            <h:outputText value="#{escaleBean.entity.tonnageEmb}">
+                                                <f:convertNumber pattern="#,##0" locale="fr"/>
                                             </h:outputText> 
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                        </f:facet>
-                        <p:tabView dynamic="true" cache="true" effect="fold" style="box-shadow: 0 0 2px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2)!important;">
-                            <p:tab title="Trafic EVP" titleStyleClass="box-solid" >
-                                <p:panelGrid style="width: 100%">
-                                    <f:facet name="header">
-                                        <p:row>
-                                            <p:column colspan="1" rowspan="2">Mouvement</p:column>
-                                            <p:column colspan="1" rowspan="2">Trafic</p:column>             
-                                            <p:column colspan="3">MANIFESTE</p:column>
-                                            <p:column colspan="3">DOUANE</p:column>
-                                            <p:column colspan="3">CONGO-TERMINAL</p:column>
-                                        </p:row>
-                                        <p:row>
-                                            <p:column colspan="1">Plein</p:column>
-                                            <p:column colspan="1">Vide</p:column>
-                                            <p:column colspan="1">Total</p:column>
-                                            <p:column colspan="1">Plein</p:column>
-                                            <p:column colspan="1">Vide</p:column>
-                                            <p:column colspan="1">Total</p:column>
-                                            <p:column colspan="1">Plein</p:column>
-                                            <p:column colspan="1">Vide</p:column>
-                                            <p:column colspan="1">Total</p:column>
-                                        </p:row>
-                                    </f:facet>
+                        </div>
+                        <div class="box-body">
+                            <p:tabView dynamic="true" cache="true" effect="fold" style="box-shadow: 0 0 2px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2)!important;">
+                                <p:tab title="Trafic EVP" titleStyleClass="box-solid" >
+                                    <p:panelGrid style="width: 100%">
+                                        <f:facet name="header">
+                                            <p:row>
+                                                <p:column colspan="1" rowspan="2">Mouvement</p:column>
+                                                <p:column colspan="1" rowspan="2">Trafic</p:column>             
+                                                <p:column colspan="3">MANIFESTE</p:column>
+                                                <p:column colspan="3">DOUANE</p:column>
+                                                <p:column colspan="3">CONGO-TERMINAL</p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column colspan="1">Plein</p:column>
+                                                <p:column colspan="1">Vide</p:column>
+                                                <p:column colspan="1">Total</p:column>
+                                                <p:column colspan="1">Plein</p:column>
+                                                <p:column colspan="1">Vide</p:column>
+                                                <p:column colspan="1">Total</p:column>
+                                                <p:column colspan="1">Plein</p:column>
+                                                <p:column colspan="1">Vide</p:column>
+                                                <p:column colspan="1">Total</p:column>
+                                            </p:row>
+                                        </f:facet>
 
-                                    <p:row>
-                                        <p:column rowspan="4" style="font-weight: bold;">DEBARQUEMENT</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">IMPORT</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','MANIFESTE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','DOUANE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','CONGOTERMINAL')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSBO</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','MANIFESTE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','DOUANE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','CONGOTERMINAL')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSIT</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','MANIFESTE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','DOUANE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','CONGOTERMINAL')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <p:row >
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TOTAL</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('I','MANIFESTE')}" var="elt">
-                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('I','DOUANE')}" var="elt">
-                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('I','CONGOTERMINAL')}" var="elt">
-                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column rowspan="3" style="font-weight: bold;">EMBARQUEMENT</p:column>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">EXPORT</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','MANIFESTE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','DOUANE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','CONGOTERMINAL')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSBO</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','MANIFESTE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','DOUANE')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','CONGOTERMINAL')}" var="elt">
-                                            <p:column>#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column style="font-weight: bold;" styleClass="ui-widget-header">TOTAL</p:column>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('E','MANIFESTE')}" var="elt">
-                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('E','DOUANE')}" var="elt">
-                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
-                                        </ui:repeat>
-                                        <ui:repeat value="#{escaleBean.genererDataByTrafic('E','CONGOTERMINAL')}" var="elt">
-                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
-                                        </ui:repeat>
-                                    </p:row>
-                                    <f:facet name="footer">
                                         <p:row>
-                                            <p:column colspan="2" style="font-weight: bold;text-align: right!important;text-transform: uppercase">
-                                                <h:outputText value="TOTAL général"/>
+                                            <p:column rowspan="4" style="font-weight: bold;">DEBARQUEMENT</p:column>
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">IMPORT</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','MANIFESTE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','DOUANE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('IMP','CONGOTERMINAL')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSBO</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','MANIFESTE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','DOUANE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBI','CONGOTERMINAL')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSIT</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','MANIFESTE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','DOUANE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRANSIT','CONGOTERMINAL')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <p:row >
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">TOTAL</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('I','MANIFESTE')}" var="elt">
+                                                <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('I','DOUANE')}" var="elt">
+                                                <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('I','CONGOTERMINAL')}" var="elt">
+                                                <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column rowspan="3" style="font-weight: bold;">EMBARQUEMENT</p:column>
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">EXPORT</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','MANIFESTE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','DOUANE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('EXP','CONGOTERMINAL')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">TRANSBO</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','MANIFESTE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','DOUANE')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('TRBE','CONGOTERMINAL')}" var="elt">
+                                                <p:column>#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column style="font-weight: bold;" styleClass="ui-widget-header">TOTAL</p:column>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('E','MANIFESTE')}" var="elt">
+                                                <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('E','DOUANE')}" var="elt">
+                                                <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                            </ui:repeat>
+                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('E','CONGOTERMINAL')}" var="elt">
+                                                <p:column style="font-weight: bold;" styleClass="ui-widget-header">#{elt}</p:column>
+                                            </ui:repeat>
+                                        </p:row>
+                                        <f:facet name="footer">
+                                            <p:row>
+                                                <p:column colspan="2" style="font-weight: bold;text-align: right!important;text-transform: uppercase">
+                                                    <h:outputText value="TOTAL général"/>
+                                                </p:column>
+                                                <ui:repeat value="#{escaleBean.genererDataByTrafic('','MANIFESTE')}" var="elt">
+                                                    <p:column style="font-weight: bold;">#{elt}</p:column>
+                                                </ui:repeat>
+                                                <ui:repeat value="#{escaleBean.genererDataByTrafic('','DOUANE')}" var="elt">
+                                                    <p:column style="font-weight: bold;">#{elt}</p:column>
+                                                </ui:repeat>
+                                                <ui:repeat value="#{escaleBean.genererDataByTrafic('','CONGOTERMINAL')}" var="elt">
+                                                    <p:column style="font-weight: bold;">#{elt}</p:column>
+                                                </ui:repeat>
+
+                                            </p:row>
+                                        </f:facet>
+                                    </p:panelGrid>
+                                </p:tab>
+                                <p:tab title="Services/Prestation" titleStyleClass="box-solid">
+                                    <h:form>
+                                        <p:dataTable var="s" value="#{escaleBean.entity.listService}" sortBy="#{s.quai.quai}">
+                                            <p:column headerText="Quai" groupRow="true">
+                                                <h:outputText value="#{s.quai}" />
                                             </p:column>
-                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('','MANIFESTE')}" var="elt">
-                                                <p:column style="font-weight: bold;">#{elt}</p:column>
-                                            </ui:repeat>
-                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('','DOUANE')}" var="elt">
-                                                <p:column style="font-weight: bold;">#{elt}</p:column>
-                                            </ui:repeat>
-                                            <ui:repeat value="#{escaleBean.genererDataByTrafic('','CONGOTERMINAL')}" var="elt">
-                                                <p:column style="font-weight: bold;">#{elt}</p:column>
-                                            </ui:repeat>
+                                            <p:column headerText="Nature" groupRow="true">
+                                                <h:outputText value="#{s.code}" />
+                                            </p:column>
+                                            <p:column headerText="Type">
+                                                <h:outputText value="#{s.type}" />
+                                            </p:column>
+                                            <p:column headerText="Affectation">
+                                                <h:outputText value="#{s.affectation}" />
+                                            </p:column>
+                                            <p:column headerText="Condition">
+                                                <h:outputText value="#{s.conditions}" />
+                                            </p:column>
+                                            
+                                            <p:column headerText="Quantite">
+                                                <h:outputText value="#{s.factQuant}" />
+                                            </p:column>
+                                            <p:column headerText="Debut">
+                                                <h:outputText value="#{escaleBean.format.parse(s.laDate.concat(s.laHeure))}" >
+                                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Fin">
+                                                <h:outputText value="#{escaleBean.format.parse(s.finDate.concat(s.finHeure))}" >
+                                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </p:tab>
+                                <p:tab title="Facture" titleStyleClass="box-solid">
 
-                                        </p:row>
-                                    </f:facet>
-                                </p:panelGrid>
-                            </p:tab>
-                            <p:tab title="Facture" titleStyleClass="box-solid">
-
-                            </p:tab>
-                            <p:tab title="Autres" titleStyleClass="box-solid">
-
-                            </p:tab>
-                        </p:tabView>
-                    </p:panel>            
+                                </p:tab>
+                            </p:tabView>
+                        </div>
+                    </div>            
                 </div>
                 <!-- /.col -->
             </div>
