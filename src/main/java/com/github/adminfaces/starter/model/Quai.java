@@ -133,8 +133,9 @@ public class Quai implements Serializable {
     @Column(name = "QUCLEUNIK")
     private BigDecimal qucleunik;
     @Size(max = 8)
-    @Column(name = "QUAI")
-    private String quai;
+    @JoinColumn(name = "QUAI",referencedColumnName = "code")
+    @ManyToOne
+    private Quais quai;
     @Size(max = 8)
     @Column(name = "DEMANDE")
     private String demande;
@@ -396,11 +397,11 @@ public class Quai implements Serializable {
         this.qucleunik = qucleunik;
     }
 
-    public String getQuai() {
+    public Quais getQuai() {
         return quai;
     }
 
-    public void setQuai(String quai) {
+    public void setQuai(Quais quai) {
         this.quai = quai;
     }
 
@@ -1138,7 +1139,7 @@ public class Quai implements Serializable {
 
     @Override
     public String toString() {
-        return quai;
+        return quai.getLibelle();
     }
     
 }

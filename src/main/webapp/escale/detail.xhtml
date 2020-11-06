@@ -550,10 +550,12 @@
                                 </p:tab>
                                 <p:tab title="Services/Prestation" titleStyleClass="box-solid">
                                     <h:form>
-                                        <p:dataTable var="s" value="#{escaleBean.entity.listService}" sortBy="#{s.quai.quai}">
-                                            <p:column headerText="Quai" groupRow="true">
-                                                <h:outputText value="#{s.quai}" />
-                                            </p:column>
+                                        <p:dataTable var="s" value="#{escaleBean.entity.listService}" sortBy="#{s.quai.quai.libelle}" expandableRowGroups="true" rowStyleClass="null">
+                                            <p:headerRow>
+                                                <p:column colspan="7">
+                                                    <h:outputText value="#{s.quai}" />
+                                                </p:column>
+                                            </p:headerRow>
                                             <p:column headerText="Nature" groupRow="true">
                                                 <h:outputText value="#{s.code}" />
                                             </p:column>
@@ -566,7 +568,7 @@
                                             <p:column headerText="Condition">
                                                 <h:outputText value="#{s.conditions}" />
                                             </p:column>
-                                            
+
                                             <p:column headerText="Quantite">
                                                 <h:outputText value="#{s.factQuant}" />
                                             </p:column>
