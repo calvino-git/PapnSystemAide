@@ -80,7 +80,7 @@ public class ReferenceManifesteBean extends CrudMB<ReferenceManifeste> implement
         LocalDate localDate = LocalDate.now();
 
         //local date + atStartOfDay() + default time zone + toInstant() = Date
-        Date today_6 = Date.from(localDate.minusDays(6).atStartOfDay(defaultZoneId).toInstant());
+        Date today_6 = Date.from(localDate.minusDays(30).atStartOfDay(defaultZoneId).toInstant());
         Date today = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
         List<RefManResult> refManList_IMP = new ArrayList<>();
         List<RefManResult> refManList_EXP = new ArrayList<>();

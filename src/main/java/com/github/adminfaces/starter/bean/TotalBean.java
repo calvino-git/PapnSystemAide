@@ -121,7 +121,7 @@ public class TotalBean implements Serializable {
         VALID_COLUMN_KEYS = columnHeaders;
         createDynamicColumns();
         listSourceEVPAnnee = vueAllEvpService.listeEVPParSourceEtParAnnee(annee);
-        System.out.println("TotalBean est initialisé..." + layoutMB.getTemplate());
+        System.out.println("TotalBean est initialisé...");
 //        Endpoint.publish("http://localhost:8082/ManifesteDouane/manifesteDouane", new ManifesteDouane());
     }
     

@@ -12,12 +12,6 @@
                 <span>Accueil</span>
             </p:link>
         </li>
-        <li>
-            <p:link outcome="/map" >
-                <i class="fa fa-home"></i>
-                <span>Activité à quai</span>
-            </p:link>
-        </li>
         <li class="header">
             Tableau de bord
         </li>
@@ -213,6 +207,29 @@
                     <p:link outcome="/recouvrement/reglement">
                         <i class="fa fa-list"></i>
                         <span>Reglement</span>
+                    </p:link>
+                </li>
+            </ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-dollar"></i>
+                <span>Stats</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <p:link outcome="/stats/trafic/march">
+                        <i class="fa fa-list"></i>
+                        <span>Trafic Marchandise</span>
+                    </p:link>
+                </li>
+                <li>
+                    <p:link outcome="/stats/trafic/petrole">
+                        <i class="fa fa-list"></i>
+                        <span>Trafic Pétrole</span>
                     </p:link>
                 </li>
             </ul>

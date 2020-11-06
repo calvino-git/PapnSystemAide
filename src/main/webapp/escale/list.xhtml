@@ -97,16 +97,17 @@
                                                      styleClass="btn-primary"/>
                                 </div>
                                 <div class="ui-g-2">
-                                    <p:inputText id="inptId" value="#{escaleBean.filter.entity.numero}" placeholder="N° d'escale"/>
+                                    <p:inputText id="inptId" value="#{escaleBean.numeroEscale}" placeholder="N° d'escale"/>
                                 </div>
                                 <div class="ui-g-3">
                                     <p:datePicker id="date" placeholder="Période" showIcon="true" selectionMode="range" pattern="dd/MM/yyyy" readonlyInput="true" value="#{escaleBean.range}"/>
                                 </div>
                                 <div class="ui-g-3">
-                                    <p:selectOneButton value="#{escaleBean.filter.params.catnavire}">
+                                    <p:selectOneButton value="#{escaleBean.numeroEscale}">
                                         <f:selectItem itemLabel="TOUT" />
                                         <f:selectItem itemLabel="PETIT" itemValue="PETIT"/>
                                         <f:selectItem itemLabel="GRAND" itemValue="GRAND"/>
+                                        <p:ajax process="@this" update="@none" />
                                     </p:selectOneButton>
                                 </div>
                                 <div class="ui-g-2">
@@ -116,7 +117,9 @@
                             </div>
                         </f:facet>
                         <p:column headerText="N°" width="50" styleClass="align-center">
-                            #{x+1}
+                            <p:link value="#{x+1}" style="font-weight: bold" outcome="/escale/detail">
+                                <f:param name="id" value="#{e.id}"/>
+                            </p:link>
                         </p:column>
 
                         <p:column headerText="ETA" width="100" sortBy="#{e.arrivee}" filterBy="#{e.arrivee}" class="align-center">
@@ -128,10 +131,9 @@
                         <p:column headerText="NAVIRE" width="200" filterBy="#{e.navire}" sortBy="#{e.navire}"
                                   filterMatchMode="contains">
                             <f:facet name="filter">
-                                <p:autoComplete value="#{escaleBean.filter.entity.navire}" forceSelection="true"
+                                <p:autoComplete onchange="PF('escale').filter()" forceSelection="true"
                                                 minQueryLength="0" queryDelay="500" dropdown="true"  
                                                 completeMethod="#{escaleBean.completeNavire}" scrollHeight="250" maxResults="10">
-                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
                             #{e.navire}
@@ -141,7 +143,7 @@
                                 <p:autoComplete value="#{escaleBean.filter.params.typenavire}" forceSelection="true" converter="#{typeNavireConverter}"
                                                 minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
                                                 completeMethod="#{escaleBean.completeTypeNavire}" maxResults="10" >
-                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                    <p:ajax event="itemSelect" oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
                             <div id="typenav#{x+1}">
@@ -156,8 +158,7 @@
                         </p:column>
                         <p:column headerText="NUMERO" width="100" sortBy="#{e.numero}" filterBy="#{e.numero}" class="align-center">
                             <f:facet name="filter">
-                                <p:inputText value="#{escaleBean.filter.entity.numero}">
-                                    <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                <p:inputText onkeyup="PF('escale').filter()">
                                 </p:inputText>
                             </f:facet>
                             <p:link value="#{e.numero}" style="font-weight: bold" outcome="/escale/detail">
@@ -177,10 +178,10 @@
                         </p:column>
                         <p:column headerText="QUAI" width="100" sortBy="#{e.quai}" filterBy="#{e.quai}" class="align-center" >
                             <f:facet name="filter">
-                                <p:autoComplete value="#{escaleBean.filter.params.quai}" forceSelection="true" converter="#{quaiConverter}"
+                                <p:autoComplete forceSelection="true" converter="#{quaiConverter}"
                                                 minQueryLength="2" queryDelay="500" dropdown="true" var="t" itemLabel="#{t.libelle}" itemValue="#{t}"
                                                 completeMethod="#{escaleBean.completeQuai}" scrollHeight="200">
-                                    <p:ajax event="itemSelect" process="@this" update="@none" oncomplete="PF('escale').filter()"/>
+                                    <p:ajax event="itemSelect" oncomplete="PF('escale').filter()"/>
                                 </p:autoComplete>
                             </f:facet>
                             <div id="quai#{x+1}">
@@ -198,29 +199,19 @@
                                                              :e.situat eq 'ANNULE' ?'red'
                                                              :e.situat eq 'RADE EXT' ? '#3c8dbc;color:white'
                                                              :e.situat eq 'A QUAI' ? 'darkorange'
-                                                             :e.situat eq 'PARTI' ? 'lightblue'
+                                                             :e.situat eq 'PARTI' ? 'lightgreen'
                                                              :'white'}">
                             <f:facet name="filter">
-                                <p:selectOneMenu value="#{escaleBean.filter.entity.situat}">
+                                <p:selectOneMenu onchange="PF('escale').filter()" value="#{escaleBean.filter.entity.situat}">
                                     <f:selectItem itemLabel="TOUT" />
                                     <f:selectItem itemLabel="ATTENDU" itemValue="ATTENDU"/>
                                     <f:selectItem itemLabel="ANNULE" itemValue="ANNULE"/>
                                     <f:selectItem itemLabel="RADE EXT." itemValue="RADE EXT"/>
                                     <f:selectItem itemLabel="A QUAI" itemValue="A QUAI"/>
                                     <f:selectItem itemLabel="PARTI" itemValue="PARTI"/>
-                                    <p:ajax process="@form" update="@form" oncomplete="PF('escale').filter()"/>
                                 </p:selectOneMenu>
                             </f:facet>
                             #{e.situat}
-                        </p:column>
-                        <p:column headerText="MANIFESTE" width="100" sortBy="#{e.manifeste}" sortFunction="" filterBy="#{e.manifeste}">
-                            <f:facet name="filter">
-                                <p:spinner value="#{escaleBean.filter.params.manifeste}">
-                                    <f:converter converterId="javax.faces.Integer"/>
-                                    <p:ajax process="@this" update="@none" oncomplete="PF('escale').filter()"/>
-                                </p:spinner>
-                            </f:facet>
-                            #{not empty e.listManifeste ? e.listManifeste.size():0}
                         </p:column>
                         <p:column headerText="PROVENANCE" width="120" sortBy="#{e.provenanceO}" filterBy="#{e.provenanceO}">
                             <h:outputText converter="#{portsConverter}" value="#{e.provenanceO}" />
@@ -238,6 +229,7 @@
                             <h:outputText value="#{escaleBean.dateFormat.parse(e.datePasseEntree)}" rendered="#{not empty e.datePasseEntree}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
+                            #{e.heurePasseEntree}
                         </p:column>
                         <p:column headerText="DEPART" width="100" sortBy="#{e.departEffectif}" filterBy="#{e.departEffectif}" class="align-center">
                             <h:outputText value="#{escaleBean.dateFormat.parse(e.departEffectif)}" rendered="#{not empty e.departEffectif}">

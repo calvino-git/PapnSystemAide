@@ -26,9 +26,16 @@ import com.github.adminfaces.starter.model.VueAllEvp;
 import com.github.adminfaces.starter.service.EscaleService;
 import com.github.adminfaces.starter.service.ConteneurCTService;
 import com.github.adminfaces.template.exception.BusinessException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.omnifaces.cdi.ViewScoped;
@@ -67,12 +74,26 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
         dateFormat = new SimpleDateFormat("yyyyMMdd");
         format = new SimpleDateFormat("yyyyMMddhhmm");
     }
-    
-    public void enableDoublon(){
+
+    public void enableDoublon() {
         filter.addParam("doublon", true);
     }
-    public void disableDoublon(){
+
+    public void disableDoublon() {
         filter.getParams().remove("doublon", true);
+    }
+
+    public long diffDate(String date1, String date2) {
+        try {
+            Date firstDate = dateFormat.parse(date1);
+            Date secondDate = dateFormat.parse(date2);
+            long diffInMillies = Math.abs(firstDate.getTime() - secondDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            return diff + 1;
+        } catch (ParseException ex) {
+            Logger.getLogger(EscaleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     public List<String> completeNavire(String query) {
@@ -92,7 +113,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
                 }).collect(Collectors.toList());
         return liste;
     }
-    
+
     public List<Quais> completeQuai(String query) {
         List<Quais> liste = escaleService.listeQuai(query);
         return liste;
@@ -283,7 +304,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     }
 
     public List<Object> genererDataByTrafic(String trafic, String source) {
-        
+
         dataTrafic.clear();
         countPlein = 0;
         countVide = 0;
@@ -296,7 +317,7 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
             countVide += evp.getVide().intValue();
             total += evp.getTotalEvp().intValue();
         });
-        if(trafic.contains("TRANSIT")){
+        if (trafic.contains("TRANSIT")) {
             System.err.println("");
         }
         dataTrafic.add(countPlein);
@@ -355,11 +376,11 @@ public class EscaleBean extends CrudMB<Escale> implements Serializable {
     public void setListeDoublon(List<Escale> listeDoublon) {
         this.listeDoublon = listeDoublon;
     }
-    
+
     @Override
     public void clear() {
-       super.clear();
-       escaleService.setAnnee(null);
+        super.clear();
+        escaleService.setAnnee(null);
     }
 
 }

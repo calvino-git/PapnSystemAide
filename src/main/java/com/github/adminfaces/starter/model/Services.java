@@ -50,16 +50,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Services.findByCDeb", query = "SELECT s FROM Services s WHERE s.cDeb = :cDeb"),
     @NamedQuery(name = "Services.findByCFin", query = "SELECT s FROM Services s WHERE s.cFin = :cFin"),
     @NamedQuery(name = "Services.findByCQuant", query = "SELECT s FROM Services s WHERE s.cQuant = :cQuant"),
-    @NamedQuery(name = "Services.findByLDate", query = "SELECT s FROM Services s WHERE s.lDate = :lDate"),
-    @NamedQuery(name = "Services.findByLHeure", query = "SELECT s FROM Services s WHERE s.lHeure = :lHeure"),
+    @NamedQuery(name = "Services.findByLaDate", query = "SELECT s FROM Services s WHERE s.laDate = :laDate"),
+    @NamedQuery(name = "Services.findByLaHeure", query = "SELECT s FROM Services s WHERE s.laHeure = :laHeure"),
     @NamedQuery(name = "Services.findByLDeb", query = "SELECT s FROM Services s WHERE s.lDeb = :lDeb"),
     @NamedQuery(name = "Services.findByLFin", query = "SELECT s FROM Services s WHERE s.lFin = :lFin"),
     @NamedQuery(name = "Services.findByLQuant", query = "SELECT s FROM Services s WHERE s.lQuant = :lQuant"),
-    @NamedQuery(name = "Services.findByFDate", query = "SELECT s FROM Services s WHERE s.fDate = :fDate"),
-    @NamedQuery(name = "Services.findByFHeure", query = "SELECT s FROM Services s WHERE s.fHeure = :fHeure"),
+    @NamedQuery(name = "Services.findByFinDate", query = "SELECT s FROM Services s WHERE s.finDate = :finDate"),
+    @NamedQuery(name = "Services.findByFinHeure", query = "SELECT s FROM Services s WHERE s.finHeure = :finHeure"),
     @NamedQuery(name = "Services.findByFDeb", query = "SELECT s FROM Services s WHERE s.fDeb = :fDeb"),
     @NamedQuery(name = "Services.findByFFin", query = "SELECT s FROM Services s WHERE s.fFin = :fFin"),
-    @NamedQuery(name = "Services.findByFQuant", query = "SELECT s FROM Services s WHERE s.fQuant = :fQuant"),
+    @NamedQuery(name = "Services.findByFactQuant", query = "SELECT s FROM Services s WHERE s.factQuant = :factQuant"),
     @NamedQuery(name = "Services.findByTaux", query = "SELECT s FROM Services s WHERE s.taux = :taux"),
     @NamedQuery(name = "Services.findByMajorat", query = "SELECT s FROM Services s WHERE s.majorat = :majorat"),
     @NamedQuery(name = "Services.findByReduct", query = "SELECT s FROM Services s WHERE s.reduct = :reduct"),
@@ -216,10 +216,10 @@ public class Services implements Serializable {
     private BigInteger cQuant;
     @Size(max = 8)
     @Column(name = "L_DATE")
-    private String lDate;
+    private String laDate;
     @Size(max = 4)
     @Column(name = "L_HEURE")
-    private String lHeure;
+    private String laHeure;
     @Column(name = "L_DEB")
     private BigInteger lDeb;
     @Column(name = "L_FIN")
@@ -228,16 +228,16 @@ public class Services implements Serializable {
     private BigInteger lQuant;
     @Size(max = 8)
     @Column(name = "F_DATE")
-    private String fDate;
+    private String finDate;
     @Size(max = 4)
     @Column(name = "F_HEURE")
-    private String fHeure;
+    private String finHeure;
     @Column(name = "F_DEB")
     private BigInteger fDeb;
     @Column(name = "F_FIN")
     private BigInteger fFin;
     @Column(name = "F_QUANT")
-    private BigDecimal fQuant;
+    private BigDecimal factQuant;
     @Column(name = "TAUX")
     private BigDecimal taux;
     @Column(name = "MAJORAT")
@@ -345,12 +345,13 @@ public class Services implements Serializable {
     @Column(name = "HEURE_EXPLOITATION")
     private String heureExploitation;
     @Size(max = 8)
-    @Column(name = "AFFECTATION")
-    private String affectation;
-    @JoinColumn(name = "QUCLEUNIK",referencedColumnName = "QUCLEUNIK" )
+    @JoinColumn(name = "AFFECTATION",referencedColumnName = "CODE")
+    @ManyToOne
+    private Ressource affectation;
+    @JoinColumn(name = "QUCLEUNIK", referencedColumnName = "QUCLEUNIK")
     @ManyToOne
     private Quai quai;
-    @JoinColumn(name = "ESCLEUNIK",referencedColumnName = "ESCLEUNIK")
+    @JoinColumn(name = "ESCLEUNIK", referencedColumnName = "ESCLEUNIK")
     @ManyToOne
     private Escale escale;
     @Column(name = "BASE")
@@ -622,20 +623,20 @@ public class Services implements Serializable {
         this.cQuant = cQuant;
     }
 
-    public String getLDate() {
-        return lDate;
+    public String getLaDate() {
+        return laDate;
     }
 
-    public void setLDate(String lDate) {
-        this.lDate = lDate;
+    public void setLaDate(String lDate) {
+        this.laDate = lDate;
     }
 
-    public String getLHeure() {
-        return lHeure;
+    public String getLaHeure() {
+        return laHeure;
     }
 
-    public void setLHeure(String lHeure) {
-        this.lHeure = lHeure;
+    public void setLaHeure(String laHeure) {
+        this.laHeure = laHeure;
     }
 
     public BigInteger getLDeb() {
@@ -662,20 +663,20 @@ public class Services implements Serializable {
         this.lQuant = lQuant;
     }
 
-    public String getFDate() {
-        return fDate;
+    public String getFinDate() {
+        return finDate;
     }
 
-    public void setFDate(String fDate) {
-        this.fDate = fDate;
+    public void setFinDate(String fDate) {
+        this.finDate = fDate;
     }
 
-    public String getFHeure() {
-        return fHeure;
+    public String getFinHeure() {
+        return finHeure;
     }
 
-    public void setFHeure(String fHeure) {
-        this.fHeure = fHeure;
+    public void setFinHeure(String finHeure) {
+        this.finHeure = finHeure;
     }
 
     public BigInteger getFDeb() {
@@ -694,12 +695,12 @@ public class Services implements Serializable {
         this.fFin = fFin;
     }
 
-    public BigDecimal getFQuant() {
-        return fQuant;
+    public BigDecimal getFactQuant() {
+        return factQuant;
     }
 
-    public void setFQuant(BigDecimal fQuant) {
-        this.fQuant = fQuant;
+    public void setFactQuant(BigDecimal fQuant) {
+        this.factQuant = fQuant;
     }
 
     public BigDecimal getTaux() {
@@ -1054,11 +1055,11 @@ public class Services implements Serializable {
         this.heureExploitation = heureExploitation;
     }
 
-    public String getAffectation() {
+    public Ressource getAffectation() {
         return affectation;
     }
 
-    public void setAffectation(String affectation) {
+    public void setAffectation(Ressource affectation) {
         this.affectation = affectation;
     }
 
@@ -1526,5 +1527,5 @@ public class Services implements Serializable {
     public String toString() {
         return "com.github.adminfaces.starter.model.Services[ srcleunik=" + srcleunik + " ]";
     }
-    
+
 }

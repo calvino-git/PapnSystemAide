@@ -1138,7 +1138,7 @@ public class Quai implements Serializable {
 
     @Override
     public String toString() {
-        return "com.github.adminfaces.starter.model.Quai[ qucleunik=" + qucleunik + " ]";
+        return quai;
     }
     
 }
