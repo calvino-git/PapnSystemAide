@@ -15,5 +15,6 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <org-netbeans-modules-payara-micro.version>5.192</org-netbeans-modules-payara-micro.version>
         <org-netbeans-modules-maven-jaxws._5f_C_5f_ManifesteWebService>http://10.0.55.210:8080/ManifesteWebService/ManifesteWebService?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_ManifesteWebService>
+        <org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_j2eeVersion>1.7-web</org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_j2eeVersion>
     </properties>
 </project-shared-configuration>

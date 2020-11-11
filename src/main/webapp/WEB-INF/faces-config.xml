@@ -14,7 +14,6 @@
     </application>
     <navigation-rule>
         <from-view-id>*</from-view-id>
-        
     </navigation-rule>
     <converter>
         <converter-for-class>com.github.adminfaces.starter.model.Navire</converter-for-class>

@@ -49,16 +49,9 @@
                         <p:commandButton value="Actualiser la liste" 
                                          icon="fa fa-fw fa-refresh"
                                          action="#{referenceManifesteBean.refresh}"
-                                         type="button"
                                          update="refman"
                                          styleClass="btn-primary" 
                                          style="width: auto"/>
-                        <p:commandButton value="Start" type="button" onclick="PF('pbAjax').start();PF('refreshButton').disable();" 
-                                         widgetVar="refreshButton" actionListener="#{referenceManifesteBean.refresh}"/>
-                        <p:progressBar widgetVar="pbAjax" ajax="true" value="#{referenceManifesteBean.progress}"   
-                                       labelTemplate="{value}%" styleClass="animated" global="false" interval="100"> 
-                            <p:ajax event="complete" listener="#{referenceManifesteBean.onComplete}" update="growl" oncomplete="PF('refreshButton').enable()"/>  
-                        </p:progressBar>
                     </p:panelGrid>
 
 

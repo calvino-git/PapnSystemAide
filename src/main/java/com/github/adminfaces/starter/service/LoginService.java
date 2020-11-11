@@ -10,17 +10,23 @@ import com.github.adminfaces.starter.repos.LoginRepository;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 
 /**
  * @author rmpestano
- *@Stateless
- **/
+ * @Stateless
+ *
+ */
+@Stateless
 public class LoginService extends CrudService<User, Integer> implements Serializable {
+
     @Inject
     LoginRepository loginRepo;
-    
-    public User checkUser(String userid,String password){
+
+    public User checkUser(String userid, String password) {
         List<User> users = loginRepo.check(userid, password);
-        return users.isEmpty()?null:users.get(0);
+        return users.isEmpty() ? null : users.get(0);
     }
+    
 }

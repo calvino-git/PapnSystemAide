@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <adminfaces.version>1.0.2</adminfaces.version>
+        <adminfaces.version>1.1.1-SNAPSHOT</adminfaces.version>
         <version.hibernate>5.1.8.Final</version.hibernate>
         <version.deltaspike>1.8.2</version.deltaspike>
         <arquillian.container>wildfly:15.0.1.Final:managed</arquillian.container>
@@ -63,35 +63,41 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
+            <version>8.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>7.0</version>
+            <version>8.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-template</artifactId>
             <version>${adminfaces.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.omnifaces</groupId>
+                    <artifactId>omnifaces</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-theme</artifactId>
-            <version>${adminfaces.version}</version>
+            <version>1.1.0</version>
             <!--<classifier>dev</classifier> uncompressed theme.css (note that you need to exclude admin-theme brought by admin-template dependency)-->
         </dependency>
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
-            <version>6.1.1</version>
+            <version>8.0</version>
             <!-- only for gravatar, adminfaces doesn't depend on extensions-->
         </dependency>
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-persistence</artifactId>
-            <version>1.0.7</version>
+            <version>${adminfaces.version}</version>
         </dependency>
 
         <dependency>
@@ -166,6 +172,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.soteria</groupId>
+            <artifactId>javax.security.enterprise</artifactId>
+            <scope>provided</scope>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

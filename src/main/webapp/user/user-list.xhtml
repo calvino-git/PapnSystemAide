@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Liste des utilisateurs"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            th.ui-filter-column {
+                padding: 5px 2px !important;
+            }
+
+            #footer:hover {
+                opacity: .7;
+            }
+
+            #footer {
+                float: right;
+                font-size: 12px;
+                color: #3c8dbc;
+                font-weight: 500;
+            }
+
+            .ui-datatable-footer {
+                border: none;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+        Liste des utilisateurs
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:form>
+            <p:focus context="@form"/>  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="user-form?faces-redirect=true" icon="fa fa-plus"
+                                         value="New" styleClass="btn-primary"/>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
+                                         action="#{userBean.delete}"
+                                         disabled="#{empty userBean.selectionList or userBean.selectionList.size() == 0}"
+                                         process="@this" update="@form"
+                                         >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Search" update="@(.ui-dialog)" styleClass="btn-info"
+                                         oncomplete="PF('searchDialog').show()" icon="fa fa-search"/>
+
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Clear" update="@(.ui-dialog, .ui-datatable)" process="@form"
+                                         action="#{userBean.clear}"
+                                         icon="fa fa-refresh"/>
+                    </div>
+
+                    <p:splitButton value="New" action="user-form?faces-redirect=true"
+                                   icon="fa fa-plus"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                        <p:menuitem value="Delete Selected" action="#{userBean.delete}"
+                                    process="@this" update="@form"
+                                    disabled="#{empty userBean.selectionList or userBean.selectionList.size() == 0}"
+                                    icon="fa fa-trash">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:menuitem>
+                        <p:menuitem value="Search" update="@(.ui-dialog)"
+                                    oncomplete="PF('searchDialog').show()"
+                                    icon="fa fa-search"/>
+
+                        <p:menuitem value="Clear" update="@(.ui-dialog, .ui-datatable)" process="@form"
+                                    action="#{userBean.clear}"
+                                    icon="fa fa-refresh"/>
+                    </p:splitButton>
+
+                    <p:separator/>
+                    <p:dataTable widgetVar="usersTable" var="c" value="#{userBean.list}" rows="10"
+                                 rowKey="#{u.id}" lazy="true" paginator="true"
+                                 filteredValue="#{userBean.filteredValue}" sortBy="id"
+                                 paginatorPosition="bottom" selection="#{userBean.selectionList}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
+                                 rowsPerPageTemplate="10,15,20,30"
+                                 >
+
+                        <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Recherche :" />
+                                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Taper ici..."/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
+
+                        <p:column headerText="Login" filterBy="#{u.login}" sortBy="#{u.login}"
+                                  filterMatchMode="contains">
+                            <p:link value="#{u.login}" outcome="user-form.xhtml">
+                                <f:param name="id" value="#{u.id}"/>
+                            </p:link>
+
+                        </p:column>
+                        <p:column headerText="Nom " sortBy="#{u.lastname}" filterBy="#{u.lastname}">
+                            #{u.lastname}
+                        </p:column>
+                        <p:column headerText="Prenom" sortBy="#{u.name}" filterBy="#{u.name}">
+                            #{u.name}
+                        </p:column>
+                        <f:facet name="footer">
+                            <div id="footer">
+                                Critère <i class="fa fa-filter"/>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </div>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-solid box-danger">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+
+        <p:dialog header="Search users" widgetVar="searchDialog" dynamic="true" height="400" modal="true" appendTo="@(body)"
+                  width="500" responsive="true" draggable="false" styleClass="box-success">
+
+            <h:form>
+                <p:commandButton value="OK" update="@form @(.ui-datatable, .ui-tooltip)" icon="fa fa-check"
+                                 ignoreAutoUpdate="true" styleClass="btn-primary"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Clear" action="#{userBean.clear}" process="@this"
+                                 update="@form @(.ui-datatable, .ui-tooltip)" styleClass="btn-success"
+                                 icon="fa fa-refresh"/>
+                <p:spacer height="5"/>
+                <p:commandButton value="Close" icon="fa fa-close" oncomplete="PF('searchDialog').hide()"/>
+                <p:separator/>
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="model" value="#{msg['label.model']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:selectOneMenu id="model" value="#{userBean.filter.entity.login}">
+                            <f:selectItem itemLabel="Chose a model" itemValue=""/>
+                            <f:selectItems value="#{models}" var="m" itemLabel="#{m}"
+                                           itemValue="#{m}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel for="name" value="#{msg['label.name']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="name" value="#{userBean.filter.entity.lastname}"/>
+                    </div>
+
+                </div>
+            </h:form>
+        </p:dialog>
+
+
+    </ui:define>
+
+</ui:composition>

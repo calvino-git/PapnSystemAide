@@ -10,24 +10,16 @@ import java.io.OutputStream;
 import java.util.Collections;
 import javax.faces.context.ExternalContext;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.primefaces.component.export.ExcelXExporter;
+import org.primefaces.extensions.component.exporter.ExcelExporter;
 import org.primefaces.util.Constants;
 
 /**
  *
  * @author calviniloki
  */
-public class XlsxExporter extends ExcelXExporter{
+public class XlsxExporter extends ExcelExporter{
     @Override
     protected void writeExcelToResponse(ExternalContext externalContext, Workbook generatedExcel, String filename) throws IOException {
-        externalContext.setResponseContentType(getContentType());
-        externalContext.setResponseHeader("Expires", "0");
-        externalContext.setResponseHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        externalContext.setResponseHeader("Pragma", "public");
-        externalContext.setResponseHeader("Content-disposition", getContentDisposition(filename));
-        externalContext.addResponseCookie(Constants.DOWNLOAD_COOKIE, "true", Collections.<String, Object>emptyMap());
-
-        OutputStream out = externalContext.getResponseOutputStream();
-        generatedExcel.write(out);
+        super.writeExcelToResponse(externalContext, generatedExcel, filename);
     }
 }

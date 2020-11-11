@@ -45,7 +45,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -75,7 +75,7 @@ public class ImportExcel {
 
         System.out.println(excelFile.getAbsolutePath());
         try {
-            Files.write(excelFile.toPath(), excel.getContents()).toFile();
+            Files.write(excelFile.toPath(), excel.getContent()).toFile();
 //            FileWriter fileWriter = new FileWriter(excelFile);
 //            fileWriter.flush();
 //            fileWriter.close();

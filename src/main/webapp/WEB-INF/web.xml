@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-    
     <session-config>
         <session-timeout>30</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
     </session-config>
     <!-- Change to "Production" when you are ready to deploy -->
     <context-param>
@@ -73,7 +73,40 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <url-pattern>/user/*</url-pattern>
+            <url-pattern>/manifeste/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>User pages</web-resource-name>
+            <url-pattern>/manifeste/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Public pages</web-resource-name>
+            <url-pattern>/login.xhtml</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <security-role>
+        <role-name>USER</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
     <data-source>
         <name>java:app/cargo</name>
         <class-name>oracle.jdbc.pool.OracleDataSource</class-name>
@@ -89,11 +122,14 @@
         <name>java:app/virtre</name>
         <class-name>oracle.jdbc.pool.OracleDataSource</class-name>
         <url>jdbc:oracle:thin:@10.0.55.203:1521:VIRTRE</url>
-        <user>ppncargo</user>
-        <password>ppncargo</password>
+        <user>dsipapn</user>
+        <password>dsipapn</password>
         <property>
             <name>timezoneAsRegion</name>
             <value>false</value>
         </property>
     </data-source>
+    <welcome-file-list>
+        <welcome-file>login.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>

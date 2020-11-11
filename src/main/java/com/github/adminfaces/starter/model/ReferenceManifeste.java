@@ -53,7 +53,7 @@ public class ReferenceManifeste extends BaseEntity implements Serializable{
     @Column(name = "DATE_INSERTION")
     private String dateInsertion;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     public ReferenceManifeste() {

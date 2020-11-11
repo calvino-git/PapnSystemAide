@@ -36,7 +36,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.omnifaces.util.Faces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -129,7 +129,8 @@ public class ManifestBean implements Serializable {
 
     public void convertirManifeste(FileUploadEvent event) throws IOException, JAXBException {
         xmlManifeste = event.getFile();
-        Awmds awmds = manifesteService.convertirManifeste(xmlManifeste.getInputstream());
+        InputStream inputStream = xmlManifeste.getInputStream();
+        Awmds awmds = manifesteService.convertirManifeste(inputStream);
         JAXBContext jaxbContext = JAXBContext.newInstance(Awmds.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

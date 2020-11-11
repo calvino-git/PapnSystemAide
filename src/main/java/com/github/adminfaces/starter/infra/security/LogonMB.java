@@ -1,73 +1,98 @@
 package com.github.adminfaces.starter.infra.security;
 
+import com.github.adminfaces.template.config.AdminConfig;
 import com.github.adminfaces.template.session.AdminSession;
 import org.omnifaces.util.Faces;
+import org.omnifaces.util.Messages;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Specializes;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.security.enterprise.AuthenticationStatus;
+import javax.security.enterprise.SecurityContext;
+import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
+import javax.security.enterprise.credential.UsernamePasswordCredential;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 
-import static com.github.adminfaces.persistence.util.Messages.addDetailMessage;
-import com.github.adminfaces.starter.model.User;
-import com.github.adminfaces.starter.service.LoginService;
-import com.github.adminfaces.template.config.AdminConfig;
-import javax.inject.Inject;
+import static com.github.adminfaces.starter.util.Utils.addDetailMessage;
+import static com.github.adminfaces.template.util.Assert.has;
 
-/**
- * Created by rmpestano on 12/20/14.
- *
- * This is just a login example.
- *
- * AdminSession uses isLoggedIn to determine if user must be redirect to login
- * page or not. By default AdminSession isLoggedIn always resolves to true so it
- * will not try to redirect user.
- *
- * If you already have your authorization mechanism which controls when user
- * must be redirect to initial page or logon you can skip this class.
- */
 @Named
 @SessionScoped
 @Specializes
 public class LogonMB extends AdminSession implements Serializable {
 
-    private User currentUser;
-    private String email;
-    private String password;
-    private boolean remember;
-    private String errorLogin;
-    private Integer tentative=0;
-
     @Inject
     private AdminConfig adminConfig;
+
     @Inject
-    private LoginService loginService;
+    private SecurityContext securityContext;
+
+    @Inject
+    private FacesContext facesContext;
+
+    @Inject
+    private ExternalContext externalContext;
+
+    private String password;
+
+    private String email;
+
+    private boolean remember;
+
+    public void autoLogin() throws IOException {
+        String emailCookie = Faces.getRequestCookie("admin-email");
+        String passCookie = Faces.getRequestCookie("admin-pass");
+        if (has(emailCookie) && has(passCookie)) {
+            this.email = emailCookie;
+            this.password = passCookie;
+            login();
+        }
+    }
 
     public void login() throws IOException {
-        currentUser = loginService.checkUser(email, password);
-        if (currentUser != null) {
-            addDetailMessage(currentUser + " est connecté avec succès");
-            Faces.redirect(adminConfig.getIndexPage());
-        }else{
-            errorLogin="Login ou mot de passe incorrect! " + ++tentative;
-            Faces.redirect(adminConfig.getLoginPage());
+        switch (continueAuthentication()) {
+            case SEND_CONTINUE:
+                facesContext.responseComplete();
+                break;
+            case SEND_FAILURE:
+                Messages.addError(null, "Login failed");
+                externalContext.getFlash().setKeepMessages(true);
+                break;
+            case SUCCESS:
+                externalContext.getFlash().setKeepMessages(true);
+                addDetailMessage("Logged in successfully as <b>" + email + "</b>");
+                if (remember) {
+                    storeCookieCredentials(email, password);
+                }
+                Faces.redirect(adminConfig.getIndexPage());
+                break;
+            case NOT_DONE:
+                Messages.addError(null, "Login failed");
         }
-
     }
 
-    public Integer getTentative() {
-        return tentative;
+    private void storeCookieCredentials(final String email, final String password) {
+        Faces.addResponseCookie("admin-email", email, 1800);//store for 30min
+        Faces.addResponseCookie("admin-pass", password, 1800);//store for 30min
     }
 
-    public void setTentative(Integer tentative) {
-        this.tentative = tentative;
+    private AuthenticationStatus continueAuthentication() {
+        return securityContext.authenticate((HttpServletRequest) externalContext.getRequest(),
+                (HttpServletResponse) externalContext.getResponse(),
+                AuthenticationParameters.withParams().rememberMe(remember)
+                        .credential(new UsernamePasswordCredential(email, password)));
     }
 
     @Override
     public boolean isLoggedIn() {
-
-        return currentUser != null;
+        return securityContext.getCallerPrincipal() != null;
     }
 
     public String getEmail() {
@@ -94,19 +119,8 @@ public class LogonMB extends AdminSession implements Serializable {
         this.remember = remember;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public String getCurrentUser() {
+        return securityContext.getCallerPrincipal() != null ? securityContext.getCallerPrincipal().getName() : "";
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public String getErrorLogin() {
-        return errorLogin;
-    }
-
-    public void setErrorLogin(String errorLogin) {
-        this.errorLogin = errorLogin;
-    }
 }

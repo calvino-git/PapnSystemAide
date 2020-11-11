@@ -7,7 +7,6 @@ package com.github.adminfaces.starter.model;
 
 
 import com.github.adminfaces.persistence.model.BaseEntity;
-import com.github.adminfaces.persistence.model.PersistenceEntity;
 
 import javax.persistence.*;
 
@@ -15,7 +14,6 @@ import javax.persistence.*;
  * @author rmpestano
  */
 @Entity
-@Table(name = "CONGO_TERMINAL")
 public class Car extends BaseEntity {
 
     @Id
